@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="EmotionalSongs" />
+        <module name="EmotionalSongsClient" />
+        <module name="EmotionalSongsServer" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="EmotionalSongs" target="15" />
+      <module name="EmotionalSongsClient" target="15" />
+      <module name="EmotionalSongsServer" target="15" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -1,0 +1,120 @@
+package emotionalsongs;
+
+// TODO add project header in ALL java files
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+/**
+ * TODO Document
+ */
+public class EmotionalSongsClient extends Application {
+
+    private static final int PORT = 6789;
+    private static final String SERVER_ADDRESS = "localhost";
+
+    private static Stage esStage;
+    private static FXMLLoader loader;
+
+    protected static AuthManager auth;
+    //protected static RepositoryManager repo; // TODO implement
+
+    /**
+     * TODO Document
+     * @param stage
+     * @throws IOException
+     */
+    @Override
+    public void start(Stage stage) throws IOException {
+
+        loader = new FXMLLoader(EmotionalSongsClient.class.getResource("login.fxml"));
+        Scene scene = new Scene(loader.load());
+
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setWidth(LoginController.WIDTH);
+        stage.setHeight(LoginController.HEIGHT);
+        stage.setTitle("Emotional Songs");
+        stage.getIcons().add(new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/fire.png")));
+        stage.setResizable(false);
+        LoginController.setStage(stage);
+        stage.setScene(scene);
+        esStage = stage;
+        stage.show();
+
+        try {
+
+            Registry reg = LocateRegistry.getRegistry(SERVER_ADDRESS, PORT);
+            auth = (AuthManager) reg.lookup("AuthManager");
+            //repo = (RepositoryManager) reg.lookup("RepoManager"); // TODO add once implemented
+
+        } catch (RemoteException | NotBoundException e) {
+
+            Dialog<String> dialog = new Dialog<String>();
+            dialog.setTitle("Errore");
+
+            ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+
+            dialog.setContentText("Impossibile contattare il server."); // TODO modify the appearence and text content?
+            Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
+
+            dialogStage.getIcons().add(new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/failure15px.png")));
+            dialog.getDialogPane().getButtonTypes().add(type);
+            dialog.showAndWait();
+            System.err.println("Server not found on address: " + SERVER_ADDRESS +":"+ PORT); // TODO remove before turning in the project
+        }
+
+    }
+
+    /**
+     * TODO Document
+     * @return
+     */
+    protected static FXMLLoader getLoader(){
+        return loader;
+    }
+
+    /**
+     * TODO Document
+     * @return
+     */
+    protected static Stage getStage(){
+        return esStage;
+    }
+
+    /**
+     * TODO Document
+     * @param scene
+     * @param width
+     * @param heigth
+     * @param isWindowResizable
+     */
+    protected static void setStage(Scene scene, int width, int heigth, boolean isWindowResizable){
+        esStage.close();
+        esStage.setWidth(width);
+        esStage.setHeight(heigth);
+        esStage.setResizable(isWindowResizable);
+        esStage.setScene(scene);
+        esStage.show();
+    }
+
+    /**
+     * TODO Document?
+     * @param args
+     */
+    public static void main(String[] args) {new EmotionalSongsClient().launch();}
+
+}
