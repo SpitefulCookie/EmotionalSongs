@@ -4,8 +4,34 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.HashMap;
 
 public class GUIUtilities {
+
+    private HashMap<String, Image> images;
+    private static GUIUtilities guiUtilities;
+
+    GUIUtilities(){
+        // creao la hashmap
+        images = new HashMap<String, Image>();
+        // setto (aggiungo) le varie immagini nella hashmap
+        setImages();
+    }
+
+    // pattern singleton
+    public static GUIUtilities getInstance(){
+        if(guiUtilities == null){
+            guiUtilities = new GUIUtilities();
+            return guiUtilities;
+        }else{
+            return guiUtilities;
+        }
+    }
 
     /**
      * TODO document
@@ -129,4 +155,44 @@ public class GUIUtilities {
             ((TextArea)node).setPromptText(null);
         }
     }
+
+    /**
+     * TODO document
+     */
+    protected void setImages(){
+            try{
+                addImages("close", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/closeIcon.png")));
+                addImages("eye", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/view.png")));
+                addImages("eyeCrossed", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/hide.png")));
+                addImages("success", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/correct15px.png")));
+                addImages("failure", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/failure15px.png")));
+                addImages("fire", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/fire.png")));
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+    }
+
+    /**
+     * TODO document
+     */
+    protected void addImages(String key, Image image){
+            // prima di inserire l'immagine verifico se già esiste
+            if(!images.containsKey(key)){
+                images.put(key, image);
+            }else{
+                System.out.println("immagine già esistente");
+            }
+    }
+
+    /**
+     * TODO document
+     */
+    protected Image getImage(String key){
+            // se la hash map contiene la kay passata come parametro allora restituisci l'immagine associata alla chiave
+            if(images.containsKey(key)) {
+                return images.get(key);
+            }else{ // altrimenti restituisci null
+                return null;
+            }
+        }
 }

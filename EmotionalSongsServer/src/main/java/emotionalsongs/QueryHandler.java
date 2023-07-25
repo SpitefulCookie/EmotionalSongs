@@ -20,16 +20,13 @@ public class QueryHandler {
      * @param password
      * @throws SQLException
      */
-    public QueryHandler(String username, char[] password) throws SQLException{
+    public QueryHandler(String username, String password) throws SQLException{
 
         // Singleton Design Pattern
         if(dbConnection == null){
-
-            dbConnection = DriverManager.getConnection("jdbc:postgresql://"+ DB_Address+":"+DB_Port+"/"+DB_Name,username,password.toString());
+            dbConnection = DriverManager.getConnection("jdbc:postgresql://"+ DB_Address+":"+DB_Port+"/"+DB_Name,username,password);
             stmt = dbConnection.createStatement();
-
         }
-
     }
 
     /**

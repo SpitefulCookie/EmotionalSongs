@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="420.0" maxWidth="650.0" minHeight="420.0" minWidth="650.0" onMouseDragged="#moveWindow" prefHeight="420.0" prefWidth="650.0" stylesheets="@Style/darcula.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.LoginController">
+<AnchorPane maxHeight="420.0" maxWidth="650.0" minHeight="420.0" minWidth="650.0" onMouseDragged="#moveWindow" prefHeight="420.0" prefWidth="650.0" stylesheets="@Style/darcula.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.LoginController">
    <children>
       <ImageView fitHeight="421.0" fitWidth="487.0" layoutX="-26.0" layoutY="50.0" opacity="0.3" pickOnBounds="true" preserveRatio="true" rotate="11.3">
          <image>
@@ -70,6 +70,6 @@
             <Image url="@Images/fire.png" />
          </image>
       </ImageView>
-      <Button fx:id="closeBtn" layoutX="612.0" layoutY="7.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" style="-fx-background-color: transparent;" />
+      <Button fx:id="closeBtn" layoutX="604.0" layoutY="7.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" prefHeight="26.0" prefWidth="30.0" style="-fx-background-color: transparent;" />
    </children>
 </AnchorPane>

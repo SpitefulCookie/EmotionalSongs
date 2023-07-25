@@ -1,0 +1,158 @@
+.trasparent{
+    -fx-background-color: transparent;
+}
+
+.sideBar{
+    -fx-background-color: #1b1d1f;
+}
+
+.buttonSideBar{
+    -fx-background-color: #1b1d1f;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 10px, 10px;
+    -fx-border-radius: 10px, 10px;
+}
+
+.buttonSideBar:hover{
+    /*-fx-background-color: #272b31;*/
+    -fx-border-color: #af524bc1;
+}
+
+.buttonSideBar:focused{
+/* vecchio background color: #272b31 */
+    -fx-background-color: #1b1d1f;
+    -fx-border-color: #af524bc1;
+}
+
+.titleBar{
+    -fx-background-color: #272727;
+}
+
+.closeButton{
+    -fx-background-color: #272727;
+}
+
+.closeButton:focused{
+    -fx-background-color: #272727;
+}
+
+.dynamicPane{
+    -fx-background-color : #2e2e2e;
+}
+
+.searchPane{
+    -fx-background-color : #272727;
+    -fx-background-radius : 10;
+}
+
+.searchTextField{
+    -fx-background-color: transparent;
+    -fx-border-color : transparent;
+    -fx-text-inner-color: #bbbbbb;
+}
+
+.searchTextField:focused{
+    -fx-background-color: transparent;
+    -fx-border-color : transparent;
+}
+
+.searchPaneButton{
+    -fx-background-radius : 10;
+    -fx-border-radius : 10;
+    -fx-background-color : transparent;
+    -fx-border-color : transparent;
+}
+
+.searchPaneButton:hover{
+    -fx-border-color :  #af524bc1;
+    -fx-background-color : transparent;
+}
+
+/*.searchPaneButton:focused{
+    -fx-border-color : #af524bc1;
+    -fx-background-color : transparent;
+    -fx-background-radius : 10;
+    -fx-border-radius : 10;
+}*/
+
+.scrollPane{
+    -fx-background : transparent;
+    -fx-background-color : transparent
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-border-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #797979;
+    -fx-background-radius: 2em;
+    -fx-border-radius: 2em;
+}
+
+.scroll-bar .decrement-arrow {
+    -fx-padding:2.25;
+ }
+.scroll-bar .increment-arrow {
+    -fx-padding:2.25;
+}
+
+.songPane{
+    -fx-background-color: transparent;
+    /*-fx-border-color: #2e2e2e;*/
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.songPane:hover{
+   /*-fx-border-color: #af524bc1;*/
+    -fx-background-color: #272727;
+}
+
+.buttonSongPane{
+    /*-fx-background-color: #2e2e2e;*/
+    -fx-background-color: transparent;
+    -fx-border-color: #646464;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.buttonSongPane:hover{
+    -fx-border-color: #af524bc1;
+}
+
+.exitPane{
+    -fx-background-color : #2e2e2e;
+    -fx-border-color: #646464;
+}
+
+.exitButton{
+    -fx-background-color: #af524bc1;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.annullaButton{
+    -fx-background-color: transparent;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #646464;
+}
+
+.annullaButton:hover{
+    -fx-border-color: #af524bc1;
+}

@@ -3,6 +3,7 @@ package emotionalsongs;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -40,6 +41,8 @@ public class LoginController implements Initializable {
     private static double xOffset = 0;
     private static double yOffset = 0;
 
+    private GUIUtilities guiUtilities;
+
     private boolean isDisplayed = false;
     private Image eye;
     private Image eyeCrossed;
@@ -52,12 +55,54 @@ public class LoginController implements Initializable {
     @FXML private Button closeBtn;
     @FXML private Button showPasswordInput;
 
+    /**
+     * TODO document
+     * @param url
+     * @param resourceBundle
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        Image closeIcon = null;
+
+        guiUtilities = GUIUtilities.getInstance();
+
+        closeIcon = guiUtilities.getImage("close");
+        eye = guiUtilities.getImage("eye");
+        eyeCrossed = guiUtilities.getImage("eyeCrossed");
+
+        ImageView closeImageView = new ImageView(closeIcon);
+        closeImageView.setFitWidth(20);
+        closeImageView.setFitHeight(20);
+
+        if (closeIcon != null) {
+            closeBtn.setGraphic(closeImageView);
+        }else{
+            closeBtn.setText("X");
+        }
+
+        showPasswordInput.setGraphic(new ImageView(eye));
+        showPasswordInput.setFocusTraversable(false);
+    }
 
     /**
      * TODO document
      */
     @FXML protected void handleContinueAsGuest(){
         System.out.println("Continue as guest clicked!");
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("emotionalSongsClient.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+
+            EmotionalSogsClientController client = fxmlLoader.getController();
+            client.setUser("Guest", true);
+
+            EmotionalSongsClient.setStage(scene, EmotionalSogsClientController.WIDTH, EmotionalSogsClientController.HEIGHT, true);
+            EmotionalSongsClient.getStage().show();
+
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -175,11 +220,8 @@ public class LoginController implements Initializable {
 
                 Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
 
-                try { // TODO refactor
-                    dialogStage.getIcons().add(new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/failure15px.png")));
-                } catch (FileNotFoundException ex) {
-                    ex.printStackTrace();
-                }
+                dialogStage.getIcons().add(guiUtilities.getImage("failure"));
+
                 dialog.getDialogPane().getButtonTypes().add(type);
                 dialog.showAndWait();
             }
@@ -262,34 +304,6 @@ public class LoginController implements Initializable {
 
     }
 
-    /**
-     * TODO document
-     * @param url
-     * @param resourceBundle
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        Image closeIcon = null;
-
-        try{
-
-            closeIcon =  new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/closeIcon10px.png"));
-            eye =  new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/view.png"));
-            eyeCrossed =  new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/hide.png"));
-            closeBtn.setGraphic(new ImageView(closeIcon));
-            showPasswordInput.setGraphic(new ImageView(eye));
-            showPasswordInput.setFocusTraversable(false);
-
-        } catch (FileNotFoundException e) {
-
-            if (closeIcon == null) {
-                closeBtn.setText("X");
-            }
-
-        }
-    }
-
     public byte[] RSA_Encrypt(String data){
         try {
             PublicKey pk = EmotionalSongsClient.auth.getPublicKey();
@@ -300,5 +314,4 @@ public class LoginController implements Initializable {
             return null;
         }
     }
-
 }

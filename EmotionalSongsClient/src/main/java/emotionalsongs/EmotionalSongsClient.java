@@ -30,6 +30,8 @@ public class EmotionalSongsClient extends Application {
     private static Stage esStage;
     private static FXMLLoader loader;
 
+    private GUIUtilities guiUtilities;
+
     protected static AuthManager auth;
     //protected static RepositoryManager repo; // TODO implement
 
@@ -44,11 +46,14 @@ public class EmotionalSongsClient extends Application {
         loader = new FXMLLoader(EmotionalSongsClient.class.getResource("login.fxml"));
         Scene scene = new Scene(loader.load());
 
+        guiUtilities = GUIUtilities.getInstance(); // creo l'oggetto in questo modo per via del pattern singleton
+
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setWidth(LoginController.WIDTH);
         stage.setHeight(LoginController.HEIGHT);
         stage.setTitle("Emotional Songs");
-        stage.getIcons().add(new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/fire.png")));
+        //stage.getIcons().add(new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/fire.png")));
+        stage.getIcons().add(guiUtilities.getImage("fire"));
         stage.setResizable(false);
         LoginController.setStage(stage);
         stage.setScene(scene);
@@ -71,7 +76,7 @@ public class EmotionalSongsClient extends Application {
             dialog.setContentText("Impossibile contattare il server."); // TODO modify the appearence and text content?
             Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
 
-            dialogStage.getIcons().add(new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/failure15px.png")));
+            dialogStage.getIcons().add(guiUtilities.getImage("failure"));
             dialog.getDialogPane().getButtonTypes().add(type);
             dialog.showAndWait();
             System.err.println("Server not found on address: " + SERVER_ADDRESS +":"+ PORT); // TODO remove before turning in the project
@@ -116,5 +121,4 @@ public class EmotionalSongsClient extends Application {
      * @param args
      */
     public static void main(String[] args) {new EmotionalSongsClient().launch();}
-
 }

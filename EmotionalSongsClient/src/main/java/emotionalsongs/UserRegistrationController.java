@@ -32,6 +32,8 @@ public class UserRegistrationController implements Initializable {
     private static double xOffset = 0;
     private static double yOffset = 0;
 
+    private GUIUtilities guiUtilities;
+
     private static String errorMessage = "-fx-text-fill: #FF5959;";
     private static String warningMessage = "-fx-text-fill: #FF7600;";
 
@@ -63,6 +65,88 @@ public class UserRegistrationController implements Initializable {
     private Image eye;
     private Image eyeCrossed;
     private Boolean isPwdDisplayed = false;
+
+    /**
+     * TODO document
+     * @param url
+     * @param resourceBundle
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        guiUtilities = GUIUtilities.getInstance();
+
+        eye =  guiUtilities.getImage("eye");
+        eyeCrossed = guiUtilities.getImage("eyeCrossed");
+        successIcon = guiUtilities.getImage("success");
+        failureIcon = guiUtilities.getImage("failure");
+        cross = guiUtilities.getImage("close");
+        eyeBtn.setText("");
+
+        eyeBtn.setGraphic(new ImageView(eye));
+        eyeBtn.setFocusTraversable(false);
+
+
+        ImageView closeImageView = new ImageView(cross);
+        closeImageView.setFitWidth(20);
+        closeImageView.setFitHeight(20);
+
+        if(cross != null) {
+            closeBtn.setGraphic(closeImageView);
+        }else{
+            closeBtn.setText("X");
+        }
+
+        checkUsernameResultImg.setVisible(false);
+
+        GUIUtilities.forceTextInput(provField, 2);
+        GUIUtilities.forceNumericInput(capField, 5);
+
+        pwdField.textProperty().addListener(new ChangeListener<String>() {
+
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+
+                if (newValue.contains("\"")|| newValue.contains("\'") || newValue.contains("<")|| newValue.contains(">")) {
+                    String s = pwdField.getText().substring(0, pwdField.getText().length()-1);
+                    pwdField.setText(s);
+                } else {
+
+                    int strength = checkPasswordStrength(pwdField.getText());
+
+                    switch (strength) {
+                        case 0:
+                            pwdQualityIndicator.setStyle(null);
+                            pwdQualityLabel.setVisible(false);
+                            break;
+
+                        case 1:
+                            pwdQualityLabel.setText("Poor");
+                            pwdQualityLabel.setStyle(errorMessage);
+                            pwdQualityLabel.setVisible(true);
+                            break;
+
+                        case 2:
+                            pwdQualityLabel.setText("Medium");
+                            pwdQualityLabel.setStyle(warningMessage);
+                            pwdQualityLabel.setVisible(true);
+                            break;
+
+                        case 3:
+                            pwdQualityLabel.setText("Excellent");
+                            pwdQualityLabel.setStyle(successMessage);
+                            pwdQualityLabel.setVisible(true);
+                            break;
+
+                    }
+
+                    pwdQualityIndicator.setProgress((double) strength / 3);
+                }
+            }
+
+        });
+
+    }
 
     /**
      * TODO document
@@ -151,7 +235,6 @@ public class UserRegistrationController implements Initializable {
             // TODO Auto generated stub
         }
     }
-
 
 
     @FXML protected void handleConfirmButton(){
@@ -246,87 +329,6 @@ public class UserRegistrationController implements Initializable {
 
     }
 
-    /**
-     * TODO document
-     * @param url
-     * @param resourceBundle
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        try {
-
-            eye =  new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/view.png"));
-            eyeCrossed =  new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/hide.png"));
-            successIcon =  new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/correct15px.png"));
-            failureIcon =  new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/failure15px.png"));
-            cross =  new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/closeIcon10px.png"));
-            eyeBtn.setText("");
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            // TODO REFACTOR
-        }
-
-        eyeBtn.setGraphic(new ImageView(eye));
-        eyeBtn.setFocusTraversable(false);
-
-        closeBtn.setLayoutX(WIDTH-30);
-        closeBtn.setLayoutY(4);
-        closeBtn.setText(null);
-
-        closeBtn.setGraphic(new ImageView(cross));
-
-        checkUsernameResultImg.setVisible(false);
-
-        GUIUtilities.forceTextInput(provField, 2);
-        GUIUtilities.forceNumericInput(capField, 5);
-
-        pwdField.textProperty().addListener(new ChangeListener<String>() {
-
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-
-                if (newValue.contains("\"")|| newValue.contains("\'") || newValue.contains("<")|| newValue.contains(">")) {
-                    String s = pwdField.getText().substring(0, pwdField.getText().length()-1);
-                    pwdField.setText(s);
-                } else {
-
-                    int strength = checkPasswordStrength(pwdField.getText());
-
-                    switch (strength) {
-                        case 0:
-                            pwdQualityIndicator.setStyle(null);
-                            pwdQualityLabel.setVisible(false);
-                            break;
-
-                        case 1:
-                            pwdQualityLabel.setText("Poor");
-                            pwdQualityLabel.setStyle(errorMessage);
-                            pwdQualityLabel.setVisible(true);
-                            break;
-
-                        case 2:
-                            pwdQualityLabel.setText("Medium");
-                            pwdQualityLabel.setStyle(warningMessage);
-                            pwdQualityLabel.setVisible(true);
-                            break;
-
-                        case 3:
-                            pwdQualityLabel.setText("Excellent");
-                            pwdQualityLabel.setStyle(successMessage);
-                            pwdQualityLabel.setVisible(true);
-                            break;
-
-                    }
-
-                    pwdQualityIndicator.setProgress((double) strength / 3);
-                }
-            }
-
-        });
-
-    }
 
     /**
      * TODO document
@@ -408,11 +410,7 @@ public class UserRegistrationController implements Initializable {
             ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
             Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
 
-            try { // TODO make it so the graphical resources (icons and images alike) are already loaded in memory, thus avoiding constant try-catch blocks
-                dialogStage.getIcons().add(new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/failure15px.png")));
-            } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
-            }
+            dialogStage.getIcons().add(guiUtilities.getImage("failure"));
 
             dialog.setContentText("Impossibile contattare il server."); // TODO modify?
 

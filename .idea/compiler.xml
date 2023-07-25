@@ -8,11 +8,11 @@
         <outputRelativeToContentRoot value="true" />
         <module name="EmotionalSongsClient" />
         <module name="EmotionalSongsServer" />
+        <module name="EmotionalSongs" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="EmotionalSongsClient" target="15" />
-      <module name="EmotionalSongsServer" target="15" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="242.0" prefWidth="324.0" styleClass="exitPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.ExitController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="89.0" prefWidth="324.0">
+         <children>
+            <ImageView fitHeight="82.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/logo2.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <Label alignment="CENTER" prefHeight="43.0" prefWidth="324.0" text="Vuoi davvero uscire ?" textFill="#bbbbbb">
+         <font>
+            <Font name="Arial Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" prefHeight="23.0" prefWidth="324.0" text="Stai per uscire dal tuo account Emotional Songs." textFill="#bbbbbb" />
+      <Label alignment="CENTER" prefHeight="17.0" prefWidth="324.0" text="Verrai reindirizzato alla pagina di log-in." textFill="#bbbbbb" />
+      <Pane prefHeight="12.0" prefWidth="324.0" />
+      <HBox alignment="CENTER" prefHeight="55.0" prefWidth="324.0">
+         <children>
+            <Button fx:id="annullaBtn" mnemonicParsing="false" onAction="#handleAnnullaButtonAction" prefHeight="26.0" prefWidth="100.0" styleClass="annullaButton" stylesheets="@Style/customStyle.css" text="Annulla" textFill="#bbbbbb" />
+            <Pane prefHeight="55.0" prefWidth="17.0" />
+            <Button fx:id="exitBtn" mnemonicParsing="false" onAction="#handleExitButtonAction" prefHeight="26.0" prefWidth="100.0" styleClass="exitButton" stylesheets="@Style/customStyle.css" text="Esci" textFill="#bbbbbb" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

@@ -74,7 +74,8 @@ public class ServerLoginController implements Initializable {
      */
     @FXML protected void handleLoginButtonAction(){
 
-        char[] pwd = null;
+        //char[] pwd = null;
+        String pwd = null;
         String username = null;
 
         if(isDisplayed){ // Se la password è visualizzata in chiaro (textbox visibile, password field nascosto)
@@ -86,7 +87,8 @@ public class ServerLoginController implements Initializable {
                 isUserMandatoryHL = true;
 
             } else{
-                pwd = overlappingTextField.getText().toCharArray();
+                //pwd = overlappingTextField.getText().toCharArray();
+                pwd = overlappingTextField.getText();
             }
 
         } else{ // Se la password NON è visualizzata in chiaro (textbok nascosto, password field visibile)
@@ -98,9 +100,9 @@ public class ServerLoginController implements Initializable {
                 isUserMandatoryHL = true;
 
             } else{
-                pwd = pwdField.getText().toCharArray();
+                //pwd = pwdField.getText().toCharArray();
+                pwd = pwdField.getText();
             }
-
         }
 
         if (usernameField.getText().isBlank()){
@@ -131,6 +133,7 @@ public class ServerLoginController implements Initializable {
                 } catch (IOException e){}
 
             } catch (SQLException e){
+                e.printStackTrace();
 
                 loginFailedLabel.setText("Invalid username or password");
                 loginFailedLabel.setStyle(errorMessage);
@@ -139,7 +142,6 @@ public class ServerLoginController implements Initializable {
             }
 
         }
-
     }
 
     /**
