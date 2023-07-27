@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>emotionalsongs</groupId>
-    <artifactId>EmotionalSongsServer</artifactId>
+    <groupId>emotionalSongs</groupId>
+    <artifactId>EmotionalSongs</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>EmotionalSongsServer</name>
+    <name>EmotionalSongs</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,20 +23,8 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>15.0.1</version>
+            <version>17.0.1</version>
         </dependency>
-        <dependency>
-            <groupId>postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>9.1-901-1.jdbc4</version>
-        </dependency>
-
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-crypto</artifactId>
-                <version>5.7.2</version>
-            </dependency>
-
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -72,8 +60,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>
-                                emotionalsongs.emotionalsongsserver/emotionalsongs.EmotionalSongsServer
+                            <mainClass>emotionalsongs/emotionalsongs.EmotionalSongs
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

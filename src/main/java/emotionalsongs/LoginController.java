@@ -12,24 +12,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import javax.crypto.Cipher;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.rmi.RemoteException;
-import java.security.PublicKey;
 import java.util.ResourceBundle;
 
 /**
  * TODO document
  */
 public class LoginController implements Initializable {
-
-    /* Old article about RMI optimization
-     * http://www.javaperformancetuning.com/tips/j2ee_rmi.shtml
-     */
 
     private static final String errorStyle = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
     private static final String errorMessage = "-fx-text-fill: RED;";
@@ -41,8 +33,13 @@ public class LoginController implements Initializable {
     private static double xOffset = 0;
     private static double yOffset = 0;
 
+<<<<<<< HEAD:EmotionalSongsClient/src/main/java/emotionalsongs/LoginController.java
     private GUIUtilities guiUtilities;
 
+=======
+    private boolean isUserMandatoryHL = false;
+    private boolean isPwdMandatoryHL = false;
+>>>>>>> parent of 03045d7 (Renamed files and paths.):src/main/java/emotionalsongs/LoginController.java
     private boolean isDisplayed = false;
     private Image eye;
     private Image eyeCrossed;
@@ -55,6 +52,7 @@ public class LoginController implements Initializable {
     @FXML private Button closeBtn;
     @FXML private Button showPasswordInput;
 
+<<<<<<< HEAD:EmotionalSongsClient/src/main/java/emotionalsongs/LoginController.java
     /**
      * TODO document
      * @param url
@@ -85,6 +83,8 @@ public class LoginController implements Initializable {
         showPasswordInput.setFocusTraversable(false);
     }
 
+=======
+>>>>>>> parent of 03045d7 (Renamed files and paths.):src/main/java/emotionalsongs/LoginController.java
     /**
      * TODO document
      */
@@ -110,9 +110,9 @@ public class LoginController implements Initializable {
      */
     @FXML protected void handleRegisterButton() {
         try {
-            EmotionalSongsClient.setStage(new Scene(EmotionalSongsClient.getLoader().load(EmotionalSongsClient.class.getResource("UserRegistration.fxml") )), UserRegistrationController.WIDTH, UserRegistrationController.HEIGHT, true);
+            EmotionalSongs.setStage(new Scene(EmotionalSongs.getLoader().load(EmotionalSongs.class.getResource("UserRegistration.fxml") )), UserRegistrationController.WIDTH, UserRegistrationController.HEIGHT, true);
 
-            EmotionalSongsClient.getStage().show();
+            EmotionalSongs.getStage().show();
         } catch (IOException e){
             e.printStackTrace();
             // TODO Auto generated stub
@@ -132,9 +132,6 @@ public class LoginController implements Initializable {
      * TODO document
      */
     @FXML protected void handleUserFieldHighlight(){
-        // questa funzione non viene direttamente utilizzata nel codice ma viene invocata mediante fxml;
-        // Il suo scopo consiste nel resettare lo stile del Textfield una volta che l'utente digita un carattere,
-        // eventualmente rimuovendo lo stile di "errore" dovuto alla non valorizzazione del campo
         usernameField.setStyle(null);
     }
 
@@ -143,9 +140,6 @@ public class LoginController implements Initializable {
      */
     @FXML protected void handlePwdFieldHighlight(){
 
-        // Come per la funzione precedente, questa non viene direttamente utilizzata nel codice ma viene invocata mediante fxml;
-        // Il suo scopo consiste nel resettare lo stile del TextField una volta che l'utente digita un carattere,
-        // eventualmente rimuovendo lo stile di "errore" dovuto alla non valorizzazione del campo
         if(isDisplayed){overlappingTextField.setStyle(null);}
         else{pwdField.setStyle(null);}
 
@@ -165,6 +159,7 @@ public class LoginController implements Initializable {
 
                 overlappingTextField.setStyle(errorStyle);
                 overlappingTextField.setPromptText("Mandatory field");
+                isUserMandatoryHL = true;
 
             } else{
                 pwd = overlappingTextField.getText();
@@ -176,8 +171,11 @@ public class LoginController implements Initializable {
 
                 pwdField.setStyle(errorStyle);
                 pwdField.setPromptText("Mandatory field");
+                isUserMandatoryHL = true;
 
-            } else{ pwd = pwdField.getText();}
+            } else{
+                pwd = pwdField.getText();
+            }
 
         }
 
@@ -185,6 +183,7 @@ public class LoginController implements Initializable {
 
             usernameField.setStyle(errorStyle);
             usernameField.setPromptText("Mandatory field");
+            isUserMandatoryHL = true;
 
         } else{
             username = usernameField.getText();
@@ -192,10 +191,11 @@ public class LoginController implements Initializable {
 
         if(pwd != null && username != null) {
 
-            try{
+            // TODO qui verrà effettuato il login
 
-                if(!EmotionalSongsClient.auth.userLogin(username, RSA_Encrypt(pwd))){ // L'username o la password sono errati (Invertire la logica dell'IF?)
+            System.out.println("Username: " + username + "\nPassword: " + pwd);
 
+<<<<<<< HEAD:EmotionalSongsClient/src/main/java/emotionalsongs/LoginController.java
                     loginFailedLabel.setText("Invalid username or password");
                     loginFailedLabel.setStyle(errorMessage);
                     loginFailedLabel.setVisible(true);
@@ -224,6 +224,12 @@ public class LoginController implements Initializable {
 
                 dialog.getDialogPane().getButtonTypes().add(type);
                 dialog.showAndWait();
+=======
+            if(username.equals("err")){
+                loginFailedLabel.setText("Invalid username or password");
+                loginFailedLabel.setStyle(errorMessage);
+                loginFailedLabel.setVisible(true);
+>>>>>>> parent of 03045d7 (Renamed files and paths.):src/main/java/emotionalsongs/LoginController.java
             }
 
         }
@@ -231,7 +237,7 @@ public class LoginController implements Initializable {
     }
 
     /**
-     * TODO Focument
+     * TODO document
      */
     @FXML protected void onClickEvent(){
 
@@ -254,11 +260,9 @@ public class LoginController implements Initializable {
         }
     }
 
-    /**
-     * TODO Document
-     * @param s
-     */
-    public static void setStage(Stage s){stage = s;}
+    public static void setStage(Stage s){
+        stage = s;
+    }
 
     /**
      * TODO document
@@ -304,6 +308,7 @@ public class LoginController implements Initializable {
 
     }
 
+<<<<<<< HEAD:EmotionalSongsClient/src/main/java/emotionalsongs/LoginController.java
     public byte[] RSA_Encrypt(String data){
         try {
             PublicKey pk = EmotionalSongsClient.auth.getPublicKey();
@@ -312,6 +317,34 @@ public class LoginController implements Initializable {
             return encryptCipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
         } catch (Exception e){
             return null;
+=======
+    /**
+     * TODO document
+     * @param url
+     * @param resourceBundle
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        Image closeIcon = null;
+
+        try{
+            closeIcon =  new Image(new FileInputStream(".\\src\\main\\resources\\emotionalsongs\\Images\\closeIcon.png"));
+            eye =  new Image(new FileInputStream(".\\src\\main\\resources\\emotionalsongs\\Images\\view.png"));
+            eyeCrossed =  new Image(new FileInputStream(".\\src\\main\\resources\\emotionalsongs\\Images\\hide.png"));
+            closeBtn.setGraphic(new ImageView(closeIcon));
+            showPasswordInput.setGraphic(new ImageView(eye));
+            showPasswordInput.setFocusTraversable(false);
+
+        } catch (FileNotFoundException e) {
+
+            if (closeIcon == null) {
+                closeBtn.setText("X");
+            } else {
+                e.printStackTrace();
+            }
+
+>>>>>>> parent of 03045d7 (Renamed files and paths.):src/main/java/emotionalsongs/LoginController.java
         }
     }
 }

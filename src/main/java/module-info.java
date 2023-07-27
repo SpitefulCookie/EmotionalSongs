@@ -1,7 +1,6 @@
-module com.example.emotionalsongs {
+module com.example.emotionalsongstest {
     requires javafx.controls;
     requires javafx.fxml;
-    requires java.rmi;
 
 
     opens emotionalsongs to javafx.fxml;

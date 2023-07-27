@@ -5,8 +5,6 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/EmotionalSongsServer/pom.xml" />
-        <option value="$PROJECT_DIR$/EmotionalSongsClient/pom.xml" />
       </list>
     </option>
   </component>
