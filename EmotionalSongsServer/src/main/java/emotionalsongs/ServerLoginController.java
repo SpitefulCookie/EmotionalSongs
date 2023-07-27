@@ -74,7 +74,6 @@ public class ServerLoginController implements Initializable {
      */
     @FXML protected void handleLoginButtonAction(){
 
-        //char[] pwd = null;
         String pwd = null;
         String username = null;
 
@@ -87,7 +86,6 @@ public class ServerLoginController implements Initializable {
                 isUserMandatoryHL = true;
 
             } else{
-                //pwd = overlappingTextField.getText().toCharArray();
                 pwd = overlappingTextField.getText();
             }
 
@@ -100,9 +98,9 @@ public class ServerLoginController implements Initializable {
                 isUserMandatoryHL = true;
 
             } else{
-                //pwd = pwdField.getText().toCharArray();
                 pwd = pwdField.getText();
             }
+
         }
 
         if (usernameField.getText().isBlank()){
@@ -133,8 +131,8 @@ public class ServerLoginController implements Initializable {
                 } catch (IOException e){}
 
             } catch (SQLException e){
-                e.printStackTrace();
 
+                e.printStackTrace();
                 loginFailedLabel.setText("Invalid username or password");
                 loginFailedLabel.setStyle(errorMessage);
                 loginFailedLabel.setVisible(true);
@@ -142,6 +140,7 @@ public class ServerLoginController implements Initializable {
             }
 
         }
+
     }
 
     /**

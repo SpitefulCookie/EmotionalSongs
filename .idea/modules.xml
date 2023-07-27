@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/EmotionalSongs.iml" filepath="$PROJECT_DIR$/EmotionalSongs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/EmotionalSongsClient/EmotionalSongsClient.iml" filepath="$PROJECT_DIR$/EmotionalSongsClient/EmotionalSongsClient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/EmotionalSongsServer/EmotionalSongsServer.iml" filepath="$PROJECT_DIR$/EmotionalSongsServer/EmotionalSongsServer.iml" />
     </modules>
   </component>
 </project>

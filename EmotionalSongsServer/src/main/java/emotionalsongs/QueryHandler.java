@@ -1,6 +1,7 @@
 package emotionalsongs;
 
 import java.sql.*;
+import java.util.Properties;
 
 /**
  * TODO Document
@@ -24,9 +25,12 @@ public class QueryHandler {
 
         // Singleton Design Pattern
         if(dbConnection == null){
-            dbConnection = DriverManager.getConnection("jdbc:postgresql://"+ DB_Address+":"+DB_Port+"/"+DB_Name,username,password);
+            System.out.println( "jdbc:postgresql://"+ DB_Address+":"+DB_Port+"/"+DB_Name +"," + username + ","+ password.toString());
+            dbConnection = DriverManager.getConnection("jdbc:postgresql://"+ DB_Address+":"+DB_Port+"/"+DB_Name, username, password.toString());
             stmt = dbConnection.createStatement();
+
         }
+
     }
 
     /**
