@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox alignment="CENTER" prefHeight="771.0" prefWidth="835.0" stylesheets="@Style/darcula.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.UserRegistrationController">
+<HBox alignment="CENTER" prefHeight="771.0" prefWidth="835.0" stylesheets="@Style/darcula.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.UserRegistrationController">
    <children>
       <AnchorPane prefHeight="859.0" prefWidth="835.0" stylesheets="@Style/darcula.css">
          <children>
@@ -31,7 +31,7 @@
                            </image>
                         </ImageView>
                         <Label prefHeight="17.0" prefWidth="172.0" text=" Emotional Songs" textFill="#bbbbbb" />
-                        <Pane prefHeight="32.0" prefWidth="642.0" HBox.hgrow="ALWAYS" />
+                        <Pane fx:id="pane" onMouseDragged="#moveWindow" prefHeight="32.0" prefWidth="642.0" HBox.hgrow="ALWAYS" />
                         <Button fx:id="closeBtn" mnemonicParsing="false" onAction="#handleCloseButtonAction" styleClass="closeButton" stylesheets="@Style/customStyle.css" />
                      </children>
                   </HBox>

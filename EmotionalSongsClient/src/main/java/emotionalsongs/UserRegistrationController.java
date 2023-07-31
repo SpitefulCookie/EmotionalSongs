@@ -14,10 +14,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -74,6 +73,8 @@ public class UserRegistrationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        EmotionalSongsClient.registerClient();
+
         guiUtilities = GUIUtilities.getInstance();
 
         eye =  guiUtilities.getImage("eye");
@@ -107,7 +108,7 @@ public class UserRegistrationController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 
-                if (newValue.contains("\"")|| newValue.contains("\'") || newValue.contains("<")|| newValue.contains(">")) {
+                if (newValue.contains("\"")|| newValue.contains("'") || newValue.contains("<")|| newValue.contains(">")) {
                     String s = pwdField.getText().substring(0, pwdField.getText().length()-1);
                     pwdField.setText(s);
                 } else {
@@ -224,12 +225,14 @@ public class UserRegistrationController implements Initializable {
     @FXML protected void handleCloseButtonAction(ActionEvent event){
         Stage stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
         stage.close();
+        EmotionalSongsClient.unexportClient();
     }
 
     @FXML protected void handleCancelButton(){
         try {
             EmotionalSongsClient.setStage(new Scene(EmotionalSongsClient.getLoader().load(EmotionalSongsClient.class.getResource("login.fxml") )), LoginController.WIDTH, LoginController.HEIGHT, true);
             EmotionalSongsClient.getStage().show();
+            EmotionalSongsClient.unexportClient();
         } catch (IOException e){
             e.printStackTrace();
             // TODO Auto generated stub
@@ -270,7 +273,7 @@ public class UserRegistrationController implements Initializable {
         if (viaField.getText().isBlank()){
             GUIUtilities.setErrorStyle(viaField);
             isInputValid = false;
-        } else{GUIUtilities.setDefaultStyle(emailField);}
+        } else{GUIUtilities.setDefaultStyle(viaField);}
 
         if (numberField.getText().isBlank() | !numberField.getText().matches("\\d.*") ){
             GUIUtilities.setErrorStyle(numberField);
@@ -294,7 +297,7 @@ public class UserRegistrationController implements Initializable {
             isInputValid = false;
         } else{GUIUtilities.setDefaultStyle(capField);}
 
-        if (usernameField.getText().isBlank() | checkUsernameAvailability()) { // TODO aggiungere controllo sulla disponibilità dell'username (l'utente potrebbe non aver cliccato "controlla username" oppure l'username scelto potrebbe non essere disponibile)
+        if (usernameField.getText().isBlank() | !checkUsernameAvailability()) { // TODO aggiungere controllo sulla disponibilità dell'username (l'utente potrebbe non aver cliccato "controlla username" oppure l'username scelto potrebbe non essere disponibile)
             GUIUtilities.setErrorStyle(usernameField);
             isInputValid = false;
         } else {GUIUtilities.setDefaultStyle(usernameField);}
@@ -312,23 +315,42 @@ public class UserRegistrationController implements Initializable {
             } else{GUIUtilities.setDefaultStyle(overlappingPasswordTF);}
         }
 
-        if(isInputValid){ // TODO inserire l'utente nel db - Come trasferire i dati? RSAEncription?
+        if(isInputValid){
 
-            System.out.println(
-                    "Nome: " + nomeField.getText()
-                    + "\nCognome: " + cognomeField.getText()
-                    + "\nCF: " + codFiscField.getText()
-                    + "\nEmail: " + emailField.getText()
-                    + "\nIndirizzo: " + viaField.getText() + " " + numberField.getText() + ", " + comuneField.getText() + " ("+provField.getText().toUpperCase(Locale.ROOT)+ ") " + capField.getText()
-                    +"\nUsername: " + usernameField.getText()
-                    + "\nPassword: " + pwdField.getText()
-                    +"\n"
-            );
+            /*
+             * Ho optato per il trasferimento dei dati mediante stringa in quanto non era possibile effettuare una codifica dell'oggetto Utente mediante RSA
+             */
+            String[] indirizzo = new String[5];
+
+            indirizzo[0] = viaField.getText();
+            indirizzo[1] = numberField.getText();
+            indirizzo[2] = capField.getText();
+            indirizzo[3] = comuneField.getText();
+            indirizzo[4] = provField.getText();
+
+            String userData =
+                cognomeField.getText() +" "+ nomeField.getText() +"&SEP&"+
+                codFiscField.getText() +"&SEP&"+
+                viaField.getText() +"&SEP&"+
+                numberField.getText() +"&SEP&"+
+                capField.getText() +"&SEP&"+
+                comuneField.getText() +"&SEP&"+
+                provField.getText() +"&SEP&"+
+                emailField.getText() +"&SEP&"+
+                usernameField.getText() +"&SEP&"+
+                pwdField.getText();
+
+            try {
+                EmotionalSongsClient.auth.registrazione(LoginController.RSA_Encrypt(userData));
+                
+
+            } catch (RemoteException e){
+                e.printStackTrace();
+            }
 
         }
 
     }
-
 
     /**
      * TODO document
@@ -373,33 +395,39 @@ public class UserRegistrationController implements Initializable {
     }
 
     /**
-     * TODO document and implement checks on the db side - the outcome is currently random
+     * TODO document
      */
     @FXML protected boolean checkUsernameAvailability() {
 
         try {
 
-            boolean exists = EmotionalSongsClient.auth.usernameExists(usernameField.getText());
+            if(!usernameField.getText().isBlank()) {
 
-            checkUsernameResultLbl.setVisible(true);
-            checkUsernameResultImg.setVisible(true);
+                boolean exists = EmotionalSongsClient.auth.usernameExists(usernameField.getText());
 
-            if (!exists){
+                checkUsernameResultLbl.setVisible(true);
+                checkUsernameResultImg.setVisible(true);
 
-                checkUsernameResultImg.setImage(successIcon);
-                checkUsernameResultLbl.setText("Username disponibile");
-                GUIUtilities.setDefaultStyle(usernameField);
+                if (!exists) {
 
-                return true;
+                    checkUsernameResultImg.setImage(successIcon);
+                    checkUsernameResultLbl.setText("Username disponibile");
+                    GUIUtilities.setDefaultStyle(usernameField);
 
-            } else{
+                    return true;
 
-                checkUsernameResultImg.setImage(failureIcon);
-                checkUsernameResultLbl.setText("Username non disponibile");
+                } else {
+
+                    checkUsernameResultImg.setImage(failureIcon);
+                    checkUsernameResultLbl.setText("Username non disponibile");
+                    GUIUtilities.setErrorStyle(usernameField);
+                    usernameField.setPromptText("");
+                    return false;
+
+                }
+
+            } else{ // FIXME anche se l'username è preso, il client tenta lo stesso i dati al server (print in console)
                 GUIUtilities.setErrorStyle(usernameField);
-                usernameField.setPromptText("");
-                return false;
-
             }
 
         } catch (Exception e) {
@@ -453,9 +481,7 @@ public class UserRegistrationController implements Initializable {
 
         }
 
-        if(somma%26 + 'A' != cf.charAt(15)){return false;}
-
-        return true;
+        return somma % 26 + 'A' == cf.charAt(15);
 
     }
 }

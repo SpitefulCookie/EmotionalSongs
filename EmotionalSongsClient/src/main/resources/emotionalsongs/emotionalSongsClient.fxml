@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#moveWindows" prefHeight="750.0" prefWidth="1200.0" styleClass="dynamicPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.EmotionalSogsClientController">
+<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#moveWindows" prefHeight="750.0" prefWidth="1200.0" styleClass="dynamicPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.EmotionalSongsClientController">
    <left>
       <VBox prefHeight="771.0" prefWidth="335.0" styleClass="sideBar" stylesheets="@Style/customStyle.css" BorderPane.alignment="CENTER">
          <children>

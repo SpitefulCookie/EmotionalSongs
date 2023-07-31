@@ -10,11 +10,15 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import java.io.File;
 import java.io.IOException;
+import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 
 /**
  * TODO Document
@@ -28,6 +32,7 @@ public class EmotionalSongsClient extends Application {
     private static FXMLLoader loader;
 
     private GUIUtilities guiUtilities;
+    private static PingClientClientImpl ping;
 
     protected static AuthManager auth;
     //protected static RepositoryManager repo; // TODO implement
@@ -40,9 +45,10 @@ public class EmotionalSongsClient extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
+        //Scene scene = new Scene(FXMLLoader.load(new File("C:\\Users\\orobi\\Documents\\EmotionalSongs\\EmotionalSongsClient\\src\\main\\resources\\emotionalsongs\\login.fxml").toURI().toURL()));
+
         loader = new FXMLLoader(EmotionalSongsClient.class.getResource("login.fxml"));
         Scene scene = new Scene(loader.load());
-
         guiUtilities = GUIUtilities.getInstance(); // creo l'oggetto in questo modo per via del pattern singleton
 
         stage.initStyle(StageStyle.UNDECORATED);
@@ -62,6 +68,8 @@ public class EmotionalSongsClient extends Application {
             Registry reg = LocateRegistry.getRegistry(SERVER_ADDRESS, PORT);
             auth = (AuthManager) reg.lookup("AuthManager");
             //repo = (RepositoryManager) reg.lookup("RepoManager"); // TODO add once implemented
+            ping = new PingClientClientImpl();
+
 
         } catch (RemoteException | NotBoundException e) {
 
@@ -70,7 +78,7 @@ public class EmotionalSongsClient extends Application {
 
             ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
 
-            dialog.setContentText("Impossibile contattare il server."); // TODO modify the appearence and text content?
+            dialog.setContentText("Impossibile contattare il server."); // TODO modify the appearance and text content?
             Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
 
             dialogStage.getIcons().add(guiUtilities.getImage("failure"));
@@ -118,4 +126,23 @@ public class EmotionalSongsClient extends Application {
      * @param args
      */
     public static void main(String[] args) {new EmotionalSongsClient().launch();}
+
+    public static void unexportClient(){
+        try {
+            UnicastRemoteObject.unexportObject(ping, true);
+        } catch (NoSuchObjectException e) {
+            // quest'eccezione viene lanciata qualora non sia stato effettuato l'export dell'oggetto PingClient,
+            // questo avviene solo quando il server non è raggiungibile.
+        }
+    }
+
+    public static void registerClient(){
+        try {
+            if(auth!= null)
+                auth.registerClient(ping);
+        } catch (RemoteException e){}
+    }
+
+
 }
+

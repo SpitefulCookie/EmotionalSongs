@@ -9,18 +9,18 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+// TODO rename this class to Log-out controller
 public class ExitController {
 
-    @FXML
-    private Button exitBtn;
-    @FXML
-    private Button annullaBtn;
+    @FXML private Button exitBtn;
+    @FXML private Button annullaBtn;
 
     /**
      * TODO document
      */
     @FXML
     public void handleExitButtonAction(){
+
         try {
             // when pressed the Exit button, the user is redirected to login page
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
@@ -31,6 +31,8 @@ public class ExitController {
             // close the exit stage
             Stage stage = (Stage) exitBtn.getScene().getWindow();
             stage.close();
+
+            EmotionalSongsClient.unexportClient();
 
         }catch (IOException e){
             e.printStackTrace();

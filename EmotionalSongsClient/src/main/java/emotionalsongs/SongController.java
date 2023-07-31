@@ -36,7 +36,7 @@ public class SongController implements Initializable {
         fosse vado a disabilitare e a rendere invisibile il addToPlaylistButton, in quanto, dato che
         esso non può creare playlist non potrà neanche aggiungere canzoni ad esse.
          */
-        if(EmotionalSogsClientController.getIsGuest()){ // se è un utente guest
+        if(EmotionalSongsClientController.getIsGuest()){ // se è un utente guest
             addToPlaylistBtn.setDisable(true);
             addToPlaylistBtn.setVisible(false);
         }
