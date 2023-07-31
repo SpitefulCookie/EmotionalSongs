@@ -12,6 +12,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -128,7 +130,9 @@ public class ServerLoginController implements Initializable {
 
                     EmotionalSongsServer.getStage().show();
 
-                } catch (IOException e){}
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
 
             } catch (SQLException e){
 
@@ -223,6 +227,25 @@ public class ServerLoginController implements Initializable {
 
             showPasswordInput.setGraphic(new ImageView(eye));
             showPasswordInput.setFocusTraversable(false);
+
+            // I seguenti blocchi di codice rilevano quando l'utente preme il tasto invio all'interno del campo login (ovvero ha terminato d'inserire le proprie credenziali)
+            pwdField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                @Override
+                public void handle(KeyEvent ke) {
+                    if (ke.getCode().equals(KeyCode.ENTER)) {
+                        handleLoginButtonAction();
+                    }
+                }
+            });
+
+            overlappingTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                @Override
+                public void handle(KeyEvent ke) {
+                    if (ke.getCode().equals(KeyCode.ENTER)) {
+                        handleLoginButtonAction();
+                    }
+                }
+            });
 
         } catch (FileNotFoundException e) {}
 

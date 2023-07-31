@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.security.*;
-import java.util.Random;
+import java.util.ArrayList;
 
 /**
  * TODO Document
@@ -16,9 +16,11 @@ import java.util.Random;
 public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
 
     private static final long serialVersionUID = 1L;
-    private static QueryHandler dbReference;
+    private QueryHandler dbReference;
 
+    private static boolean acceptsConnections = true;
     private static KeyPair pair = null;
+    private static ArrayList<PingClient> clientList = new ArrayList<>();
 
     /**
      * TODO Document
@@ -27,9 +29,14 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
     protected AuthManagerImpl() throws RemoteException {
         super();
         generateKeys();
+        clientList = new ArrayList<>();
         dbReference = EmotionalSongsServer.qh;
 
         // TODO auto-generated stub
+    }
+
+    public static void removeClients(ArrayList<PingClient> disconnected) {
+        clientList.removeAll(disconnected);
     }
 
     /**
@@ -38,29 +45,28 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      * @return
      * @throws RemoteException
      */
-    @Override
+
     public boolean usernameExists(String username) throws RemoteException {
         System.out.println("[SERVER] Ricevuto username: " + username);
-        Random random = new Random();
-
-        if (random.nextInt()<0.2){
-           return false;
-        } else{
+        if(username!=null && dbReference.usernameExists(username)){
             return true;
         }
+        return false;
     }
 
     /**
      * TODO Document and Implement
-     * @param user
+     * @param userData
      * @return
      * @throws RemoteException
      */
     @Override
-    public boolean registrazione(String user) throws RemoteException { // I dati come verranno mandati? Sotto forma di stringa o oggetto utente? Codifica rsa?
+    public void registrazione(byte[] userData) throws RemoteException {
 
-        //
-        return false;
+        String[] data = decryptRSA(userData).split("&SEP&");
+
+        dbReference.registerUser(data);
+
     }
 
     public PublicKey getPublicKey() throws RemoteException{
@@ -76,11 +82,19 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
     @Override
     public boolean userLogin(String username, byte[] pwd) {
 
-        String encryptedPwd = decryptRSA(pwd);
-        // TODO reperire la password dal db usando l'username fornito
-        String testHashPwd = BCryptHashPassword("test");
+        // La password ricevuta da remoto sarà incapsulata in una codifica RSA, evitando così la trasmissione in chiaro di quest'ultima lungo la rete
+        String decryptedPwd = decryptRSA(pwd);
 
-        if( username.equals("test") && BCryptVerifyPassword(encryptedPwd, testHashPwd)){ return true;}
+        /* Mentre la password salvata all'interno del db sarà codificata tramite algoritmo BCrypt in questo modo,
+         * anche se il db venga attaccato e la tabella contenente i dati relativi agli utenti cada in mano dell'attaccante,
+         * questi si ritroveranno con una tabella contenente gli hash delle password che necessiteranno di essere decriptati
+         * per garantire l'accesso alla piattaforma.
+         */
+        String retrievedPwd = dbReference.queryUserPassword(username);
+
+        // Nel caso di una SQLException o di un Result set vuoto queryUserPassword() restituirà null quindi
+        // sarà necessario effettuare una verifica prima d'invocare il metodo di verifica della password.
+        if(retrievedPwd!=null && BCryptVerifyPassword(decryptedPwd, retrievedPwd)){return true;}
         else{return false;}
 
     }
@@ -90,7 +104,7 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      * @param password
      * @return
      */
-    private String BCryptHashPassword(String password) {
+    protected static String BCryptHashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt()); // questa verrà salvata nel db come password utente
     }
 
@@ -131,5 +145,15 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
             return "";
         }
     }
+
+    public void registerClient(PingClient client) throws RemoteException{
+        if (acceptsConnections && !clientList.contains(client)){ clientList.add(client);}
+        else{throw new RemoteException();}
+    }
+
+    protected static ArrayList<PingClient> getClientList(){
+        return clientList;
+    }
+
 
 }

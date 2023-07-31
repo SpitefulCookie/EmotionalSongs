@@ -1,13 +1,12 @@
 package emotionalsongs;
 
 
-import javafx.event.EventHandler;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 
@@ -18,6 +17,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ResourceBundle;
+import java.util.StringTokenizer;
 
 /**
  * TODO Document
@@ -42,12 +42,9 @@ public class ServerMainViewController implements Initializable {
         scrollPane.setFocusTraversable(false);
         scrollPane.setVvalue(1);
 
-        commandField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent ke) {
-                if (ke.getCode().equals(KeyCode.ENTER)) {
-                    handleSendButton();
-                }
+        commandField.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER)) {
+                handleSendButton();
             }
         });
 
@@ -63,38 +60,49 @@ public class ServerMainViewController implements Initializable {
             e.printStackTrace();
             logError("Server creation failed");
         }
+
+        EmotionalSongsServer.initializeConnectionVerify();
+        EmotionalSongsServer.setMainViewController(this);
     }
 
     /**
      * TODO Document
-     * FIXME The function did not work - haven't looked into what seemed to be the issue.
      * @param text
      */
-    public void logText(String text){
-        this.textFlow.getChildren().add(new Text(text+"\n"));
-    }
+    protected void logText(String text){
+        TextFlow tf = this.textFlow;
 
-    // FIXME
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+               tf.getChildren().add(new Text(text+"\n"));
+                scrollPane.setVvalue(1);
+            }
+
+        });
+
+    }
 
     /**
      * TODO Document
      * @param text
      */
     public void logError(String text){
+
+        TextFlow tf = this.textFlow;
+
         Text t = new Text(text+"\n");
         t.setStyle("color: red");
-        this.textFlow.getChildren().add(t);
-    }
 
-    /* function added for testing purposes
-    // TODO remove before sending the project
-    private void spam(int i){
-        System.out.println("Spamming");
-        for (var g = 0 ; g<i; g++){
-            this.textFlow.getChildren().add(new Text(g+1+"\n"));
-        }
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                tf.getChildren().add(t);
+                scrollPane.setVvalue(1);
+            }
+        });
+
     }
-    */
 
     /**
      * TODO Document
@@ -119,12 +127,33 @@ public class ServerMainViewController implements Initializable {
      */
     private static void parseCommand(String cmd){
         // TODO Implement
-        if(cmd.equalsIgnoreCase("shutdown")) {
-            try {
-                UnicastRemoteObject.unexportObject(EmotionalSongsServer.auth, true);
-            } catch (NoSuchObjectException e) {
-                e.printStackTrace();
+        StringTokenizer tokens = new StringTokenizer(cmd);
+        if(tokens.nextToken().equalsIgnoreCase("shutdown")) {
+            if(tokens.hasMoreTokens() && tokens.nextToken().equals("true")) {
+                shutdownServer(true);
+            } else{
+                shutdownServer(false);
+            }
+        } else{
+            if(tokens.nextToken().equalsIgnoreCase("help")){
+
+                // TODO print the application's commands
+
             }
         }
     }
+
+    protected static void shutdownServer(boolean exit){
+        try {
+            UnicastRemoteObject.unexportObject(EmotionalSongsServer.auth, true);
+            if(exit){
+                Platform.exit();
+                System.exit(0);
+            }
+        } catch (NoSuchObjectException e) {
+            //
+        }
+
+    }
+
 }
