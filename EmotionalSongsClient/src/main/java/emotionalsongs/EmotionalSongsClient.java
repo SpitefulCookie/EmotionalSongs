@@ -1,6 +1,11 @@
 package emotionalsongs;
 
-// TODO add project header in ALL java files
+/* TODO Add this to all java classes
+ * Progetto svolto da:
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
