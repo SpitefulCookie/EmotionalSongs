@@ -181,7 +181,7 @@ public class EmotionalSogsClientController implements Initializable {
          /*
         TO DO : finire di implementare il playlist pane
          */
-        setDynamicPane("playlist.fxml");
+        setDynamicPane("allPlaylist.fxml");
     }
 
     /**

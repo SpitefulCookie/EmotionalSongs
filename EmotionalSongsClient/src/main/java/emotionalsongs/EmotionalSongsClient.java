@@ -3,11 +3,13 @@ package emotionalsongs;
 // TODO add project header in ALL java files
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import java.io.IOException;
@@ -65,7 +67,7 @@ public class EmotionalSongsClient extends Application {
 
         } catch (RemoteException | NotBoundException e) {
 
-            Dialog<String> dialog = new Dialog<String>();
+            /*Dialog<String> dialog = new Dialog<String>();
             dialog.setTitle("Errore");
 
             ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
@@ -76,7 +78,21 @@ public class EmotionalSongsClient extends Application {
             dialogStage.getIcons().add(guiUtilities.getImage("failure"));
             dialog.getDialogPane().getButtonTypes().add(type);
             dialog.showAndWait();
-            System.err.println("Server not found on address: " + SERVER_ADDRESS +":"+ PORT); // TODO remove before turning in the project
+            System.err.println("Server not found on address: " + SERVER_ADDRESS +":"+ PORT); // TODO remove before turning in the project*/
+
+            try{
+                Stage connectionFailedStage = new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("connectionFailed.fxml"));
+                Scene connectionFailedScene = new Scene(fxmlLoader.load());
+                connectionFailedStage.setScene(connectionFailedScene);
+                connectionFailedStage.initStyle(StageStyle.UNDECORATED);
+                connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
+                connectionFailedStage.setResizable(false);
+                connectionFailedStage.show();
+            }catch(IOException e1){
+                e1.printStackTrace();
+            }
+
         }
 
     }
@@ -111,6 +127,22 @@ public class EmotionalSongsClient extends Application {
         esStage.setResizable(isWindowResizable);
         esStage.setScene(scene);
         esStage.show();
+    }
+
+    /**
+     * TODO document
+     * @return
+     */
+    public static String getServerAddress(){
+        return SERVER_ADDRESS;
+    }
+
+    /**
+     * TODO document
+     * @return
+     */
+    public static int getPort(){
+        return PORT;
     }
 
     /**

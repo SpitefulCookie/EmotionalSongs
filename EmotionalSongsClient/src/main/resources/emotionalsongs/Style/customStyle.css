@@ -54,6 +54,7 @@
 .searchTextField:focused{
     -fx-background-color: transparent;
     -fx-border-color : transparent;
+    -fx-prompt-text-fill: derive(-fx-control-inner-background,-30%);
 }
 
 .searchPaneButton{
@@ -126,7 +127,7 @@
 .buttonSongPane{
     /*-fx-background-color: #2e2e2e;*/
     -fx-background-color: transparent;
-    -fx-border-color: #646464;
+    /*-fx-border-color: #646464;*/
     -fx-background-radius: 10;
     -fx-border-radius: 10;
 }
@@ -156,3 +157,68 @@
 .annullaButton:hover{
     -fx-border-color: #af524bc1;
 }
+
+.playlistPane{
+    -fx-background-color: transparent;
+    /*-fx-border-color: #2e2e2e;*/
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.addPlaylistButton{
+    -fx-background-color: transparent;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.addPlaylistButton: hover{
+    /*-fx-border-color: #646464*/
+    -fx-background-color: #af524bc1;
+}
+
+.addPlaylistButtonEmpty{
+    -fx-background-color: #af524bc1;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.playlistPane:hover{
+   /*-fx-border-color: #af524bc1;*/
+    -fx-background-color: #272727;
+}
+
+.createPlaylistPane{
+    -fx-background-color: #2e2e2e;
+    -fx-border-color: #646464;
+}
+
+.textFieldCreatePlaylist{
+    -fx-background-color: transparent;
+    -fx-border-color: #646464;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-text-inner-color: #bbbbbb
+}
+
+.textFieldCreatePlaylist:focused{
+    -fx-prompt-text-fill: derive(-fx-control-inner-background,-30%);
+}
+
+.createPlaylistButton{
+    -fx-background-color: #af524bc1;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.connectionFailedPane{
+    -fx-background-color: #2e2e2e;
+    -fx-border-color: /*#646464*/ #af524bc1;
+}
+
+.tryAgainButton{
+    -fx-background-color: #af524bc1;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+

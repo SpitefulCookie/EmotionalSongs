@@ -20,7 +20,7 @@
             <HBox alignment="CENTER" maxHeight="51.0" maxWidth="495.0" prefHeight="51.0" prefWidth="495.0" styleClass="searchPane" stylesheets="@Style/customStyle.css">
                <children>
                   <Pane prefHeight="40.0" prefWidth="14.0" />
-                  <TextField fx:id="songToSearchField" maxHeight="41.0" maxWidth="409.0" prefHeight="41.0" prefWidth="398.0" promptText="Search your favorite songs" styleClass="searchTextField" stylesheets="@Style/customStyle.css" HBox.hgrow="ALWAYS">
+                  <TextField fx:id="songToSearchField" maxHeight="41.0" maxWidth="409.0" prefHeight="41.0" prefWidth="398.0" promptText="Cerca per Titolo, Autore, Anno" styleClass="searchTextField" stylesheets="@Style/customStyle.css" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="15.0" />
                      </font></TextField>
@@ -28,7 +28,7 @@
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../../Desktop/EmotionalSongs 20.46.48/src/main/resources/emotionalsongs/Images/closeIcon.png" />
+                              <Image url="@Images/closeIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>

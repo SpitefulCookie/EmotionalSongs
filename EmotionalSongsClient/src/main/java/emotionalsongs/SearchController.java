@@ -1,5 +1,7 @@
 package emotionalsongs;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,12 +24,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /*
-TO DO :
-1- adeguare cosa deve succedere quando viene premuto il pulsante di cerca canzone ovvero :
-    1- viene effettuata la ricerca nel db della canzone cercata
-    2- vengono visualizzate le canzoni eventualmente restituite dal db
-2- forse mettere un multi button che mi indica la tipologia di ricerca da fare, ovvero se per titolo, autore
-   o anno.
+TODO:
+    1- ricareca nel db della canzone cercata
+    2- rendere questa ricerca dinamica con un listener?
+    3- aggiungere una combo box per filtrare la ricerca, quindi per scegliere se cercare per titolo autore o anno
  */
 public class SearchController implements Initializable {
 
@@ -55,6 +55,25 @@ public class SearchController implements Initializable {
 
         // initialize the songsPane list
         songsPane = new ArrayList<Node>();
+
+        // add a listener to SongToSearchField, which displays removeSearchBtn if the songToSearchField is not Empty
+        songToSearchField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                // se la test field non è vuota, visualizzo e rendo premibile il pulsante di elimina ricerca
+                if(!songToSearchField.getText().isEmpty()){
+                    removeSearchBtn.setVisible(true);
+                    removeSearchBtn.setDisable(false);
+                }else{
+                    /*
+                    altrimenti se la text field è vuota rendo non visibile e non premibile il pulsante
+                    di elimina ricerca
+                     */
+                    removeSearchBtn.setVisible(false);
+                    removeSearchBtn.setDisable(true);
+                }
+            }
+        });
 
     }
 

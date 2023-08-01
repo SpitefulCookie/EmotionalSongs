@@ -12,33 +12,39 @@
 <HBox alignment="CENTER_LEFT" maxHeight="75.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="625.0" styleClass="songPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.SongController">
    <children>
       <Pane prefHeight="55.0" prefWidth="19.0" />
-      <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="70.0" prefWidth="329.0" stylesheets="@Style/customStyle.css" HBox.hgrow="ALWAYS">
+      <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="72.0" prefWidth="256.0" stylesheets="@Style/customStyle.css" HBox.hgrow="ALWAYS">
          <children>
             <Label fx:id="songNameLabel" prefHeight="29.0" prefWidth="395.0" text="Nome Canzone" textFill="#bbbbbb">
                <font>
-                  <Font size="18.0" />
+                  <Font name="Arial Bold" size="20.0" />
                </font>
             </Label>
             <Label fx:id="authorNameLabel" prefHeight="17.0" prefWidth="403.0" text="Nome Autore" textFill="#7c7c7c" />
          </children>
       </VBox>
-      <Button fx:id="addToPlaylistBtn" maxHeight="50.0" maxWidth="156.0" mnemonicParsing="false" onAction="#handleAddToPlaylistButtonAction" prefHeight="50.0" prefWidth="156.0" styleClass="buttonSongPane" stylesheets="@Style/customStyle.css" text="Add to playlist" textFill="#bbbbbb" HBox.hgrow="ALWAYS">
+      <Button fx:id="addToPlaylistBtn" maxHeight="50.0" maxWidth="5.0" mnemonicParsing="false" onAction="#handleAddToPlaylistButtonAction" onMouseExited="#handleAddToPlaylistButtonMouseExitedAction" onMouseMoved="#handleAddToPlaylistButtonMouseMovedAction" prefHeight="50.0" prefWidth="5.0" styleClass="buttonSongPane" stylesheets="@Style/customStyle.css" textFill="#bbbbbb" HBox.hgrow="ALWAYS">
          <graphic>
             <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/addIcon.png" />
                </image>
             </ImageView>
-         </graphic></Button>
-      <Pane prefHeight="70.0" prefWidth="29.0" />
-      <Button fx:id="viewEmotionsBtn" maxHeight="50.0" maxWidth="156.0" mnemonicParsing="false" onAction="#handleViewEmotionsButtonAction" prefHeight="50.0" prefWidth="156.0" styleClass="buttonSongPane" stylesheets="@Style/customStyle.css" text="View emotions" textFill="#bbbbbb" HBox.hgrow="ALWAYS">
+         </graphic>
+         <font>
+            <Font size="15.0" />
+         </font></Button>
+      <Pane prefHeight="72.0" prefWidth="21.0" />
+      <Button fx:id="viewEmotionsBtn" maxHeight="50.0" maxWidth="5.0" mnemonicParsing="false" onAction="#handleViewEmotionsButtonAction" onMouseExited="#handleViewEmotionsButtonMouseExitedAction" onMouseMoved="#handleViewEmotionsButtonMouseMovedAction" prefHeight="50.0" prefWidth="0.0" styleClass="buttonSongPane" stylesheets="@Style/customStyle.css" textFill="#bbbbbb" HBox.hgrow="ALWAYS">
          <graphic>
             <ImageView fitHeight="32.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/viewEmotions.png" />
                </image>
             </ImageView>
-         </graphic></Button>
+         </graphic>
+         <font>
+            <Font size="15.0" />
+         </font></Button>
       <Pane prefHeight="70.0" prefWidth="18.0" />
    </children>
 </HBox>

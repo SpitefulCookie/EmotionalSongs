@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -12,7 +13,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -228,7 +231,7 @@ public class UserRegistrationController implements Initializable {
 
     @FXML protected void handleCancelButton(){
         try {
-            EmotionalSongsClient.setStage(new Scene(EmotionalSongsClient.getLoader().load(EmotionalSongsClient.class.getResource("login.fxml") )), LoginController.WIDTH, LoginController.HEIGHT, true);
+            EmotionalSongsClient.setStage(new Scene(EmotionalSongsClient.getLoader().load(EmotionalSongsClient.class.getResource("login.fxml"))), LoginController.WIDTH, LoginController.HEIGHT, true);
             EmotionalSongsClient.getStage().show();
         } catch (IOException e){
             e.printStackTrace();
@@ -404,7 +407,7 @@ public class UserRegistrationController implements Initializable {
 
         } catch (Exception e) {
 
-            Dialog<String> dialog = new Dialog<String>();
+            /*Dialog<String> dialog = new Dialog<String>();
             dialog.setTitle("Errore");
 
             ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
@@ -415,7 +418,20 @@ public class UserRegistrationController implements Initializable {
             dialog.setContentText("Impossibile contattare il server."); // TODO modify?
 
             dialog.getDialogPane().getButtonTypes().add(type);
-            dialog.showAndWait();
+            dialog.showAndWait();*/
+
+            try{
+                Stage connectionFailedStage = new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("connectionFailed.fxml"));
+                Scene connectionFailedScene = new Scene(fxmlLoader.load());
+                connectionFailedStage.setScene(connectionFailedScene);
+                connectionFailedStage.initStyle(StageStyle.UNDECORATED);
+                connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
+                connectionFailedStage.setResizable(false);
+                connectionFailedStage.show();
+            }catch(IOException e1){
+                e1.printStackTrace();
+            }
 
         }
 

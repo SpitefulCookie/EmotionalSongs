@@ -1,4 +1,4 @@
-module com.example.emotionalsongs {
+module emotionalsongs.emotionalsongsclient{
     requires javafx.controls;
     requires javafx.fxml;
     requires java.rmi;

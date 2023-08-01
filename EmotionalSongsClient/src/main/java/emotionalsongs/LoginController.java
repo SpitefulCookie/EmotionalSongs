@@ -95,7 +95,7 @@ public class LoginController implements Initializable {
             Scene scene = new Scene(fxmlLoader.load());
 
             EmotionalSogsClientController client = fxmlLoader.getController();
-            client.setUser("Guest", true);
+            client.setUser("Guest", false);
 
             EmotionalSongsClient.setStage(scene, EmotionalSogsClientController.WIDTH, EmotionalSogsClientController.HEIGHT, true);
             EmotionalSongsClient.getStage().show();
