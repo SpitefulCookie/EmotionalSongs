@@ -5,7 +5,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -160,39 +159,38 @@ public class GUIUtilities {
      * TODO document
      */
     protected void setImages(){
-            try{
-                addImages("close", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/closeIcon.png")));
-                addImages("eye", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/view.png")));
-                addImages("eyeCrossed", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/hide.png")));
-                addImages("success", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/correct15px.png")));
-                addImages("failure", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/failure15px.png")));
-                addImages("fire", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/fire.png")));
-            }catch (IOException e){
-                e.printStackTrace();
-            }
+        // Se questo viene invocato solamente alla creazione di una nuova istanza di GUIUtilities, ha senso metterlo in un metodo a parte invece che nel costruttore?
+        try{
+            addImages("close", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/closeIcon.png")));
+            addImages("eye", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/view.png")));
+            addImages("eyeCrossed", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/hide.png")));
+            addImages("success", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/correct15px.png")));
+            addImages("failure", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/failure15px.png")));
+            addImages("fire", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/fire.png")));
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     /**
      * TODO document
      */
     protected void addImages(String key, Image image){
-            // prima di inserire l'immagine verifico se già esiste
-            if(!images.containsKey(key)){
-                images.put(key, image);
-            }else{
-                System.out.println("immagine già esistente");
-            }
+        // prima d'inserire l'immagine verifico se già esiste
+        if(!images.containsKey(key)){
+            images.put(key, image);
+        }else{
+            System.out.println("immagine già esistente");
+        }
     }
 
     /**
      * TODO document
      */
     protected Image getImage(String key){
-            // se la hash map contiene la kay passata come parametro allora restituisci l'immagine associata alla chiave
-            if(images.containsKey(key)) {
-                return images.get(key);
-            }else{ // altrimenti restituisci null
-                return null;
-            }
-        }
+
+        // se la hash map contiene la key passata come parametro allora restituisci l'immagine associata alla chiave
+        if(images.containsKey(key)) { return images.get(key);}
+        else{ return null;}// altrimenti restituisci null
+    }
 }

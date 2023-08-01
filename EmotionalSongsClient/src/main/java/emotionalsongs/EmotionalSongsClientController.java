@@ -1,6 +1,5 @@
 package emotionalsongs;
 
-import javafx.application.Preloader;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,27 +9,24 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.NoSuchObjectException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ResourceBundle;
 
 /*
-TO DO : risolvere problema resize della finestra
+TODO : risolvere problema resize della finestra
  */
 
-public class EmotionalSogsClientController implements Initializable {
+public class EmotionalSongsClientController implements Initializable {
 
     protected static final int HEIGHT = 750;
     protected static final int WIDTH = 1200;
@@ -40,26 +36,16 @@ public class EmotionalSogsClientController implements Initializable {
 
     private Stage exitStage;
 
-    @FXML
-    private BorderPane pane;
-    @FXML
-    private BorderPane dynamicPane;
-    @FXML
-    private Button closeBtn;
-    @FXML
-    private Button maximizedStageBtn;
-    @FXML
-    private Button minimizeStageBtn;
-    @FXML
-    private Button searchBtn;
-    @FXML
-    private Button playlistBtn;
-    @FXML
-    private Button userBtn;
-    @FXML
-    private Button exitBtn;
-    @FXML
-    //private Tooltip exitTooltip;
+    @FXML private BorderPane pane;
+    @FXML private BorderPane dynamicPane;
+    @FXML private Button closeBtn;
+    @FXML private Button maximizedStageBtn;
+    @FXML private Button minimizeStageBtn;
+    @FXML private Button searchBtn;
+    @FXML private Button playlistBtn;
+    @FXML private Button userBtn;
+    @FXML private Button exitBtn;
+    // @FXML private Tooltip exitTooltip;
 
     private double X;
     private double Y;
@@ -68,6 +54,7 @@ public class EmotionalSogsClientController implements Initializable {
 
     private static boolean isGuest;
 
+
     /**
      * TODO document
      * @param url
@@ -75,6 +62,8 @@ public class EmotionalSogsClientController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        EmotionalSongsClient.registerClient();
         // set Tooltip delay
         // exitTooltip.setShowDelay(new Duration(1));
 
@@ -97,6 +86,7 @@ public class EmotionalSogsClientController implements Initializable {
         /*Stage stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
         stage.close();*/
         EmotionalSongsClient.getStage().close();
+        EmotionalSongsClient.unexportClient();
     }
 
     /**
@@ -167,7 +157,7 @@ public class EmotionalSogsClientController implements Initializable {
     public void handleSearchButtonAction(){
         System.out.println("search button cliecked");
         /*
-        TO DO : finire di implementare il search pane
+        TODO : finire di implementare il search pane
          */
         setDynamicPane("search.fxml");
     }
@@ -179,7 +169,7 @@ public class EmotionalSogsClientController implements Initializable {
     public void handlePlaylistButtonAction(){
         System.out.println("playlist button clicked");
          /*
-        TO DO : finire di implementare il playlist pane
+        TODO : finire di implementare il playlist pane
          */
         setDynamicPane("allPlaylist.fxml");
     }
@@ -191,7 +181,7 @@ public class EmotionalSogsClientController implements Initializable {
     public void handleUserButtonAction(){
         System.out.println("user button cliked, isGuest ? " + isGuest);
         /*
-        TO DO : finire di implementare il User pane
+        TODO : finire di implementare il User pane
          */
         if(isGuest){ // è guest
             // TODO creare il file fxml per l'utente guest e settarlo.

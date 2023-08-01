@@ -13,13 +13,13 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import javax.crypto.Cipher;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.rmi.RemoteException;
 import java.security.PublicKey;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -63,7 +63,9 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        Image closeIcon = null;
+        EmotionalSongsClient.registerClient();
+
+        Image closeIcon;
 
         guiUtilities = GUIUtilities.getInstance();
 
@@ -90,14 +92,16 @@ public class LoginController implements Initializable {
      */
     @FXML protected void handleContinueAsGuest(){
         System.out.println("Continue as guest clicked!");
+
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("emotionalSongsClient.fxml"));
+            //Scene scene = new Scene(FXMLLoader.load(new File("emotionalSongsClient.fxml").toURI().toURL())); TODO remove
             Scene scene = new Scene(fxmlLoader.load());
 
-            EmotionalSogsClientController client = fxmlLoader.getController();
-            client.setUser("Guest", false);
+            EmotionalSongsClientController client = fxmlLoader.getController();
+            client.setUser("Guest", true);
 
-            EmotionalSongsClient.setStage(scene, EmotionalSogsClientController.WIDTH, EmotionalSogsClientController.HEIGHT, true);
+            EmotionalSongsClient.setStage(scene, EmotionalSongsClientController.WIDTH, EmotionalSongsClientController.HEIGHT, true);
             EmotionalSongsClient.getStage().show();
 
         }catch(IOException e){
@@ -110,7 +114,7 @@ public class LoginController implements Initializable {
      */
     @FXML protected void handleRegisterButton() {
         try {
-            EmotionalSongsClient.setStage(new Scene(EmotionalSongsClient.getLoader().load(EmotionalSongsClient.class.getResource("UserRegistration.fxml") )), UserRegistrationController.WIDTH, UserRegistrationController.HEIGHT, true);
+            EmotionalSongsClient.setStage(new Scene(FXMLLoader.load(Objects.requireNonNull(EmotionalSongsClient.class.getResource("UserRegistration.fxml")))), UserRegistrationController.WIDTH, UserRegistrationController.HEIGHT, true);
 
             EmotionalSongsClient.getStage().show();
         } catch (IOException e){
@@ -126,6 +130,7 @@ public class LoginController implements Initializable {
     @FXML protected void handleCloseButtonAction(ActionEvent event){
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
         stage.close();
+        EmotionalSongsClient.unexportClient();
     }
 
     /**
@@ -194,19 +199,23 @@ public class LoginController implements Initializable {
 
             try{
 
-                if(!EmotionalSongsClient.auth.userLogin(username, RSA_Encrypt(pwd))){ // L'username o la password sono errati (Invertire la logica dell'IF?)
+                if(EmotionalSongsClient.auth.userLogin(username, RSA_Encrypt(pwd))){
+
+                    System.out.println("User logged in!"); // TODO Qui verrà visualizzata la schermata principale
+
+
+
+                } else{ // Le credenziali sono errate
 
                     loginFailedLabel.setText("Invalid username or password");
                     loginFailedLabel.setStyle(errorMessage);
                     loginFailedLabel.setVisible(true);
 
-                } else{
-                    System.out.println("User logged in!"); // Qui verrà visualizzata la schermata principale
                 }
 
             } catch (RemoteException e) {
 
-                Dialog<String> dialog = new Dialog<String>();
+                Dialog<String> dialog = new Dialog<>();
                 dialog.setTitle("Errore");
 
                 ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
@@ -274,37 +283,27 @@ public class LoginController implements Initializable {
      */
     @FXML protected void moveWindow() {
 
-        this.anchorPane.setOnMousePressed(new EventHandler<MouseEvent>() {
-            //xOffset = stage.getX() - event.getX() ;
-            //yOffset = stage.getY() - event.getY() ;
+        this.anchorPane.setOnMousePressed(event -> {
 
-            @Override
-            public void handle(MouseEvent event) {
+            xOffset = event.getScreenX() - stage.getX();
+            yOffset = event.getScreenY() - stage.getY();
 
-                xOffset = event.getScreenX() - stage.getX();
-                yOffset = event.getScreenY() - stage.getY();
-
-            }
         });
 
-        this.anchorPane.setOnMouseDragged(new EventHandler<MouseEvent>() {
+        this.anchorPane.setOnMouseDragged(event -> {
 
-            @Override
-            public void handle(MouseEvent event){
-
-                if (xOffset == 0 && yOffset==0) {
-                    // questa porzione di codice è necessaria per evitare che la finestra snappi alle coordinate 0,0 (cosa che avviene alla primo trascinamento della schermata)
-                    calculateGap(event);
-                }
-
-                stage.setX(event.getScreenX() - xOffset);
-                stage.setY(event.getScreenY() - yOffset);
+            if (xOffset == 0 && yOffset==0) {
+                // questa porzione di codice è necessaria per evitare che la finestra snappi alle coordinate 0,0 (cosa che avviene alla primo trascinamento della schermata)
+                calculateGap(event);
             }
+
+            stage.setX(event.getScreenX() - xOffset);
+            stage.setY(event.getScreenY() - yOffset);
         });
 
     }
 
-    public byte[] RSA_Encrypt(String data){
+    protected static byte[] RSA_Encrypt(String data){
         try {
             PublicKey pk = EmotionalSongsClient.auth.getPublicKey();
             Cipher encryptCipher = Cipher.getInstance("RSA");

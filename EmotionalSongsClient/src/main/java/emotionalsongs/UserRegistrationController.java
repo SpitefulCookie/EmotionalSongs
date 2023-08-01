@@ -1,5 +1,13 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -13,35 +21,41 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Locale;
+import java.rmi.RemoteException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
- * TODO document, add minimize window button
+ * The controller class for the user registration view.
+ *
+ * This class implements the necessary functionality to handle user registration in the application.
+ * It initializes GUI components, sets up event listeners, and handles user input validation.
+ * The class also provides methods to calculate the strength of passwords, check username availability,
+ * and handle registration confirmation actions.
+ *
  */
 public class UserRegistrationController implements Initializable {
 
+    // Constants for GUI dimensions
     protected static final int HEIGHT = 750;
     protected static final int WIDTH = 800;
 
+    // Variables to store the initial mouse cursor offset for window dragging
     private static double xOffset = 0;
     private static double yOffset = 0;
 
     private GUIUtilities guiUtilities;
 
-    private static String errorMessage = "-fx-text-fill: #FF5959;";
-    private static String warningMessage = "-fx-text-fill: #FF7600;";
+    // CSS styles for various message types
+    private static final String errorMessage = "-fx-text-fill: #FF5959;";
+    private static final String warningMessage = "-fx-text-fill: #FF7600;";
+    private static final String successMessage = "-fx-text-fill: #1FB57B;";
 
-    String successMessage = "-fx-text-fill: #1FB57B;";
-
+    // FXML fields representing various input components in the registration form
     @FXML private TextField nomeField;
     @FXML private TextField cognomeField;
     @FXML private TextField codFiscField;
@@ -62,20 +76,31 @@ public class UserRegistrationController implements Initializable {
     @FXML private Button closeBtn;
     @FXML private Pane pane;
 
+    // Images used for UI elements // todo load them separately?
     private Image failureIcon;
     private Image successIcon;
-    private Image cross;
     private Image eye;
     private Image eyeCrossed;
     private Boolean isPwdDisplayed = false;
 
     /**
-     * TODO document
-     * @param url
-     * @param resourceBundle
+     * Initializes the GUI components and sets up the initial state of the application window.
+     *
+     * This method is called automatically when the FXML file associated with this controller is loaded. It serves as the
+     * initialization method for the GUI components and the application window's initial state.
+     * The method performs the following tasks:
+     * <ul>
+     * <li> Registers the client with the server using `EmotionalSongsClient.registerClient()`.
+     * <li> Initializes `guiUtilities` with the instance of GUIUtilities and Loads the images for the various UI elements.
+     * <li> Configures the close button (`closeBtn`) with the close icon or the "X" character, depending on the availability of the image.
+     * <li> Applies several input constraints to the text input fields.
+     * </ul>
+     *
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        EmotionalSongsClient.registerClient();
 
         guiUtilities = GUIUtilities.getInstance();
 
@@ -83,7 +108,7 @@ public class UserRegistrationController implements Initializable {
         eyeCrossed = guiUtilities.getImage("eyeCrossed");
         successIcon = guiUtilities.getImage("success");
         failureIcon = guiUtilities.getImage("failure");
-        cross = guiUtilities.getImage("close");
+        Image cross = guiUtilities.getImage("close");
         eyeBtn.setText("");
 
         eyeBtn.setGraphic(new ImageView(eye));
@@ -105,106 +130,123 @@ public class UserRegistrationController implements Initializable {
         GUIUtilities.forceTextInput(provField, 2);
         GUIUtilities.forceNumericInput(capField, 5);
 
-        pwdField.textProperty().addListener(new ChangeListener<String>() {
+        addPwdChangeListener(pwdField, pwdQualityLabel, pwdQualityIndicator);
+        addPwdChangeListener(overlappingPasswordTF, pwdQualityLabel, pwdQualityIndicator);
 
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+    }
 
-                if (newValue.contains("\"")|| newValue.contains("\'") || newValue.contains("<")|| newValue.contains(">")) {
-                    String s = pwdField.getText().substring(0, pwdField.getText().length()-1);
-                    pwdField.setText(s);
-                } else {
+    /**
+     * Adds a password change listener to the specified TextField and updates associated visual indicators.
+     *
+     * This method adds a password change listener to the provided TextField (`field`). When the text of the TextField changes
+     * (e.g., when the user types or deletes characters), the password strength is evaluated using the `checkPasswordStrength` method.
+     * Based on the password strength, the method also updates the appearance of the UI elements meant to visually indicate the password's strength.
+     *
+     * Additionally, the method checks for certain forbidden characters (e.g., double quotes, single quotes, less than, and greater than symbols)
+     * in the password and, if detected, they are removed from the password text.
+     *
+     * @param field               The TextField to which the password change listener will be added.
+     * @param pwdQualityLabel     The Label that will display the password strength quality (e.g., "Poor", "Medium", "Excellent").
+     * @param pwdQualityIndicator The ProgressBar that visually represents the password strength level.
+     */
+    private static void addPwdChangeListener(TextField field, Label pwdQualityLabel, ProgressBar pwdQualityIndicator){
 
-                    int strength = checkPasswordStrength(pwdField.getText());
+        field.textProperty().addListener((observable, oldValue, newValue) -> {
 
-                    switch (strength) {
-                        case 0:
-                            pwdQualityIndicator.setStyle(null);
-                            pwdQualityLabel.setVisible(false);
-                            break;
+            if (newValue.contains("\"")|| newValue.contains("'") || newValue.contains("<")|| newValue.contains(">")) {
+                String s = field.getText().substring(0, field.getText().length()-1);
+                field.setText(s);
+            } else {
 
-                        case 1:
-                            pwdQualityLabel.setText("Poor");
-                            pwdQualityLabel.setStyle(errorMessage);
-                            pwdQualityLabel.setVisible(true);
-                            break;
+                int strength = checkPasswordStrength(field.getText());
 
-                        case 2:
-                            pwdQualityLabel.setText("Medium");
-                            pwdQualityLabel.setStyle(warningMessage);
-                            pwdQualityLabel.setVisible(true);
-                            break;
-
-                        case 3:
-                            pwdQualityLabel.setText("Excellent");
-                            pwdQualityLabel.setStyle(successMessage);
-                            pwdQualityLabel.setVisible(true);
-                            break;
-
+                switch (strength) {
+                    case 0 -> {
+                        pwdQualityIndicator.setStyle(null);
+                        pwdQualityLabel.setVisible(false);
                     }
-
-                    pwdQualityIndicator.setProgress((double) strength / 3);
+                    case 1 -> {
+                        pwdQualityLabel.setText("Poor");
+                        pwdQualityLabel.setStyle(errorMessage);
+                        pwdQualityLabel.setVisible(true);
+                    }
+                    case 2 -> {
+                        pwdQualityLabel.setText("Medium");
+                        pwdQualityLabel.setStyle(warningMessage);
+                        pwdQualityLabel.setVisible(true);
+                    }
+                    case 3 -> {
+                        pwdQualityLabel.setText("Excellent");
+                        pwdQualityLabel.setStyle(successMessage);
+                        pwdQualityLabel.setVisible(true);
+                    }
                 }
-            }
 
+                pwdQualityIndicator.setProgress((double) strength / 3);
+            }
         });
 
     }
 
     /**
-     * TODO document
-     * @param pwd
-     * @return
+     * Determines if the provided password contains at least one special character.
+     *
+     * This method checks if the provided password contains at least one special character. Special characters
+     * are any characters that are not letters (both uppercase and lowercase) or digits. The method uses a regular
+     * expression to match any character that is not in the set of letters (both uppercase and lowercase) and digits.
+     * If at least one special character is found in the password, the method returns true; otherwise, it returns false.
+     *
+     * @param pwd The password to check for the presence of special characters.
+     * @return true if the password contains at least one special character, false otherwise.
      */
-    private static int checkPasswordStrength(String pwd){
+    private static boolean containsSpecialCharacter(String pwd) {return pwd.matches(".*[^a-zA-Z0-9].*");}
 
-            int len = pwd.length();
-            int upChars=0, lowChars=0;
-            int special=0, digits=0;
+    /**
+     * Checks the strength of the provided password.
+     *
+     * This method evaluates the strength of the provided password based on several factors, including password length,
+     * the presence of uppercase letters, lowercase letters, digits, and special characters. The password strength is
+     * assessed by awarding complexity points for each of these components. A password with a higher complexity score
+     * is considered stronger. The method returns an integer representing the password's strength level:
+     * <ul>
+     * <li> Excellent password (3) - Contains a mix of uppercase letters, lowercase letters, digits, and special characters,
+     *                       with a length of at least 10 characters.
+     * <li> Medium password (2) - Contains a mix of uppercase letters, lowercase letters, digits, and special characters,
+     *                       but either has a length less than 10 characters or lacks one of the components.
+     * <li> Weak password (1) - Contains at least one component (uppercase letters, lowercase letters, digits, or special
+     *                      characters) but lacks others, making it relatively easy to guess.
+     * <li> Empty password (0) - The password is empty.
+     * </ul>
+     * @param pwd The password to evaluate for its strength.
+     * @return An integer representing the password strength level (0 to 3).
+     */
+    private static int checkPasswordStrength(String pwd) {
+        int len = pwd.length();
+        int complexity = 0;
 
-            for(int i=0; i<len; i++){
+        if (len >= 10) complexity++; // Password length is an important factor in strength.
 
-                if(Character.isUpperCase(pwd.charAt(i)))
-                    upChars++;
-                else if(Character.isLowerCase(pwd.charAt(i)))
-                    lowChars++;
-                else if(Character.isDigit(pwd.charAt(i)))
-                    digits++;
-                else{
-                    if(pwd.charAt(i)=='<' || pwd.charAt(i)=='>'){
-                        System.out.println("\nThe Password is Malicious!");
-                        return -1;
-                    } else {
-                        special++;
-                    }
-                }
-            }
+        if (containsSpecialCharacter(pwd)) complexity++; // Check for the presence of at least one special character.
 
-        if(upChars!=0 && lowChars!=0 && digits!=0 && special!=0) {
-            if(len>=10 && (special+digits)>= len/5) {
-                /*
-                 * Se il numero di caratteri numerici e speciali è almeno 1/5 della password, questa sarà ritenuta
-                 * altamente sicura
-                 */
-                return 3; //strong
-            } else {
-                return 2; //med strength
-            }
-        } else if (lowChars!=0 && (upChars!=0 || digits==0 || special==0)){
-            if(len>12){
-                return 2;
-            } else
-                return 1;
-        } else if (len == 0) { // password vuota
-            return 0;
-        } else{ // tutti gli altri casi
-            return 1;
+        // Check for the presence of uppercase letters, lowercase letters, and digits.
+        if (pwd.matches(".*[A-Z].*")) complexity++;
+        if (pwd.matches(".*[a-z].*")) complexity++;
+        if (pwd.matches(".*\\d.*")) complexity++;
+
+        // Assess password strength based on complexity.
+        if (complexity >= 4) {
+            return 3; // Strong password.
+        } else if (complexity >= 2) {
+            return 2; // Medium password.
+        } else if (complexity >= 1) {
+            return 1; // Weak password.
+        } else {
+            return 0; // Empty or very weak password (no characters).
         }
-
     }
 
     /**
-     * TODO document
+     * Toggles the visibility of the entered password between hidden and displayed.
      */
     @FXML private void viewPwd(){
 
@@ -224,23 +266,58 @@ public class UserRegistrationController implements Initializable {
 
     }
 
+    /**
+     * Handles the action when the close button is clicked.
+     *
+     * This method is triggered when the close button is clicked on the JavaFX stage (window). It performs
+     * the necessary actions to close the stage. Firstly, it retrieves the current stage using the event
+     * object and the source of the event, which is assumed to be the close button. Then, it closes the
+     * stage, effectively closing the associated window. Additionally, the method calls the
+     * `EmotionalSongsClient.unexportClient()` method to un-export the RMI client, performing any cleanup
+     * or resource release associated with the RMI client before closing the stage.
+     *
+     * @param event The ActionEvent triggered when the close button is clicked.
+     */
     @FXML protected void handleCloseButtonAction(ActionEvent event){
         Stage stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
         stage.close();
+
+        EmotionalSongsClient.unexportClient();
     }
 
+    /**
+     * Handles the action when the cancel button is clicked.
+     *
+     * This method is triggered when the cancel button is clicked in the user registration form- thus
+     * annulling the user registration process.
+     *
+     * Upon clicking on the cancel button, the stage will be changed to the login screen.
+     * Additionally, the method calls the `EmotionalSongsClient.unexportClient()` method to un-export
+     * the RMI client, performing any cleanup or resource release associated with the RMI client before
+     * transitioning to the login screen.
+     *
+     */
     @FXML protected void handleCancelButton(){
         try {
-            EmotionalSongsClient.setStage(new Scene(EmotionalSongsClient.getLoader().load(EmotionalSongsClient.class.getResource("login.fxml"))), LoginController.WIDTH, LoginController.HEIGHT, true);
+            EmotionalSongsClient.setStage(new Scene(FXMLLoader.load(Objects.requireNonNull(EmotionalSongsClient.class.getResource("login.fxml")))), LoginController.WIDTH, LoginController.HEIGHT, true);
             EmotionalSongsClient.getStage().show();
+            EmotionalSongsClient.unexportClient();
         } catch (IOException e){
-            e.printStackTrace();
-            // TODO Auto generated stub
+            //
         }
     }
 
+    /**
+     * Verifies the user input in the registration form and checks for validity.
+     *
+     * This method performs various checks on the input fields in the registration form,
+     * including name, surname, CF, email, address details, username and password.
+     * It sets the appropriate error styles for invalid fields and updates prompt texts if necessary.
+     *
+     * @return true if user input is valid, false if there are errors in any input field.
+     */
+    private boolean verifyUserInput(){
 
-    @FXML protected void handleConfirmButton(){
         boolean isInputValid = true;
 
         if(nomeField.getText().isBlank()){
@@ -261,7 +338,7 @@ public class UserRegistrationController implements Initializable {
 
         } else{ GUIUtilities.setDefaultStyle(codFiscField);}
 
-        if (emailField.getText().isBlank() | !emailField.getText().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$") ){
+        if (emailField.getText().isBlank() | !emailField.getText().matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$") ){
 
             GUIUtilities.setErrorStyle(emailField);
             if(!emailField.getText().isBlank())
@@ -273,7 +350,7 @@ public class UserRegistrationController implements Initializable {
         if (viaField.getText().isBlank()){
             GUIUtilities.setErrorStyle(viaField);
             isInputValid = false;
-        } else{GUIUtilities.setDefaultStyle(emailField);}
+        } else{GUIUtilities.setDefaultStyle(viaField);}
 
         if (numberField.getText().isBlank() | !numberField.getText().matches("\\d.*") ){
             GUIUtilities.setErrorStyle(numberField);
@@ -296,8 +373,8 @@ public class UserRegistrationController implements Initializable {
             GUIUtilities.setErrorStyle(capField);
             isInputValid = false;
         } else{GUIUtilities.setDefaultStyle(capField);}
-
-        if (usernameField.getText().isBlank() | checkUsernameAvailability()) { // TODO aggiungere controllo sulla disponibilità dell'username (l'utente potrebbe non aver cliccato "controlla username" oppure l'username scelto potrebbe non essere disponibile)
+        // Sanity check: checkUsernameAvailability is negated because these checks invalidate the user input
+        if (usernameField.getText().isBlank() | !checkUsernameAvailability()) {
             GUIUtilities.setErrorStyle(usernameField);
             isInputValid = false;
         } else {GUIUtilities.setDefaultStyle(usernameField);}
@@ -306,7 +383,7 @@ public class UserRegistrationController implements Initializable {
             if (pwdField.getText().isBlank()){
                 GUIUtilities.setErrorStyle(pwdField);
                 isInputValid = false;
-            } else{GUIUtilities.setDefaultStyle(pwdField);} // TODO verify behaviour with hidden field
+            } else{GUIUtilities.setDefaultStyle(pwdField);}
 
         } else{
             if (overlappingPasswordTF.getText().isBlank()){
@@ -315,27 +392,69 @@ public class UserRegistrationController implements Initializable {
             } else{GUIUtilities.setDefaultStyle(overlappingPasswordTF);}
         }
 
-        if(isInputValid){ // TODO inserire l'utente nel db - Come trasferire i dati? RSAEncription?
+        return isInputValid;
 
-            System.out.println(
-                    "Nome: " + nomeField.getText()
-                    + "\nCognome: " + cognomeField.getText()
-                    + "\nCF: " + codFiscField.getText()
-                    + "\nEmail: " + emailField.getText()
-                    + "\nIndirizzo: " + viaField.getText() + " " + numberField.getText() + ", " + comuneField.getText() + " ("+provField.getText().toUpperCase(Locale.ROOT)+ ") " + capField.getText()
-                    +"\nUsername: " + usernameField.getText()
-                    + "\nPassword: " + pwdField.getText()
-                    +"\n"
-            );
+    }
+
+    /**
+     * Handles the confirmation button action in the registration form.
+     *
+     * This method is invoked when the user clicks on the confirmation button in the registration form.
+     * It first calls the `verifyUserInput` method to validate the user input in the form. If the input is valid,
+     * the method retrieves the user's details and constructs a string containing the user's data.
+     * It then encrypts the user data using RSA encryption and sends it to the server to complete the user registration.
+     *
+     * If the user input is not valid, the method does not proceed with the registration and does nothing.
+     */
+    @FXML protected void handleConfirmButton(){
+
+        if(verifyUserInput()){
+
+            String userData =
+                cognomeField.getText() +" "+ nomeField.getText() +"&SEP&"+
+                codFiscField.getText() +"&SEP&"+
+                viaField.getText() +"&SEP&"+
+                numberField.getText() +"&SEP&"+
+                capField.getText() +"&SEP&"+
+                comuneField.getText() +"&SEP&"+
+                provField.getText() +"&SEP&"+
+                emailField.getText() +"&SEP&"+
+                usernameField.getText() +"&SEP&"+
+                pwdField.getText();
+
+            try {
+                EmotionalSongsClient.auth.registrazione(LoginController.RSA_Encrypt(userData));
+
+            } catch (RemoteException e){
+
+                Dialog<String> dialog = new Dialog<>();
+                dialog.setTitle("Errore");
+
+                ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+                Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
+
+                dialogStage.getIcons().add(guiUtilities.getImage("failure"));
+
+                dialog.setContentText("È stato riscontrato un errore. Ritentare e, se l'errore persiste, riavviare l'applicazione.");
+
+                dialog.getDialogPane().getButtonTypes().add(type);
+                dialog.showAndWait();
+
+            }
 
         }
 
     }
 
-
     /**
-     * TODO document
-     * @param event
+     * Calculates the gap between the mouse cursor position and the top-left corner of the application window.
+     *
+     * This method is used to calculate the gap between the current mouse cursor position and the top-left corner of
+     * the application window (EmotionalSongsClient).
+     * The values updated within this method are used to move the application window.
+     *
+     *
+     * @param event The MouseEvent representing the mouse event that triggered the calculation.
      */
     private void calculateGap(MouseEvent event){
         xOffset = event.getScreenX() - EmotionalSongsClient.getStage().getX();
@@ -343,71 +462,93 @@ public class UserRegistrationController implements Initializable {
     }
 
     /**
-     * TODO document put in its own class
+     * Enables the dragging behavior of the application window using mouse events.
+     *
+     * This method sets up the dragging behavior of the application window (EmotionalSongsClient) using mouse events.
+     * When called, the method assigns two event handlers to the underlying pane (`pane`) of the application window:
+     * <ol>
+     * <li> OnMousePressed: This event handler is triggered when the user presses the mouse button while the cursor is
+     *    within the boundaries of the pane. It calculates the initial offset (`xOffset` and `yOffset`) between the
+     *    mouse cursor position and the top-left corner of the application window.
+     * <li> OnMouseDragged: This event handler is triggered when the user moves the mouse cursor after pressing the mouse
+     *    button on the pane. It updates the position of the application window according to the cursor movement, thereby
+     *    simulating the dragging behavior of the window.
+     * </ol>
+     *
+     *
      */
     @FXML protected void moveWindow() {
 
-        this.pane.setOnMousePressed(new EventHandler<MouseEvent>() {
+        this.pane.setOnMousePressed(event -> {
 
-            @Override
-            public void handle(MouseEvent event) {
+            xOffset = event.getScreenX() - EmotionalSongsClient.getStage().getX();
+            yOffset = event.getScreenY() - EmotionalSongsClient.getStage().getY();
 
-                xOffset = event.getScreenX() - EmotionalSongsClient.getStage().getX();
-                yOffset = event.getScreenY() - EmotionalSongsClient.getStage().getY();
-
-            }
         });
 
-        this.pane.setOnMouseDragged(new EventHandler<MouseEvent>() {
+        this.pane.setOnMouseDragged(event -> {
 
-            @Override
-            public void handle(MouseEvent event){
-
-                if (xOffset == 0 && yOffset==0) {
-                    // evita che la finestra snappi alle coordinate 0,0 (cosa che avviene alla primo trascinamento della schermata)
-                    calculateGap(event);
-                }
-
-                EmotionalSongsClient.getStage().setX(event.getScreenX() - xOffset);
-                EmotionalSongsClient.getStage().setY(event.getScreenY() - yOffset);
+            if (xOffset == 0 && yOffset==0) {
+                // evita che la finestra snappi alle coordinate 0,0 (cosa che avviene alla primo trascinamento della schermata)
+                calculateGap(event);
             }
+
+            EmotionalSongsClient.getStage().setX(event.getScreenX() - xOffset);
+            EmotionalSongsClient.getStage().setY(event.getScreenY() - yOffset);
         });
 
     }
 
     /**
-     * TODO document and implement checks on the db side - the outcome is currently random
+     * Checks the availability of the entered username.
+     *
+     * This method checks the availability of the entered username.
+     * If the username is not blank, and it is not taken yet, the method displays a success icon and
+     * message indicating the availability.
+     * If the username is already taken or invalid, the method displays a failure icon and message, and
+     * changes the appearance of the username field to reflect the username's unavailability.
+     *
+     * If an exception occurs during the process, such as inability to connect to the server, a dialog box is shown
+     * with an error message indicating the issue.
+     *
+     * @return true if the username is available, false if it is already taken or an exception occurs.
      */
     @FXML protected boolean checkUsernameAvailability() {
 
         try {
 
-            boolean exists = EmotionalSongsClient.auth.usernameExists(usernameField.getText());
+            if(!usernameField.getText().isBlank()) {
 
-            checkUsernameResultLbl.setVisible(true);
-            checkUsernameResultImg.setVisible(true);
+                boolean exists = EmotionalSongsClient.auth.usernameExists(usernameField.getText());
 
-            if (!exists){
+                checkUsernameResultLbl.setVisible(true);
+                checkUsernameResultImg.setVisible(true);
 
-                checkUsernameResultImg.setImage(successIcon);
-                checkUsernameResultLbl.setText("Username disponibile");
-                GUIUtilities.setDefaultStyle(usernameField);
+                if (!exists) {
 
-                return true;
+                    checkUsernameResultImg.setImage(successIcon);
+                    checkUsernameResultLbl.setText("Username disponibile");
+                    GUIUtilities.setDefaultStyle(usernameField);
 
-            } else{
+                    return true;
 
-                checkUsernameResultImg.setImage(failureIcon);
-                checkUsernameResultLbl.setText("Username non disponibile");
+                } else {
+
+                    checkUsernameResultImg.setImage(failureIcon);
+                    checkUsernameResultLbl.setText("Username non disponibile");
+                    GUIUtilities.setErrorStyle(usernameField);
+                    usernameField.setPromptText("");
+                    return false;
+
+                }
+
+            } else{ // FIXME anche se l'username è preso, il client tenta lo stesso i dati al server (print in console)
                 GUIUtilities.setErrorStyle(usernameField);
-                usernameField.setPromptText("");
-                return false;
-
             }
 
         } catch (Exception e) {
 
-            /*Dialog<String> dialog = new Dialog<String>();
+            Dialog<String> dialog = new Dialog<>();
             dialog.setTitle("Errore");
 
             ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
@@ -418,20 +559,7 @@ public class UserRegistrationController implements Initializable {
             dialog.setContentText("Impossibile contattare il server."); // TODO modify?
 
             dialog.getDialogPane().getButtonTypes().add(type);
-            dialog.showAndWait();*/
-
-            try{
-                Stage connectionFailedStage = new Stage();
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("connectionFailed.fxml"));
-                Scene connectionFailedScene = new Scene(fxmlLoader.load());
-                connectionFailedStage.setScene(connectionFailedScene);
-                connectionFailedStage.initStyle(StageStyle.UNDECORATED);
-                connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
-                connectionFailedStage.setResizable(false);
-                connectionFailedStage.show();
-            }catch(IOException e1){
-                e1.printStackTrace();
-            }
+            dialog.showAndWait();
 
         }
 
@@ -469,9 +597,7 @@ public class UserRegistrationController implements Initializable {
 
         }
 
-        if(somma%26 + 'A' != cf.charAt(15)){return false;}
-
-        return true;
+        return somma % 26 + 'A' == cf.charAt(15);
 
     }
 }
