@@ -203,7 +203,19 @@ public class LoginController implements Initializable {
 
                     System.out.println("User logged in!"); // TODO Qui verrà visualizzata la schermata principale
 
+                    try{
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("emotionalSongsClient.fxml"));
+                        Scene scene = new Scene(fxmlLoader.load());
 
+                        EmotionalSongsClientController client = fxmlLoader.getController();
+                        client.setUser(usernameField.getText(), false);
+
+                        EmotionalSongsClient.setStage(scene, EmotionalSongsClientController.WIDTH, EmotionalSongsClientController.HEIGHT, true);
+
+                    }catch (IOException e1){
+                        // TODO forse rimuovere sollevamento eccezzione
+                        e1.printStackTrace();
+                    }
 
                 } else{ // Le credenziali sono errate
 

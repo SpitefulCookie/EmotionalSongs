@@ -179,7 +179,5 @@ public class EmotionalSongsClient extends Application {
                 auth.registerClient(ping);
         } catch (RemoteException e){}
     }
-
-
 }
 

@@ -53,6 +53,7 @@ public class EmotionalSongsClientController implements Initializable {
     private boolean isMaximized;
 
     private static boolean isGuest;
+    private static String username;
 
 
     /**
@@ -188,6 +189,7 @@ public class EmotionalSongsClientController implements Initializable {
         }else { // non è guest --> è un utente registrato
             // TODO cambiare il nome del documento fxml in RegistredUser
             setDynamicPane("user.fxml");
+            System.out.println("username: " + username);
         }
     }
 
@@ -290,6 +292,9 @@ public class EmotionalSongsClientController implements Initializable {
         // set the Username
         this.userBtn.setText("  " + username);
 
+        // set the username
+        setUsername(username);
+
         // change the value of boolean variable isGuest
         setIsGuest(userIsGuest);
 
@@ -306,6 +311,22 @@ public class EmotionalSongsClientController implements Initializable {
             playlistBtn.setVisible(false);
         }
 
+    }
+
+    /**
+     * TODO document
+     * @param user
+     */
+    public void setUsername(String user){
+        username = user;
+    }
+
+    /**
+     * TODO document
+     * @return
+     */
+    public static String getUsername(){
+        return username;
     }
 
     /**

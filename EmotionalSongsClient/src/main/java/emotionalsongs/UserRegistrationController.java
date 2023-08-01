@@ -442,6 +442,17 @@ public class UserRegistrationController implements Initializable {
 
             }
 
+            try{
+
+                // opening the login page
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
+                Scene scene = new Scene(fxmlLoader.load());
+                EmotionalSongsClient.setStage(scene, LoginController.WIDTH, LoginController.HEIGHT, true);
+
+            }catch(IOException e1){
+                e1.printStackTrace();
+            }
+
         }
 
     }
