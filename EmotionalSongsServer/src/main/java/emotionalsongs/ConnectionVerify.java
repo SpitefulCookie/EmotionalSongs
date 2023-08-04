@@ -1,7 +1,5 @@
 package emotionalsongs;
 
-import javafx.application.Platform;
-
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
@@ -17,7 +15,7 @@ public class ConnectionVerify extends Thread{
     @Override
     public void run(){
 
-        EmotionalSongsServer.mainView.logText("Connection verification service initialized with a "+pingDelay/1000+"sec ping delay.");
+        EmotionalSongsServer.mainView.logText("Connection verification service initialized with a "+pingDelay/1000+"sec ping delay.", true);
 
         while(true){
 
@@ -46,7 +44,7 @@ public class ConnectionVerify extends Thread{
                         AuthManagerImpl.removeClients(disconnected);
                     }
 
-                    EmotionalSongsServer.mainView.logText(msg);
+                    EmotionalSongsServer.mainView.logText(msg, true);
 
                 }
 
@@ -60,7 +58,7 @@ public class ConnectionVerify extends Thread{
 
     protected synchronized void setPingDelay(long d){
         pingDelay = d;
-    } // È necessario usare synchronized se viene eseguita una singola istanza di questo thread?
+    } // TODO È necessario usare synchronized se viene eseguita una singola istanza di questo thread?
 
     protected int getClientsConnected(){
         this.interrupt();
