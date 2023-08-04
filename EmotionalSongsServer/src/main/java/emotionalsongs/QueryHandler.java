@@ -1,6 +1,8 @@
 package emotionalsongs;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Manages database queries and connections for the EmotionalSong application.
@@ -27,9 +29,15 @@ public class QueryHandler {
     private static String DB_Address = "localhost";
     private static String DB_Port = "5432";
 
-    private static final String QUERY_USER_PWD = "SELECT Password FROM UtentiRegistrati WHERE Userid = '%s'";
-    private static final String QUERY_USERNAME_EXISTS = "SELECT COUNT(*) FROM utentiregistrati WHERE userid = '%s'";
-    private static final String QUERY_REGISTER_USER = "INSERT INTO UtentiRegistrati (nome, codicefiscale, via, numerocivico, cap, comune, provincia, email, userid, password) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
+    protected static final String QUERY_USER_PWD = "SELECT Password FROM UtentiRegistrati WHERE Userid = '%s'";
+    protected static final String QUERY_USERNAME_EXISTS = "SELECT COUNT(*) FROM utentiregistrati WHERE userid = '%s'";
+    protected static final String QUERY_REGISTER_USER = "INSERT INTO UtentiRegistrati (nome, codicefiscale, via, numerocivico, cap, comune, provincia, email, userid, password) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
+    protected static final String QUERY_SEARCH_SONG_BY_TITLE = "SELECT * FROM Canzoni WHERE Titolo LIKE '#%s#'";
+    protected static final String QUERY_USER_PLAYLISTS = "SELECT Nome FROM Playlist WHERE UserId = '%s'";
+    protected static final String QUERY_SONGS_IN_PLAYLIST = "SELECT Titolo, Autore, anno, songUUID FROM Canzoni NATURAL JOIN Contiene WHERE Nome = '%s'";
+    protected static final String QUERY_REGISTER_PLAYLIST = "INSERT INTO Playlist (Nome, UserId) VALUES ('%s', '%s')";
+    protected static final String QUERY_REGISTER_SONG_IN_PLAYLIST = "INSERT INTO Contiene (Nome, UserId, SongUUID) VALUES ('%s', '%s', '%s')";
+    protected static final String QUERY_REGISTER_SONG_EMOTION = "INSERT INTO %s (UserId, SongUUID, Punteggio, Note) VALUES ('%s', '%s', '%s', '%s')";
 
     /**
      * Constructs a new QueryHandler object and establishes a database connection using the provided
@@ -50,8 +58,7 @@ public class QueryHandler {
 
         // Singleton Design Pattern
         if(dbConnection == null){
-            // System.out.println( "jdbc:postgresql://"+ DB_Address+":"+DB_Port+"/"+DB_Name +"," + username + ","+ password.toString()); // TODO remove before turning in the project
-            dbConnection = DriverManager.getConnection("jdbc:postgresql://"+ DB_Address+":"+DB_Port+"/"+DB_Name, username, password.toString());
+            dbConnection = DriverManager.getConnection("jdbc:postgresql://"+ DB_Address+":"+DB_Port+"/"+DB_Name, username, password);
             stmt = dbConnection.createStatement();
 
         }
@@ -133,6 +140,7 @@ public class QueryHandler {
         return pwdToBeReturned;
 
     }
+
 
     /**
      * Retrieves the name of the PostgreSQL database being used for the connection.
@@ -227,4 +235,79 @@ public class QueryHandler {
 
     }
 
+    /*  "HashSet gives you an O(1) contains() method but doesn't preserve order." -https://www.baeldung.com/java-hashset-vs-treeset
+        "ArrayList contains() is O(n) but you can control the order of the entries. -https://stackoverflow.com/questions/18706870/java-hashset-vs-array-performance
+        Array if you need to insert anything in between, worst case can be O(n), since you will have to move the data down and make room for the insertion.
+        In Set, you can directly use SortedSet which too has O(n) too but with flexible operations.
+        HashSet provides constant-time performance for most operations like add(), remove() and contains(), versus the log(n) time offered by the TreeSet. "
+     */
+
+    /**
+     * Executes an SQL query with the provided arguments.<br><br>
+     *
+     * This method executes an SQL query using the provided query command and arguments. The query command is a
+     * parameterized SQL query string that includes placeholders for the arguments. The method replaces the placeholders
+     * in the query command with the provided arguments.
+     * This method differs from the method executeUpdate for the type of operations it covers.<br>
+     * This method is meant to be used to retrieve data from the database.
+     *
+     * @param args The arguments to be inserted into the parameterized query command.
+     * @param queryCommand The parameterized SQL query command to execute.
+     */
+    public ArrayList<String[]> executeQuery(final String[] args, final String queryCommand){
+
+        ArrayList<String[]> results = new ArrayList<>();
+
+        try {
+
+            ResultSet set = stmt.executeQuery(String.format(queryCommand, (Object[]) args));
+
+            int numCols = set.getMetaData().getColumnCount();
+            String[] row = new String[numCols];
+
+            while (set.next()) { // Finché vi sono righe...
+
+                for (var i = 1; i< numCols; i++){ // per ciascuna colonna presente nella tabella,
+                    row[i-1] = set.getString(i); // aggiungo la stringa ottenuta al mio array
+                } // una volta ottenuto tutti i valori delle colonne
+
+                results.add(row); // aggiungo la mia riga ai risultati ottenuti e...
+            }
+
+            set.close();
+
+            return results; // restituisco i risultati
+
+        } catch (SQLException e) {
+
+            EmotionalSongsServer.mainView.logError("SQLException thrown while executing query:\n" +String.format(queryCommand, (Object[]) args) + "\nReason: " + e.getMessage());
+
+            return null;
+
+        }
+
+    }
+
+    /**
+     * Executes an SQL update query with the provided arguments.<br><br>
+     *
+     * This method executes an SQL update query using the provided query command and arguments. The query command is a
+     * parameterized SQL query string that includes placeholders for the arguments. The method replaces the placeholders
+     * in the query command with the provided arguments.<br>
+     * This method differs from the method executeQuery for the type of operations it covers.<br>
+     * This method is meant to be used to insert or update data in the database.
+     *
+     * @param args The arguments to be inserted into the parameterized query command.
+     * @param queryCommand The parameterized SQL query command to execute.
+     */
+    public void executeUpdate(final String[] args,  final String queryCommand) {
+
+        try {
+            stmt.executeUpdate(String.format(queryCommand, (Object[]) args));
+        } catch (SQLException e) {
+
+            EmotionalSongsServer.mainView.logError("SQLException thrown while executing update:\n" +String.format(queryCommand, (Object[]) args) + "\nReason: " + e.getMessage());
+        }
+
+    }
 }
