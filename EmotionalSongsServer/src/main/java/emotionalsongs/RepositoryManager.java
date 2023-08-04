@@ -2,16 +2,21 @@ package emotionalsongs;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 
 public interface RepositoryManager extends Remote {
-    Canzone[] ricercaCanzone(String titolo) throws RemoteException; // todo rename method
-    // getUserPlaylist(String user) : ArrayList<String>
-    // getPlaylistSongs(String playlistname): ArrayList<Canzone> // TODO make canzone serializable
-    // getSongEmotions(String SongUUID, String userid) : ArrayList<Emozione> // TODO make Emozione serializable
-    // getSongCollectiveEmotions(String UUID) : int[9]
-    // registerPlaylist(String username, String nomeplaylist)
-    // addSongToPlaylist(String username, Stringa nomePlaylist, ArrayList<String> soongUUIDS)
-    // registerEmotions(ArrayList<Emozione>, String songUUID)
-    //
+
+    // TODO Ho optato per una hashSet invece che una ArrayList per migliori prestazioni (la H.S non garantisce l'ordine degli elementi però non penso che ce ne freghi.
+    HashSet<Canzone> ricercaCanzone(String titolo) throws RemoteException; // todo rename method
+    HashSet<String> getUserPlaylists(String user) throws RemoteException;
+    HashSet<Canzone> getSongsInPlaylist(String playlistName) throws RemoteException;
+    void registerPlaylist (String username, String playlistName, String loggedUser) throws RemoteException;
+    void addSongToPlaylist( String username, String nomePlaylist) throws RemoteException;
+    void registerEmotions(ArrayList<Emozione> emozioniProvate, String songUUID, String userId) throws RemoteException;
+    ArrayList<Emozione> getSongEmotions(String songUUID, String userid) throws RemoteException;
+
+    //int[] getPlaylistSongs(String playlistName) throws RemoteException; // TODO (int[]? che canna avevamo fumato??)
+
 }
