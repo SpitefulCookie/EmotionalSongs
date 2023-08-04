@@ -7,8 +7,7 @@ package emotionalsongs;
  * 
  */
 
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
+import java.io.Serializable;
 
 /**
  * La classe {@code Canzone} rappresenta le informazioni relative a una canzone presente all'interno della repository.
@@ -25,12 +24,12 @@ import java.rmi.server.UnicastRemoteObject;
  *  @author <a href="https://github.com/SpitefulCookie">Della Chiesa Mattia</a>
  *  
  */
-public class Canzone extends UnicastRemoteObject { // change to serializable
+public class Canzone implements Serializable { // change to serializable
 
-    private String titolo;
-    private String songUUID;
-    private String autore;
-    private int anno;
+    private final String titolo;
+    private final String songUUID;
+    private final String autore;
+    private final int anno;
 
     /***
      * Costruisce un oggetto {@code Canzone} a partire dai singoli dati che la descrivono.
@@ -38,11 +37,9 @@ public class Canzone extends UnicastRemoteObject { // change to serializable
      * @param autore un oggetto di tipo {@code String} che rappresenta l'autore della canzone.
      * @param anno un valore {@code int} che indica l'anno di pubblicazione della canzone.
      * @param uuid un oggetto di tipo {@code String} che rappresenta un UUID di tipo 3.
-     * 
-     * @see <a href = https://docs.oracle.com/javase/7/docs/api/java/util/UUID.html#nameUUIDFromBytes(byte[])>UUID.nameUUIDFromBytes()</a>
-     * 
+     *
      */
-    public Canzone(String titolo, String autore, int anno, String uuid) throws RemoteException {
+    public Canzone(String titolo, String autore, int anno, String uuid) {
 
         super();
         this.songUUID = uuid;
@@ -57,7 +54,7 @@ public class Canzone extends UnicastRemoteObject { // change to serializable
      * @param dati un oggetto di tipo {@code String}, formattato secondo lo standard CSV, contenente le informazioni relative ad una canzone.
      * 
      */
-    public Canzone(String dati) throws RemoteException{
+    public Canzone(String dati) {
 
         super();
 
