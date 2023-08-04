@@ -12,24 +12,20 @@ import java.util.HashMap;
 
 public class GUIUtilities {
 
-    private HashMap<String, Image> images;
+    private final HashMap<String, Image> images;
     private static GUIUtilities guiUtilities;
 
     GUIUtilities(){
-        // creao la hashmap
-        images = new HashMap<String, Image>();
+        // creo la hashmap
+        images = new HashMap<>();
         // setto (aggiungo) le varie immagini nella hashmap
         setImages();
     }
 
     // pattern singleton
     public static GUIUtilities getInstance(){
-        if(guiUtilities == null){
-            guiUtilities = new GUIUtilities();
-            return guiUtilities;
-        }else{
-            return guiUtilities;
-        }
+        if(guiUtilities == null){guiUtilities = new GUIUtilities();}
+        return guiUtilities;
     }
 
     /**
@@ -39,19 +35,14 @@ public class GUIUtilities {
      */
     public static void forceTextInput(final TextField tf, final int maxLen) {
 
-        tf.textProperty().addListener(new ChangeListener<String>() {
+        tf.textProperty().addListener((observable, oldValue, newValue) -> {
 
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-
-                if (newValue.matches(".*\\d.*")) {
-                    tf.setText(newValue.replaceAll("\\d", ""));
-                }else if (tf.getText().length() > maxLen) {
-                    String s = tf.getText().substring(0, maxLen);
-                    tf.setText(s);
-                }
+            if (newValue.matches(".*\\d.*")) {
+                tf.setText(newValue.replaceAll("\\d", ""));
+            }else if (tf.getText().length() > maxLen) {
+                String s = tf.getText().substring(0, maxLen);
+                tf.setText(s);
             }
-
         });
     }
 
@@ -61,13 +52,9 @@ public class GUIUtilities {
          */
         public static void forceNumericInput(final TextField tf) {
 
-            tf.textProperty().addListener(new ChangeListener<String>() {
-                @Override
-                public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                    String newValue) {
-                    if (!newValue.matches("\\d*")) {
-                        tf.setText(newValue.replaceAll("[^\\d]", ""));
-                    }
+            tf.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue.matches("\\d*")) {
+                    tf.setText(newValue.replaceAll("[^\\d]", ""));
                 }
             });
 
@@ -80,16 +67,12 @@ public class GUIUtilities {
          */
         public static void forceNumericInput(final TextField tf, final int maxLen) {
 
-            tf.textProperty().addListener(new ChangeListener<String>() {
-                @Override
-                public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                    String newValue) {
-                    if (!newValue.matches("\\d*")) {
-                        tf.setText(newValue.replaceAll("[^\\d]", ""));
-                    }else if (tf.getText().length() > maxLen) {
-                        String s = tf.getText().substring(0, maxLen);
-                        tf.setText(s);
-                    }
+            tf.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue.matches("\\d*")) {
+                    tf.setText(newValue.replaceAll("[^\\d]", ""));
+                } else if (tf.getText().length() > maxLen) {
+                    String s = tf.getText().substring(0, maxLen);
+                    tf.setText(s);
                 }
             });
 
@@ -101,13 +84,10 @@ public class GUIUtilities {
      * @param maxLength
      */
     public static void addTextLimiter(final TextField tf, final int maxLength) {
-        tf.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
-                if (tf.getText().length() > maxLength) {
-                    String s = tf.getText().substring(0, maxLength);
-                    tf.setText(s);
-                }
+        tf.textProperty().addListener((ov, oldValue, newValue) -> {
+            if (tf.getText().length() > maxLength) {
+                String s = tf.getText().substring(0, maxLength);
+                tf.setText(s);
             }
         });
     }
@@ -118,13 +98,9 @@ public class GUIUtilities {
          */
         public static void forceTextInput(final TextField tf) {
 
-            tf.textProperty().addListener(new ChangeListener<String>() {
-                @Override
-                public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                    String newValue) {
-                    if (newValue.matches("\\d*")) {
-                        tf.setText(newValue.replaceAll("[\\d]", ""));
-                    }
+            tf.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue.matches("\\d*")) {
+                    tf.setText(newValue.replaceAll("[\\d]", ""));
                 }
             });
 
@@ -159,7 +135,7 @@ public class GUIUtilities {
      * TODO document
      */
     protected void setImages(){
-        // Se questo viene invocato solamente alla creazione di una nuova istanza di GUIUtilities, ha senso metterlo in un metodo a parte invece che nel costruttore?
+        // TODO Se questo viene invocato solamente alla creazione di una nuova istanza di GUIUtilities, ha senso metterlo in un metodo a parte invece che nel costruttore?
         try{
             addImages("close", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/closeIcon.png")));
             addImages("eye", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/view.png")));
@@ -167,6 +143,7 @@ public class GUIUtilities {
             addImages("success", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/correct15px.png")));
             addImages("failure", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/failure15px.png")));
             addImages("fire", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/fire.png")));
+            addImages("gear", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/gear2.png")));
         }catch (IOException e){
             e.printStackTrace();
         }
