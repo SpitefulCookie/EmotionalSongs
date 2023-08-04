@@ -130,13 +130,13 @@ public class EmotionalSongsClient extends Application {
      * TODO Document
      * @param scene
      * @param width
-     * @param heigth
+     * @param height
      * @param isWindowResizable
      */
-    protected static void setStage(Scene scene, int width, int heigth, boolean isWindowResizable){
+    protected static void setStage(Scene scene, int width, int height, boolean isWindowResizable){
         esStage.close();
         esStage.setWidth(width);
-        esStage.setHeight(heigth);
+        esStage.setHeight(height);
         esStage.setResizable(isWindowResizable);
         esStage.setScene(scene);
         esStage.show();
@@ -177,7 +177,9 @@ public class EmotionalSongsClient extends Application {
         try {
             if(auth!= null)
                 auth.registerClient(ping);
-        } catch (RemoteException e){}
+        } catch (RemoteException e){
+            //
+        }
     }
 }
 
