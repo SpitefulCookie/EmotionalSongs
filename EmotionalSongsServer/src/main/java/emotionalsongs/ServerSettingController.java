@@ -1,5 +1,13 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -11,7 +19,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * TODO Document
+ * Controller class for the server configuration dialog window.
+ *
+ * This class implements the JavaFX Initializable interface, which is automatically called when the associated FXML dialog
+ * is loaded. It initializes the UI components and sets up their behavior for configuring server settings.
+ * The class handles configuring the behavior of the "cancelButton" and "confirmButton" buttons to cancel or save changes
+ * to the server settings, respectively.
  */
 public class ServerSettingController implements Initializable{
 
@@ -22,9 +35,14 @@ public class ServerSettingController implements Initializable{
     @FXML private TextField dbAddressField;
 
     /**
-     * TODO document?
-     * @param url
-     * @param resourceBundle
+     * Initializes the configuration dialog window.
+     *
+     * This method is called automatically when the JavaFX dialog associated with this controller is loaded.
+     * It initializes various UI components and sets up their behavior.
+     * This method is also responsible for configuring the behavior of the "cancelButton" and "confirmButton" buttons.
+     *
+     * @param url The URL of the FXML file.
+     * @param resourceBundle The ResourceBundle associated with the FXML file.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
