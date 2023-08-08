@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="161.0" prefWidth="399.0" styleClass="connectionFailedPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.ConnectionFailedController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="181.0" prefWidth="399.0" styleClass="connectionFailedPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.ConnectionFailedController">
    <children>
       <HBox alignment="CENTER" prefHeight="75.0" prefWidth="471.0">
          <children>
@@ -22,11 +22,13 @@
       </HBox>
       <Label alignment="CENTER" prefHeight="17.0" prefWidth="477.0" text="Impossibile contattare il server. " textFill="#bbbbbb">
          <font>
-            <Font name="Arial Bold" size="20.0" />
+            <Font name="Arial Bold" size="15.0" />
          </font>
       </Label>
+      <Pane prefHeight="22.0" prefWidth="397.0" />
       <Label alignment="CENTER" prefHeight="17.0" prefWidth="411.0" text="Riprova a connetterti al server premendo il pulsante riprova o " textFill="#bbbbbb" />
       <Label alignment="CENTER" prefHeight="17.0" prefWidth="418.0" text="esci dall'applicazione premendo il pulsante esci." textFill="#bbbbbb" />
+      <Pane prefHeight="21.0" prefWidth="397.0" />
       <HBox alignment="CENTER" prefHeight="60.0" prefWidth="397.0">
          <children>
             <Button fx:id="exitButton" mnemonicParsing="false" onAction="#handleExitButtonAction" prefHeight="26.0" prefWidth="100.0" styleClass="annullaButton" stylesheets="@Style/customStyle.css" text="Esci" textFill="#bbbbbb" />
@@ -34,5 +36,6 @@
             <Button fx:id="tryAgainButton" mnemonicParsing="false" onAction="#handleTryAgainButtonAction" prefHeight="26.0" prefWidth="100.0" styleClass="tryAgainButton" stylesheets="@Style/customStyle.css" text="Riprova" textFill="#bbbbbb" />
          </children>
       </HBox>
+      <Pane prefHeight="23.0" prefWidth="397.0" />
    </children>
 </VBox>

@@ -16,25 +16,29 @@
    <children>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Pane prefHeight="92.0" prefWidth="64.0" />
-            <Label alignment="CENTER" maxHeight="103.0" maxWidth="1.7976931348623157E308" prefHeight="92.0" prefWidth="572.0" text="Playlist" textFill="#bbbbbb" HBox.hgrow="ALWAYS">
+            <Pane prefHeight="92.0" prefWidth="217.0" />
+            <Label alignment="CENTER" maxHeight="103.0" maxWidth="1.7976931348623157E308" prefHeight="92.0" prefWidth="457.0" text="Playlist" textFill="#bbbbbb" HBox.hgrow="ALWAYS">
                <font>
-                  <Font name="Arial Bold" size="40.0" />
+                  <Font name="Arial Bold" size="30.0" />
                </font>
             </Label>
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="addPlaylistBtn" maxWidth="50.0" mnemonicParsing="false" onAction="#handleAddPlaylistButtonAction" onMouseExited="#handleMouseExitedAction" onMouseMoved="#handleMouseMovedAction" prefHeight="40.0" prefWidth="147.0" styleClass="addPlaylistButton" stylesheets="@Style/customStyle.css" textFill="#bbbbbb">
+                     <graphic>
+                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/addIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="Arial Bold" size="13.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
             <Pane prefHeight="66.0" prefWidth="0.0" />
-            <Button fx:id="addPlaylistBtn" maxWidth="50.0" mnemonicParsing="false" onAction="#handleAddPlaylistButtonAction" onMouseExited="#handleMouseExitedAction" onMouseMoved="#handleMouseMovedAction" prefHeight="47.0" prefWidth="185.0" styleClass="addPlaylistButton" stylesheets="@Style/customStyle.css" textFill="#bbbbbb">
-               <graphic>
-                  <ImageView fitHeight="32.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@Images/addIcon2.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Button>
             <Pane prefHeight="66.0" prefWidth="12.0" />
          </children>
       </HBox>

@@ -4,13 +4,16 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -23,7 +26,7 @@ TODO :
 public class CreatePlaylistController implements Initializable {
 
     @FXML
-    private TextField namePlaylistField;
+    private TextField playlistNameField;
     @FXML
     private Button annullaBtn;
     @FXML
@@ -43,11 +46,11 @@ public class CreatePlaylistController implements Initializable {
          di errore e disabilito il pulsante di crea playlist in quanto non è possibile creare più playist con lo
          stesso nome.
          */
-        namePlaylistField.textProperty().addListener(new ChangeListener<String>() {
+        playlistNameField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                if(!namePlaylistField.getText().isEmpty()){
-                    if (AllPlaylistController.checkPlaylistName(namePlaylistField.getText())){
+                if(!playlistNameField.getText().isEmpty()){
+                    if (AllPlaylistController.checkPlaylistName(playlistNameField.getText())){
                         existingPlaylistLabel.setVisible(false);
                         createPlaylistBtn.setDisable(false);
                     }else{
@@ -77,7 +80,22 @@ public class CreatePlaylistController implements Initializable {
     @FXML
     public void handleCreatePlaylistButtonAction(){
         // add playlist
-        AllPlaylistController.addNewPlaylist(namePlaylistField.getText());
+        AllPlaylistController.addNewPlaylist(playlistNameField.getText());
+
+        // display the playlist that i have just created
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("selectedPlaylist.fxml"));
+            Node playlist = fxmlLoader.load();
+
+            SelectedPlaylistController selectedPlaylistController = fxmlLoader.getController();
+            selectedPlaylistController.setPlaylist(playlistNameField.getText());
+
+            EmotionalSongsClientController.setDynamicPane(playlist);
+
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
         // close the stage
         closeCreatePlaylistStage(createPlaylistBtn);
     }

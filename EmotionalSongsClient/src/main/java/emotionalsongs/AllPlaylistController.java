@@ -11,6 +11,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -141,7 +143,7 @@ public class AllPlaylistController implements Initializable {
     public static void addNewPlaylist(String playlistName){
         // TODO aggiungere la playlist al DB, invocando il metodo dal server
         playlist.add(playlistName);
-        viewAllPlaylist(); // TODO magari modificare con un metodo che inserisce nel gridPane solo il pane della canzone inserita
+        //viewAllPlaylist(); // TODO remove
     }
 
     /**

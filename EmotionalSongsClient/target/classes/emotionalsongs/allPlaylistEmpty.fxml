@@ -13,25 +13,25 @@
       <Pane prefHeight="140.0" prefWidth="600.0" />
       <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="23.0" prefWidth="600.0" text="Nessuna playlist creata" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
          <font>
-            <Font name="Arial Bold" size="16.0" />
+            <Font name="Arial" size="14.0" />
          </font>
       </Label>
       <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="23.0" prefWidth="600.0" text="creane una ora!" textFill="#bbbbbb">
          <font>
-            <Font name="Arial Bold" size="16.0" />
+            <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <Pane maxHeight="20.0" maxWidth="1.7976931348623157E308" prefHeight="12.0" prefWidth="600.0" VBox.vgrow="ALWAYS" />
-      <Button fx:id="createPlaylistBtn" mnemonicParsing="false" onAction="#handleCreatePlaylistButtonAction" prefHeight="44.0" prefWidth="151.0" styleClass="addPlaylistButtonEmpty" stylesheets="@Style/customStyle.css" text="Crea playlist" textFill="#bbbbbb">
+      <Pane maxHeight="20.0" maxWidth="1.7976931348623157E308" prefHeight="9.0" prefWidth="600.0" />
+      <Button fx:id="createPlaylistBtn" mnemonicParsing="false" onAction="#handleCreatePlaylistButtonAction" prefHeight="40.0" prefWidth="151.0" styleClass="addPlaylistButtonEmpty" stylesheets="@Style/customStyle.css" text="Crea playlist" textFill="#bbbbbb">
          <graphic>
-            <ImageView fitHeight="35.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="31.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Images/addIcon2.png" />
+                  <Image url="@Images/addIcon.png" />
                </image>
             </ImageView>
          </graphic>
          <font>
-            <Font size="15.0" />
+            <Font name="Arial Bold" size="15.0" />
          </font>
       </Button>
    </children>

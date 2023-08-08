@@ -30,6 +30,9 @@ import java.rmi.server.UnicastRemoteObject;
 /**
  * TODO Document
  */
+/*
+TODO: aggiungere a tutte le classi i metodi richiesti dal progetto
+*/
 public class EmotionalSongsClient extends Application {
 
     private static final int PORT = 6789;
@@ -105,9 +108,7 @@ public class EmotionalSongsClient extends Application {
             }catch(IOException e1){
                 e1.printStackTrace();
             }
-
         }
-
     }
 
     /**

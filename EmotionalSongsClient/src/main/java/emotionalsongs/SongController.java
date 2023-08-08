@@ -12,12 +12,12 @@ import java.util.ResourceBundle;
 TODO :
     1- Implementare il comportamente (cosa deve succedere) quando i bottoni AddToPlaylist e viewEmotions vengono
        premuti
-    2- modificare immagine pulsante addToPlaylistBtn ?
+    2- inserire i pulsanti i due pulsanti in un HBox e spostare il comportamento dell mouseExited sulla hBox
  */
 public class SongController implements Initializable {
 
-    private static final int BUTTON_MAX_WIDTH = 200;
-    private static final int BUTTON_MIN_WIDTH = 50;
+    private static final int BUTTON_MAX_WIDTH = 180;
+    private static final int BUTTON_MIN_WIDTH = 45;
 
     @FXML
     private Label songNameLabel;

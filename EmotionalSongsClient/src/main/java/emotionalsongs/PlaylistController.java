@@ -1,12 +1,15 @@
 package emotionalsongs;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -24,6 +27,20 @@ public class PlaylistController{
     protected void handleOpenPlaylistAction(MouseEvent event){
         // TODO implementare apertura playlist selezionata
         System.out.println("Apro la playlist : " + playlistNameLabel.getText());
+
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("selectedPlaylist.fxml"));
+            Node playlist = fxmlLoader.load();
+
+            SelectedPlaylistController selectedPlaylistController = fxmlLoader.getController();
+            selectedPlaylistController.setPlaylist(playlistNameLabel.getText());
+
+            EmotionalSongsClientController.setDynamicPane(playlist);
+
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
     }
 
     /**

@@ -111,6 +111,5 @@ public class EmotionalSongsServer extends Application {
     protected static void setMainViewController(ServerMainViewController server){
         mainView = server;
     }
-
 }
 

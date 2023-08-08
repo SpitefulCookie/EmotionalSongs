@@ -2,6 +2,7 @@ package emotionalsongs;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -22,10 +23,18 @@ public class GUIUtilities {
         setImages();
     }
 
-    // pattern singleton
+    /**
+     * TODO document
+     * @return
+     */
     public static GUIUtilities getInstance(){
-        if(guiUtilities == null){guiUtilities = new GUIUtilities();}
-        return guiUtilities;
+        // pattern singleton
+        if(guiUtilities == null){
+            guiUtilities = new GUIUtilities();
+            return guiUtilities;
+        }else{
+            return guiUtilities;
+        }
     }
 
     /**
@@ -57,7 +66,6 @@ public class GUIUtilities {
                     tf.setText(newValue.replaceAll("[^\\d]", ""));
                 }
             });
-
         }
 
         /**
@@ -133,17 +141,36 @@ public class GUIUtilities {
 
     /**
      * TODO document
+     * @param button
+     */
+    protected void setButtonStyle(Button button, String styleToRemove, String styleToAdd){
+        /*
+        metodo che va a modificare lo style del bottone passato come paramentro, andando a rimuovergli
+        lo styleToRemove e andando ad aggiungerli lo StyleToAdd.
+         */
+        button.getStyleClass().remove(styleToRemove);
+        button.getStyleClass().add(styleToAdd);
+    }
+
+    /**
+     * TODO document
      */
     protected void setImages(){
         // TODO Se questo viene invocato solamente alla creazione di una nuova istanza di GUIUtilities, ha senso metterlo in un metodo a parte invece che nel costruttore?
         try{
-            addImages("close", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/closeIcon.png")));
+            addImages("close", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/closeWindows.png")));
             addImages("eye", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/view.png")));
             addImages("eyeCrossed", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/hide.png")));
             addImages("success", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/correct15px.png")));
             addImages("failure", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/failure15px.png")));
             addImages("fire", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/fire.png")));
             addImages("gear", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/gear2.png")));
+            addImages("openSideBar", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/openIcon.png")));
+            addImages("closeSideBar", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/returnIcon.png")));
+            addImages("search", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/searchIcon.png")));
+            addImages("removeSearch", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/remove.png")));
+            addImages("expandWindow", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/expandIcon.png")));
+            addImages("reduceWindow", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/reduceIcon.png")));
         }catch (IOException e){
             e.printStackTrace();
         }

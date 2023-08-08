@@ -1,5 +1,8 @@
 package emotionalsongs;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -7,7 +10,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -17,43 +19,56 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-/*
-TODO:
-    1- ricareca nel db della canzone cercata
-    2- rendere questa ricerca dinamica con un listener?
-    3- aggiungere una combo box per filtrare la ricerca, quindi per scegliere se cercare per titolo autore o anno
-    4- il key event handleSearchButtonAction forse metterlo a livello di pane e non ha livello di searchBox(come lo è adesso)
+/**
+ * TODO:
+ *  1- mettere il vincolo alla yearLabel che accetta solo l'inserimento di numeri, usando l'apposito metodo della
+ *     classe GUIUtilites
+ *  2- quando viene visualizzata una canzone, verificare se essa è già presente nella lista songsToAdd, e se
+ *     così fosse impostare isAdded su true nel meotodo newSongsFound, così facendo l'utente sà già che quella
+ *     canzone è già nella lista delle canzoni da aggiungere. NOTA: quando avremo l'interazione con il db
+ *     questo controllo deve avvenire sullo songUUID (questo perchè si possono avere canzoni con lo stesso nome)
  */
-public class SearchController implements Initializable {
+public class AddSongsToPlaylistController implements Initializable {
 
-    @FXML private VBox pane;
-    @FXML private TextField searchField;
-    @FXML private TextField yearField;
-    @FXML private Button searchBtn;
     @FXML private Button removeSearchBtn;
+    @FXML private Button addSongsToPlaylistBtn;
     @FXML private Button advancedSearchBtn;
+    @FXML private Button annullaBtn;
     @FXML private Button titleSearchBtn;
     @FXML private Button authorAndYearSearchBtn;
+    @FXML private Button viewSongsAddedBtn;
+    @FXML private TextField searchField;
+    @FXML private TextField yearField;
+    @FXML private Label infoLabel;
+    @FXML private ImageView removeSearchImg;
     @FXML private ScrollPane scrollPane;
     @FXML private GridPane gridPane;
-    @FXML private ImageView removeSearchImg;
-    @FXML private Label infoLabel;
+    @FXML private Label numSongsAddedLabel;
     @FXML private HBox advancedSearchBox;
 
+
+    private static Label numSongsAddedLabel_;
+
+    private static String playlistName;
+    private static IntegerProperty numSongAdded;
+
     private GUIUtilities guiUtilities;
-    private boolean advancedSearchActivated;
     private String filteredSearch;
+
+    private boolean advancedSearchActivated;
+    private static List<Canzone> songsToAdd;
     private List<Node> songsPane;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -61,11 +76,18 @@ public class SearchController implements Initializable {
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
 
-        // create a new guiUtilities object with pattern singleton
-        guiUtilities = GUIUtilities.getInstance();
+        numSongsAddedLabel_ = numSongsAddedLabel;
+
+        numSongAdded = new SimpleIntegerProperty();
 
         // initially the advanced search is not activated
         advancedSearchActivated = false;
+
+        // create a new guiUtilities object with pattern singleton
+        guiUtilities = GUIUtilities.getInstance();
+
+        // initialize the songsPane list, which contains the song that will be added to the playlist
+        songsToAdd = new ArrayList<Canzone>();
 
         // initialize the songsPane list
         songsPane = new ArrayList<Node>();
@@ -124,13 +146,28 @@ public class SearchController implements Initializable {
                 }
             }
         });
+
+        /*
+        add listener to numSongAdded, this listener serves for make viewSongsAddedBtn disable or not and this
+        update must become in "real time" that's why need of this listener
+         */
+        numSongAdded.addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                if(numSongAdded.get() > 0){
+                    viewSongsAddedBtn.setDisable(false);
+                }else{
+                    viewSongsAddedBtn.setDisable(true);
+                }
+            }
+        });
     }
 
     /**
      * TODO document
      */
     @FXML
-    public void handleSearchButtonAction(KeyEvent key){
+    public void handleSearchButtonAction(KeyEvent key) throws RemoteException{ // TODO rimuovere eccezzione
         // TODO finire implementazione con chiamate al db.
 
         // la ricerca viene effettuata quando viene premuto il pulsante di INVIO
@@ -165,7 +202,7 @@ public class SearchController implements Initializable {
                 removeSearchBtn.setVisible(true); // TODO forse rimuovere
                 removeSearchBtn.setDisable(false); // TODO forse rimuovere
                 for (int i = 0; i < 20; i++) { // riempo per prova il gridpane
-                    setNewSongFound("canzone " + i, "autore " + i, i);
+                    setNewSongFound(new Canzone("Canzone" + i, "Autore " + i, 2020, "prova"), false, i);
                 }
             } else {
                 System.out.println("the Text field is empty");
@@ -259,26 +296,95 @@ public class SearchController implements Initializable {
 
     /**
      * TODO document
-     * @param songName
-     * @param authorName
+     */
+    @FXML
+    public void handleViewSongsAddedButtonAction(){
+        // TODO implementare cosa deve accadere quando viene premuto questo pulsante
+        System.out.println("bottone visualizza canzoni aggiunte schiaccato");
+
+        // remove the search
+        handleRemoveSearchButtonAction();
+
+        // add to gridPane the songs added
+        for(int i = 0; i < songsToAdd.size(); i++){
+            setNewSongFound(songsToAdd.get(i), true, i);
+        }
+
+    }
+
+    /**
+     * TODO document
+     */
+    @FXML
+    public void handleAddSongsToPlaylistButtonAction(){
+        // debug
+        System.out.println("add song to playlist button cliked for playlist: " + playlistName);
+
+        // add the songs to the playlist
+        SelectedPlaylistController.addNewSongs(songsToAdd);
+
+        // close the stage
+        closeStage(addSongsToPlaylistBtn);
+    }
+
+    /**
+     * TODO document
+     */
+    @FXML
+    public void handleAnnullaButtonAction(){
+        closeStage(annullaBtn);
+    }
+
+    /**
+     * TODO document
+     */
+    public void handleViewSongsAddedButtonMouseMovedAction(){
+        /*
+        metodo che va a modificare la lunghezza e il testo del viewSongsAddedButton quando il mouse ci passa sopra
+        questo per andare a cerare una specie di 'animazione'
+         */
+        viewSongsAddedBtn.setPrefWidth(275);
+        viewSongsAddedBtn.setText("Visualizza le canzoni aggiunte");
+    }
+
+    /**
+     * TODO document
+     */
+    public void handleViewSongsAddedButtonMouseExitedAction(){
+        /*
+        metodo che va a ripristinare la lunghezza e il testo del viewSongsAddedButton quando il mouse si 'toglie'
+        dal pulsante questo per andare a cerare una specie di 'animazione'
+         */
+        viewSongsAddedBtn.setPrefWidth(40);
+        viewSongsAddedBtn.setText("");
+    }
+
+    /**
+     * TODO document
+     * @param song
+     * @param isAdded
      * @param row
      */
-    private void setNewSongFound(String songName, String authorName, int row){
+    private void setNewSongFound(Canzone song, boolean isAdded, int row){
+        /*
+         isAdded mi indica se la canzone è già stata aggiunta alla lista delle canzoni da aggiungere (songsToAdd),
+         mentre row mi indica la riga del gridPane in cui andare a inserire la canzone
+         */
         try{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("song.fxml"));
-            Node song = fxmlLoader.load();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("songToAdd.fxml"));
+            Node song_pane = fxmlLoader.load();
 
             // get song controller, this it serves for set song name and author name of the song
-            SongController songController = fxmlLoader.getController();
-            songController.setData(songName, authorName);
+            SongToAddController songToAddController = fxmlLoader.getController();
+            songToAddController.setSong(song, isAdded);
 
             // add the song pane laoded to songsPane list
-            songsPane.add(song);
+            songsPane.add(song_pane);
 
             // add the fxml song view in the gridPane
-            gridPane.add(song, 0, row);
+            gridPane.add(song_pane, 0, row);
             // set the margin between songs (the space between songs)
-            GridPane.setMargin(song, new Insets(10));
+            GridPane.setMargin(song_pane, new Insets(10));
 
         }catch (IOException e){
             System.out.println("Songs view PROBLEM !");
@@ -306,6 +412,52 @@ public class SearchController implements Initializable {
 
     /**
      * TODO document
+     * @param song
+     */
+    public static void addSong(Canzone song){
+        /*
+         metodo che aggiunge la canzone passata come argomento alla lista songsToAdd, tale metodo viene
+         invocato dal metodo handleAddSongToPlaylistAction della classe SongsToAddController
+         */
+        System.out.println("Aggiungo la canzone: " + song.getTitolo() + "alla playlist " + playlistName);
+
+        // add song to list
+        songsToAdd.add(song);
+
+        // update the numSongsAddedLabel
+        numSongAdded.set(numSongAdded.get() + 1);
+        if(numSongAdded.get() == 1){
+            numSongsAddedLabel_.setText(numSongAdded.get() + " canzone aggiunta");
+        }else {
+            numSongsAddedLabel_.setText(numSongAdded.get() + " canzoni aggiunte");
+        }
+    }
+
+    /**
+     * TODO document
+     * @param song
+     */
+    public static void removeSong(Canzone song){
+        /*
+         metodo che rimuove la canzone passata come argomento dalla lista songsToAdd, tale metodo viene
+         invocato dal metodo handleAddSongToPlaylistAction della classe SongsToAddController
+         */
+        System.out.println("Rimuovo la canzone: " + song.getTitolo() + "dalla playlist " + playlistName);
+
+        // remove song to list
+        songsToAdd.remove(song);
+
+        // update the numSongsAddedLabel
+        numSongAdded.set(numSongAdded.get() - 1);
+        if(numSongAdded.get() == 1){
+            numSongsAddedLabel_.setText(numSongAdded.get() + " canzone aggiunta");
+        }else {
+            numSongsAddedLabel_.setText(numSongAdded.get() + " canzoni aggiunte");
+        }
+    }
+
+    /**
+     * TODO document
      */
     public void showRemoveSearchBtn(){
         removeSearchBtn.setDisable(false);
@@ -320,5 +472,22 @@ public class SearchController implements Initializable {
         removeSearchBtn.setDisable(true);
         removeSearchImg.setImage(guiUtilities.getImage("search"));
         infoLabel.setVisible(false);
+    }
+
+    /**
+     * TODO document
+     * @param playlist_name
+     */
+    public void setPlaylist(String playlist_name){
+        playlistName = playlist_name;
+    }
+
+    /**
+     * TODO document
+     * @param button
+     */
+    private void closeStage(Button button){
+        Stage stage = (Stage) button.getScene().getWindow();
+        stage.close();
     }
 }

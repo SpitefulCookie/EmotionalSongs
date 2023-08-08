@@ -5,12 +5,15 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -20,16 +23,25 @@ import java.io.IOException;
 import java.net.URL;
 import java.rmi.NoSuchObjectException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /*
-TODO : risolvere problema resize della finestra
+TODO:
+   - vedere se si riesce a sistemare lo style dei pulsanti, ovvero sistemare quando il mouse passa sopra al
+     pusante, se non si riesce amen.
+   - implenatare stage per selezionare le playlist quando si preme sul pulsante aggiungi a una playlist.
+   - implementare stage per visualizzazione emozioni.
+   - sistemare ricerca impostando il filtro: ricerca per titolo o ricerca per autore e anno.
  */
-
 public class EmotionalSongsClientController implements Initializable {
 
     protected static final int HEIGHT = 750;
     protected static final int WIDTH = 1200;
+
+    private static final int MAX_WIDTH_SIDEBAR = 180;
+    private static final int MIN_WIDTH_SIDEBAR = 100;
 
     private static double xOffset = 0;
     private static double yOffset = 0;
@@ -37,6 +49,7 @@ public class EmotionalSongsClientController implements Initializable {
     private Stage exitStage;
 
     @FXML private BorderPane pane;
+    @FXML private VBox sideBar;
     @FXML private BorderPane dynamicPane;
     @FXML private Button closeBtn;
     @FXML private Button maximizedStageBtn;
@@ -45,16 +58,25 @@ public class EmotionalSongsClientController implements Initializable {
     @FXML private Button playlistBtn;
     @FXML private Button userBtn;
     @FXML private Button exitBtn;
+    @FXML private Button resizeSidebarBtn;
+    @FXML private ImageView resizeSidebarImg;
+    @FXML private ImageView maximizedImg;
     // @FXML private Tooltip exitTooltip;
+
+    private static BorderPane dynamicPane_;
+
+    private GUIUtilities guiUtilities;
 
     private double X;
     private double Y;
 
+    private boolean sideBarIsOpen;
     private boolean isMaximized;
 
     private static boolean isGuest;
     private static String username;
 
+    private static Button[] buttonsSideBar;
 
     /**
      * TODO document
@@ -65,8 +87,24 @@ public class EmotionalSongsClientController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         EmotionalSongsClient.registerClient();
-        // set Tooltip delay
-        // exitTooltip.setShowDelay(new Duration(1));
+
+        dynamicPane_ = dynamicPane;
+
+        if(buttonsSideBar == null){
+            buttonsSideBar = new Button[4];
+            buttonsSideBar[0] = searchBtn;
+            buttonsSideBar[1] = playlistBtn;
+            buttonsSideBar[2] = userBtn;
+            buttonsSideBar[3] = exitBtn;
+        }
+
+        guiUtilities = GUIUtilities.getInstance();
+
+        /*
+        set the boolean variable sideBarIsOpen, which tells me if the sidebar is open, at the first sidebar is
+        closed so the value of sideBarIsOpen is false.
+         */
+        sideBarIsOpen = false;
 
         /*
          set the boolean variable isMaximized, which tells me if the stage is maximzed or not, at firt the
@@ -74,8 +112,11 @@ public class EmotionalSongsClientController implements Initializable {
          */
         isMaximized = false;
 
-        // at firt the dynamic pane contains the search pane
+        // at first the dynamic pane contains the search pane
         setDynamicPane("search.fxml");
+
+        // set button style
+        guiUtilities.setButtonStyle(searchBtn, "buttonSideBar", "buttonSideBarClicked");
     }
 
     /**
@@ -86,8 +127,8 @@ public class EmotionalSongsClientController implements Initializable {
     public void handleCloseButtonAction(ActionEvent event){
         /*Stage stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
         stage.close();*/
-        EmotionalSongsClient.getStage().close();
         EmotionalSongsClient.unexportClient();
+        EmotionalSongsClient.getStage().close();
     }
 
     /**
@@ -95,18 +136,6 @@ public class EmotionalSongsClientController implements Initializable {
      */
     @FXML
     public void handleMaximizedStageButtonAction(){
-
-        /*PROBLEMA : al posto di ingrandirsi, la finistra (stage) sparisce, non so il motivo
-
-        Stage stage = EmotionalSongs.getStage();
-        if(stage.isMaximized()){
-            stage.setMaximized(false);
-        }else{
-            stage.setMaximized(true);
-        }
-        */
-
-        // UN MODO PER RISOLVERE IL PROBLEMA è IL SEGUENTE:
         Stage stage = EmotionalSongsClient.getStage();
 
         /*
@@ -132,12 +161,18 @@ public class EmotionalSongsClientController implements Initializable {
             stage.setWidth(bounds.getWidth());
             stage.setHeight(bounds.getHeight());
 
+            // set maximizedImg
+            maximizedImg.setImage(guiUtilities.getImage("reduceWindow"));
+
             isMaximized = true;
         }else{ // altrimenti
             stage.setX(X);
             stage.setY(Y);
             stage.setWidth(WIDTH);
             stage.setHeight(HEIGHT);
+
+            // set maximizedImg
+            maximizedImg.setImage(guiUtilities.getImage("expandWindow"));
 
             isMaximized = false;
         }
@@ -156,10 +191,10 @@ public class EmotionalSongsClientController implements Initializable {
      */
     @FXML
     public void handleSearchButtonAction(){
-        System.out.println("search button cliecked");
-        /*
-        TODO : finire di implementare il search pane
-         */
+        // set button style
+        setClickedStyle(searchBtn);
+
+        // add search pane to dynamicPane
         setDynamicPane("search.fxml");
     }
 
@@ -168,10 +203,10 @@ public class EmotionalSongsClientController implements Initializable {
      */
     @FXML
     public void handlePlaylistButtonAction(){
-        System.out.println("playlist button clicked");
-         /*
-        TODO : finire di implementare il playlist pane
-         */
+        // set button style
+        setClickedStyle(playlistBtn);
+
+        // add playlist pane to dynamicPane
         setDynamicPane("allPlaylist.fxml");
     }
 
@@ -180,14 +215,15 @@ public class EmotionalSongsClientController implements Initializable {
      */
     @FXML
     public void handleUserButtonAction(){
-        System.out.println("user button cliked, isGuest ? " + isGuest);
-        /*
-        TODO : finire di implementare il User pane
-         */
+        // set button style
+        setClickedStyle(userBtn);
+
         if(isGuest){ // è guest
             // TODO creare il file fxml per l'utente guest e settarlo.
         }else { // non è guest --> è un utente registrato
             // TODO cambiare il nome del documento fxml in RegistredUser
+
+            // add user pane to dynamicPane
             setDynamicPane("user.fxml");
             System.out.println("username: " + username);
         }
@@ -220,7 +256,52 @@ public class EmotionalSongsClientController implements Initializable {
         }catch(IOException e){
             e.printStackTrace();
         }
+    }
 
+    @FXML public void handleResizeSidebarButtonAction(){
+        System.out.println("pulsante resize sidebar premuto");
+        if(!sideBarIsOpen) { // se la sidebar NON è aperta, la apro.
+
+            // Resize the width of the sidebar
+            sideBar.setPrefWidth(MAX_WIDTH_SIDEBAR);
+            sideBar.setMaxWidth(MAX_WIDTH_SIDEBAR);
+
+            // change the image of the button resizeSidebar
+            resizeSidebarImg.setImage(guiUtilities.getImage("closeSideBar"));
+
+            // set the text of the sideBar buttons
+            searchBtn.setText(" Cerca");
+            playlistBtn.setText(" Playlist");
+            userBtn.setText(" " + username);
+            exitBtn.setText(" Esci");
+
+            // set the alignment of sideBar buttons
+            setButtonsSideBarAlignment(buttonsSideBar, Pos.BASELINE_LEFT);
+
+            // now the sidebar is open
+            sideBarIsOpen = true;
+
+        }else{ // altrimenti se è aperta la chiudo
+
+            // Resize the width of the sidebar
+            sideBar.setPrefWidth(MIN_WIDTH_SIDEBAR);
+            sideBar.setMaxWidth(MIN_WIDTH_SIDEBAR);
+
+            // change the image of the button resizeSidebar
+            resizeSidebarImg.setImage(guiUtilities.getImage("openSideBar"));
+
+            // set the alignment of sideBar buttons
+            setButtonsSideBarAlignment(buttonsSideBar, Pos.CENTER);
+
+            // set the text of the sideBar button
+            searchBtn.setText("");
+            playlistBtn.setText("");
+            userBtn.setText("");
+            exitBtn.setText("");
+
+            // now the sidebar is closed
+            sideBarIsOpen = false;
+        }
     }
 
     /**
@@ -272,15 +353,29 @@ public class EmotionalSongsClientController implements Initializable {
      * TODO document
      * @param fxml
      */
-    public void setDynamicPane(String fxml){
+    public static void setDynamicPane(String fxml){
         try{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxml));
+            FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongsClient.class.getResource(fxml));
             Node pane = fxmlLoader.load();
 
-            dynamicPane.setCenter(pane);
+            dynamicPane_.setCenter(pane);
+            dynamicPane_.getCenter().setStyle("-fx-backgroud-color: transparent;");
         }catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    /**
+     * TODO document
+     * @param pane
+     */
+    public static void setDynamicPane(Node pane){
+        /*
+        metodo che svolge una funzione uguale a quella svolta dal metodo setDybamicPane(String fxml), l'unica
+        differenza è che questo viene invocato quando devo anche effettuare operazioni sul controller,
+        di conseguenza il caricamento del file fxml deve avvenire esternamente dal metodo.
+         */
+        dynamicPane_.setCenter(pane);
     }
 
     /**
@@ -289,9 +384,6 @@ public class EmotionalSongsClientController implements Initializable {
      * @param userIsGuest
      */
     public void setUser(String username, boolean userIsGuest){
-        // set the Username
-        this.userBtn.setText("  " + username);
-
         // set the username
         setUsername(username);
 
@@ -311,6 +403,39 @@ public class EmotionalSongsClientController implements Initializable {
             playlistBtn.setVisible(false);
         }
 
+    }
+
+    /**
+     * TODO document
+     * @param button
+     */
+    private void setClickedStyle(Button button){
+        /*
+        metodo che definisce lo style del pulsante quando esso viene premuto. esso controlla qual'è il
+        button nella lista che è stato cliccato e gli va a impostare come style il setHoverStyle, agli
+        altri button invece imposta come style il setBaseStyle
+         */
+        for (int i = 0; i < buttonsSideBar.length; i++){
+            if(buttonsSideBar[i] == button){
+                guiUtilities.setButtonStyle(buttonsSideBar[i], "buttonSideBar", "buttonSideBarClicked");
+            }else{
+                guiUtilities.setButtonStyle(buttonsSideBar[i], "buttonSideBarClicked", "buttonSideBar");
+            }
+        }
+    }
+
+    /**
+     * TODO document
+     * @param buttonsSideBar
+     * @param pos
+     */
+    private void setButtonsSideBarAlignment(Button[] buttonsSideBar, Pos pos){
+        /*
+        metodo che va a settare l'allineamento dei pulsanti della sideBar
+         */
+        for(Button button : buttonsSideBar){
+            button.setAlignment(pos);
+        }
     }
 
     /**

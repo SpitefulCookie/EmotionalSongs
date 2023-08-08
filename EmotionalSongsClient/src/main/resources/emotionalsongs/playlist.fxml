@@ -8,22 +8,23 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox alignment="CENTER_LEFT" maxHeight="75.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleOpenPlaylistAction" prefHeight="72.0" prefWidth="625.0" styleClass="songPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.PlaylistController">
+<HBox alignment="CENTER_LEFT" maxHeight="75.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleOpenPlaylistAction" prefHeight="55.0" prefWidth="625.0" styleClass="songPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.PlaylistController">
    <children>
       <Pane prefHeight="55.0" prefWidth="19.0" />
       <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="70.0" prefWidth="329.0" stylesheets="@Style/customStyle.css" HBox.hgrow="ALWAYS">
          <children>
             <Label fx:id="playlistNameLabel" prefHeight="29.0" prefWidth="395.0" text="Nome Playlist" textFill="#bbbbbb">
                <font>
-                  <Font name="Arial Bold" size="20.0" />
+                  <Font name="Arial Bold" size="18.0" />
                </font>
             </Label>
          </children>
       </VBox>
-      <ImageView fitHeight="49.0" fitWidth="34.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="25.0" fitWidth="25.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Images/openPlaylistIcon.png" />
+            <Image url="@Images/openIcon.png" />
          </image>
       </ImageView>
+      <Pane prefHeight="55.0" prefWidth="11.0" />
    </children>
 </HBox>
