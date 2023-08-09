@@ -53,4 +53,18 @@ public enum EmozioneEnum{
 
     }
 
+     static Emozione getEmotionInstanceFromEnumValue(int enumValue){
+        return switch (EmozioneEnum.values()[enumValue]) {
+            case AMAZEMENT -> new Amazement(0, "");
+            case CALMNESS -> new Calmness(0, "");
+            case JOY -> new Joy(0, "");
+            case NOSTALGIA -> new Nostalgia(0,"");
+            case POWER -> new Power(0, "");
+            case SADNESS -> new Sadness(0, "");
+            case SOLEMNITY -> new Solemnity(0, "");
+            case TENDERNESS -> new Tenderness(0, "");
+            case TENSION -> new Tension(0, "");
+        };
+    }
+
 }
