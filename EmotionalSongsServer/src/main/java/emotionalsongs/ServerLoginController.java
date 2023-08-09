@@ -122,7 +122,7 @@ public class ServerLoginController implements Initializable {
                  *  una SQLException nel caso la coppia username e password non risulti essere corretta.
                  */
 
-               EmotionalSongsServer.qh = new QueryHandler(username, pwd );
+                EmotionalSongsServer.initializeQueryHandler(new QueryHandler(username, pwd ));
 
                 try {
 
@@ -200,29 +200,26 @@ public class ServerLoginController implements Initializable {
             settingsButton.setFocusTraversable(false);
 
             settingsButton.setOnAction(
-                    new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent event) {
+                event -> {
 
-                            FXMLLoader loader = new FXMLLoader(EmotionalSongsServer.class.getResource("serverLoginSettings.fxml"));
+                    FXMLLoader loader = new FXMLLoader(EmotionalSongsServer.class.getResource("serverLoginSettings.fxml"));
 
-                            try {
+                    try {
 
-                                Scene scene = new Scene(loader.load());
+                        Scene scene = new Scene(loader.load());
 
-                                final Stage dialog = new Stage();
-                                dialog.initModality(Modality.APPLICATION_MODAL);
-                                dialog.initOwner(EmotionalSongsServer.getStage());
-                                Scene dialogScene = scene;
+                        final Stage dialog = new Stage();
+                        dialog.initModality(Modality.APPLICATION_MODAL);
+                        dialog.initOwner(EmotionalSongsServer.getStage());
+                        Scene dialogScene = scene;
 
-                                dialog.setScene(dialogScene);
-                                dialog.show();
+                        dialog.setScene(dialogScene);
+                        dialog.show();
 
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
 
 
             showPasswordInput.setGraphic(new ImageView(eye));
@@ -247,7 +244,9 @@ public class ServerLoginController implements Initializable {
                 }
             });
 
-        } catch (FileNotFoundException e) {}
+        } catch (FileNotFoundException e) {
+            //
+        }
 
     }
 }
