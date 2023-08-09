@@ -8,10 +8,7 @@ package emotionalsongs;
  *
  */
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -329,15 +327,32 @@ public class UserRegistrationController implements Initializable {
             GUIUtilities.setErrorStyle(cognomeField);
             isInputValid = false;
         } else{GUIUtilities.setDefaultStyle(cognomeField);}
+        try {
+            boolean isCfTaken = EmotionalSongsClient.auth.cfExists(codFiscField.getText());
+            if (!isValidCF(codFiscField.getText()) || isCfTaken) {
+                GUIUtilities.setErrorStyle(codFiscField);
 
-        if (!isValidCF(codFiscField.getText())){
-            GUIUtilities.setErrorStyle(codFiscField);
-            if(!codFiscField.getText().isBlank())
-                codFiscField.setPromptText("Invalid CF"); // questa istruzione effettuerà la sovrascrittura del prompt text aggiunto in setErrorStyle
-            isInputValid = false;
+                if (isCfTaken) {
+                    codFiscField.setPromptText("Codice fiscale già registrato");
+                    Tooltip tp = new Tooltip("Codice fiscale già registrato");
+                    tp.setShowDelay(new Duration(0.5));
+                    tp.setHideDelay(new Duration(0.6));
+                    codFiscField.setTooltip(tp);
+                } else if (!codFiscField.getText().isBlank()) {
+                    codFiscField.setPromptText("Codice fiscale invalido");
+                    Tooltip tp = new Tooltip("Codice fiscale invalido");
+                    tp.setShowDelay(new Duration(0.5));
+                    tp.setHideDelay(new Duration(0.6));
+                    codFiscField.setTooltip(tp);
+                }
 
-        } else{ GUIUtilities.setDefaultStyle(codFiscField);}
+                isInputValid = false;
 
+            } else {
+                GUIUtilities.setDefaultStyle(codFiscField);
+                codFiscField.setTooltip(null);
+            }
+        } catch (RemoteException e){isInputValid=false;}
         if (emailField.getText().isBlank() | !emailField.getText().matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$") ){
 
             GUIUtilities.setErrorStyle(emailField);
@@ -423,7 +438,7 @@ public class UserRegistrationController implements Initializable {
                 pwdField.getText();
 
             try {
-                EmotionalSongsClient.auth.registrazione(LoginController.RSA_Encrypt(userData));
+                EmotionalSongsClient.auth.registrazione(AuthManager.RSA_Encrypt(userData));
 
             } catch (RemoteException e){
 
