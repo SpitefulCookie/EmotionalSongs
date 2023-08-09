@@ -11,6 +11,8 @@ import javafx.stage.WindowEvent;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /**
  * TODO Document
@@ -22,8 +24,41 @@ public class EmotionalSongsServer extends Application {
     private static ConnectionVerify connectionVerify;
     protected static ServerMainViewController mainView;
 
-    protected static QueryHandler qh;
-    protected static AuthManagerImpl auth;
+    private static final int PORT = 6789;
+
+    private static QueryHandler qh = null;
+    private static AuthManagerImpl auth = null;
+    private static RepositoryManagerImpl repo = null;
+
+    public static RepositoryManagerImpl getRepositoryManagerInstance() {
+
+        if(EmotionalSongsServer.repo == null){
+            try {
+                EmotionalSongsServer.repo = new RepositoryManagerImpl();
+            } catch (RemoteException e) {
+                // Metodo eseguito localmente, eccezione non lanciata
+            }
+        }
+
+        return EmotionalSongsServer.repo;
+
+    }
+
+    public static QueryHandler getQueryHandlerInstance() {
+        return EmotionalSongsServer.qh;
+    }
+
+    public static void initializeQueryHandler(QueryHandler queryHandler) {
+        qh = queryHandler;
+    }
+
+    public static void initializeAuthManager(AuthManagerImpl authManager) {
+        auth = authManager;
+    }
+
+    public static AuthManagerImpl getAuthManagerInstance() {
+        return auth;
+    }
 
     /**
      * TODO Document?
@@ -111,5 +146,8 @@ public class EmotionalSongsServer extends Application {
     protected static void setMainViewController(ServerMainViewController server){
         mainView = server;
     }
+
+    protected static int getServerPort(){return PORT;}
+
 }
 
