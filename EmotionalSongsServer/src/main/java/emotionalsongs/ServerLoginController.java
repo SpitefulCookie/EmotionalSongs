@@ -1,6 +1,5 @@
 package emotionalsongs;
 
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,8 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -24,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -126,8 +124,7 @@ public class ServerLoginController implements Initializable {
 
                 try {
 
-                    EmotionalSongsServer.setStage(new Scene(EmotionalSongsServer.getLoader().load(EmotionalSongsServer.class.getResource("serverMainView.fxml") )), ServerMainViewController.WIDTH, ServerMainViewController.HEIGHT, true);
-
+                    EmotionalSongsServer.setStage(new Scene(EmotionalSongsServer.getLoader().load(Objects.requireNonNull(EmotionalSongsServer.class.getResource("serverMainView.fxml")))), ServerMainViewController.WIDTH, ServerMainViewController.HEIGHT, true);
                     EmotionalSongsServer.getStage().show();
 
                 } catch (IOException e){
