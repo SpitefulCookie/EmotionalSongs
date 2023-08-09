@@ -1,5 +1,8 @@
 package emotionalsongs;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Button;
@@ -13,29 +16,51 @@ import java.util.HashMap;
 
 public class GUIUtilities {
 
+    private final HashMap<String, Scene> appScenes;
     private final HashMap<String, Image> images;
     private static GUIUtilities guiUtilities;
+
+    private static final String[] guiControllers = {"allPlaylist.fxml", "clientLoginSettings.fxml", "connectionFailed.fxml", "createPlaylist.fxml", "exit.fxml", "login.fxml", "search.fxml",/* "selectedPlaylist.fxml", */ "user.fxml", "UserRegistration.fxml"};
+    private static final String[] guiNodes = {"song.fxml"};
 
     GUIUtilities(){
         // creo la hashmap
         images = new HashMap<>();
+        appScenes = new HashMap<>();
+
         // setto (aggiungo) le varie immagini nella hashmap
-        setImages();
+        initImages();
+        System.out.println("fine init nodes");
+
+
+    }
+
+    // pattern singleton
+    public static GUIUtilities getInstance(){
+        if(guiUtilities == null){guiUtilities = new GUIUtilities();}
+        return guiUtilities;
     }
 
     /**
      * TODO document
-     * @return
      */
-    public static GUIUtilities getInstance(){
-        // pattern singleton
-        if(guiUtilities == null){
-            guiUtilities = new GUIUtilities();
-            return guiUtilities;
-        }else{
-            return guiUtilities;
+    protected void initScenes(){
+
+        try {
+
+            for (String controller : guiControllers) {
+
+                System.out.println("Current controller: " + controller);
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(controller));
+                appScenes.put(controller, new Scene(fxmlLoader.load()));
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
 
     /**
      * TODO document
@@ -66,6 +91,7 @@ public class GUIUtilities {
                     tf.setText(newValue.replaceAll("[^\\d]", ""));
                 }
             });
+
         }
 
         /**
@@ -155,7 +181,7 @@ public class GUIUtilities {
     /**
      * TODO document
      */
-    protected void setImages(){
+    protected void initImages(){
         // TODO Se questo viene invocato solamente alla creazione di una nuova istanza di GUIUtilities, ha senso metterlo in un metodo a parte invece che nel costruttore?
         try{
             addImages("close", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/closeWindows.png")));
@@ -175,6 +201,15 @@ public class GUIUtilities {
             e.printStackTrace();
         }
     }
+
+
+    /**
+     * TODO document
+     */
+    protected Scene getScene(String sceneName){
+       return appScenes.get(sceneName);
+    }
+
 
     /**
      * TODO document
@@ -197,4 +232,5 @@ public class GUIUtilities {
         if(images.containsKey(key)) { return images.get(key);}
         else{ return null;}// altrimenti restituisci null
     }
+
 }
