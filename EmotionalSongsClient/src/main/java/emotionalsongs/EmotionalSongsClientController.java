@@ -238,11 +238,10 @@ public class EmotionalSongsClientController implements Initializable {
         /*
         - implementare il frame che chiede all'utente se vuole realmente uscire dall'applicazione.
         */
-        try {
+
             exitStage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("exit.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            exitStage.setScene(scene);
+
+            exitStage.setScene(GUIUtilities.getInstance().getScene("exit.fxml"));
             exitStage.initStyle(StageStyle.UNDECORATED);
             exitStage.setResizable(false);
             /*
@@ -253,9 +252,6 @@ public class EmotionalSongsClientController implements Initializable {
             exitStage.initModality(Modality.APPLICATION_MODAL);
             exitStage.show();
 
-        }catch(IOException e){
-            e.printStackTrace();
-        }
     }
 
     @FXML public void handleResizeSidebarButtonAction(){
