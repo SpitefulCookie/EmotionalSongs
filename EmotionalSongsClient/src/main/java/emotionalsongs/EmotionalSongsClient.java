@@ -8,17 +8,11 @@ package emotionalsongs;
  */
 
 import javafx.application.Application;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.File;
 import java.io.IOException;
 import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
@@ -35,17 +29,16 @@ TODO: aggiungere a tutte le classi i metodi richiesti dal progetto
 */
 public class EmotionalSongsClient extends Application {
 
-    private static final int PORT = 6789;
-    private static final String SERVER_ADDRESS = "localhost";
-
     private static Stage esStage;
-    private static FXMLLoader loader;
 
-    private GUIUtilities guiUtilities;
     private static PingClientClientImpl ping;
 
+    private GUIUtilities guiUtilities;
+
     protected static AuthManager auth;
-    //protected static RepositoryManager repo; // TODO implement
+    protected static RepositoryManager repo; // TODO implement
+
+    protected static boolean isConnectionInitialized = false;
 
     /**
      * TODO Document
@@ -53,19 +46,17 @@ public class EmotionalSongsClient extends Application {
      * @throws IOException
      */
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage){
 
-        //Scene scene = new Scene(FXMLLoader.load(new File("C:\\Users\\orobi\\Documents\\EmotionalSongs\\EmotionalSongsClient\\src\\main\\resources\\emotionalsongs\\login.fxml").toURI().toURL()));
+        guiUtilities = GUIUtilities.getInstance();
+        guiUtilities.initScenes();
 
-        loader = new FXMLLoader(EmotionalSongsClient.class.getResource("login.fxml"));
-        Scene scene = new Scene(loader.load());
-        guiUtilities = GUIUtilities.getInstance(); // creo l'oggetto in questo modo per via del pattern singleton
+        Scene scene = guiUtilities.getScene("login.fxml");
 
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setWidth(LoginController.WIDTH);
         stage.setHeight(LoginController.HEIGHT);
         stage.setTitle("Emotional Songs");
-        //stage.getIcons().add(new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/fire.png")));
         stage.getIcons().add(guiUtilities.getImage("fire"));
         stage.setResizable(false);
         LoginController.setStage(stage);
@@ -73,51 +64,36 @@ public class EmotionalSongsClient extends Application {
         esStage = stage;
         stage.show();
 
+        initializeServerConnection();
+
+    }
+
+    protected static void initializeServerConnection(){
+
+        isConnectionInitialized = false;
+
         try {
 
-            Registry reg = LocateRegistry.getRegistry(SERVER_ADDRESS, PORT);
+            Registry reg = LocateRegistry.getRegistry(ClientSettingController.getServerAddress(), ClientSettingController.getServerPort());
             auth = (AuthManager) reg.lookup("AuthManager");
             //repo = (RepositoryManager) reg.lookup("RepoManager"); // TODO add once implemented
             ping = new PingClientClientImpl();
 
+            isConnectionInitialized = true;
 
-        } catch (RemoteException | NotBoundException e) {
+        } catch (RemoteException | NotBoundException e){
 
-            /*Dialog<String> dialog = new Dialog<String>();
-            dialog.setTitle("Errore");
+            Stage connectionFailedStage = new Stage();
 
-            ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
-
-            dialog.setContentText("Impossibile contattare il server."); // TODO modify the appearance and text content?
-            Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
-
-            dialogStage.getIcons().add(guiUtilities.getImage("failure"));
-            dialog.getDialogPane().getButtonTypes().add(type);
-            dialog.showAndWait();
-            System.err.println("Server not found on address: " + SERVER_ADDRESS +":"+ PORT); // TODO remove before turning in the project*/
-
-            try{
-                Stage connectionFailedStage = new Stage();
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("connectionFailed.fxml"));
-                Scene connectionFailedScene = new Scene(fxmlLoader.load());
-                connectionFailedStage.setScene(connectionFailedScene);
-                connectionFailedStage.initStyle(StageStyle.UNDECORATED);
-                connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
-                connectionFailedStage.setResizable(false);
-                connectionFailedStage.show();
-            }catch(IOException e1){
-                e1.printStackTrace();
-            }
+            connectionFailedStage.setScene(GUIUtilities.getInstance().getScene("connectionFailed.fxml"));
+            connectionFailedStage.initStyle(StageStyle.UNDECORATED);
+            connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
+            connectionFailedStage.setResizable(false);
+            connectionFailedStage.show();
         }
     }
 
-    /**
-     * TODO Document
-     * @return
-     */
-    protected static FXMLLoader getLoader(){
-        return loader;
-    }
+
 
     /**
      * TODO Document
@@ -141,22 +117,6 @@ public class EmotionalSongsClient extends Application {
         esStage.setResizable(isWindowResizable);
         esStage.setScene(scene);
         esStage.show();
-    }
-
-    /**
-     * TODO document
-     * @return
-     */
-    public static String getServerAddress(){
-        return SERVER_ADDRESS;
-    }
-
-    /**
-     * TODO document
-     * @return
-     */
-    public static int getPort(){
-        return PORT;
     }
 
     /**
