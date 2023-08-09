@@ -3,12 +3,9 @@ package emotionalsongs;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Dimension2D;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -94,18 +91,15 @@ public class AllPlaylistController implements Initializable {
     @FXML
     public void handleAddPlaylistButtonAction(){
         // TODO aprire il pane createPlaylist.fxml
-        try{
-            Stage createPlaylistStage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("createPlaylist.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            createPlaylistStage.setScene(scene);
-            createPlaylistStage.initStyle(StageStyle.UNDECORATED);
-            createPlaylistStage.setResizable(false);
-            createPlaylistStage.initModality(Modality.APPLICATION_MODAL);
-            createPlaylistStage.show();
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+
+        Stage createPlaylistStage = new Stage();
+
+        createPlaylistStage.setScene(GUIUtilities.getInstance().getScene("createPlaylist.fxml"));
+        createPlaylistStage.initStyle(StageStyle.UNDECORATED);
+        createPlaylistStage.setResizable(false);
+        createPlaylistStage.initModality(Modality.APPLICATION_MODAL);
+        createPlaylistStage.show();
+
     }
 
     /**
@@ -174,6 +168,7 @@ public class AllPlaylistController implements Initializable {
             try {
                 // add playlist into the dynamicGridPane
                 for (int i = 0; i < playlist.size(); i++) {
+
                     FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongsClient.class.getResource("playlist.fxml"));
                     Node hBox = fxmlLoader.load();
 
@@ -183,7 +178,7 @@ public class AllPlaylistController implements Initializable {
                     dynamicGridPane.add(hBox, 0, i);
                     GridPane.setMargin(hBox, new Insets(10));
 
-                    System.out.println("visualizzo playlist : " + playlist.get(i));
+                    System.out.println("visualizzo playlist : " + playlist.get(i)); // TODO togliere il print
                 }
             } catch (IOException e) {
                 e.printStackTrace();
