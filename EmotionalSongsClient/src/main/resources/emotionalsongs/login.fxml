@@ -12,24 +12,27 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="420.0" maxWidth="650.0" minHeight="420.0" minWidth="650.0" onMouseDragged="#moveWindow" prefHeight="420.0" prefWidth="650.0" stylesheets="@Style/darcula.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.LoginController">
+<AnchorPane maxHeight="420.0" maxWidth="650.0" minHeight="420.0" minWidth="650.0" onMouseDragged="#moveWindow" prefHeight="420.0" prefWidth="650.0" stylesheets="@Style/darcula.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.LoginController">
    <children>
-      <ImageView fitHeight="421.0" fitWidth="487.0" layoutX="-26.0" layoutY="50.0" opacity="0.3" pickOnBounds="true" preserveRatio="true" rotate="11.3">
-         <image>
-            <Image url="@Images/fire.png" />
-         </image>
-      </ImageView>
       <AnchorPane layoutX="357.0" layoutY="51.0" prefHeight="313.0" prefWidth="248.0">
          <children>
-            <Label layoutX="18.0" layoutY="42.0" prefHeight="27.0" prefWidth="161.0" text="Username" />
-            <TextField fx:id="usernameField" layoutX="19.0" layoutY="70.0" maxHeight="25.0" maxWidth="211.0" minHeight="25.0" minWidth="211.0" onKeyTyped="#handleUserFieldHighlight" prefHeight="25.0" prefWidth="211.0" />
-            <Label layoutX="18.0" layoutY="96.0" prefHeight="27.0" prefWidth="161.0" text="Password" />
-            <Label fx:id="loginFailedLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="19.0" layoutY="154.0" prefHeight="19.0" prefWidth="211.0" textAlignment="CENTER" visible="false">
+            <Label layoutX="18.0" layoutY="31.0" prefHeight="27.0" prefWidth="161.0" text="Username" />
+            <TextField fx:id="usernameField" layoutX="19.0" layoutY="59.0" maxHeight="25.0" maxWidth="211.0" minHeight="25.0" minWidth="211.0" onKeyTyped="#handleUserFieldHighlight" prefHeight="25.0" prefWidth="211.0" />
+            <Label layoutX="18.0" layoutY="85.0" prefHeight="27.0" prefWidth="161.0" text="Password" />
+            <Label fx:id="loginFailedLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="19.0" layoutY="143.0" prefHeight="19.0" prefWidth="211.0" textAlignment="CENTER" visible="false">
                <padding>
                   <Insets top="2.0" />
                </padding></Label>
+            <Button fx:id="settingsButton" layoutX="201.0" layoutY="218.0" mnemonicParsing="false" style="-fx-background-color: transparent;">
+               <padding>
+                  <Insets right="25.0" />
+               </padding>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
 
-            <Button alignment="CENTER" focusTraversable="false" layoutX="19.0" layoutY="178.0" mnemonicParsing="false" onMouseClicked="#handleLoginButtonAction" prefHeight="25.0" prefWidth="211.0" text="Login" />
+            <Button alignment="CENTER" focusTraversable="false" layoutX="19.0" layoutY="167.0" mnemonicParsing="false" onMouseClicked="#handleLoginButtonAction" prefHeight="25.0" prefWidth="211.0" text="Login" />
             <AnchorPane layoutX="5.0" layoutY="245.0" prefHeight="73.0" prefWidth="248.0">
                <children>
                   <Button alignment="CENTER" focusTraversable="false" layoutX="104.0" layoutY="45.0" mnemonicParsing="false" onMouseClicked="#handleContinueAsGuest" prefHeight="25.0" prefWidth="122.0" text="Continue as Guest" />
@@ -43,19 +46,24 @@
                   <Insets bottom="10.0" />
                </padding>
             </AnchorPane>
-            <PasswordField fx:id="pwdField" layoutX="19.0" layoutY="123.0" maxHeight="25.0" maxWidth="211.0" minHeight="25.0" minWidth="211.0" onKeyTyped="#handlePwdFieldHighlight" prefHeight="25.0" prefWidth="211.0">
+            <PasswordField fx:id="pwdField" layoutX="19.0" layoutY="112.0" maxHeight="25.0" maxWidth="211.0" minHeight="25.0" minWidth="211.0" onKeyTyped="#handlePwdFieldHighlight" prefHeight="25.0" prefWidth="211.0">
                <padding>
                   <Insets right="5.0" top="2.0" />
                </padding>
             </PasswordField>
-            <TextField fx:id="overlappingTextField" layoutX="19.0" layoutY="123.0" maxHeight="25.0" maxWidth="211.0" minHeight="25.0" minWidth="211.0" onKeyTyped="#handlePwdFieldHighlight" prefHeight="25.0" prefWidth="211.0" visible="false" />
-            <Button fx:id="showPasswordInput" accessibleRole="CHECK_BOX" layoutX="197.0" layoutY="123.0" mnemonicParsing="false" onMouseClicked="#onClickEvent" style="-fx-background-color: transparent;" />
+            <TextField fx:id="overlappingTextField" layoutX="19.0" layoutY="112.0" maxHeight="25.0" maxWidth="211.0" minHeight="25.0" minWidth="211.0" onKeyTyped="#handlePwdFieldHighlight" prefHeight="25.0" prefWidth="211.0" visible="false" />
+            <Button fx:id="showPasswordInput" accessibleRole="CHECK_BOX" layoutX="197.0" layoutY="112.0" mnemonicParsing="false" onMouseClicked="#onClickEvent" style="-fx-background-color: transparent;" />
 
          </children>
          <cursor>
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </AnchorPane>
+      <ImageView fitHeight="421.0" fitWidth="487.0" layoutX="-26.0" layoutY="50.0" opacity="0.3" pickOnBounds="true" preserveRatio="true" rotate="11.3">
+         <image>
+            <Image url="@Images/fire.png" />
+         </image>
+      </ImageView>
       <Pane fx:id="anchorPane" maxHeight="40.0" maxWidth="650.0" minHeight="40.0" minWidth="650.0" prefHeight="40.0" prefWidth="650.0" style="-fx-background-color: #272727;" />
       <Label layoutX="28.0" layoutY="1.0" text="Emotional Songs">
          <font>
