@@ -7,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -17,9 +16,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,7 +26,7 @@ import java.util.ResourceBundle;
 
 /*
 TODO:
-    1- ricareca nel db della canzone cercata
+    1- ricerca nel db della canzone cercata
     2- rendere questa ricerca dinamica con un listener?
     3- aggiungere una combo box per filtrare la ricerca, quindi per scegliere se cercare per titolo autore o anno
     4- il key event handleSearchButtonAction forse metterlo a livello di pane e non ha livello di searchBox(come lo è adesso)
@@ -264,7 +261,8 @@ public class SearchController implements Initializable {
      * @param row
      */
     private void setNewSongFound(String songName, String authorName, int row){
-        try{
+
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("song.fxml"));
             Node song = fxmlLoader.load();
 
@@ -272,7 +270,7 @@ public class SearchController implements Initializable {
             SongController songController = fxmlLoader.getController();
             songController.setData(songName, authorName);
 
-            // add the song pane laoded to songsPane list
+            // add the song pane loded to songsPane list
             songsPane.add(song);
 
             // add the fxml song view in the gridPane
@@ -280,8 +278,7 @@ public class SearchController implements Initializable {
             // set the margin between songs (the space between songs)
             GridPane.setMargin(song, new Insets(10));
 
-        }catch (IOException e){
-            System.out.println("Songs view PROBLEM !");
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
