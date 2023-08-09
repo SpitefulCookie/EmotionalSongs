@@ -1,7 +1,7 @@
 package emotionalsongs;
 
+
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,16 +10,12 @@ import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import javax.crypto.Cipher;
-import java.io.File;
+import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.rmi.RemoteException;
-import java.security.PublicKey;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -40,6 +36,10 @@ public class LoginController implements Initializable {
     private static Stage stage;
     private static double xOffset = 0;
     private static double yOffset = 0;
+    private static TextField _usernameField;
+    private static TextField _overlappingPwdField;
+    private static PasswordField _pwdField;
+
 
     private GUIUtilities guiUtilities;
 
@@ -54,6 +54,7 @@ public class LoginController implements Initializable {
     @FXML private PasswordField pwdField;
     @FXML private Button closeBtn;
     @FXML private Button showPasswordInput;
+    @FXML private Button settingsButton;
 
     /**
      * TODO document
@@ -66,8 +67,27 @@ public class LoginController implements Initializable {
         EmotionalSongsClient.registerClient();
 
         Image closeIcon;
-
         guiUtilities = GUIUtilities.getInstance();
+
+        settingsButton.setGraphic(new ImageView(guiUtilities.getImage("gear")));
+        settingsButton.setFocusTraversable(false);
+
+        settingsButton.setOnAction( event -> {
+
+            //Scene scene = GUIUtilities.getInstance().getScene("clientLoginSettings.fxml");
+
+            Stage dialog = new Stage();
+            ClientSettingController.setStage(dialog);
+
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.initStyle(StageStyle.UNDECORATED);
+            dialog.initOwner(EmotionalSongsClient.getStage());
+            Scene dialogScene = GUIUtilities.getInstance().getScene("clientLoginSettings.fxml");;
+
+            dialog.setScene(dialogScene);
+            dialog.show();
+
+        });
 
         closeIcon = guiUtilities.getImage("close");
         eye = guiUtilities.getImage("eye");
@@ -77,50 +97,67 @@ public class LoginController implements Initializable {
         closeImageView.setFitWidth(20);
         closeImageView.setFitHeight(20);
 
-        if (closeIcon != null) {
-            closeBtn.setGraphic(closeImageView);
-        }else{
-            closeBtn.setText("X");
-        }
+        if (closeIcon != null) {closeBtn.setGraphic(closeImageView);}
+        else{closeBtn.setText("X");}
 
         showPasswordInput.setGraphic(new ImageView(eye));
         showPasswordInput.setFocusTraversable(false);
+        _usernameField = usernameField;
+        _overlappingPwdField = overlappingTextField;
+        _pwdField = pwdField;
+
     }
 
+    protected static void clearFields(){
+        _usernameField.setText("");
+        _overlappingPwdField.setText("");
+        _pwdField.setText("");
+    }
     /**
      * TODO document
      */
     @FXML protected void handleContinueAsGuest(){
-        System.out.println("Continue as guest clicked!");
+
+        System.out.println("Continue as guest clicked!"); // TODO togliere tutti questi print
+
+        if (EmotionalSongsClient.isConnectionInitialized){
+
+            // La connessione al server è necessaria anche se l'utente non è registrato, pertanto non dev'essere
+            // in grado di visualizzare la schermata principale senza che il client si sia connesso al server.
 
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("emotionalSongsClient.fxml"));
-            //Scene scene = new Scene(FXMLLoader.load(new File("emotionalSongsClient.fxml").toURI().toURL())); TODO remove
+
             Scene scene = new Scene(fxmlLoader.load());
 
-            EmotionalSongsClientController client = fxmlLoader.getController();
-            client.setUser("Guest", true);
+                EmotionalSongsClientController client = fxmlLoader.getController();
 
-            EmotionalSongsClient.setStage(scene, EmotionalSongsClientController.WIDTH, EmotionalSongsClientController.HEIGHT, true);
-            EmotionalSongsClient.getStage().show();
+                // TODO invece di utilizzare il controller per impostare l'utente,
+                //  visto che vi sarà una ed una sola istanza della classe non si può rendere setUser
+                //  statico così da effettuare il caricamento della schermata all'interno di GUI utilities?
+                //  In questo modo si toglierebbero non pochi try-catch inutili.
 
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+                client.setUser("Guest", true);
+
+                EmotionalSongsClient.setStage(scene, EmotionalSongsClientController.WIDTH, EmotionalSongsClientController.HEIGHT, true);
+                EmotionalSongsClient.getStage().show();
+
+            }catch(IOException e){
+                //
+            }
+
+        } else{EmotionalSongsClient.initializeServerConnection();}
+
     }
 
     /**
      * TODO document
      */
     @FXML protected void handleRegisterButton() {
-        try {
-            EmotionalSongsClient.setStage(new Scene(FXMLLoader.load(Objects.requireNonNull(EmotionalSongsClient.class.getResource("UserRegistration.fxml")))), UserRegistrationController.WIDTH, UserRegistrationController.HEIGHT, true);
 
-            EmotionalSongsClient.getStage().show();
-        } catch (IOException e){
-            e.printStackTrace();
-            // TODO Auto generated stub
-        }
+        EmotionalSongsClient.setStage(GUIUtilities.getInstance().getScene("UserRegistration.fxml"), UserRegistrationController.WIDTH, UserRegistrationController.HEIGHT, true);
+        EmotionalSongsClient.getStage().show();
+
     }
 
     /**
@@ -161,94 +198,98 @@ public class LoginController implements Initializable {
      */
     @FXML protected void handleLoginButtonAction(){
 
-        String pwd = null;
-        String username = null;
+        if (EmotionalSongsClient.isConnectionInitialized) {
 
-        if(isDisplayed){ // Se la password è visualizzata in chiaro (textbox visibile, password field nascosto)
+            String pwd = null;
+            String username = null;
 
-            if(overlappingTextField.getText().isBlank()){
+            if (isDisplayed) { // Se la password è visualizzata in chiaro (textbox visibile, password field nascosto)
 
-                overlappingTextField.setStyle(errorStyle);
-                overlappingTextField.setPromptText("Mandatory field");
+                if (overlappingTextField.getText().isBlank()) {
 
-            } else{
-                pwd = overlappingTextField.getText();
-            }
+                    overlappingTextField.setStyle(errorStyle);
+                    overlappingTextField.setPromptText("Mandatory field");
 
-        } else{ // Se la password NON è visualizzata in chiaro (textbok nascosto, password field visibile)
-
-            if(pwdField.getText().isBlank()){
-
-                pwdField.setStyle(errorStyle);
-                pwdField.setPromptText("Mandatory field");
-
-            } else{ pwd = pwdField.getText();}
-
-        }
-
-        if (usernameField.getText().isBlank()){
-
-            usernameField.setStyle(errorStyle);
-            usernameField.setPromptText("Mandatory field");
-
-        } else{
-            username = usernameField.getText();
-        }
-
-        if(pwd != null && username != null) {
-
-            try{
-
-                if(EmotionalSongsClient.auth.userLogin(username, RSA_Encrypt(pwd))){
-
-                    System.out.println("User logged in!"); // TODO Qui verrà visualizzata la schermata principale
-
-                    try{
-                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("emotionalSongsClient.fxml"));
-                        Scene scene = new Scene(fxmlLoader.load());
-
-                        EmotionalSongsClientController client = fxmlLoader.getController();
-                        client.setUser(usernameField.getText(), false);
-
-                        EmotionalSongsClient.setStage(scene, EmotionalSongsClientController.WIDTH, EmotionalSongsClientController.HEIGHT, true);
-
-                    }catch (IOException e1){
-                        // TODO forse rimuovere sollevamento eccezzione
-                        e1.printStackTrace();
-                    }
-
-                } else{ // Le credenziali sono errate
-
-                    loginFailedLabel.setText("Invalid username or password");
-                    loginFailedLabel.setStyle(errorMessage);
-                    loginFailedLabel.setVisible(true);
-
+                } else {
+                    pwd = overlappingTextField.getText();
                 }
 
-            } catch (RemoteException e) {
+            } else { // Se la password NON è visualizzata in chiaro (textbok nascosto, password field visibile)
 
-                Dialog<String> dialog = new Dialog<>();
-                dialog.setTitle("Errore");
+                if (pwdField.getText().isBlank()) {
 
-                ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+                    pwdField.setStyle(errorStyle);
+                    pwdField.setPromptText("Mandatory field");
 
-                dialog.setContentText("Impossibile contattare il server. Riavviare l'applicazione.");
+                } else {
+                    pwd = pwdField.getText();
+                }
 
-                // Tipicamente il client quando solleva una RemoteException in questo punto vuol dire che possiede un riferimento obsoleto alla classe AuthManager.
-                // In altre parole il server è stato chiuso (e/o riavviato) DOPO che il client ha ottenuto il riferimento a quest'ultima.
-                // Pertanto l'unica soluzione consiste nell'ottenere un nuovo riferimento all'oggetto remoto, questo si potrebbe effettuare all'interno del codice
-                // però si tratta di una feature aggiuntiva che si può includere nel futuro. Onde evitare che questo commento venga perso lo marco con un TODO.
-
-                Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
-
-                dialogStage.getIcons().add(guiUtilities.getImage("failure"));
-
-                dialog.getDialogPane().getButtonTypes().add(type);
-                dialog.showAndWait();
             }
 
-        }
+            if (usernameField.getText().isBlank()) {
 
+                usernameField.setStyle(errorStyle);
+                usernameField.setPromptText("Mandatory field");
+
+            } else {
+                username = usernameField.getText();
+            }
+
+            if (pwd != null && username != null) {
+
+                try {
+
+                    if (EmotionalSongsClient.auth.userLogin(username, AuthManager.RSA_Encrypt(pwd))) {
+
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("emotionalSongsClient.fxml"));
+
+                        try {
+                            Scene scene = new Scene(fxmlLoader.load());
+
+                            EmotionalSongsClientController client = fxmlLoader.getController();
+                            client.setUser(usernameField.getText(), false);
+
+                            EmotionalSongsClient.setStage(scene, EmotionalSongsClientController.WIDTH, EmotionalSongsClientController.HEIGHT, true);
+
+                    }catch (IOException e1){
+                         //
+                    }
+
+                    } else { // Le credenziali sono errate
+
+                        loginFailedLabel.setText("Invalid username or password");
+                        loginFailedLabel.setStyle(errorMessage);
+                        loginFailedLabel.setVisible(true);
+
+                    }
+
+                } catch (RemoteException e) {
+
+                    Dialog<String> dialog = new Dialog<>();
+                    dialog.setTitle("Errore");
+
+                    ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+
+                    dialog.setContentText("Impossibile contattare il server. Riavviare l'applicazione.");
+
+                    // Tipicamente il client quando solleva una RemoteException in questo punto vuol dire che possiede un riferimento obsoleto alla classe AuthManager.
+                    // In altre parole il server è stato chiuso (e/o riavviato) DOPO che il client ha ottenuto il riferimento a quest'ultima.
+                    // Pertanto l'unica soluzione consiste nell'ottenere un nuovo riferimento all'oggetto remoto, questo si potrebbe effettuare all'interno del codice
+                    // però si tratta di una feature aggiuntiva che si può includere nel futuro. Onde evitare che questo commento venga perso lo marco con un TODO.
+
+                    Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
+
+                    dialogStage.getIcons().add(guiUtilities.getImage("failure"));
+
+                    dialog.getDialogPane().getButtonTypes().add(type);
+                    dialog.showAndWait();
+                }
+
+            }
+        } else{
+            EmotionalSongsClient.initializeServerConnection();
+        }
     }
 
     /**
@@ -315,14 +356,4 @@ public class LoginController implements Initializable {
 
     }
 
-    protected static byte[] RSA_Encrypt(String data){
-        try {
-            PublicKey pk = EmotionalSongsClient.auth.getPublicKey();
-            Cipher encryptCipher = Cipher.getInstance("RSA");
-            encryptCipher.init(Cipher.ENCRYPT_MODE, pk);
-            return encryptCipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
-        } catch (Exception e){
-            return null;
-        }
-    }
 }
