@@ -1,26 +1,29 @@
 package emotionalsongs;
 
-
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.crypto.Cipher;
+import java.io.Serial;
 import java.nio.charset.StandardCharsets;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.security.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * TODO Document
  */
 public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
 
+    @Serial
     private static final long serialVersionUID = 1L;
-    private QueryHandler dbReference;
+    private final QueryHandler dbReference;
 
-    private static boolean acceptsConnections = true;
+    private static boolean acceptsConnections = true; // TODO (?)
+
     private static KeyPair pair = null;
-    private static ArrayList<PingClient> clientList = new ArrayList<>();
+    private static HashSet<PingClient> clientList = new HashSet<>();
 
     /**
      * TODO Document
@@ -29,14 +32,14 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
     protected AuthManagerImpl() throws RemoteException {
         super();
         generateKeys();
-        clientList = new ArrayList<>();
-        dbReference = EmotionalSongsServer.qh;
+        clientList = new HashSet<>();
+        dbReference = EmotionalSongsServer.getQueryHandlerInstance();
 
         // TODO auto-generated stub
     }
 
     public static void removeClients(ArrayList<PingClient> disconnected) {
-        clientList.removeAll(disconnected);
+        disconnected.forEach(clientList::remove);
     }
 
     /**
@@ -47,12 +50,25 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      */
 
     public boolean usernameExists(String username) throws RemoteException {
-        System.out.println("[SERVER] Ricevuto username: " + username);
-        if(username!=null && dbReference.usernameExists(username)){
+        String queryResult = dbReference.executeQuery(new String[]{username}, QueryHandler.QUERY_USERNAME_EXISTS).get(0)[0];
+        if(username!=null && Integer.parseInt(queryResult) == 1){
             return true;
         }
         return false;
     }
+
+    /**
+     * TODO Document and Implement
+     * @param cf
+     * @return
+     * @throws RemoteException
+     */
+    public boolean cfExists(String cf) throws RemoteException {
+        String queryResult = dbReference.executeQuery(new String[]{cf}, QueryHandler.QUERY_CF_EXISTS).get(0)[0];
+        if (cf != null && Integer.parseInt(queryResult) == 1) {return true;}
+        return false;
+    }
+
 
     /**
      * TODO Document and Implement
@@ -122,7 +138,7 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
 
         if (pair == null) {
 
-            KeyPairGenerator generator = null;
+            KeyPairGenerator generator;
 
             try {
                 generator = KeyPairGenerator.getInstance("RSA");
@@ -151,9 +167,8 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
         else{throw new RemoteException();}
     }
 
-    protected static ArrayList<PingClient> getClientList(){
+    protected static HashSet<PingClient> getClientList(){
         return clientList;
     }
-
 
 }
