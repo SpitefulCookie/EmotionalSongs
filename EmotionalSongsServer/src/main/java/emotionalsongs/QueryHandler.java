@@ -2,7 +2,6 @@ package emotionalsongs;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 /**
  * Manages database queries and connections for the EmotionalSong application.
@@ -31,13 +30,35 @@ public class QueryHandler {
 
     protected static final String QUERY_USER_PWD = "SELECT Password FROM UtentiRegistrati WHERE Userid = '%s'";
     protected static final String QUERY_USERNAME_EXISTS = "SELECT COUNT(*) FROM utentiregistrati WHERE userid = '%s'";
+    protected static final String QUERY_CF_EXISTS = "SELECT COUNT(*) FROM utentiregistrati WHERE codicefiscale = '%s'";
     protected static final String QUERY_REGISTER_USER = "INSERT INTO UtentiRegistrati (nome, codicefiscale, via, numerocivico, cap, comune, provincia, email, userid, password) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
     protected static final String QUERY_SEARCH_SONG_BY_TITLE = "SELECT * FROM Canzoni WHERE Titolo LIKE '#%s#'";
+    protected static final String QUERY_SEARCH_SONG_BY_AUTHOR_AND_YEAR = "SELECT * FROM Canzoni WHERE autore = '%s' AND anno = %s";
     protected static final String QUERY_USER_PLAYLISTS = "SELECT Nome FROM Playlist WHERE UserId = '%s'";
     protected static final String QUERY_SONGS_IN_PLAYLIST = "SELECT Titolo, Autore, anno, songUUID FROM Canzoni NATURAL JOIN Contiene WHERE Nome = '%s'";
     protected static final String QUERY_REGISTER_PLAYLIST = "INSERT INTO Playlist (Nome, UserId) VALUES ('%s', '%s')";
     protected static final String QUERY_REGISTER_SONG_IN_PLAYLIST = "INSERT INTO Contiene (Nome, UserId, SongUUID) VALUES ('%s', '%s', '%s')";
     protected static final String QUERY_REGISTER_SONG_EMOTION = "INSERT INTO %s (UserId, SongUUID, Punteggio, Note) VALUES ('%s', '%s', '%s', '%s')";
+    protected static final String QUERY_GET_SONG_EMOTIONS =
+            "SELECT punteggio, note FROM amazement \n" +
+            "WHERE userid = 'uId' AND songuuid = 'sId' UNION(\n" +
+            "SELECT punteggio, note FROM solemnity \n" +
+            "WHERE userid = 'uId' AND songuuid = 'sId' UNION(\n" +
+            "   \tSELECT punteggio, note FROM tenderness \n" +
+            "WHERE userid = 'uId' AND songuuid = 'sId' UNION(\n" +
+            "   \tSELECT punteggio, note FROM nostalgia \n" +
+            "WHERE userid = 'uId' AND songuuid = 'sId' UNION(\n" +
+            "SELECT punteggio, note FROM calmness \n" +
+            "WHERE userid = 'uId' AND songuuid = 'sId' UNION(\n" +
+            "SELECT punteggio, note FROM power \n" +
+            "WHERE userid = 'uId' AND songuuid = 'sId' UNION(\n" +
+            "SELECT punteggio, note FROM joy \n" +
+            "WHERE userid = 'uId' AND songuuid = 'sId' UNION(\n" +
+            "SELECT punteggio, note FROM tension \n" +
+            "WHERE userid = 'uId' AND songuuid = 'sId' UNION(\n" +
+            "SELECT punteggio, note FROM sadness \n" +
+            "WHERE userid = 'uId' AND songuuid = 'sId'\n" +
+            "))))))));\n";
 
     /**
      * Constructs a new QueryHandler object and establishes a database connection using the provided
@@ -229,7 +250,7 @@ public class QueryHandler {
 
         } catch (SQLException e) {
 
-            EmotionalSongsServer.mainView.logError("SQLException thrown while executing function registerUser in QueryHandler.java");
+            EmotionalSongsServer.mainView.logError("SQLException thrown while executing function registerUser in QueryHandler.java\nReason: " + e.getMessage());
 
         }
 
@@ -254,21 +275,28 @@ public class QueryHandler {
      * @param args The arguments to be inserted into the parameterized query command.
      * @param queryCommand The parameterized SQL query command to execute.
      */
-    public ArrayList<String[]> executeQuery(final String[] args, final String queryCommand){
+    public synchronized ArrayList<String[]> executeQuery(final String[] args, final String queryCommand){
 
         ArrayList<String[]> results = new ArrayList<>();
 
         try {
-
-            ResultSet set = stmt.executeQuery(String.format(queryCommand, (Object[]) args));
+            ResultSet set;
+            if(args.length !=0) {
+                set = stmt.executeQuery(String.format(queryCommand, (Object[]) args));
+            } else{
+                // Ramo else aggiunto per semplificare le operazioni nella query QUERY_GET_SONG_EMOTIONS dove vi sono 2 parametri e 18 placeholders.
+                // Nel caso di questa query la sostituzione dei placeholder con i parametri viene effettuata esternamente mediante il metodo replace() della classe String
+                set = stmt.executeQuery(queryCommand);
+            }
 
             int numCols = set.getMetaData().getColumnCount();
-            String[] row = new String[numCols];
 
             while (set.next()) { // Finché vi sono righe...
 
-                for (var i = 1; i< numCols; i++){ // per ciascuna colonna presente nella tabella,
-                    row[i-1] = set.getString(i); // aggiungo la stringa ottenuta al mio array
+                String[] row = new String[numCols];
+
+                for (var i = 0; i<numCols; i++){ // per ciascuna colonna presente nella tabella,
+                    row[i] = set.getString(i+1); // aggiungo la stringa ottenuta al mio array
                 } // una volta ottenuto tutti i valori delle colonne
 
                 results.add(row); // aggiungo la mia riga ai risultati ottenuti e...
@@ -300,14 +328,14 @@ public class QueryHandler {
      * @param args The arguments to be inserted into the parameterized query command.
      * @param queryCommand The parameterized SQL query command to execute.
      */
-    public void executeUpdate(final String[] args,  final String queryCommand) {
+    public synchronized void executeUpdate(final String[] args,  final String queryCommand) {
 
         try {
             stmt.executeUpdate(String.format(queryCommand, (Object[]) args));
         } catch (SQLException e) {
-
             EmotionalSongsServer.mainView.logError("SQLException thrown while executing update:\n" +String.format(queryCommand, (Object[]) args) + "\nReason: " + e.getMessage());
         }
 
     }
+
 }
