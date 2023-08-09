@@ -16,6 +16,7 @@ public interface AuthManager extends Remote {
     boolean userLogin(String username, byte[] pwd) throws RemoteException;
     PublicKey getPublicKey() throws RemoteException;
     void registerClient(PingClient client) throws RemoteException;
+    boolean cfExists(String cf) throws RemoteException;
 
     static byte[] RSA_Encrypt(String data){
         try {
