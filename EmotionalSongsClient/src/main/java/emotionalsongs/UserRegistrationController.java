@@ -18,7 +18,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -318,6 +320,8 @@ public class UserRegistrationController implements Initializable {
 
         boolean isInputValid = true;
 
+        // =============== N O M I N A T I V O  ===============
+
         if(nomeField.getText().isBlank()){
             GUIUtilities.setErrorStyle(nomeField);
             isInputValid = false;
@@ -327,6 +331,9 @@ public class UserRegistrationController implements Initializable {
             GUIUtilities.setErrorStyle(cognomeField);
             isInputValid = false;
         } else{GUIUtilities.setDefaultStyle(cognomeField);}
+
+        // =============== C O D I C E   F I S C A L E  ===============
+
         try {
             boolean isCfTaken = EmotionalSongsClient.auth.cfExists(codFiscField.getText());
             if (!isValidCF(codFiscField.getText()) || isCfTaken) {
@@ -353,6 +360,9 @@ public class UserRegistrationController implements Initializable {
                 codFiscField.setTooltip(null);
             }
         } catch (RemoteException e){isInputValid=false;}
+
+        // =============== E M A I L  ===============
+
         if (emailField.getText().isBlank() | !emailField.getText().matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$") ){
 
             GUIUtilities.setErrorStyle(emailField);
@@ -361,6 +371,8 @@ public class UserRegistrationController implements Initializable {
             isInputValid = false;
 
         } else{GUIUtilities.setDefaultStyle(emailField);}
+
+        // =============== I N D I R I Z Z O   T O P O N O M A S T I C O  ===============
 
         if (viaField.getText().isBlank()){
             GUIUtilities.setErrorStyle(viaField);
@@ -388,7 +400,9 @@ public class UserRegistrationController implements Initializable {
             GUIUtilities.setErrorStyle(capField);
             isInputValid = false;
         } else{GUIUtilities.setDefaultStyle(capField);}
-        // Sanity check: checkUsernameAvailability is negated because these checks invalidate the user input
+
+        // =============== C R E D E N Z I A L I   U T E N T E  ===============
+
         if (usernameField.getText().isBlank() | !checkUsernameAvailability()) {
             GUIUtilities.setErrorStyle(usernameField);
             isInputValid = false;
@@ -568,24 +582,17 @@ public class UserRegistrationController implements Initializable {
 
                 }
 
-            } else{ // FIXME anche se l'username è preso, il client tenta lo stesso i dati al server (print in console)
-                GUIUtilities.setErrorStyle(usernameField);
-            }
+            } else{ GUIUtilities.setErrorStyle(usernameField); }
 
         } catch (Exception e) {
 
-            Dialog<String> dialog = new Dialog<>();
-            dialog.setTitle("Errore");
+            Stage connectionFailedStage = new Stage();
 
-            ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
-            Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
-
-            dialogStage.getIcons().add(guiUtilities.getImage("failure"));
-
-            dialog.setContentText("Impossibile contattare il server."); // TODO modify?
-
-            dialog.getDialogPane().getButtonTypes().add(type);
-            dialog.showAndWait();
+            connectionFailedStage.setScene(GUIUtilities.getInstance().getScene("connectionFailed.fxml"));
+            connectionFailedStage.initStyle(StageStyle.UNDECORATED);
+            connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
+            connectionFailedStage.setResizable(false);
+            connectionFailedStage.show();
 
         }
 
