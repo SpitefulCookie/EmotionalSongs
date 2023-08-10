@@ -73,7 +73,7 @@ public class EmotionalSongsServer extends Application {
         stage.setWidth(ServerLoginController.WIDTH);
         stage.setHeight(ServerLoginController.HEIGHT);
         stage.setTitle("Emotional Songs Server");
-        stage.getIcons().add(new Image(new FileInputStream("EmotionalSongsServer/src/main/resources/Images/blueFire.png")));
+        stage.getIcons().add(GUIUtilities.getInstance().getImage("blueFire"));
         stage.setResizable(false);
         ServerLoginController.setStage(stage);
         stage.setScene(scene);

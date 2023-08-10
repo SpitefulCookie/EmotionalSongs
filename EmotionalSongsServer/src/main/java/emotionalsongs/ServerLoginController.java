@@ -16,8 +16,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -133,7 +131,6 @@ public class ServerLoginController implements Initializable {
 
             } catch (SQLException e){
 
-                e.printStackTrace();
                 loginFailedLabel.setText("Invalid username or password");
                 loginFailedLabel.setStyle(errorMessage);
                 loginFailedLabel.setVisible(true);
@@ -188,62 +185,56 @@ public class ServerLoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        try{
+        this.eye = GUIUtilities.getInstance().getImage("eye");
+        this.eyeCrossed =  GUIUtilities.getInstance().getImage("eyeCrossed");
 
-            eye =  new Image(new FileInputStream("EmotionalSongsServer/src/main/resources/Images/view.png"));
-            eyeCrossed =  new Image(new FileInputStream("EmotionalSongsServer/src/main/resources/Images/hide.png"));
+        settingsButton.setGraphic(new ImageView(GUIUtilities.getInstance().getImage("gear")));
+        settingsButton.setFocusTraversable(false);
 
-            settingsButton.setGraphic(new ImageView(new Image( new FileInputStream("EmotionalSongsServer/src/main/resources/Images/gear2.png"))));
-            settingsButton.setFocusTraversable(false);
+        settingsButton.setOnAction(
+            event -> {
 
-            settingsButton.setOnAction(
-                event -> {
+                FXMLLoader loader = new FXMLLoader(EmotionalSongsServer.class.getResource("serverLoginSettings.fxml"));
 
-                    FXMLLoader loader = new FXMLLoader(EmotionalSongsServer.class.getResource("serverLoginSettings.fxml"));
+                try {
 
-                    try {
+                    Scene scene = new Scene(loader.load());
 
-                        Scene scene = new Scene(loader.load());
+                    final Stage dialog = new Stage();
+                    dialog.initModality(Modality.APPLICATION_MODAL);
+                    dialog.initOwner(EmotionalSongsServer.getStage());
+                    Scene dialogScene = scene;
 
-                        final Stage dialog = new Stage();
-                        dialog.initModality(Modality.APPLICATION_MODAL);
-                        dialog.initOwner(EmotionalSongsServer.getStage());
-                        Scene dialogScene = scene;
+                    dialog.setScene(dialogScene);
+                    dialog.show();
 
-                        dialog.setScene(dialogScene);
-                        dialog.show();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-
-
-            showPasswordInput.setGraphic(new ImageView(eye));
-            showPasswordInput.setFocusTraversable(false);
-
-            // I seguenti blocchi di codice rilevano quando l'utente preme il tasto invio all'interno del campo login (ovvero ha terminato d'inserire le proprie credenziali)
-            pwdField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-                @Override
-                public void handle(KeyEvent ke) {
-                    if (ke.getCode().equals(KeyCode.ENTER)) {
-                        handleLoginButtonAction();
-                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             });
 
-            overlappingTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-                @Override
-                public void handle(KeyEvent ke) {
-                    if (ke.getCode().equals(KeyCode.ENTER)) {
-                        handleLoginButtonAction();
-                    }
-                }
-            });
 
-        } catch (FileNotFoundException e) {
-            //
-        }
+        showPasswordInput.setGraphic(new ImageView(eye));
+        showPasswordInput.setFocusTraversable(false);
+
+        // I seguenti blocchi di codice rilevano quando l'utente preme il tasto invio all'interno del campo login (ovvero ha terminato d'inserire le proprie credenziali)
+        pwdField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode().equals(KeyCode.ENTER)) {
+                    handleLoginButtonAction();
+                }
+            }
+        });
+
+        overlappingTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode().equals(KeyCode.ENTER)) {
+                    handleLoginButtonAction();
+                }
+            }
+        });
 
     }
 }
