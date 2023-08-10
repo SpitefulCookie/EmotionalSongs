@@ -66,7 +66,7 @@ public class ServerMainViewController implements Initializable {
 
         // ------------------TESTING--------------------
         // TODO remove this block before turning in the project
-            EmotionalSongsServer.getRepositoryManagerInstance().test();
+            //EmotionalSongsServer.getRepositoryManagerInstance().test();
 
         // ---------------------------------------------
     }
