@@ -6,19 +6,34 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+/**
+ * Implementation of the RepositoryManager interface that provides methods to interact with the song repository.
+ * This class extends UnicastRemoteObject to facilitate remote method invocation.
+ */
 public class RepositoryManagerImpl extends UnicastRemoteObject implements RepositoryManager{
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+    @Serial private static final long serialVersionUID = 1L;
     private static QueryHandler dbReference;
 
+    /**
+     * Constructor to initialize the RepositoryManager implementation.
+     * Retrieves the QueryHandler instance from EmotionalSongsServer.
+     *
+     * @throws RemoteException If a remote communication error occurs.
+     */
     protected RepositoryManagerImpl() throws RemoteException {
         super();
         dbReference = EmotionalSongsServer.getQueryHandlerInstance();
     }
 
-    @Override
-    public HashSet<Canzone> ricercaCanzone(String titolo) { // verificata
+    /**
+     * Searches for songs by title and returns a set of matching songs.
+     *
+     * @param titolo The title of the song to search for.
+     * @return A HashSet of Canzone objects representing matching songs.
+     */
+    @Override // Verificata
+    public HashSet<Canzone> ricercaCanzone(String titolo) {
         ArrayList<String[]> dataRetrieved = dbReference.executeQuery(new String[]{titolo}, QueryHandler.QUERY_SEARCH_SONG_BY_TITLE);
         if (dataRetrieved.size() != 0) {
             HashSet<Canzone> resultsToBeReturned = new HashSet<>();
@@ -34,8 +49,16 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
 
     }
 
-    @Override
-    public HashSet<Canzone> ricercaCanzone(String autore, String anno) throws RemoteException { // verificata
+    /**
+     * Searches for songs by author and year and returns a set of matching songs.
+     *
+     * @param autore The author of the song to search for.
+     * @param anno The year of the song to search for.
+     * @return A HashSet of Canzone objects representing matching songs.
+     * @throws RemoteException If a remote communication error occurs.
+     */
+    @Override // Verificata
+    public HashSet<Canzone> ricercaCanzone(String autore, String anno) throws RemoteException {
         ArrayList<String[]> dataRetrieved = dbReference.executeQuery(new String[]{autore, anno}, QueryHandler.QUERY_SEARCH_SONG_BY_AUTHOR_AND_YEAR);
         if (dataRetrieved.size() != 0) {
             HashSet<Canzone> resultsToBeReturned = new HashSet<>();
@@ -50,8 +73,15 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
         return null;
     }
 
-    @Override
-    public HashSet<String> getUserPlaylists(String user) throws RemoteException { // non verificata
+    /**
+     * Retrieves user playlists for the given user.
+     *
+     * @param user The username for which to retrieve playlists.
+     * @return A HashSet of playlist names belonging to the user.
+     * @throws RemoteException If a remote communication error occurs.
+     */
+    @Override // Verificata
+    public HashSet<String> getUserPlaylists(String user) throws RemoteException {
 
         ArrayList<String[]> dataRetrieved = dbReference.executeQuery(new String[]{user}, QueryHandler.QUERY_USER_PLAYLISTS);
         if (dataRetrieved.size() != 0) {
@@ -65,8 +95,15 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
         return null;
     }
 
+    /**
+     * Retrieves a set of songs present in the specified playlist.
+     *
+     * @param playlistName The name of the playlist for which to retrieve songs.
+     * @return A HashSet of Canzone objects representing songs in the playlist.
+     * @throws RemoteException If a remote communication error occurs.
+     */
     @Override
-    public HashSet<Canzone> getSongsInPlaylist(String playlistName) throws RemoteException { // non verificata
+    public HashSet<Canzone> getSongsInPlaylist(String playlistName) throws RemoteException {
 
         ArrayList<String[]> dataRetrieved = dbReference.executeQuery(new String[]{playlistName}, QueryHandler.QUERY_SONGS_IN_PLAYLIST);
         if (dataRetrieved.size() != 0) {
@@ -77,22 +114,45 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
             return resultsToBeReturned;
         }
 
-        return null;
+        return new HashSet<>(); // TODO new HashSet<>() meglio di restituire null?
 
     }
 
-    @Override
-    public void registerPlaylist(String username, String playlistName, String loggedUser) throws RemoteException { // non verificata
-        dbReference.executeUpdate(new String[]{username, playlistName, loggedUser}, QueryHandler.QUERY_REGISTER_PLAYLIST );
+    /**
+     * Registers a new playlist for the specified user.
+     *
+     * @param playlistName The name of the playlist to register.
+     * @param username The username of the user registering the playlist.
+     * @throws RemoteException If a remote communication error occurs.
+     */
+    @Override // Verificata
+    public void registerPlaylist(String playlistName, String username) throws RemoteException {
+        dbReference.executeUpdate(new String[]{playlistName, username}, QueryHandler.QUERY_REGISTER_PLAYLIST );
     }
 
-    @Override
-    public void addSongToPlaylist(String username, String nomePlaylist) throws RemoteException { // non verificata
-        dbReference.executeUpdate(new String[]{username, nomePlaylist}, QueryHandler.QUERY_REGISTER_SONG_IN_PLAYLIST );
+    /**
+     * Adds a song to the specified playlist for the given user.
+     *
+     * @param nomePlaylist The name of the playlist to which the song will be added.
+     * @param userID The ID of the user adding the song to the playlist.
+     * @param songUUID The UUID of the song to be added.
+     * @throws RemoteException If a remote communication error occurs.
+     */
+    @Override // Verificata
+    public void addSongToPlaylist(String nomePlaylist, String userID, String songUUID) throws RemoteException {
+        dbReference.executeUpdate(new String[]{nomePlaylist, userID, songUUID}, QueryHandler.QUERY_REGISTER_SONG_IN_PLAYLIST );
     }
 
-    @Override
-    public void registerEmotions(ArrayList<Emozione> emozioniProvate, String songUUID, String userId) throws RemoteException { // verificata
+    /**
+     * Registers user emotions for a song.
+     *
+     * @param emozioniProvate The list of emotions experienced by the user. The order of the emotion must be as defined in the EmozioneEnum class
+     * @param songUUID The UUID of the song.
+     * @param userId The ID of the user.
+     * @throws RemoteException If a remote communication error occurs.
+     */
+    @Override // Verificata
+    public void registerEmotions(ArrayList<Emozione> emozioniProvate, String songUUID, String userId) throws RemoteException {
 
         int i = 0;
         for (var emozione : emozioniProvate){
@@ -112,9 +172,16 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
 
     }
 
-    // TODO Implement
-    @Override
-    public ArrayList<Emozione> getSongEmotions(String songUUID, String userid) throws RemoteException { // verificata
+    /**
+     * Retrieves emotions associated with a song for a specific user.
+     *
+     * @param songUUID The UUID of the desired song.
+     * @param userid The ID of the user (username).
+     * @return An ArrayList of Emozione objects representing emotions associated with the song.
+     * @throws RemoteException If a remote communication error occurs.
+     */
+    @Override // Verificata
+    public ArrayList<Emozione> getSongEmotions(String songUUID, String userid) throws RemoteException {
         // Vedi commento in QueryHandler.executeQuery sul motivo del passaggio di un array di stringhe vuoto.
         ArrayList<String[]> dataRetrieved = dbReference.executeQuery(new String[]{}, QueryHandler.QUERY_GET_SONG_EMOTIONS.replace("uId", userid).replace("sId", songUUID));
 
@@ -129,63 +196,9 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
             }
 
             return resultsToBeReturned;
-
         }
 
         return null;
-    }
-
-    // TODO remove before turning in the project
-    public void test(){
-
-        /* -------- TEST registra emozioni -------- /
-
-        ArrayList<Emozione> testEmozioni = new ArrayList<>();
-        testEmozioni.add(new Amazement(1,"a"));
-        testEmozioni.add(new Solemnity(2,"b"));
-        testEmozioni.add(new Tenderness(3,"c"));
-        testEmozioni.add(new Nostalgia(4,"d"));
-        testEmozioni.add(new Calmness(5,"e"));
-        testEmozioni.add(new Power(1,"f"));
-        testEmozioni.add(new Joy(2,"g"));
-        testEmozioni.add(new Tension(3,"h"));
-        testEmozioni.add(new Sadness(4,"i"));
-
-        try {
-            registerEmotions(testEmozioni,"TEST_UUID", "test");
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
-        // -------- Fine TEST registra emozioni -------- */
-
-
-        /* -------- TEST getSongEmotions: -------- /
-
-        try {
-            ArrayList<Emozione> emozioni = getSongEmotions("TEST_UUID", "test");
-            for (Emozione a:emozioni) {
-                System.out.println("Emozione: "+a.getClass().getName() + "\nPunteggio: " + a.getPunteggio() +"\nCommento: " + a.getCommento());
-            }
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
-        // -------- Fine TEST getSongEmotions -------- */
-
-
-         /* -------- TEST Ricerca canzone per autore e anno: -------- /
-        try {
-            HashSet<Canzone> canzoni = ricercaCanzone("Queen", "1980");
-            for (Canzone a:canzoni) {
-                System.out.println(a.toString());
-            }
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        // -------- Fine TEST Ricerca canzone per autore e anno -------- */
-
-
     }
 
 }
