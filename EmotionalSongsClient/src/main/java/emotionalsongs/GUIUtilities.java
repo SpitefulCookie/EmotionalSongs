@@ -3,9 +3,6 @@ package emotionalsongs;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -80,37 +77,36 @@ public class GUIUtilities {
         });
     }
 
-        /**
-         * TODO document
-         * @param tf
-         */
-        public static void forceNumericInput(final TextField tf) {
+    /**
+     * TODO document
+     * @param tf
+     */
+    public static void forceNumericInput(final TextField tf) {
 
-            tf.textProperty().addListener((observable, oldValue, newValue) -> {
-                if (!newValue.matches("\\d*")) {
-                    tf.setText(newValue.replaceAll("[^\\d]", ""));
-                }
-            });
+        tf.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                tf.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+        });
+    }
 
-        }
+    /**
+     * TODO document
+     * @param tf
+     * @param maxLen
+     */
+    public static void forceNumericInput(final TextField tf, final int maxLen) {
 
-        /**
-         * TODO document
-         * @param tf
-         * @param maxLen
-         */
-        public static void forceNumericInput(final TextField tf, final int maxLen) {
+        tf.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                tf.setText(newValue.replaceAll("[^\\d]", ""));
+            } else if (tf.getText().length() > maxLen) {
+                String s = tf.getText().substring(0, maxLen);
+                tf.setText(s);
+            }
+        });
 
-            tf.textProperty().addListener((observable, oldValue, newValue) -> {
-                if (!newValue.matches("\\d*")) {
-                    tf.setText(newValue.replaceAll("[^\\d]", ""));
-                } else if (tf.getText().length() > maxLen) {
-                    String s = tf.getText().substring(0, maxLen);
-                    tf.setText(s);
-                }
-            });
-
-        }
+    }
 
     /**
      * TODO document
@@ -118,27 +114,29 @@ public class GUIUtilities {
      * @param maxLength
      */
     public static void addTextLimiter(final TextField tf, final int maxLength) {
+
         tf.textProperty().addListener((ov, oldValue, newValue) -> {
             if (tf.getText().length() > maxLength) {
                 String s = tf.getText().substring(0, maxLength);
                 tf.setText(s);
             }
         });
+
     }
 
-        /**
-         * TODO document
-         * @param tf
-         */
-        public static void forceTextInput(final TextField tf) {
+    /**
+     * TODO document
+     * @param tf
+     */
+    public static void forceTextInput(final TextField tf) {
 
-            tf.textProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue.matches("\\d*")) {
-                    tf.setText(newValue.replaceAll("[\\d]", ""));
-                }
-            });
+        tf.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.matches("\\d*")) {
+                tf.setText(newValue.replaceAll("[\\d]", ""));
+            }
+        });
 
-        }
+    }
 
     protected static <T> void setErrorStyle(T node){
 
@@ -167,15 +165,15 @@ public class GUIUtilities {
 
     /**
      * TODO document
-     * @param button
+     * @param node
      */
-    protected void setButtonStyle(Button button, String styleToRemove, String styleToAdd){
+    protected void setNodeStyle(Node node, String styleToRemove, String styleToAdd){
         /*
         metodo che va a modificare lo style del bottone passato come paramentro, andando a rimuovergli
         lo styleToRemove e andando ad aggiungerli lo StyleToAdd.
          */
-        button.getStyleClass().remove(styleToRemove);
-        button.getStyleClass().add(styleToAdd);
+        node.getStyleClass().remove(styleToRemove);
+        node.getStyleClass().add(styleToAdd);
     }
 
     /**
@@ -195,8 +193,6 @@ public class GUIUtilities {
             addImages("closeSideBar", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/returnIcon.png")));
             addImages("search", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/searchIcon.png")));
             addImages("removeSearch", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/remove.png")));
-            addImages("expandWindow", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/expandIcon.png")));
-            addImages("reduceWindow", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/reduceIcon.png")));
         }catch (IOException e){
             e.printStackTrace();
         }

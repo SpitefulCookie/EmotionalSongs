@@ -28,6 +28,8 @@ public class SongController implements Initializable {
     @FXML
     private Button viewEmotionsBtn;
 
+    private Canzone song;
+
     /**
      * TODO document
      * @param url
@@ -52,7 +54,7 @@ public class SongController implements Initializable {
     @FXML
     public void handleAddToPlaylistButtonAction(){
         /*
-        implementare cosa deve accadare quando quando viene premuto questo pulsante
+        TODO implementare cosa deve accadare quando quando viene premuto questo pulsante
          */
     }
 
@@ -62,7 +64,7 @@ public class SongController implements Initializable {
     @FXML
     public void handleViewEmotionsButtonAction(){
         /*
-        implementare cosa deve accadare quando quando viene premuto questo pulsante
+        TODO implementare cosa deve accadare quando quando viene premuto questo pulsante
          */
     }
 
@@ -83,20 +85,6 @@ public class SongController implements Initializable {
      * TODO docunent
      */
     @FXML
-    public void handleAddToPlaylistButtonMouseExitedAction(){
-        /*
-        quando il mouse è sopra al pulsante addPlaylistBtn ed 'esce' da esso (quindi il cursore non sarà più
-        sul pulsante) il testo del pulsante viene resettato e viene resettata anche la sua lunghezza,
-        questo sempre per creare una specie di animazione.
-         */
-        addToPlaylistBtn.setText("");
-        addToPlaylistBtn.setMaxWidth(BUTTON_MIN_WIDTH);
-    }
-
-    /**
-     * TODO docunent
-     */
-    @FXML
     public void handleViewEmotionsButtonMouseMovedAction(){
         /*
          quando il mouse passa sopra al viewEmotionsBtn viene settato il testo del pulsante e viene reimpostata
@@ -107,28 +95,27 @@ public class SongController implements Initializable {
     }
 
     /**
-     * TODO docunent
+     * TODO document
      */
     @FXML
-    public void handleViewEmotionsButtonMouseExitedAction(){
+    public void handleMouseExitedAction(){
         /*
-        quando il mouse è sopra al pulsante viewEmotionsBtn ed 'esce' da esso (quindi il cursore non sarà più
-        sul pulsante) il testo del pulsante viene resettato e viene resettata anche la sua lunghezza,
-        questo sempre per creare una specie di animazione.
+        gestisce l'animazione di quando il mouse finisce di essere sopra a uno dei due bottoni
          */
+        addToPlaylistBtn.setText("");
         viewEmotionsBtn.setText("");
+        addToPlaylistBtn.setMaxWidth(BUTTON_MIN_WIDTH);
         viewEmotionsBtn.setMaxWidth(BUTTON_MIN_WIDTH);
-
     }
 
     /**
-     *
-     * @param songName
-     * @param authorName
+     * TODO document
+     * @param song
      */
-    public void setData(String songName, String authorName){
-        setSongNameLabel(songName);
-        setAuthorNameLabel(authorName);
+    public void setData(Canzone song){
+        setSongNameLabel(song.getTitolo());
+        setAuthorNameLabel(song.getAutore());
+        this.song = song;
     }
 
     /**

@@ -33,7 +33,7 @@ public class PlaylistController{
             Node playlist = fxmlLoader.load();
 
             SelectedPlaylistController selectedPlaylistController = fxmlLoader.getController();
-            selectedPlaylistController.setPlaylist(playlistNameLabel.getText());
+            selectedPlaylistController.openPlaylist(playlistNameLabel.getText());
 
             EmotionalSongsClientController.setDynamicPane(playlist);
 

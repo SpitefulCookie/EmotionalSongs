@@ -34,8 +34,12 @@ public class CreatePlaylistController implements Initializable {
     @FXML
     private Label existingPlaylistLabel;
 
+    private static TextField playlistNameField_;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        playlistNameField_ = playlistNameField;
 
         /*
          verifico in "tempo reale" se esiste già una playlist con nome uguale a quello inserito nella textField.
@@ -98,6 +102,13 @@ public class CreatePlaylistController implements Initializable {
 
         // close the stage
         closeCreatePlaylistStage(createPlaylistBtn);
+    }
+
+    /**
+     * TODO document
+     */
+    public static void clearPlaylistNameField(){
+        playlistNameField_.setText("");
     }
 
     /**
