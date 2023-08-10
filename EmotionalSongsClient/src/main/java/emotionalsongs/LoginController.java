@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
  */
 public class LoginController implements Initializable {
 
-    /* Old article about RMI optimization
+    /* Old article about RMI optimization TODO remove before turning in the project
      * http://www.javaperformancetuning.com/tips/j2ee_rmi.shtml
      */
 
@@ -40,9 +40,7 @@ public class LoginController implements Initializable {
     private static TextField _overlappingPwdField;
     private static PasswordField _pwdField;
 
-
     private GUIUtilities guiUtilities;
-
     private boolean isDisplayed = false;
     private Image eye;
     private Image eyeCrossed;
@@ -73,8 +71,6 @@ public class LoginController implements Initializable {
         settingsButton.setFocusTraversable(false);
 
         settingsButton.setOnAction( event -> {
-
-            //Scene scene = GUIUtilities.getInstance().getScene("clientLoginSettings.fxml");
 
             Stage dialog = new Stage();
             ClientSettingController.setStage(dialog);
@@ -125,22 +121,23 @@ public class LoginController implements Initializable {
             // La connessione al server è necessaria anche se l'utente non è registrato, pertanto non dev'essere
             // in grado di visualizzare la schermata principale senza che il client si sia connesso al server.
 
-        try{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("emotionalSongsClient.fxml"));
+            try{
 
-            Scene scene = new Scene(fxmlLoader.load());
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("emotionalSongsClient.fxml"));
 
-                EmotionalSongsClientController client = fxmlLoader.getController();
+                Scene scene = new Scene(fxmlLoader.load());
 
-                // TODO invece di utilizzare il controller per impostare l'utente,
-                //  visto che vi sarà una ed una sola istanza della classe non si può rendere setUser
-                //  statico così da effettuare il caricamento della schermata all'interno di GUI utilities?
-                //  In questo modo si toglierebbero non pochi try-catch inutili.
+                    EmotionalSongsClientController client = fxmlLoader.getController();
 
-                client.setUser("Guest", true);
+                    // TODO invece di utilizzare il controller per impostare l'utente,
+                    //  visto che vi sarà una ed una sola istanza della classe non si può rendere setUser
+                    //  statico così da effettuare il caricamento della schermata all'interno di GUI utilities?
+                    //  In questo modo si toglierebbero non pochi try-catch inutili.
 
-                EmotionalSongsClient.setStage(scene, EmotionalSongsClientController.WIDTH, EmotionalSongsClientController.HEIGHT, true);
-                EmotionalSongsClient.getStage().show();
+                    client.setUser("Guest", true);
+
+                    EmotionalSongsClient.setStage(scene, EmotionalSongsClientController.WIDTH, EmotionalSongsClientController.HEIGHT, true);
+                    EmotionalSongsClient.getStage().show();
 
             }catch(IOException e){
                 //
@@ -266,30 +263,20 @@ public class LoginController implements Initializable {
 
                 } catch (RemoteException e) {
 
-                    Dialog<String> dialog = new Dialog<>();
-                    dialog.setTitle("Errore");
+                    Stage connectionFailedStage = new Stage();
 
-                    ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+                    connectionFailedStage.setScene(GUIUtilities.getInstance().getScene("connectionFailed.fxml"));
+                    connectionFailedStage.initStyle(StageStyle.UNDECORATED);
+                    connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
+                    connectionFailedStage.setResizable(false);
+                    connectionFailedStage.show();
 
-                    dialog.setContentText("Impossibile contattare il server. Riavviare l'applicazione.");
-
-                    // Tipicamente il client quando solleva una RemoteException in questo punto vuol dire che possiede un riferimento obsoleto alla classe AuthManager.
-                    // In altre parole il server è stato chiuso (e/o riavviato) DOPO che il client ha ottenuto il riferimento a quest'ultima.
-                    // Pertanto l'unica soluzione consiste nell'ottenere un nuovo riferimento all'oggetto remoto, questo si potrebbe effettuare all'interno del codice
-                    // però si tratta di una feature aggiuntiva che si può includere nel futuro. Onde evitare che questo commento venga perso lo marco con un TODO.
-
-                    Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
-
-                    dialogStage.getIcons().add(guiUtilities.getImage("failure"));
-
-                    dialog.getDialogPane().getButtonTypes().add(type);
-                    dialog.showAndWait();
                 }
 
             }
-        } else{
-            EmotionalSongsClient.initializeServerConnection();
-        }
+
+        } else{ EmotionalSongsClient.initializeServerConnection(); }
+
     }
 
     /**
@@ -337,19 +324,12 @@ public class LoginController implements Initializable {
     @FXML protected void moveWindow() {
 
         this.anchorPane.setOnMousePressed(event -> {
-
             xOffset = event.getScreenX() - stage.getX();
             yOffset = event.getScreenY() - stage.getY();
-
         });
 
         this.anchorPane.setOnMouseDragged(event -> {
-
-            if (xOffset == 0 && yOffset==0) {
-                // questa porzione di codice è necessaria per evitare che la finestra snappi alle coordinate 0,0 (cosa che avviene alla primo trascinamento della schermata)
-                calculateGap(event);
-            }
-
+            if (xOffset == 0 && yOffset==0) { calculateGap(event); }
             stage.setX(event.getScreenX() - xOffset);
             stage.setY(event.getScreenY() - yOffset);
         });
