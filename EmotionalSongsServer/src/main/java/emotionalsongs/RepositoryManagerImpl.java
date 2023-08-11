@@ -34,7 +34,7 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
      */
     @Override // Verificata
     public HashSet<Canzone> ricercaCanzone(String titolo) {
-        ArrayList<String[]> dataRetrieved = dbReference.executeQuery(new String[]{titolo}, QueryHandler.QUERY_SEARCH_SONG_BY_TITLE);
+        ArrayList<String[]> dataRetrieved = dbReference.executeQuery(new String[]{}, String.format(QueryHandler.QUERY_SEARCH_SONG_BY_TITLE, titolo).replace('#','%'));
         if (dataRetrieved.size() != 0) {
             HashSet<Canzone> resultsToBeReturned = new HashSet<>();
             for (var s : dataRetrieved) {
@@ -44,7 +44,6 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
             }
             return resultsToBeReturned;
         }
-
         return new HashSet<>();
 
     }
