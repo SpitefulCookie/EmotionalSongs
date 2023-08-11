@@ -1,12 +1,13 @@
 package emotionalsongs;
 
+import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.security.PublicKey;
 
 public interface AuthManager extends Remote {
 
-    boolean usernameExists(String username) throws RemoteException;
+    boolean usernameExists(String username) throws RemoteException, UsernameNotVerifiedException;
     void registrazione(byte[] user) throws RemoteException;
     boolean userLogin(String username, byte[] pwd) throws RemoteException;
     PublicKey getPublicKey() throws RemoteException;
@@ -14,3 +15,9 @@ public interface AuthManager extends Remote {
     boolean cfExists(String cf) throws RemoteException;
 
 }
+/*
+class UsernameNotVerifiedException extends Exception implements Serializable {
+    UsernameNotVerifiedException(){
+        super("The server was unable to verify the provided username's availability.");
+    }
+}*/

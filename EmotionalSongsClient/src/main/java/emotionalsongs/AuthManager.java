@@ -11,7 +11,7 @@ import java.security.PublicKey;
  */
 public interface AuthManager extends Remote {
 
-    boolean usernameExists(String username) throws RemoteException;
+    boolean usernameExists(String username) throws RemoteException, UsernameNotVerifiedException;
     void registrazione(byte[] user) throws RemoteException;
     boolean userLogin(String username, byte[] pwd) throws RemoteException;
     PublicKey getPublicKey() throws RemoteException;
