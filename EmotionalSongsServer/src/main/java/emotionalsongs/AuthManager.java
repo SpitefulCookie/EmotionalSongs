@@ -15,9 +15,4 @@ public interface AuthManager extends Remote {
     boolean cfExists(String cf) throws RemoteException;
 
 }
-/*
-class UsernameNotVerifiedException extends Exception implements Serializable {
-    UsernameNotVerifiedException(){
-        super("The server was unable to verify the provided username's availability.");
-    }
-}*/
+
