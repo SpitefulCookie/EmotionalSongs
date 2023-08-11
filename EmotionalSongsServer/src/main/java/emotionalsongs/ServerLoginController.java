@@ -23,7 +23,12 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
- * TODO document
+ * Controller class for the login screen of the server application.
+ *
+ * This class is responsible for managing the user interface and behavior of the server login screen.
+ * It initializes UI components, handles user interactions, data validation and verifies the user's credentials.
+ *
+ * @author <a href="https://github.com/SpitefulCookie"> Della Chiesa Mattia</a>
  */
 public class ServerLoginController implements Initializable {
 
@@ -51,14 +56,14 @@ public class ServerLoginController implements Initializable {
     @FXML private Button settingsButton;
 
     /**
-     * TODO document
+     * Changes the appearance of the username field once selected by the user (typically after it had been highlighted as an error due to a missing or invalid input)
      */
     @FXML protected void handleUserFieldHighlight(){
         usernameField.setStyle(null);
     }
 
     /**
-     * TODO document
+     * Changes the appearance of the password field once selected by the user (typically after it had been highlighted as an error due to a missing or invalid input)
      */
     @FXML protected void handlePwdFieldHighlight(){
 
@@ -68,7 +73,8 @@ public class ServerLoginController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Handles the action when the login button is clicked.
+     * Validates the user input, performs login operation, and displays appropriate messages.
      */
     @FXML protected void handleLoginButtonAction(){
 
@@ -87,7 +93,7 @@ public class ServerLoginController implements Initializable {
                 pwd = overlappingTextField.getText();
             }
 
-        } else{ // Se la password NON è visualizzata in chiaro (textbok nascosto, password field visibile)
+        } else{ // Se la password NON è visualizzata in chiaro (textbox nascosto, password field visibile)
 
             if(pwdField.getText().isBlank()){
 
@@ -142,7 +148,12 @@ public class ServerLoginController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Handles the event when the button "show password" (the eye icon) is clicked.
+     *
+     * This method toggles the visibility of the password field and an overlapping text field.
+     * When the button is clicked, it switches between displaying the password in clear text and hiding it.
+     *
+     * The method manages the state of the password visibility and updates the graphical representation accordingly.
      */
     @FXML protected void onClickEvent(){
 
@@ -171,16 +182,22 @@ public class ServerLoginController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Handles the action when the show/hide password toggle button is clicked.
+     * Toggles the display of the password between plain text and hidden, and updates the UI accordingly.
      */
     public static void setStage(Stage s){
         stage = s;
     }
 
     /**
-     * TODO document
-     * @param url
-     * @param resourceBundle
+     * Initializes the server login window.
+     *
+     * This method is automatically called when the JavaFX scene associated with this controller is loaded.
+     * It sets up the initial state of UI components, such as buttons and text fields.
+     * Additionally, it configures event handlers for various user interactions, such as pressing the Enter key to submit login information.
+     *
+     * @param url The location used to resolve relative paths for the root object, or null if the location is not known. (unused within the code)
+     * @param resourceBundle The resources used to localize the root object, or null if the root object was not localized. (unused within the code)
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
