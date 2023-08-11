@@ -7,6 +7,7 @@ package emotionalsongs;
  * 
  */
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -24,7 +25,9 @@ import java.io.Serializable;
  *  @author <a href="https://github.com/SpitefulCookie">Della Chiesa Mattia</a>
  *  
  */
-public class Canzone implements Serializable { // change to serializable
+public class Canzone implements Serializable {
+
+    @Serial private static final long serialVersionUID = 1L;
 
     private final String titolo;
     private final String songUUID;
