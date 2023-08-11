@@ -45,7 +45,7 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
             return resultsToBeReturned;
         }
 
-        return null;
+        return new HashSet<>();
 
     }
 
@@ -70,7 +70,7 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
             return resultsToBeReturned;
         }
 
-        return null;
+        return new HashSet<>();
     }
 
     /**
@@ -92,7 +92,7 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
             return resultsToBeReturned;
         }
 
-        return null;
+        return new HashSet<>();
     }
 
     /**
@@ -114,7 +114,7 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
             return resultsToBeReturned;
         }
 
-        return new HashSet<>(); // TODO new HashSet<>() meglio di restituire null?
+        return new HashSet<>();
 
     }
 
@@ -198,7 +198,8 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
             return resultsToBeReturned;
         }
 
-        return null;
+        return new ArrayList<>();
+
     }
 
 }
