@@ -48,13 +48,18 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      * @return
      * @throws RemoteException
      */
+    public boolean usernameExists(String username) throws RemoteException, UsernameNotVerifiedException {
 
-    public boolean usernameExists(String username) throws RemoteException {
+        /*
         String queryResult = dbReference.executeQuery(new String[]{username}, QueryHandler.QUERY_USERNAME_EXISTS).get(0)[0];
         if(username!=null && Integer.parseInt(queryResult) == 1){
             return true;
         }
         return false;
+        */
+
+        return dbReference.usernameExists(username);
+
     }
 
     /**
