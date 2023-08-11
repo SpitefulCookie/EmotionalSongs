@@ -20,6 +20,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashSet;
 
 /**
  * TODO Document
@@ -76,12 +77,19 @@ public class EmotionalSongsClient extends Application {
 
             Registry reg = LocateRegistry.getRegistry(ClientSettingController.getServerAddress(), ClientSettingController.getServerPort());
             auth = (AuthManager) reg.lookup("AuthManager");
-            //repo = (RepositoryManager) reg.lookup("RepoManager"); // TODO add once implemented
+            repo = (RepositoryManager) reg.lookup("RepoManager");
             ping = new PingClientClientImpl();
 
             isConnectionInitialized = true;
 
+            // Test:
+                HashSet<Canzone> t = repo.ricercaCanzone("Stone Cold Crazy");
+                System.out.println(t.toArray()[0].toString());
+            // Fine test
+
         } catch (RemoteException | NotBoundException e){
+
+            e.printStackTrace();
 
             Stage connectionFailedStage = new Stage();
 
