@@ -9,15 +9,15 @@ import java.util.ArrayList;
  * The QueryHandler class facilitates database operations for the EmotionalSong application.
  * It utilizes a PostgreSQL database and manages a single database connection throughout the
  * application's lifecycle, ensuring the Singleton Design Pattern.
- * The class provides methods to interact with the database, such as checking if a username exists,
- * retrieving user passwords, and registering new users.
  *
- * The class also holds essential information for establishing a database connection, including the
- * database name, address (host) and port number. Additionally, it contains constant SQL query strings
- * for specific database operations, such as querying user passwords and checking for existing usernames.
+ * The class holds essential information for establishing a database connection, including the
+ * database name, address (host) and port number. Additionally, it contains the SQL queries for specific database
+ * operations.
  *
  * The methods in this class are designed to handle potential SQLExceptions and log error messages to
  * the EmotionalSongsServer's main view when database operations encounter exceptions. The class is thread-safe.
+ *
+ * @author <a href="https://github.com/SpitefulCookie"> Della Chiesa Mattia</a>
  */
 public class QueryHandler {
 
@@ -65,11 +65,8 @@ public class QueryHandler {
      * username and password.
      *
      * This constructor initializes a new instance of the QueryHandler class and establishes a database
-     * connection using the provided username and password. The constructor uses the Singleton Design Pattern
-     * to ensure that only one instance of the database connection is created throughout the application's
-     * lifecycle. If a database connection has not been established yet, the constructor creates a new
-     * connection using the PostgreSQL driver and the provided database address, port, and name. It then
-     * creates a statement object for executing queries on the database.
+     * connection using the provided username and password. If a database connection has not been established
+     * yet, the constructor creates a new connection using the PostgreSQL driver and the provided database address, port, and name.
      *
      * @param username The username to connect to the database.
      * @param password The password associated with the provided username.
@@ -87,18 +84,20 @@ public class QueryHandler {
     }
 
     /**
-     * Checks if the provided username exists in the database.
+     * Checks if the provided username exists in the database.<br><br>
      *
      * This method queries the database to determine if the given username exists. It performs a
      * database query using the provided username and checks the result to see if any matching records
-     * are found. If a record with the provided username exists, the method returns true; otherwise,
-     * it returns false. If there is an error during database query execution, the method returns true
-     * to indicate that the username might exist (due to uncertainty) but an error occurred.
+     * are found. If a record with the provided username exists, the method returns {@code true}; otherwise,
+     * it returns {@code false}.<br><br>
+     * As a fail-safe mechanism, if an error occurs while executing a query, the method throws a
+     * {@link UsernameNotVerifiedException} to indicate that the server was unable to determine the provided username's availability. <br><br>
      *
      * @param username The username to check for existence in the database.
-     * @return true if the username exists in the database or if there has been an error during database query execution, false if it does not exist.
+     * @return {@code true} if the username exists in the database {@code false} if it does not exist.
+     * @throws UsernameNotVerifiedException if an error occurs while attempting to determine the username's availability.
      */
-    protected boolean usernameExists(String username) {
+    protected boolean usernameExists(String username) throws UsernameNotVerifiedException {
 
         boolean usernameTaken = false;
 
@@ -121,7 +120,8 @@ public class QueryHandler {
 
             EmotionalSongsServer.mainView.logError("SQLException thrown while trying to verify username availability.\nReason: " + e.getMessage());
 
-            return true;
+            throw new UsernameNotVerifiedException();
+
         }
 
     }
