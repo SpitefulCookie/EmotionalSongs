@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class ConnectionVerify extends Thread{
 
-    private static long pingDelay = 30000; // 30s
+    private static long pingDelay = 180*1000; // 3min / 180s
 
     public ConnectionVerify(){
         this.setDaemon(true);
