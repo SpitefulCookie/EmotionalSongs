@@ -1,6 +1,8 @@
 package emotionalsongs;
 
 
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -165,6 +167,9 @@ public class LoginController implements Initializable {
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
         stage.close();
         EmotionalSongsClient.unexportClient();
+        // TODO added the following lines as an attempt to fix the client remaining open in the background after exiting the application, remove if it doesn't work
+        Platform.exit();
+        System.exit(0);
     }
 
     /**
