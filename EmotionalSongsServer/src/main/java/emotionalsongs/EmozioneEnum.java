@@ -1,5 +1,14 @@
 package emotionalsongs;
 
+/**
+ * Enumeration representing different emotions.
+ *
+ * This enumeration defines various emotions along with their descriptions.
+ * It provides methods to retrieve a description and name for each emotion,
+ * and also to create corresponding instances of specific emotion classes.
+ *
+ * @author <a href="https://github.com/SpitefulCookie"> Della Chiesa Mattia</a>
+ */
 public enum EmozioneEnum{
 
     AMAZEMENT,
@@ -14,6 +23,7 @@ public enum EmozioneEnum{
 
     /**
      * Returns the description of the emotion.
+     *
      * @return an object of type {@code String} that contains a short description of the emotion.
      */
     public String description(){
@@ -34,6 +44,7 @@ public enum EmozioneEnum{
 
     /**
      * Returns the name of the emotion.
+     *
      * @return an object of type {@code String} that representing the name of the emotion.
      */
     @Override
@@ -53,6 +64,12 @@ public enum EmozioneEnum{
 
     }
 
+    /**
+     * Creates an instance of a specific emotion class based on the enum value.
+     *
+     * @param enumValue The index of the enum value.
+     * @return An instance of the corresponding emotion class.
+     */
      static Emozione getEmotionInstanceFromEnumValue(int enumValue){
         return switch (EmozioneEnum.values()[enumValue]) {
             case AMAZEMENT -> new Amazement(0, "");
