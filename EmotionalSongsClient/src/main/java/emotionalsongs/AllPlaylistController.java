@@ -8,8 +8,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -17,6 +15,7 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -39,7 +38,9 @@ public class AllPlaylistController implements Initializable {
     private static GridPane dynamicGridPane;
     private static Button addPlaylistButton_;
 
-    protected static List<String> playlist;
+    //protected static List<String> playlist;
+    protected static HashMap<String, ArrayList<Canzone>> playlist;
+    protected static HashMap<String, Boolean> openPlaylists; // mi indica se la playlist specifica è stata aperta o meno
 
     /**
      * TODO document
@@ -78,7 +79,9 @@ public class AllPlaylistController implements Initializable {
              TODO invocare metodo server che interroga il DB per farsi restituire tutte le playlist
               create dall'utente, e inizializzare la lista playlist con la lista restituista dal metodo
              */
-            playlist = new ArrayList<String>();
+            //playlist = new ArrayList<String>();
+            playlist = new HashMap<>();
+            openPlaylists = new HashMap<>();
         }
 
         // display the user playlist
@@ -95,6 +98,7 @@ public class AllPlaylistController implements Initializable {
         Stage createPlaylistStage = new Stage();
 
         createPlaylistStage.setScene(GUIUtilities.getInstance().getScene("createPlaylist.fxml"));
+        CreatePlaylistController.clearPlaylistNameField(); // "pulisco" la textField
         createPlaylistStage.initStyle(StageStyle.UNDECORATED);
         createPlaylistStage.setResizable(false);
         createPlaylistStage.initModality(Modality.APPLICATION_MODAL);
@@ -134,10 +138,12 @@ public class AllPlaylistController implements Initializable {
      * @param playlistName
      * @return
      */
-    public static void addNewPlaylist(String playlistName){
+    public static void addNewPlaylist(String playlistName) {
         // TODO aggiungere la playlist al DB, invocando il metodo dal server
-        playlist.add(playlistName);
-        //viewAllPlaylist(); // TODO remove
+        if (!playlist.containsKey(playlistName)){
+            playlist.put(playlistName, new ArrayList<Canzone>());
+            openPlaylists.put(playlistName, false); // inizialmente il valore è settato su false perchè la playlit non è stata mai aperta
+        }
     }
 
     /**
@@ -146,7 +152,7 @@ public class AllPlaylistController implements Initializable {
      * @return
      */
     public static boolean checkPlaylistName(String playlistName){
-        return !playlist.contains(playlistName);
+        return !playlist.containsKey(playlistName);
     }
 
     /**
@@ -167,18 +173,21 @@ public class AllPlaylistController implements Initializable {
             addPlaylistButton_.setDisable(false);
             try {
                 // add playlist into the dynamicGridPane
-                for (int i = 0; i < playlist.size(); i++) {
+                int idx = 0;
+                for (String playlist : playlist.keySet()) { // tramite il metodo keySet ottengo tutte le chiavi della hashMap che appunto solo le mie playlist
 
                     FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongsClient.class.getResource("playlist.fxml"));
                     Node hBox = fxmlLoader.load();
 
                     PlaylistController playlistController = fxmlLoader.getController();
-                    playlistController.setPlaylistName(playlist.get(i));
+                    playlistController.setPlaylistName(playlist);
 
-                    dynamicGridPane.add(hBox, 0, i);
+                    dynamicGridPane.add(hBox, 0, idx);
                     GridPane.setMargin(hBox, new Insets(10));
 
-                    System.out.println("visualizzo playlist : " + playlist.get(i)); // TODO togliere il print
+                    idx ++;
+
+                    System.out.println("visualizzo playlist : " + playlist); // TODO togliere il print
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -203,5 +212,76 @@ public class AllPlaylistController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * TODO document
+     * @param playlistName
+     * @param songs
+     */
+    public static void addSongs(String playlistName, List<Canzone> songs){
+        /*
+        metodo che va ad aggiungere alla playlist: playlistName le canzoni contenute nella lista songs
+         */
+        playlist.get(playlistName).addAll(songs);
+    }
+
+    /**
+     * TODO document
+     * @param playlistName
+     * @return
+     */
+    public static List<Canzone> getSongs(String playlistName){
+        /*
+        metodo che restituisce le canzoni della playlist: playlistName
+         */
+        return playlist.get(playlistName);
+    }
+
+    /**
+     * TODO document
+     * @param playlistName
+     * @param song
+     * @return
+     */
+    public static boolean songAlreadyExist(String playlistName, Canzone song){
+        /*
+        metodo che verifica se la canzone: song è contenuta nella playlist: playlistName
+        la verifica avviene per SongUUID
+         */
+        List<Canzone> songPlaylist = playlist.get(playlistName);
+        for(int i = 0; i < songPlaylist.size(); i++){
+            if(songPlaylist.get(i).getSongUUID().equals(song.getSongUUID())){
+                return true; // la canzone è già contenuta nella playlist
+            }
+        }
+        return false; // la canzone non è contenuta nella playlist
+    }
+
+    /**
+     * TODO doccument
+     * @param playlistName
+     * @return
+     */
+    public static boolean getPlaylistWasOpened(String playlistName){
+        /*
+        tale metodo ritorna il valore associato alla playlist: PlaylistName, tale valore mi indica se la
+        playlist è stata aperta o meno.
+        return true --> la playlist è stata aperta
+        return false --> la playlist non è stata aperta
+         */
+        return openPlaylists.get(playlistName);
+    }
+
+    /**
+     * TODO document
+     * @param playlistName
+     */
+    public static void setOpenPlaylist(String playlistName){
+        /*
+        setta il valore associato alla chiave playlistName su true, esso infatti indicherà che la playlist
+        è stata aperta
+         */
+        openPlaylists.put(playlistName, true);
     }
 }

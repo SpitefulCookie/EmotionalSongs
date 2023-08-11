@@ -1,6 +1,5 @@
 package emotionalsongs;
 
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -19,7 +18,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -202,7 +200,8 @@ public class AddSongsToPlaylistController implements Initializable {
                 removeSearchBtn.setVisible(true); // TODO forse rimuovere
                 removeSearchBtn.setDisable(false); // TODO forse rimuovere
                 for (int i = 0; i < 20; i++) { // riempo per prova il gridpane
-                    setNewSongFound(new Canzone("Canzone" + i, "Autore " + i, 2020, "prova"), false, i);
+                    Canzone song = new Canzone("Canzone" + i, "Autore " + i, 2020, "uuid" + i);
+                    setNewSongFound(song, songIsAlreadyAdded(song), i);
                 }
             } else {
                 System.out.println("the Text field is empty");
@@ -261,8 +260,8 @@ public class AddSongsToPlaylistController implements Initializable {
         yearField.setVisible(false);
 
         // change style of searchFilterButtons
-        guiUtilities.setButtonStyle(titleSearchBtn, "searchFilterButton", "searchFilterButtonClicked");
-        guiUtilities.setButtonStyle(authorAndYearSearchBtn, "searchFilterButtonClicked", "searchFilterButton");
+        guiUtilities.setNodeStyle(titleSearchBtn, "searchFilterButton", "searchFilterButtonClicked");
+        guiUtilities.setNodeStyle(authorAndYearSearchBtn, "searchFilterButtonClicked", "searchFilterButton");
 
         // set the filtered
         filteredSearch = "title";
@@ -284,8 +283,8 @@ public class AddSongsToPlaylistController implements Initializable {
         yearField.setVisible(true);
 
         // change style of searchFilterButtons
-        guiUtilities.setButtonStyle(authorAndYearSearchBtn, "searchFilterButton", "searchFilterButtonClicked");
-        guiUtilities.setButtonStyle(titleSearchBtn, "searchFilterButtonClicked", "searchFilterButton");
+        guiUtilities.setNodeStyle(authorAndYearSearchBtn, "searchFilterButton", "searchFilterButtonClicked");
+        guiUtilities.setNodeStyle(titleSearchBtn, "searchFilterButtonClicked", "searchFilterButton");
 
         // set the filtered
         filteredSearch = "authorAndYear";
@@ -376,7 +375,7 @@ public class AddSongsToPlaylistController implements Initializable {
 
             // get song controller, this it serves for set song name and author name of the song
             SongToAddController songToAddController = fxmlLoader.getController();
-            songToAddController.setSong(song, isAdded);
+            songToAddController.setSong(song, playlistName, isAdded);
 
             // add the song pane laoded to songsPane list
             songsPane.add(song_pane);
@@ -444,8 +443,17 @@ public class AddSongsToPlaylistController implements Initializable {
          */
         System.out.println("Rimuovo la canzone: " + song.getTitolo() + "dalla playlist " + playlistName);
 
-        // remove song to list
-        songsToAdd.remove(song);
+        /*
+         remove song to list, la rimuozione della canzone non avviene semplicemente facendo
+         songToAdd.remove(Canzone song) questo perchè la rimozione deve avvenire in base allo songUUID
+         */
+        for(int i = 0; i < songsToAdd.size(); i++){
+            if(songsToAdd.get(i).getSongUUID().equals(song.getSongUUID())){
+                songsToAdd.remove(songsToAdd.get(i));
+            }
+        }
+
+        System.out.println("size lista songToAdd: " + songsToAdd.size()); // TODO remove
 
         // update the numSongsAddedLabel
         numSongAdded.set(numSongAdded.get() - 1);
@@ -454,6 +462,31 @@ public class AddSongsToPlaylistController implements Initializable {
         }else {
             numSongsAddedLabel_.setText(numSongAdded.get() + " canzoni aggiunte");
         }
+    }
+
+    /**
+     * TODO document
+     * @param playlist_name
+     */
+    public void setPlaylist(String playlist_name){
+        playlistName = playlist_name;
+    }
+
+    /**
+     * TODO document
+     * @param song
+     */
+    public boolean songIsAlreadyAdded(Canzone song){
+        /*
+        metodo che verifica se la canzone passata come argomento song è già stata aggiunta alla lista
+        songsToAdd
+         */
+        for(int i = 0; i < songsToAdd.size(); i++){
+            if(songsToAdd.get(i).getSongUUID().equals(song.getSongUUID())){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -472,14 +505,6 @@ public class AddSongsToPlaylistController implements Initializable {
         removeSearchBtn.setDisable(true);
         removeSearchImg.setImage(guiUtilities.getImage("search"));
         infoLabel.setVisible(false);
-    }
-
-    /**
-     * TODO document
-     * @param playlist_name
-     */
-    public void setPlaylist(String playlist_name){
-        playlistName = playlist_name;
     }
 
     /**

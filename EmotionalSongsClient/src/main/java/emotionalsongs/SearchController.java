@@ -20,7 +20,9 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -69,6 +71,9 @@ public class SearchController implements Initializable {
 
         // initially the search is set to titleSearch
         handleTitleSearchButtonAction();
+
+        // aggiungo come vincolo alla yearField l'inserimento di soli numeri e di massimo 4 numeri
+        GUIUtilities.forceNumericInput(yearField, 4);
 
         // add a listener to searchField, which displays removeSearchBtn.
         searchField.textProperty().addListener(new ChangeListener<String>() {
@@ -162,7 +167,7 @@ public class SearchController implements Initializable {
                 removeSearchBtn.setVisible(true); // TODO forse rimuovere
                 removeSearchBtn.setDisable(false); // TODO forse rimuovere
                 for (int i = 0; i < 20; i++) { // riempo per prova il gridpane
-                    setNewSongFound("canzone " + i, "autore " + i, i);
+                    setNewSongFound(new Canzone("canzone " + i, "autore " + i, 2023, "songUUID" + i), i);
                 }
             } else {
                 System.out.println("the Text field is empty");
@@ -221,8 +226,8 @@ public class SearchController implements Initializable {
         yearField.setVisible(false);
 
         // change style of searchFilterButtons
-        guiUtilities.setButtonStyle(titleSearchBtn, "searchFilterButton", "searchFilterButtonClicked");
-        guiUtilities.setButtonStyle(authorAndYearSearchBtn, "searchFilterButtonClicked", "searchFilterButton");
+        guiUtilities.setNodeStyle(titleSearchBtn, "searchFilterButton", "searchFilterButtonClicked");
+        guiUtilities.setNodeStyle(authorAndYearSearchBtn, "searchFilterButtonClicked", "searchFilterButton");
 
         // set the filtered
         filteredSearch = "title";
@@ -244,8 +249,8 @@ public class SearchController implements Initializable {
         yearField.setVisible(true);
 
         // change style of searchFilterButtons
-        guiUtilities.setButtonStyle(authorAndYearSearchBtn, "searchFilterButton", "searchFilterButtonClicked");
-        guiUtilities.setButtonStyle(titleSearchBtn, "searchFilterButtonClicked", "searchFilterButton");
+        guiUtilities.setNodeStyle(authorAndYearSearchBtn, "searchFilterButton", "searchFilterButtonClicked");
+        guiUtilities.setNodeStyle(titleSearchBtn, "searchFilterButtonClicked", "searchFilterButton");
 
         // set the filtered
         filteredSearch = "authorAndYear";
@@ -256,27 +261,26 @@ public class SearchController implements Initializable {
 
     /**
      * TODO document
-     * @param songName
-     * @param authorName
+     * @param song
      * @param row
      */
-    private void setNewSongFound(String songName, String authorName, int row){
+    private void setNewSongFound(Canzone song, int row){
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("song.fxml"));
-            Node song = fxmlLoader.load();
+            Node song_pane = fxmlLoader.load();
 
             // get song controller, this it serves for set song name and author name of the song
             SongController songController = fxmlLoader.getController();
-            songController.setData(songName, authorName);
+            songController.setData(song);
 
             // add the song pane loded to songsPane list
-            songsPane.add(song);
+            songsPane.add(song_pane);
 
             // add the fxml song view in the gridPane
-            gridPane.add(song, 0, row);
+            gridPane.add(song_pane, 0, row);
             // set the margin between songs (the space between songs)
-            GridPane.setMargin(song, new Insets(10));
+            GridPane.setMargin(song_pane, new Insets(10));
 
         } catch (IOException e) {
             e.printStackTrace();

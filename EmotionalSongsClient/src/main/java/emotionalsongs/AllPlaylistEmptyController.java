@@ -21,6 +21,7 @@ public class AllPlaylistEmptyController {
         Stage createPlaylistStage = new Stage();
 
         createPlaylistStage.setScene(GUIUtilities.getInstance().getScene("createPlaylist.fxml"));
+        CreatePlaylistController.clearPlaylistNameField(); // "pulisco" la textField
         createPlaylistStage.initStyle(StageStyle.UNDECORATED);
         createPlaylistStage.setResizable(false);
         createPlaylistStage.initModality(Modality.APPLICATION_MODAL);

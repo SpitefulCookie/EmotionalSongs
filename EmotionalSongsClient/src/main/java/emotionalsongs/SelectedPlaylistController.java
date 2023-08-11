@@ -43,7 +43,7 @@ public class SelectedPlaylistController implements Initializable {
     private static Button addSongsButton_;
     private static Label playlistNameLabel_;
 
-    private static List<Canzone> songs;
+    //private static List<Canzone> songs; // TODO rimuovi
 
 
     @Override
@@ -59,8 +59,14 @@ public class SelectedPlaylistController implements Initializable {
         dynamicScrollPane.setFitToWidth(true);
 
         /*
-         TODO invocare metodo server, che invoca il db per farsi restituire le canzoni contenute
-           nella playlist aperta, ---- forse questa invoazione farla nel metodo setPlaylist ----
+         TODO: per l'interrogazione del db, l'idea è quella di creare un metodo che vada a inerrogare il db
+               facendosi restituire le canzoni contenute nella playlist, sempre in questo metodo le canzoni
+               restituite verranno aggiunte nella lista con chiave playlistName nella hashMap contenuta
+               in allPlaylist, --> successivamete la visualizzazione delle canzoni avverrà chiamando un metodo
+               getSongs(ancora da implementare) della classe AllPlaylist che restituirà la lista di canzoni
+               contenute nella playlist, quindi la lista songs di questa classe non servirà più ---------
+               ---> di conseguenza il metodo viewSongs con ciclerà più sulla lista songs ma sulla lista
+               restituita dal metodo getSogs della classe allPlaylist
          */
 
         // la visualizzazione iniziale delle canzoni avviene nel metodo setPlaylist
@@ -127,12 +133,22 @@ public class SelectedPlaylistController implements Initializable {
         addSongsButton_.setMaxWidth(BUTTON_MIN_WIDTH);
     }
 
+    /**
+     * TODO document
+     * @param songsToAdd
+     */
     public static void addNewSongs(List<Canzone> songsToAdd){
+        /*
+        metodo che aggiunge le canzoni contenute nella lista songsToAdd nella playlist specifica, successivamente
+        va a rivisualizzare la playlist invocando l'opportuno metodo viewSongs
+         */
+
         /*
         TODO aggiungere le canzoni contenute nella lista passata come argomento (songsToAdd) nel db, quindi invocare
          l'apposito metodo del server.
          */
-        songs.addAll(songsToAdd); // aggiunto tutte le canzoni contenute in songsToAdd nella lista songs TODO forse rimuovere
+
+        AllPlaylistController.addSongs(playlistNameLabel_.getText(), songsToAdd); // aggiungo le canzoni nella playlist
 
         // display the playlist songs
         viewSongs();
@@ -143,12 +159,9 @@ public class SelectedPlaylistController implements Initializable {
      * TODO document
      */
     public static void viewSongs(){
-        /*
-        TODO forse interrogare in questo metodo il db per farsi restituire le canzoni contenute nella
-           playlist apera, invocando l'apposito metodo del server.  --- quindi questa operazione non avverà ne
-           nel metodo Initizialize  ne nel metodo setPlaylist --- Consultarsi con Mattia per vedere qual'è la
-           soluzione migliore
-         */
+
+        // recupero le canzoni della playlist, invocando l'apposito metodo della classe allPlaylist
+        List<Canzone> songs = AllPlaylistController.getSongs(playlistNameLabel_.getText());
 
         /*
         metodo che visualizza le canzoni contenute nella playlist aperta, se non c'e ne sono, viene visualizzato
@@ -188,24 +201,72 @@ public class SelectedPlaylistController implements Initializable {
      * TODO document
      * @param playlistName
      */
-    public void setPlaylist(String playlistName){
+    public void openPlaylist(String playlistName){
+        /*
+        questo metodo viene eseguito nel metodo handleOpenPlaylistAction della classe PlaylistController
+         */
+
         // set the playlist name
         this.playlistNameLabel.setText(playlistName);
 
         /*
-         TODO interroga il db per farsi restituire le canzoni contenute nella playlist apera, e inizilizzare
-          la lista songs con la lista restituita dal metodo invocato --- forse effettuare questa operazione
-          nel metodo viewSongs ---
+         TODO interroga il db per farsi restituire le canzoni contenute nella playlist apera, successivamente
+            inserirle nella hashMap nella lista con chiave playlistNameLabel.getText(), effettuare questa
+            operazione una sola volta, ovvero solo la prima volta in cui la playlist viene aperta.
+            --- per far ciò inserire una hasMap<String playlistName, boolean isOpen> che indica se la playlist
+            è stata aperta o meno.
          */
 
-        /*
-         create the songs list TODO: forse rimuovere e far si che la lista venga assegata a quella restituita
-                                    dal metodo del server
-         */
-        songs = new ArrayList<Canzone>();
+        //songs = new ArrayList<Canzone>(); // TODO forse rimuovere
+
+        // se la playlist non è mai stata aperta fino ad ora
+        if(!AllPlaylistController.getPlaylistWasOpened(playlistName)){
+
+            /*
+            TODO interrogare il db per farsi restituire le canzoni contenute nella playlist aperta,
+                successivamente aggiungere le canzoni restituite nella lista associata alla chiave
+                playlistName nella hashMap presente nella classe AllPlaylistController
+             */
+
+            // DEGUB TODO remove DEBUG
+            Canzone song = new Canzone("canzone 0", "Autore 0", 2023, "uuid0");
+            List<Canzone> songs = new ArrayList<>();
+            songs.add(song);
+            AllPlaylistController.addSongs(playlistName, songs);
+            System.out.println("apro per la prima voltra la playlist: " + playlistName); // TODO remove
+            // FINE DDEBUG
+
+            // now the playlist has been opened
+            AllPlaylistController.setOpenPlaylist(playlistName);
+
+        }else{
+            // TODO remove
+            System.out.println("---------------------- apro la playlist " + playlistName + " non per la prima volta");
+        }
 
         // view the playlist songs
         viewSongs();
+    }
+
+    /**
+     * TODO document
+     * @param playlistName
+     */
+    public void setPlaylist(String playlistName){
+        /*
+        metodo che viene invocato nel metodo handleCreatePlaylistButtonAction della classe
+        CreatePlaylistController, questo metodo va a settare il nome della playlist e a chiamare il
+        metodo setPlaylistEmpty() questo perchè la playlist appena creata è vuota
+        NOTA: potevo anche lasicare solamente il metodo openPlaylist() che sotto a un certo punto di vista
+        fa la stessa cosa di questo metodo, ma andavo a effettuare un interrogazione inutile al db, in quanto
+        so già a priori che la playlist è vuota.
+         */
+
+        // set the playlist name
+        this.playlistNameLabel.setText(playlistName);
+
+        // display the PlaylistEmptyPane
+        setPlaylistEmpty();
     }
 
     /**

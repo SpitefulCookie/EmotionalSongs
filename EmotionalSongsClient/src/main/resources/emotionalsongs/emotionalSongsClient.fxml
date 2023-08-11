@@ -126,9 +126,9 @@
             </Button>
             <Button fx:id="maximizedStageBtn" maxHeight="35.0" maxWidth="24.0" mnemonicParsing="false" onAction="#handleMaximizedStageButtonAction" prefHeight="35.0" prefWidth="24.0" styleClass="buttonTitleBarMain" stylesheets="@Style/customStyle.css">
                <graphic>
-                  <ImageView fx:id="maximizedImg" fitHeight="26.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="maximizedImg" fitHeight="21.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@Images/expandIcon.png" />
+                        <Image url="@Images/fullScreenIcon.png" />
                      </image>
                   </ImageView>
                </graphic>

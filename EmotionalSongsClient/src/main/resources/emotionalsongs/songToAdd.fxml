@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox alignment="CENTER_LEFT" maxHeight="75.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleAddSongToPlaylistAction" prefHeight="55.0" prefWidth="625.0" styleClass="songPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.SongToAddController">
+<HBox fx:id="songToAddPane" alignment="CENTER_LEFT" maxHeight="75.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleAddSongToPlaylistAction" prefHeight="55.0" prefWidth="625.0" styleClass="songToAddPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.SongToAddController">
     <children>
         <Pane prefHeight="55.0" prefWidth="19.0" />
         <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="72.0" prefWidth="256.0" stylesheets="@Style/customStyle.css" HBox.hgrow="ALWAYS">
@@ -24,6 +24,7 @@
                </font></Label>
             </children>
         </VBox>
+      <Label fx:id="existingSongLabel" prefHeight="17.0" prefWidth="201.0" text="canzone già presente nella playlist" textFill="#af524b" visible="false" />
       <ImageView fx:id="checkMarkImg" fitHeight="28.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@Images/checkMark.png" />

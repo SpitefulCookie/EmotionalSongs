@@ -8,7 +8,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -21,10 +20,6 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
-import java.rmi.NoSuchObjectException;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 /*
@@ -116,7 +111,7 @@ public class EmotionalSongsClientController implements Initializable {
         setDynamicPane("search.fxml");
 
         // set button style
-        guiUtilities.setButtonStyle(searchBtn, "buttonSideBar", "buttonSideBarClicked");
+        guiUtilities.setNodeStyle(searchBtn, "buttonSideBar", "buttonSideBarClicked");
     }
 
     /**
@@ -161,18 +156,12 @@ public class EmotionalSongsClientController implements Initializable {
             stage.setWidth(bounds.getWidth());
             stage.setHeight(bounds.getHeight());
 
-            // set maximizedImg
-            maximizedImg.setImage(guiUtilities.getImage("reduceWindow"));
-
             isMaximized = true;
         }else{ // altrimenti
             stage.setX(X);
             stage.setY(Y);
             stage.setWidth(WIDTH);
             stage.setHeight(HEIGHT);
-
-            // set maximizedImg
-            maximizedImg.setImage(guiUtilities.getImage("expandWindow"));
 
             isMaximized = false;
         }
@@ -413,9 +402,9 @@ public class EmotionalSongsClientController implements Initializable {
          */
         for (int i = 0; i < buttonsSideBar.length; i++){
             if(buttonsSideBar[i] == button){
-                guiUtilities.setButtonStyle(buttonsSideBar[i], "buttonSideBar", "buttonSideBarClicked");
+                guiUtilities.setNodeStyle(buttonsSideBar[i], "buttonSideBar", "buttonSideBarClicked");
             }else{
-                guiUtilities.setButtonStyle(buttonsSideBar[i], "buttonSideBarClicked", "buttonSideBar");
+                guiUtilities.setNodeStyle(buttonsSideBar[i], "buttonSideBarClicked", "buttonSideBar");
             }
         }
     }
