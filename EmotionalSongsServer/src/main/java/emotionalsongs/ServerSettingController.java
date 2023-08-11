@@ -35,14 +35,14 @@ public class ServerSettingController implements Initializable{
     @FXML private TextField dbAddressField;
 
     /**
-     * Initializes the configuration dialog window.
+     * Initializes the server's configuration dialog window.
      *
      * This method is called automatically when the JavaFX dialog associated with this controller is loaded.
      * It initializes various UI components and sets up their behavior.
      * This method is also responsible for configuring the behavior of the "cancelButton" and "confirmButton" buttons.
      *
-     * @param url The URL of the FXML file.
-     * @param resourceBundle The ResourceBundle associated with the FXML file.
+     * @param url The location used to resolve relative paths for the root object, or null if the location is not known. (unused within the code)
+     * @param resourceBundle The resources used to localize the root object, or null if the root object was not localized. (unused within the code)
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
