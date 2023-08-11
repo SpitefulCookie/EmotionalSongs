@@ -538,20 +538,22 @@ public class UserRegistrationController implements Initializable {
         });
 
     }
-
+    // TODO document limitation of exception
     /**
-     * Checks the availability of the entered username.
+     * Checks the availability of the entered username.<br><br>
      *
      * This method checks the availability of the entered username.
      * If the username is not blank, and it is not taken yet, the method displays a success icon and
-     * message indicating the availability.
+     * message indicating the availability.<br>
      * If the username is already taken or invalid, the method displays a failure icon and message, and
-     * changes the appearance of the username field to reflect the username's unavailability.
+     * changes the appearance of the username field to reflect the username's unavailability. Similarly,
+     * if an error occurs while verifying the username's availability, a {@link UsernameNotVerifiedException} will be thrown,
+     * signaling that the server was unable to determine if the username was already in use. <br><br>
      *
      * If an exception occurs during the process, such as inability to connect to the server, a dialog box is shown
-     * with an error message indicating the issue.
+     * with an error message indicating the issue.<br><br>
      *
-     * @return true if the username is available, false if it is already taken or an exception occurs.
+     * @return {@code true} if the username is available, {@code false} if it is already taken or an exception occurs.
      */
     @FXML protected boolean checkUsernameAvailability() {
 
@@ -559,28 +561,41 @@ public class UserRegistrationController implements Initializable {
 
             if(!usernameField.getText().isBlank()) {
 
-                boolean exists = EmotionalSongsClient.auth.usernameExists(usernameField.getText());
+                try {
 
-                checkUsernameResultLbl.setVisible(true);
-                checkUsernameResultImg.setVisible(true);
+                    checkUsernameResultLbl.setVisible(true);
+                    checkUsernameResultImg.setVisible(true);
 
-                if (!exists) {
+                    boolean exists = EmotionalSongsClient.auth.usernameExists(usernameField.getText());
 
-                    checkUsernameResultImg.setImage(successIcon);
-                    checkUsernameResultLbl.setText("Username disponibile");
-                    GUIUtilities.setDefaultStyle(usernameField);
+                    if (!exists) {
 
-                    return true;
+                        checkUsernameResultImg.setImage(successIcon);
+                        checkUsernameResultLbl.setText("Username disponibile");
+                        GUIUtilities.setDefaultStyle(usernameField);
 
-                } else {
+                        return true;
+
+                    } else {
+
+                        checkUsernameResultImg.setImage(failureIcon);
+                        checkUsernameResultLbl.setText("Username non disponibile");
+                        GUIUtilities.setErrorStyle(usernameField);
+                        usernameField.setPromptText("");
+                        return false;
+
+                    }
+
+                } catch (UsernameNotVerifiedException u){
 
                     checkUsernameResultImg.setImage(failureIcon);
-                    checkUsernameResultLbl.setText("Username non disponibile");
+                    checkUsernameResultLbl.setText("Couldn't verify username availability");
                     GUIUtilities.setErrorStyle(usernameField);
                     usernameField.setPromptText("");
                     return false;
 
                 }
+
 
             } else{ GUIUtilities.setErrorStyle(usernameField); }
 
