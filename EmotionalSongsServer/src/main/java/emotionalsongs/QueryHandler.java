@@ -78,8 +78,8 @@ public class QueryHandler {
     public QueryHandler(String username, String password) throws SQLException{
 
         // Singleton Design Pattern
-        if(dbConnection == null){
-            dbConnection = DriverManager.getConnection("jdbc:postgresql://"+ DB_Address+":"+DB_Port+"/"+DB_Name, username, password);
+        if (dbConnection == null) {
+            dbConnection = DriverManager.getConnection("jdbc:postgresql://" + DB_Address + ":" + DB_Port + "/" + DB_Name, username, password);
             stmt = dbConnection.createStatement();
 
         }
@@ -119,7 +119,7 @@ public class QueryHandler {
 
         } catch (SQLException e) {
 
-            e.printStackTrace(); // TODO verify behaviour
+            EmotionalSongsServer.mainView.logError("SQLException thrown while trying to verify username availability.\nReason: " + e.getMessage());
 
             return true;
         }
@@ -153,7 +153,7 @@ public class QueryHandler {
 
         } catch (SQLException e) {
 
-            e.printStackTrace(); // TODO verify behaviour
+            EmotionalSongsServer.mainView.logError("SQLException thrown while trying to query user password.\nReason: " + e.getMessage());
 
             return null;
         }
