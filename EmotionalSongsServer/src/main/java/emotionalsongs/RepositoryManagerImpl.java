@@ -98,13 +98,14 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
      * Retrieves a set of songs present in the specified playlist.
      *
      * @param playlistName The name of the playlist for which to retrieve songs.
+     * @param username The username of the user registering the playlist.
      * @return A HashSet of Canzone objects representing songs in the playlist.
      * @throws RemoteException If a remote communication error occurs.
      */
     @Override
-    public HashSet<Canzone> getSongsInPlaylist(String playlistName) throws RemoteException {
+    public HashSet<Canzone> getSongsInPlaylist(String playlistName, String username) throws RemoteException {
 
-        ArrayList<String[]> dataRetrieved = dbReference.executeQuery(new String[]{playlistName}, QueryHandler.QUERY_SONGS_IN_PLAYLIST);
+        ArrayList<String[]> dataRetrieved = dbReference.executeQuery(new String[]{playlistName, username}, QueryHandler.QUERY_SONGS_IN_PLAYLIST);
         if (dataRetrieved.size() != 0) {
             HashSet<Canzone> resultsToBeReturned = new HashSet<>();
             for (var s : dataRetrieved) {
