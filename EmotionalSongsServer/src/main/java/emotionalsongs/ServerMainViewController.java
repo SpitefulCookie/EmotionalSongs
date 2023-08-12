@@ -75,6 +75,7 @@ public class ServerMainViewController implements Initializable {
             EmotionalSongsServer.initializeAuthManager(new AuthManagerImpl());
             Registry reg = LocateRegistry.createRegistry(EmotionalSongsServer.getServerPort());
             reg.rebind("AuthManager", EmotionalSongsServer.getAuthManagerInstance());
+            reg.rebind("RepoManager", EmotionalSongsServer.getRepositoryManagerInstance());
             logText("Server running", true);
 
         } catch (RemoteException e) {
