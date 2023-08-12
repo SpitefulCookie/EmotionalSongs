@@ -32,9 +32,9 @@ public class QueryHandler {
     protected static final String QUERY_USERNAME_EXISTS = "SELECT COUNT(*) FROM utentiregistrati WHERE userid = '%s'";
     protected static final String QUERY_CF_EXISTS = "SELECT COUNT(*) FROM utentiregistrati WHERE codicefiscale = '%s'";
     protected static final String QUERY_REGISTER_USER = "INSERT INTO UtentiRegistrati (nome, codicefiscale, via, numerocivico, cap, comune, provincia, email, userid, password) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
-    protected static final String QUERY_SEARCH_SONG_BY_TITLE = "SELECT * FROM Canzoni WHERE Titolo LIKE '#%s#'";
-    protected static final String QUERY_SEARCH_SONG_BY_AUTHOR_AND_YEAR = "SELECT * FROM Canzoni WHERE autore = '%s' AND anno = %s";
-    protected static final String QUERY_USER_PLAYLISTS = "SELECT Nome FROM Playlist WHERE UserId = '%s'";
+    protected static final String QUERY_SEARCH_SONG_BY_TITLE = "SELECT * FROM Canzoni WHERE Titolo LIKE '#%s#' LIMIT 25";
+    protected static final String QUERY_SEARCH_SONG_BY_AUTHOR_AND_YEAR = "SELECT * FROM Canzoni WHERE autore = '%s' AND anno = %s LIMIT 25";
+    protected static final String QUERY_USER_PLAYLISTS = "SELECT Nome FROM Playlist WHERE UserId = '%s' LIMIT 50";
     protected static final String QUERY_SONGS_IN_PLAYLIST = "SELECT Titolo, Autore, anno, songUUID FROM Canzoni NATURAL JOIN Contiene WHERE Nome = '%s'";
     protected static final String QUERY_REGISTER_PLAYLIST = "INSERT INTO Playlist (Nome, UserId) VALUES ('%s', '%s')";
     protected static final String QUERY_REGISTER_SONG_IN_PLAYLIST = "INSERT INTO Contiene (Nome, UserId, SongUUID) VALUES ('%s', '%s', '%s')";
