@@ -2,7 +2,6 @@ package emotionalsongs;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,7 +9,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -35,6 +33,8 @@ public class CreatePlaylistController implements Initializable {
     private Label existingPlaylistLabel;
 
     private static TextField playlistNameField_;
+
+    private boolean fromAddToPlaylist;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -86,23 +86,56 @@ public class CreatePlaylistController implements Initializable {
         // add playlist
         AllPlaylistController.addNewPlaylist(playlistNameField.getText());
 
-        // display the playlist that i have just created
-        try{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("selectedPlaylist.fxml"));
-            Node playlist = fxmlLoader.load();
+        /*
+         verifico se la creazione della playlist è stata chiamata dalla finistra di addToPlaylist, se
+         non è stata chiamata da quella finista, visualizzo la playlista appena creata, altrimenti
+         aggiungo la playlist alla lista selectedPlaylist della classe addToPlaylist e vado a rivisualizzare
+         le playlist sul gridPane della finistra addToPlaylist.
+         */
+        if(!fromAddToPlaylist) {
+            // display the playlist that i have just created
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("selectedPlaylist.fxml"));
+                Node playlist = fxmlLoader.load();
 
-            SelectedPlaylistController selectedPlaylistController = fxmlLoader.getController();
-            selectedPlaylistController.setPlaylist(playlistNameField.getText());
+                SelectedPlaylistController selectedPlaylistController = fxmlLoader.getController();
+                selectedPlaylistController.setPlaylist(playlistNameField.getText());
 
-            EmotionalSongsClientController.setDynamicPane(playlist);
+                EmotionalSongsClientController.setDynamicPane(playlist);
 
-        }catch(IOException e){
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+
+            // aggiungo la playlist alle playlist selezionate
+            AddToPlaylistController.addPlaylist(playlistNameField.getText());
+
+            // rivisualizzo le playlist sul gridPane della pane addToPlaylist
+            AddToPlaylistController.viewPlaylist();
+
+            /*
+             imposto la playlist come aperta perchè tanto essa è appena stata creata e quindi è vuota o
+             le sue canzoni contenute sono gia nella lista della hashMap con chiave playlistNameField.getText(),
+             questo mi evita anche un inutile interrogazione al db, in quanto se so che è vuota o comuqnue
+             le sue canzoni sono già contenute nella lista della hashMap con chiave playlistNameField.getText() è
+             inutile interrogarlo.
+             */
+            AllPlaylistController.setOpenPlaylist(playlistNameField.getText());
         }
 
         // close the stage
         closeCreatePlaylistStage(createPlaylistBtn);
     }
+
+    /**
+     *
+     * @param fromAddToPlaylist
+     */
+    public void setFromAddToPlaylist(boolean fromAddToPlaylist){
+        this.fromAddToPlaylist = fromAddToPlaylist;
+    }
+
 
     /**
      * TODO document

@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
@@ -89,6 +90,7 @@ public class AllPlaylistController implements Initializable {
     public void handleAddPlaylistButtonAction(){
         // TODO aprire il pane createPlaylist.fxml
 
+        /* TODO remove, perchè devo agire anche sul controller
         Stage createPlaylistStage = new Stage();
 
         createPlaylistStage.setScene(GUIUtilities.getInstance().getScene("createPlaylist.fxml"));
@@ -97,6 +99,24 @@ public class AllPlaylistController implements Initializable {
         createPlaylistStage.setResizable(false);
         createPlaylistStage.initModality(Modality.APPLICATION_MODAL);
         createPlaylistStage.show();
+        */
+
+        try{
+            Stage createPlaylistStage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("createPlaylist.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+
+            CreatePlaylistController createPlaylist = fxmlLoader.getController();
+            createPlaylist.setFromAddToPlaylist(false);
+
+            createPlaylistStage.setScene(scene);
+            createPlaylistStage.initStyle(StageStyle.UNDECORATED);
+            createPlaylistStage.setResizable(false);
+            createPlaylistStage.initModality(Modality.APPLICATION_MODAL);
+            createPlaylistStage.show();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -236,6 +256,10 @@ public class AllPlaylistController implements Initializable {
             // load mainViewPlaylistEmpty pane and add it to scrollPane
             FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongsClient.class.getResource("allPlaylistEmpty.fxml"));
             Node vBox = fxmlLoader.load();
+
+            AllPlaylistEmptyController allPlaylistEmptyController = fxmlLoader.getController();
+            allPlaylistEmptyController.setFromAddToPlaylist(false);
+
             dynamicScrollPane.setContent(vBox);
 
         } catch (IOException e) {
@@ -260,11 +284,15 @@ public class AllPlaylistController implements Initializable {
      * @param playlistName
      * @param songs
      */
-    public static void addSongs(String playlistName, Canzone songs){
+    public static void addSongs(String playlistName, Canzone songs) {
         /*
-        metodo che va ad aggiungere alla playlist: playlistName la canzone song
+        metodo che va ad aggiungere alla playlist: playlistName la canzone song, prima di fare ciò verifico
+        se essa non è già contenuta
          */
-        playlists.get(playlistName).add(songs);
+        if (!songAlreadyExist(playlistName, songs)) {
+            playlists.get(playlistName).add(songs);
+        }
+
     }
 
 

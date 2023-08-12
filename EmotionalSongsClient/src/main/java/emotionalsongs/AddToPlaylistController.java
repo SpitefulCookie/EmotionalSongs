@@ -18,7 +18,6 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -149,7 +148,6 @@ public class AddToPlaylistController implements Initializable {
 
                     System.out.println("visualizzo la playlist: " + playlist);
 
-
                 }
             }
         }catch (IOException e){
@@ -185,7 +183,7 @@ public class AddToPlaylistController implements Initializable {
      * TODO document
      * @param playlistName
      */
-    public static boolean playlistAlreadyAdded(String playlistName){
+    public static boolean playlistAlreadySelected(String playlistName){
         /*
         restituisce se la playlist è già presente nella lista selectedPlaylist
          */
@@ -201,6 +199,10 @@ public class AddToPlaylistController implements Initializable {
             // load mainViewPlaylistEmpty pane and add it to scrollPane
             FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongsClient.class.getResource("allPlaylistEmpty.fxml"));
             Node vBox = fxmlLoader.load();
+
+            AllPlaylistEmptyController allPlaylistEmptyController = fxmlLoader.getController();
+            allPlaylistEmptyController.setFromAddToPlaylist(true);
+
             dynamicScrollPane.setContent(vBox);
 
         } catch (IOException e) {

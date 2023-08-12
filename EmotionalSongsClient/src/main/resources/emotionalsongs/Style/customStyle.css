@@ -351,6 +351,9 @@
 .playlistInToAddPane:hover{
    /*-fx-border-color: #af524bc1;*/
     -fx-background-color: #272727;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+
 }
 
 .playlistInToAddPaneClicked{

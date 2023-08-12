@@ -3,7 +3,6 @@ package emotionalsongs;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
@@ -50,7 +49,7 @@ public class Playlist_addToPlaylistController implements Initializable {
         // verifico se la canzone non è già contenuta nella playlist
         if(!AllPlaylistController.songAlreadyExist(playlistNameLabel.getText(), AddToPlaylistController.songToAdd)){
             // verifico se la playlist non è già stata aggiunta alla lista selectedPlaylists
-            if(!AddToPlaylistController.playlistAlreadyAdded(playlistNameLabel.getText())){
+            if(!AddToPlaylistController.playlistAlreadySelected(playlistNameLabel.getText())){
 
                 // add the playlist into temp list
                 AddToPlaylistController.addPlaylist(playlistNameLabel.getText());
@@ -89,5 +88,13 @@ public class Playlist_addToPlaylistController implements Initializable {
      */
     protected void setData(String playlistName){
         playlistNameLabel.setText(playlistName);
+
+        // verifico se la playlist è già stata selezionata, e se si gli scambio lo stile
+        if(AddToPlaylistController.playlistAlreadySelected(playlistName)){
+            // make visible the checkMarkImg
+            checkMarkImg.setVisible(true);
+            // change the playlistPane style
+            guiUtilities.setNodeStyle(playlistPane, "playlistInToAddPane", "playlistInToAddPaneClicked");
+        }
     }
 }

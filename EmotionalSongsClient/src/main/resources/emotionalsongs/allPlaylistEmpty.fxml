@@ -8,9 +8,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="dynamicPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.AllPlaylistEmptyController">
+<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="dynamicPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.AllPlaylistEmptyController">
    <children>
-      <Pane prefHeight="140.0" prefWidth="600.0" />
       <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="23.0" prefWidth="600.0" text="Nessuna playlist creata" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
          <font>
             <Font name="Arial" size="14.0" />
