@@ -85,7 +85,7 @@ public class EmotionalSongsClient extends Application {
             // Test:
                 HashSet<Canzone> t = repo.ricercaCanzone("Stone Cold Crazy");
                 System.out.println(t.toArray()[0].toString());
-            // Fine test
+            // fine test
 
         } catch (RemoteException | NotBoundException e){
 

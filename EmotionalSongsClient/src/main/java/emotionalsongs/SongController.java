@@ -1,10 +1,16 @@
 package emotionalsongs;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -56,6 +62,27 @@ public class SongController implements Initializable {
         /*
         TODO implementare cosa deve accadare quando quando viene premuto questo pulsante
          */
+
+        System.out.println("bottone di addToPlaylist premuto");
+
+        try{
+
+            Stage addToPlaylistStage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("addToPlaylist.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+
+            AddToPlaylistController addToPlaylistController = fxmlLoader.getController();
+            addToPlaylistController.setSongToAdd(song);
+
+            addToPlaylistStage.setScene(scene);
+            addToPlaylistStage.initStyle(StageStyle.UNDECORATED);
+            addToPlaylistStage.initModality(Modality.APPLICATION_MODAL);
+            addToPlaylistStage.setResizable(false);
+            addToPlaylistStage.show();
+
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
     /**

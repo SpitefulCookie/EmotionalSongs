@@ -17,14 +17,15 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /*
 TODO:
@@ -133,45 +134,73 @@ public class SearchController implements Initializable {
      */
     @FXML
     public void handleSearchButtonAction(KeyEvent key){
-        // TODO finire implementazione con chiamate al db.
 
-        // la ricerca viene effettuata quando viene premuto il pulsante di INVIO
-        if(key.getCode() == KeyCode.ENTER) {
+        try {
 
-            System.out.println("hai premuto il pulsante enter");
+            // la ricerca viene effettuata quando viene premuto il pulsante di INVIO
+            if (key.getCode() == KeyCode.ENTER) {
 
-            if (filteredSearch.equalsIgnoreCase("title")) {
+                System.out.println("hai premuto il pulsante enter");
 
-            /*
-            TODO : ricerca nel db della canzone inserita nella text Field --> cercare nel db per
-                titolo
-             */
+                // remove the last search before the new search
+                removeLastSearch();
 
-                System.out.println("ricerca per titolo");
-            } else {
+                Set<Canzone> songs = null;
 
-            /*
-            TODO : ricerca nel db della canzone inserita nella text Field --> cercare nel db per
-               autore e anno
-             */
+                if (filteredSearch.equalsIgnoreCase("title")) {
 
-                System.out.println("ricerca per autore e anno");
-            }
+                    if(searchField.getText().isEmpty()){
+                        System.out.println("ricerca per titolo vuota");
+                        return;
+                    }
 
-            // remove the last search before the new search
-            removeLastSearch();
+                    // DEBUG TODO remove
+                    System.out.println("ricerco la canzone: " + searchField.getText());
+                    System.out.println("ricerca per titolo");
 
-            // TODO : visualizziare solo le canzoni restituite dalla chiamata effettuata al db
+                    // interrogo il db per farmi restituire le canzoni carecate
+                    songs = EmotionalSongsClient.repo.ricercaCanzone(searchField.getText());
 
-            if (!searchField.getText().isEmpty()) { // TODO la verifica deve avvenire in base alla tiplogia di ricerca
-                removeSearchBtn.setVisible(true); // TODO forse rimuovere
-                removeSearchBtn.setDisable(false); // TODO forse rimuovere
-                for (int i = 0; i < 20; i++) { // riempo per prova il gridpane
-                    setNewSongFound(new Canzone("canzone " + i, "autore " + i, 2023, "songUUID" + i), i);
+                } else {
+
+                    if(searchField.getText().isEmpty() || yearField.getText().isEmpty()){
+                        System.out.println("ricerca per autore e anno vuota");
+                        return;
+                    }
+
+                    // DEBUG TODO remove
+                    System.out.println("ricerco la canzone: " + searchField.getText() + " con anno " + yearField.getText());
+                    System.out.println("ricerca per autore e anno");
+
+                    // interrogo il db per farmi restituire le canzoni carecate
+                    songs = EmotionalSongsClient.repo.ricercaCanzone(searchField.getText(), yearField.getText());
+
                 }
-            } else {
-                System.out.println("the Text field is empty");
+
+                // verifico se se le canzoni restituite non sono vuote
+                if (!songs.isEmpty()) {
+                    // viuslizzo le canzoni restituite dal db
+                    int row = 0;
+                    for (Canzone song : songs) {
+                        setNewSongFound(song, row);
+                        row ++;
+                    }
+                } else {
+                    System.out.println("la ricerca non ha protato a nessun risultato");
+                }
             }
+
+        }catch (RemoteException e){
+            // in caso di connessione persa con il server, visualizzo l'apposita finestra
+            e.printStackTrace();
+
+            Stage connectionFailedStage = new Stage();
+
+            connectionFailedStage.setScene(GUIUtilities.getInstance().getScene("connectionFailed.fxml"));
+            connectionFailedStage.initStyle(StageStyle.UNDECORATED);
+            connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
+            connectionFailedStage.setResizable(false);
+            connectionFailedStage.show();
         }
     }
 

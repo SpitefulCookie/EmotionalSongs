@@ -1,5 +1,6 @@
 package emotionalsongs;
 
+import javafx.beans.property.ReadOnlyMapProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,9 +18,12 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 public class SelectedPlaylistController implements Initializable {
 
@@ -143,15 +147,21 @@ public class SelectedPlaylistController implements Initializable {
         va a rivisualizzare la playlist invocando l'opportuno metodo viewSongs
          */
 
-        /*
-        TODO aggiungere le canzoni contenute nella lista passata come argomento (songsToAdd) nel db, quindi invocare
-         l'apposito metodo del server.
-         */
+        try {
 
-        AllPlaylistController.addSongs(playlistNameLabel_.getText(), songsToAdd); // aggiungo le canzoni nella playlist
+            // add the song to the DB
+            for(Canzone song : songsToAdd) {
+                EmotionalSongsClient.repo.addSongToPlaylist(playlistNameLabel_.getText(), EmotionalSongsClientController.getUsername(), song.getSongUUID());
+            }
 
-        // display the playlist songs
-        viewSongs();
+            // add the song to the playlist
+            AllPlaylistController.addSongs(playlistNameLabel_.getText(), songsToAdd); // aggiungo le canzoni nella playlist
+
+            // display the playlist songs
+            viewSongs();
+        }catch (RemoteException e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -203,19 +213,12 @@ public class SelectedPlaylistController implements Initializable {
      */
     public void openPlaylist(String playlistName){
         /*
-        questo metodo viene eseguito nel metodo handleOpenPlaylistAction della classe PlaylistController
+        questo metodo viene eseguito nel metodo handleOpenPlaylistAction della
+        classe PlaylistController
          */
 
         // set the playlist name
         this.playlistNameLabel.setText(playlistName);
-
-        /*
-         TODO interroga il db per farsi restituire le canzoni contenute nella playlist apera, successivamente
-            inserirle nella hashMap nella lista con chiave playlistNameLabel.getText(), effettuare questa
-            operazione una sola volta, ovvero solo la prima volta in cui la playlist viene aperta.
-            --- per far ciò inserire una hasMap<String playlistName, boolean isOpen> che indica se la playlist
-            è stata aperta o meno.
-         */
 
         //songs = new ArrayList<Canzone>(); // TODO forse rimuovere
 
@@ -223,21 +226,14 @@ public class SelectedPlaylistController implements Initializable {
         if(!AllPlaylistController.getPlaylistWasOpened(playlistName)){
 
             /*
-            TODO interrogare il db per farsi restituire le canzoni contenute nella playlist aperta,
-                successivamente aggiungere le canzoni restituite nella lista associata alla chiave
-                playlistName nella hashMap presente nella classe AllPlaylistController
+             carico le canzoni contenute nella playlist: playlistName
+             NOTA: è in questo metodo che avviene l'interazione con il db.
              */
+            uploadSongs(playlistName);
 
             // DEGUB TODO remove DEBUG
-            Canzone song = new Canzone("canzone 0", "Autore 0", 2023, "uuid0");
-            List<Canzone> songs = new ArrayList<>();
-            songs.add(song);
-            AllPlaylistController.addSongs(playlistName, songs);
             System.out.println("apro per la prima voltra la playlist: " + playlistName); // TODO remove
-            // FINE DDEBUG
 
-            // now the playlist has been opened
-            AllPlaylistController.setOpenPlaylist(playlistName);
 
         }else{
             // TODO remove
@@ -267,6 +263,34 @@ public class SelectedPlaylistController implements Initializable {
 
         // display the PlaylistEmptyPane
         setPlaylistEmpty();
+    }
+
+    /**
+     * TODO document
+     * @param playlistName
+     */
+    public static void uploadSongs(String playlistName){
+        /*
+        questo metodo interroga il db per farsi restituire tutte le canzoni contenute nella
+        playlist: playlistName
+         */
+
+        try {
+            // interrogo il DB per farmi restituire tutte le canzoni contenute nella playlist: playlistName
+            Set<Canzone> songs = EmotionalSongsClient.repo.getSongsInPlaylist(playlistName, EmotionalSongsClientController.getUsername());
+
+            /*
+             add the songs to the playlist, NOTA : passo new Arraylist<>(songs) perchè il DB mi ritorna un
+             hashSet mentre il metodo richiede una arraylist, quindi per convertire un hashSet in arrayList si
+             fa così.
+             */
+            AllPlaylistController.addSongs(playlistName, new ArrayList<>(songs));
+
+            // now the playlist has been opened
+            AllPlaylistController.setOpenPlaylist(playlistName);
+        }catch (RemoteException e){
+            e.printStackTrace();
+        }
     }
 
     /**

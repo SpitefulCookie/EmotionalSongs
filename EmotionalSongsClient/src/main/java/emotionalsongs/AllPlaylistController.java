@@ -14,10 +14,8 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.rmi.RemoteException;
+import java.util.*;
 
 public class AllPlaylistController implements Initializable {
 
@@ -39,7 +37,7 @@ public class AllPlaylistController implements Initializable {
     private static Button addPlaylistButton_;
 
     //protected static List<String> playlist;
-    protected static HashMap<String, ArrayList<Canzone>> playlist;
+    protected static HashMap<String, ArrayList<Canzone>> playlists;
     protected static HashMap<String, Boolean> openPlaylists; // mi indica se la playlist specifica è stata aperta o meno
 
     /**
@@ -70,19 +68,15 @@ public class AllPlaylistController implements Initializable {
 
         //scrollPane_.setContent(dynamicGridPane_); // magari questo assegnamento serve di nuovo
 
-        /*
+        /* TODO remove all
          inizializzo la playlist list, dato che essa è statica questa questa operazione
          la faccio una sola volta (ovvero la prima) ecco il motivo dell'if
-         */
+
         if(playlist == null) {
-            /*
-             TODO invocare metodo server che interroga il DB per farsi restituire tutte le playlist
-              create dall'utente, e inizializzare la lista playlist con la lista restituista dal metodo
-             */
             //playlist = new ArrayList<String>();
             playlist = new HashMap<>();
             openPlaylists = new HashMap<>();
-        }
+        }*/
 
         // display the user playlist
         viewAllPlaylist();
@@ -139,9 +133,44 @@ public class AllPlaylistController implements Initializable {
      * @return
      */
     public static void addNewPlaylist(String playlistName) {
-        // TODO aggiungere la playlist al DB, invocando il metodo dal server
-        if (!playlist.containsKey(playlistName)){
-            playlist.put(playlistName, new ArrayList<Canzone>());
+        try {
+            // add the playlist to the DB
+            EmotionalSongsClient.repo.registerPlaylist(playlistName, EmotionalSongsClientController.getUsername());
+
+            // add the playlist to the hashMap
+            if (!playlists.containsKey(playlistName)) {
+                playlists.put(playlistName, new ArrayList<Canzone>());
+                openPlaylists.put(playlistName, false); // inizialmente il valore è settato su false perchè la playlit non è stata mai aperta
+            }
+        }catch(RemoteException e){
+
+            e.printStackTrace();
+
+            Stage connectionFailedStage = new Stage();
+
+            connectionFailedStage.setScene(GUIUtilities.getInstance().getScene("connectionFailed.fxml"));
+            connectionFailedStage.initStyle(StageStyle.UNDECORATED);
+            connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
+            connectionFailedStage.setResizable(false);
+            connectionFailedStage.show();
+
+        }
+    }
+
+    /**
+     * TODO documnet
+     * @param playlistName
+     */
+    public static void addReturnedPlaylist(String playlistName){
+        /*
+        metodo che svolge praticamente la stessa funzione del metodo addNewPlaylist, l'unica differenza
+        è che questo viene invocato solo quando viene interrogato il DB per farsi restituire le playlist
+        dell'utente loggato, quindi nel metodo uploadPlaylists, di conseguenza la playlist passata
+        non viene inserita nel DB, cosa che invece avviene nel metodo addNewPlaylist
+         */
+
+        if (!playlists.containsKey(playlistName)){
+            playlists.put(playlistName, new ArrayList<Canzone>());
             openPlaylists.put(playlistName, false); // inizialmente il valore è settato su false perchè la playlit non è stata mai aperta
         }
     }
@@ -152,7 +181,7 @@ public class AllPlaylistController implements Initializable {
      * @return
      */
     public static boolean checkPlaylistName(String playlistName){
-        return !playlist.containsKey(playlistName);
+        return !playlists.containsKey(playlistName);
     }
 
     /**
@@ -164,7 +193,7 @@ public class AllPlaylistController implements Initializable {
         il messaggio che informa l'utente che non ha creato playlist e un bottone che permette la creazione di
         playlist, altrimenti se ha creato delle playlist le visualizzo.
         */
-        if(playlist.isEmpty()){
+        if(playlists.isEmpty()){
             setAllPlaylistEmpty();
         }else {
             dynamicScrollPane.setContent(dynamicGridPane); // TODO mettere if che fa eseguire questo comando solo se primi la allPlaylist era vuota(Empty)
@@ -173,8 +202,8 @@ public class AllPlaylistController implements Initializable {
             addPlaylistButton_.setDisable(false);
             try {
                 // add playlist into the dynamicGridPane
-                int idx = 0;
-                for (String playlist : playlist.keySet()) { // tramite il metodo keySet ottengo tutte le chiavi della hashMap che appunto solo le mie playlist
+                int row = 0;
+                for (String playlist : playlists.keySet()) { // tramite il metodo keySet ottengo tutte le chiavi della hashMap che appunto solo le mie playlist
 
                     FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongsClient.class.getResource("playlist.fxml"));
                     Node hBox = fxmlLoader.load();
@@ -182,10 +211,10 @@ public class AllPlaylistController implements Initializable {
                     PlaylistController playlistController = fxmlLoader.getController();
                     playlistController.setPlaylistName(playlist);
 
-                    dynamicGridPane.add(hBox, 0, idx);
+                    dynamicGridPane.add(hBox, 0, row);
                     GridPane.setMargin(hBox, new Insets(10));
 
-                    idx ++;
+                    row ++;
 
                     System.out.println("visualizzo playlist : " + playlist); // TODO togliere il print
                 }
@@ -223,8 +252,21 @@ public class AllPlaylistController implements Initializable {
         /*
         metodo che va ad aggiungere alla playlist: playlistName le canzoni contenute nella lista songs
          */
-        playlist.get(playlistName).addAll(songs);
+        playlists.get(playlistName).addAll(songs);
     }
+
+    /**
+     * TODO document
+     * @param playlistName
+     * @param songs
+     */
+    public static void addSongs(String playlistName, Canzone songs){
+        /*
+        metodo che va ad aggiungere alla playlist: playlistName la canzone song
+         */
+        playlists.get(playlistName).add(songs);
+    }
+
 
     /**
      * TODO document
@@ -235,7 +277,7 @@ public class AllPlaylistController implements Initializable {
         /*
         metodo che restituisce le canzoni della playlist: playlistName
          */
-        return playlist.get(playlistName);
+        return playlists.get(playlistName);
     }
 
     /**
@@ -249,7 +291,10 @@ public class AllPlaylistController implements Initializable {
         metodo che verifica se la canzone: song è contenuta nella playlist: playlistName
         la verifica avviene per SongUUID
          */
-        List<Canzone> songPlaylist = playlist.get(playlistName);
+
+        System.out.println("controllo nella playlist " + playlistName + " la canzone con uuid " + song.getSongUUID());
+
+        List<Canzone> songPlaylist = playlists.get(playlistName);
         for(int i = 0; i < songPlaylist.size(); i++){
             if(songPlaylist.get(i).getSongUUID().equals(song.getSongUUID())){
                 return true; // la canzone è già contenuta nella playlist
@@ -283,5 +328,54 @@ public class AllPlaylistController implements Initializable {
         è stata aperta
          */
         openPlaylists.put(playlistName, true);
+    }
+
+    /**
+     * TODO document
+     * @return
+     */
+    public static Set<String> returnAllPlaylist(){
+        return playlists.keySet();
+    }
+
+    /**
+     * TODO document
+     */
+    public static void uploadPlaylist(){
+        /*
+        questo metodo va a caricare tutte le playlist dell'utente loggato, questo metodo viene
+        invocato nel metodo setUser() della classe EmotionalSongsClientController solo se l'utente
+        non è guest.
+         */
+
+        System.out.println("metodo uploadPlaylist invocato"); // TODO remove
+
+        if(playlists == null) {
+
+            try {
+                // interrogo il db per farmi restituire tutte le playlist dell'utente
+                Set<String> returned_playlists = EmotionalSongsClient.repo.getUserPlaylists(EmotionalSongsClientController.getUsername());
+
+                playlists = new HashMap<>();
+                openPlaylists = new HashMap<>();
+
+                // add the returnedPlaylists into playlists hashMap
+                for(String playlist : returned_playlists){
+                    addReturnedPlaylist(playlist);
+                }
+
+            }catch (RemoteException e){
+
+                e.printStackTrace();
+
+                Stage connectionFailedStage = new Stage();
+
+                connectionFailedStage.setScene(GUIUtilities.getInstance().getScene("connectionFailed.fxml"));
+                connectionFailedStage.initStyle(StageStyle.UNDECORATED);
+                connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
+                connectionFailedStage.setResizable(false);
+                connectionFailedStage.show();
+            }
+        }
     }
 }

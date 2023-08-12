@@ -339,4 +339,24 @@
     -fx-border-radius: 10;
 }
 
+------
+
+.playlistInToAddPane{
+    -fx-background-color: transparent;
+    /*-fx-border-color: #2e2e2e;*/
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.playlistInToAddPane:hover{
+   /*-fx-border-color: #af524bc1;*/
+    -fx-background-color: #272727;
+}
+
+.playlistInToAddPaneClicked{
+    -fx-background-color: #282828;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
 

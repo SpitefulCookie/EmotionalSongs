@@ -17,7 +17,7 @@ public class GUIUtilities {
     private final HashMap<String, Image> images;
     private static GUIUtilities guiUtilities;
 
-    private static final String[] guiControllers = {"allPlaylist.fxml", "clientLoginSettings.fxml", "connectionFailed.fxml", "createPlaylist.fxml", "exit.fxml", "login.fxml", "search.fxml",/* "selectedPlaylist.fxml", */ "user.fxml", "UserRegistration.fxml"};
+    private static final String[] guiControllers = {/*"allPlaylist.fxml", */ "clientLoginSettings.fxml", "connectionFailed.fxml", "createPlaylist.fxml", "exit.fxml", "login.fxml", "search.fxml",/* "selectedPlaylist.fxml", */ "user.fxml", "UserRegistration.fxml"};
     private static final String[] guiNodes = {"song.fxml"};
 
     GUIUtilities(){
