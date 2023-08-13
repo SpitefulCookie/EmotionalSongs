@@ -65,11 +65,9 @@ public class EmotionalSongsClient extends Application {
         esStage = stage;
         stage.show();
 
-        initializeServerConnection();
-
     }
 
-    protected static void initializeServerConnection(){
+    protected static void initializeServerConnection(boolean suppressConnectionWarning){
 
         isConnectionInitialized = false;
 
@@ -82,22 +80,18 @@ public class EmotionalSongsClient extends Application {
 
             isConnectionInitialized = true;
 
-            // Test:
-                HashSet<Canzone> t = repo.ricercaCanzone("Stone Cold Crazy");
-                System.out.println(t.toArray()[0].toString());
-            // fine test
+            EmotionalSongsClient.registerClient();
 
         } catch (RemoteException | NotBoundException e){
+            if(!suppressConnectionWarning) {
+                Stage connectionFailedStage = new Stage();
 
-            e.printStackTrace();
-
-            Stage connectionFailedStage = new Stage();
-
-            connectionFailedStage.setScene(GUIUtilities.getInstance().getScene("connectionFailed.fxml"));
-            connectionFailedStage.initStyle(StageStyle.UNDECORATED);
-            connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
-            connectionFailedStage.setResizable(false);
-            connectionFailedStage.show();
+                connectionFailedStage.setScene(GUIUtilities.getInstance().getScene("connectionFailed.fxml"));
+                connectionFailedStage.initStyle(StageStyle.UNDECORATED);
+                connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
+                connectionFailedStage.setResizable(false);
+                connectionFailedStage.show();
+            }
         }
     }
 
