@@ -8,10 +8,8 @@ import javafx.stage.Stage;
 
 public class ConnectionFailedController {
 
-    @FXML
-    private Button tryAgainButton;
-    @FXML
-    private Button exitButton;
+    @FXML private Button tryAgainButton;
+    @FXML private Button exitButton;
 
     /**
      * TODO document
@@ -19,7 +17,7 @@ public class ConnectionFailedController {
     @FXML
     public void handleTryAgainButtonAction(){
         closeConnectionFailedStage(tryAgainButton);
-        EmotionalSongsClient.initializeServerConnection();
+        EmotionalSongsClient.initializeServerConnection(false);
     }
 
 
