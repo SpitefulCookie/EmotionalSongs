@@ -17,8 +17,7 @@ public class GUIUtilities {
     private final HashMap<String, Image> images;
     private static GUIUtilities guiUtilities;
 
-    private static final String[] guiControllers = {/*"allPlaylist.fxml", */ "clientLoginSettings.fxml", "connectionFailed.fxml"/*, "createPlaylist.fxml"*/, "exit.fxml", "login.fxml", "search.fxml",/* "selectedPlaylist.fxml", */ "user.fxml", "UserRegistration.fxml"};
-    private static final String[] guiNodes = {"song.fxml"};
+    private static final String[] guiControllers = {"clientLoginSettings.fxml", "connectionFailed.fxml", "exit.fxml", "login.fxml", "search.fxml", "user.fxml", "UserRegistration.fxml"};
 
     GUIUtilities(){
         // creo la hashmap
@@ -27,8 +26,6 @@ public class GUIUtilities {
 
         // setto (aggiungo) le varie immagini nella hashmap
         initImages();
-        System.out.println("fine init nodes");
-
 
     }
 
@@ -47,7 +44,6 @@ public class GUIUtilities {
 
             for (String controller : guiControllers) {
 
-                System.out.println("Current controller: " + controller);
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(controller));
                 appScenes.put(controller, new Scene(fxmlLoader.load()));
 
@@ -108,35 +104,6 @@ public class GUIUtilities {
 
     }
 
-    /**
-     * TODO document
-     * @param tf
-     * @param maxLength
-     */
-    public static void addTextLimiter(final TextField tf, final int maxLength) {
-
-        tf.textProperty().addListener((ov, oldValue, newValue) -> {
-            if (tf.getText().length() > maxLength) {
-                String s = tf.getText().substring(0, maxLength);
-                tf.setText(s);
-            }
-        });
-
-    }
-
-    /**
-     * TODO document
-     * @param tf
-     */
-    public static void forceTextInput(final TextField tf) {
-
-        tf.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.matches("\\d*")) {
-                tf.setText(newValue.replaceAll("[\\d]", ""));
-            }
-        });
-
-    }
 
     protected static <T> void setErrorStyle(T node){
 
@@ -188,11 +155,15 @@ public class GUIUtilities {
             addImages("success", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/correct15px.png")));
             addImages("failure", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/failure15px.png")));
             addImages("fire", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/fire.png")));
-            addImages("gear", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/gear2.png")));
+            //addImages("gear", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/gear2.png"))); // non usata
             addImages("openSideBar", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/openIcon.png")));
             addImages("closeSideBar", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/returnIcon.png")));
             addImages("search", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/searchIcon.png")));
             addImages("removeSearch", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/remove.png")));
+            addImages("goodConnection", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/test2.png")));
+            addImages("badConnection", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/test.png")));
+            addImages("wrench", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/wrench.png")));
+
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -214,8 +185,6 @@ public class GUIUtilities {
         // prima d'inserire l'immagine verifico se già esiste
         if(!images.containsKey(key)){
             images.put(key, image);
-        }else{
-            System.out.println("immagine già esistente");
         }
     }
 
@@ -223,7 +192,6 @@ public class GUIUtilities {
      * TODO document
      */
     protected Image getImage(String key){
-
         // se la hash map contiene la key passata come parametro allora restituisci l'immagine associata alla chiave
         if(images.containsKey(key)) { return images.get(key);}
         else{ return null;}// altrimenti restituisci null
