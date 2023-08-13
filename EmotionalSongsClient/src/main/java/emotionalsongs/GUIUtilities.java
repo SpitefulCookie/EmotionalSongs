@@ -160,8 +160,8 @@ public class GUIUtilities {
             addImages("closeSideBar", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/returnIcon.png")));
             addImages("search", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/searchIcon.png")));
             addImages("removeSearch", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/remove.png")));
-            addImages("goodConnection", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/test2.png")));
-            addImages("badConnection", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/test.png")));
+            addImages("goodConnection", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/connectionSuccess.png")));
+            addImages("badConnection", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/connectionFail.png")));
             addImages("wrench", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/wrench.png")));
 
         }catch (IOException e){
