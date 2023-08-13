@@ -1,9 +1,9 @@
 package emotionalsongs;
 
 
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,6 +15,9 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
+import javafx.util.Duration;
+
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -46,6 +49,7 @@ public class LoginController implements Initializable {
     private boolean isDisplayed = false;
     private Image eye;
     private Image eyeCrossed;
+    private Tooltip connectionStatusTip;
 
     @FXML private Pane anchorPane;
     @FXML private Label loginFailedLabel;
@@ -55,6 +59,8 @@ public class LoginController implements Initializable {
     @FXML private Button closeBtn;
     @FXML private Button showPasswordInput;
     @FXML private Button settingsButton;
+    @FXML private ImageView connectionStatusIcon;
+    @FXML private Label connectionStatusLabel;
 
     /**
      * TODO document
@@ -64,12 +70,29 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        EmotionalSongsClient.registerClient();
+
+        long startTime = System.currentTimeMillis();
+
+        /*
+         * In questo punto, viene avviato un nuovo thread dedicato a inizializzare la connessione con il server.
+         * Questa operazione è finalizzata a garantire la fluidità dell'applicazione. Questo perché, a seguito dell'invocazione
+         * del metodo initializeServerConnection(), qualora il server non risulti essere raggiungibile,
+         * l'applicazione sospenderà temporaneamente la sua esecuzione in attesa di una risposta dal server - che inevitabilmente
+         * si concluderà con un timeout.
+         * Poiché in questo punto l'invocazione del metodo initializeServerConnection() è fatta puramente per fornire un
+         * feedback immediato all'utente sullo stato della connessione al server, di seguito verrà effettuato un join
+         * con timeout sul thread appena creato. Questo garantirà che i tempi di attesa per la risposta
+         * del server non eccederanno mai i 700ms, permettendo così all'applicazione di continuare a eseguire senza interruzioni significative.
+         */
+
+        Thread t = new Thread(() -> EmotionalSongsClient.initializeServerConnection(true));
+
+        t.start();
 
         Image closeIcon;
         guiUtilities = GUIUtilities.getInstance();
 
-        settingsButton.setGraphic(new ImageView(guiUtilities.getImage("gear")));
+        settingsButton.setGraphic(new ImageView(guiUtilities.getImage("wrench")));
         settingsButton.setFocusTraversable(false);
 
         settingsButton.setOnAction( event -> {
@@ -83,7 +106,8 @@ public class LoginController implements Initializable {
             Scene dialogScene = GUIUtilities.getInstance().getScene("clientLoginSettings.fxml");;
 
             dialog.setScene(dialogScene);
-            dialog.show();
+            dialog.showAndWait();
+            updateConnectionGraphics();
 
         });
 
@@ -104,6 +128,30 @@ public class LoginController implements Initializable {
         _overlappingPwdField = overlappingTextField;
         _pwdField = pwdField;
 
+        try {
+            t.join(700); // Max timeout: 700ms
+        } catch (InterruptedException e) {
+            // Exception not thrown
+        }
+
+        updateConnectionGraphics(); // This method is responsible for updating the look of the "monitor icon", meant to indicate the state of the connection with the server
+
+        System.out.println("Tempo esecuzione: " + (System.currentTimeMillis()-startTime) + "ms");
+
+    }
+
+    protected void updateConnectionGraphics(){
+        if(!EmotionalSongsClient.isConnectionInitialized){
+            connectionStatusIcon.setImage(guiUtilities.getImage("badConnection"));
+            connectionStatusLabel.setText("Connection failed");
+            Tooltip tip = new Tooltip("Unable to contact the server, please check your settings");
+            tip.setShowDelay(new Duration(0.3));
+            tip.setHideDelay(new Duration(0.3));
+            connectionStatusLabel.setTooltip(tip);
+        } else{
+            connectionStatusIcon.setImage(guiUtilities.getImage("goodConnection"));
+            connectionStatusLabel.setText("Connection established");
+        }
     }
 
     protected static void clearFields(){
@@ -119,6 +167,8 @@ public class LoginController implements Initializable {
         System.out.println("Continue as guest clicked!"); // TODO togliere tutti questi print
 
         if (EmotionalSongsClient.isConnectionInitialized){
+
+            //EmotionalSongsClient.registerClient();
 
             // La connessione al server è necessaria anche se l'utente non è registrato, pertanto non dev'essere
             // in grado di visualizzare la schermata principale senza che il client si sia connesso al server.
@@ -145,7 +195,9 @@ public class LoginController implements Initializable {
                 //
             }
 
-        } else{EmotionalSongsClient.initializeServerConnection();}
+        } else{
+            EmotionalSongsClient.initializeServerConnection(false);
+        }
 
     }
 
@@ -153,9 +205,14 @@ public class LoginController implements Initializable {
      * TODO document
      */
     @FXML protected void handleRegisterButton() {
+        if(EmotionalSongsClient.isConnectionInitialized) {
+            EmotionalSongsClient.setStage(GUIUtilities.getInstance().getScene("UserRegistration.fxml"), UserRegistrationController.WIDTH, UserRegistrationController.HEIGHT, true);
+            EmotionalSongsClient.getStage().show();
+        } else{
 
-        EmotionalSongsClient.setStage(GUIUtilities.getInstance().getScene("UserRegistration.fxml"), UserRegistrationController.WIDTH, UserRegistrationController.HEIGHT, true);
-        EmotionalSongsClient.getStage().show();
+            EmotionalSongsClient.initializeServerConnection(false);
+
+        }
 
     }
 
@@ -201,6 +258,8 @@ public class LoginController implements Initializable {
     @FXML protected void handleLoginButtonAction(){
 
         if (EmotionalSongsClient.isConnectionInitialized) {
+
+            //EmotionalSongsClient.registerClient();
 
             String pwd = null;
             String username = null;
@@ -266,7 +325,9 @@ public class LoginController implements Initializable {
 
                     }
 
-                } catch (RemoteException e) {
+                } catch (RemoteException e) { // Quest'eccezione viene lanciata esclusivamente quando il server è attualmente
+
+                    System.out.println("DING DING DING!\n DING DING DING!\n DING DING DING!\n DING DING DING!\n DING DING DING!\n DING DING DING!\n DING DING DING!\n ");
 
                     Stage connectionFailedStage = new Stage();
 
@@ -280,7 +341,9 @@ public class LoginController implements Initializable {
 
             }
 
-        } else{ EmotionalSongsClient.initializeServerConnection(); }
+        } else{
+                EmotionalSongsClient.initializeServerConnection(false);
+        }
 
     }
 
