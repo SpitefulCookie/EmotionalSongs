@@ -20,7 +20,7 @@ public class SongToAddController implements Initializable{
 
     @FXML private HBox songToAddPane;
     @FXML private Label songNameLabel;
-    @FXML private Label authorNameLabel;
+    @FXML private Label infoLabel;
     @FXML private Label existingSongLabel; // TODO vedere dove settarla
     @FXML private ImageView checkMarkImg;
 
@@ -93,7 +93,7 @@ public class SongToAddController implements Initializable{
          */
 
         songNameLabel.setText(song.getTitolo());
-        authorNameLabel.setText(song.getAutore());
+        infoLabel.setText(song.getAutore() + " - " + " (" + song.getAnno() + ")");
         this.song = song;
 
         // recupero se la canzone già esiste nella playlist

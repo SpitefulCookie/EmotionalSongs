@@ -88,6 +88,24 @@ public class GUIUtilities {
 
     /**
      * TODO document
+     * @param ta
+     * @param maxLen
+     */
+    public static void forceTextInput(final TextArea ta, final int maxLen) {
+
+        ta.textProperty().addListener((observable, oldValue, newValue) -> {
+
+            if (newValue.matches(".*\\d.*")) {
+                ta.setText(newValue.replaceAll("\\d", ""));
+            }else if (ta.getText().length() > maxLen) {
+                String s = ta.getText().substring(0, maxLen);
+                ta.setText(s);
+            }
+        });
+    }
+
+    /**
+     * TODO document
      * @param tf
      * @param maxLen
      */
@@ -163,6 +181,8 @@ public class GUIUtilities {
             addImages("goodConnection", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/connectionSuccess.png")));
             addImages("badConnection", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/connectionFail.png")));
             addImages("wrench", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/wrench.png")));
+            addImages("viewEmotions", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/viewEmotions.png")));
+            addImages("add", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/addIcon.png")));
 
         }catch (IOException e){
             e.printStackTrace();

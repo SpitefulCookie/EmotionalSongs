@@ -28,7 +28,7 @@ public class SongController implements Initializable {
     @FXML
     private Label songNameLabel;
     @FXML
-    private Label authorNameLabel;
+    private Label infoLabel;
     @FXML
     private Button addToPlaylistBtn;
     @FXML
@@ -141,7 +141,7 @@ public class SongController implements Initializable {
      */
     public void setData(Canzone song){
         setSongNameLabel(song.getTitolo());
-        setAuthorNameLabel(song.getAutore());
+        setInfoLabel(song.getAutore() + " - " + " (" + song.getAnno() + ")");
         this.song = song;
     }
 
@@ -157,8 +157,8 @@ public class SongController implements Initializable {
      *
      * @param authorName
      */
-    public void setAuthorNameLabel(String authorName){
-        this.authorNameLabel.setText(authorName);
+    public void setInfoLabel(String authorName){
+        this.infoLabel.setText(authorName);
     }
 
 }

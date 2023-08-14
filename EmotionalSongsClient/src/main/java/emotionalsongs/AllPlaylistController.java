@@ -369,7 +369,7 @@ public class AllPlaylistController implements Initializable {
     /**
      * TODO document
      */
-    public static void uploadPlaylist(){
+    public static void loadPlaylist(){
         /*
         questo metodo va a caricare tutte le playlist dell'utente loggato, questo metodo viene
         invocato nel metodo setUser() della classe EmotionalSongsClientController solo se l'utente

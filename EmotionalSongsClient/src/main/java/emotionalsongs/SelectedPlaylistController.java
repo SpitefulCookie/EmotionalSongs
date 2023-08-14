@@ -1,6 +1,5 @@
 package emotionalsongs;
 
-import javafx.beans.property.ReadOnlyMapProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,7 +17,6 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +45,11 @@ public class SelectedPlaylistController implements Initializable {
     private static Button addSongsButton_;
     private static Label playlistNameLabel_;
 
-    //private static List<Canzone> songs; // TODO rimuovi
+    /*
+    questa lista mi contiene i controller delle canzoni presenti sul gridPane, devo memorizzare i controller
+    perchè poi mi serviranno nel momento in cui andrò ad aggiungere le emozioni alla canzone.
+     */
+    private static List<SongPlaylistController> songControllers;
 
 
     @Override
@@ -174,6 +176,14 @@ public class SelectedPlaylistController implements Initializable {
         List<Canzone> songs = AllPlaylistController.getSongs(playlistNameLabel_.getText());
 
         /*
+         ogni volta che visualizzo le canzoni vado a creare una nuova lista songController
+         TODO vedere se creare la lista una sola volta (ovvero la prima volta) e quindi in questo metodo
+            invocare il clear della lista (in quanto per il corretto funzionamento la lista prima di ogni
+            visualizzazione deve essere vuota), oppure lasciare così.
+         */
+        songControllers = new ArrayList<SongPlaylistController>();
+
+        /*
         metodo che visualizza le canzoni contenute nella playlist aperta, se non c'e ne sono, viene visualizzato
         il pane di playlist empty.
          */
@@ -194,7 +204,10 @@ public class SelectedPlaylistController implements Initializable {
 
                     // get the song-specific songPlaylistController from fxml
                     SongPlaylistController songPlaylistController = fxmlLoader.getController();
-                    songPlaylistController.setSong(songs.get(i));
+                    songPlaylistController.setSong(songs.get(i), i);
+
+                    // add the songPlaylistController to songController list
+                    songControllers.add(songPlaylistController);
 
                     // add song pane in to the gridPane
                     dynamicGridPane.add(song_pane, 0, i);
@@ -220,8 +233,6 @@ public class SelectedPlaylistController implements Initializable {
         // set the playlist name
         this.playlistNameLabel.setText(playlistName);
 
-        //songs = new ArrayList<Canzone>(); // TODO forse rimuovere
-
         // se la playlist non è mai stata aperta fino ad ora
         if(!AllPlaylistController.getPlaylistWasOpened(playlistName)){
 
@@ -229,7 +240,7 @@ public class SelectedPlaylistController implements Initializable {
              carico le canzoni contenute nella playlist: playlistName
              NOTA: è in questo metodo che avviene l'interazione con il db.
              */
-            uploadSongs(playlistName);
+            loadSongs(playlistName);
 
             // DEGUB TODO remove DEBUG
             System.out.println("apro per la prima voltra la playlist: " + playlistName); // TODO remove
@@ -269,7 +280,7 @@ public class SelectedPlaylistController implements Initializable {
      * TODO document
      * @param playlistName
      */
-    public static void uploadSongs(String playlistName){
+    public static void loadSongs(String playlistName){
         /*
         questo metodo interroga il db per farsi restituire tutte le canzoni contenute nella
         playlist: playlistName
@@ -291,6 +302,18 @@ public class SelectedPlaylistController implements Initializable {
         }catch (RemoteException e){
             e.printStackTrace();
         }
+    }
+
+    /**
+     * TODO document
+     * @param pos
+     * @return
+     */
+    protected static SongPlaylistController getSongController(int pos){
+        /*
+        metodo che mi ritorna il songPlaylistController che si trova in posizione pos nella lista: songControllers
+         */
+        return songControllers.get(pos);
     }
 
     /**
