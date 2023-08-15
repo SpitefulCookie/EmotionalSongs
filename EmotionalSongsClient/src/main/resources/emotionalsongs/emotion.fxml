@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="emotionPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="134.0" prefWidth="600.0" styleClass="amazementPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.EmotionController">
+   <children>
+      <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="600.0">
+         <children>
+            <Pane prefHeight="32.0" prefWidth="10.0" />
+            <Label fx:id="emotionNameLabel" prefHeight="17.0" prefWidth="130.0" text="Nome Emozione" textFill="#bbbbbb">
+               <font>
+                  <Font name="Arial Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="descriptionLabel" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="137.0" text="descirzione emozione" textFill="#bbbbbb" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+            <Pane prefHeight="200.0" prefWidth="10.0" />
+         </children>
+      </HBox>
+      <VBox prefHeight="37.0" prefWidth="600.0">
+         <children>
+            <HBox prefHeight="13.0" prefWidth="600.0">
+               <children>
+                  <Pane prefHeight="13.0" prefWidth="10.0" />
+                  <Label text="Punteggio" textFill="#bbbbbb">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="600.0">
+               <children>
+                  <Pane prefHeight="30.0" prefWidth="10.0" />
+                  <ProgressBar fx:id="scoreProgressBar" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="251.0" progress="0.0" stylesheets="@Style/customStyle.css" HBox.hgrow="ALWAYS" />
+                  <Pane prefHeight="30.0" prefWidth="20.0" />
+                  <Button fx:id="decreaseScoreBtn" mnemonicParsing="false" onAction="#handleDecreaseScoreButtonAction" styleClass="buttonEmotionsPane" stylesheets="@Style/customStyle.css">
+                     <graphic>
+                        <ImageView fitHeight="15.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/minimizeIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Pane prefHeight="30.0" prefWidth="10.0" />
+                  <Label fx:id="scoreLabel" text="1" textFill="#bbbbbb">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="30.0" prefWidth="10.0" />
+                  <Button fx:id="increaseScoreBtn" mnemonicParsing="false" onAction="#handleIncreaseScoreButtonAction" styleClass="buttonEmotionsPane" stylesheets="@Style/customStyle.css">
+                     <graphic>
+                        <ImageView fitHeight="14.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/addIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Pane prefHeight="25.0" prefWidth="10.0" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox prefHeight="44.0" prefWidth="600.0">
+         <children>
+            <HBox prefHeight="13.0" prefWidth="600.0">
+               <children>
+                  <Pane prefHeight="13.0" prefWidth="10.0" />
+                  <Label text="Note" textFill="#bbbbbb">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="600.0">
+               <children>
+                  <Pane prefHeight="30.0" prefWidth="10.0" />
+                  <TextArea fx:id="notesArea" maxWidth="1.7976931348623157E308" prefHeight="5.0" prefWidth="200.0" promptText="Inserisci qui le tue note..." HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </TextArea>
+                  <Pane prefHeight="30.0" prefWidth="10.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="13.0" prefWidth="600.0">
+               <children>
+                  <Label fx:id="numCharactersNotesLabel" text="0" textFill="#bbbbbb">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+                  <Label text="/256" textFill="#bbbbbb">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="13.0" prefWidth="10.0" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</VBox>

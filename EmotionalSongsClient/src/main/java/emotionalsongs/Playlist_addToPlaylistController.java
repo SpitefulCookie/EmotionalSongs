@@ -43,7 +43,7 @@ public class Playlist_addToPlaylistController implements Initializable {
             System.out.println("la playlist: " + playlistNameLabel.getText() + " non è mai stata aperta, la apro ora");
 
             // carico le canzoni
-            SelectedPlaylistController.uploadSongs(playlistNameLabel.getText());
+            SelectedPlaylistController.loadSongs(playlistNameLabel.getText());
         }
 
         // verifico se la canzone non è già contenuta nella playlist

@@ -390,7 +390,7 @@ public class EmotionalSongsClientController implements Initializable {
             playlistBtn.setVisible(false);
         }else{
             // se l'utente non è guest carico le playlist di questo utente
-            AllPlaylistController.uploadPlaylist();
+            AllPlaylistController.loadPlaylist();
         }
 
     }

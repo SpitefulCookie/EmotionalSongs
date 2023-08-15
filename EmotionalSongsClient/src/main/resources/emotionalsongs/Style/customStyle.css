@@ -339,8 +339,6 @@
     -fx-border-radius: 10;
 }
 
-------
-
 .playlistInToAddPane{
     -fx-background-color: transparent;
     /*-fx-border-color: #2e2e2e;*/
@@ -361,5 +359,182 @@
     -fx-background-radius: 10;
     -fx-border-radius: 10;
 }
+
+.addEmotionsStage{
+    -fx-background-color: #2e2e2e;
+    -fx-border-color: #646464;
+}
+
+.buttonEmotionsPane{
+    -fx-background-color: transparent;
+    -fx-opacity: 0.5;
+}
+
+.buttonEmotionsPane:hover{
+    -fx-opacity: 1;
+}
+
+/*.notesTextArea{
+    -fx-background-color: transparent;
+    -fx-border-color: #646464;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    /*-fx-highlight-fill: #bbbbbb;
+    -fx-highlight-text-fill: #bbbbbb;
+    -fx-text-fill: #bbbbbb;
+}
+
+.notesTextArea .scroll-pane .content{
+    -fx-background-color: transparent;
+}*/
+
+.text-area {
+    -fx-background-color: transparent;
+    -fx-border-color: #646464;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-highlight-text-fill: #bbbbbb;
+    -fx-text-fill: #bbbbbb;
+}
+
+.text-area .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+
+.text-area .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+
+.AmazementPane{
+    -fx-background-color: transparent;
+    -fx-border-color: #da7a10;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.SolemnityPane{
+    -fx-background-color: transparent;
+    -fx-border-color: #395c73;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.TendernessPane{
+    -fx-background-color: transparent;
+    -fx-border-color: #b34362;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.NostalgiaPane{
+    -fx-background-color: transparent;
+    -fx-border-color: #28adb8;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.CalmnessPane{
+    -fx-background-color: transparent;
+    -fx-border-color: #15815e;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.PowerPane{
+    -fx-background-color: transparent;
+    -fx-border-color: #d14234;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.JoyPane{
+    -fx-background-color: transparent;
+    -fx-border-color: #d1a41e;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.TensionPane{
+    -fx-background-color: transparent;
+    -fx-border-color: #572c6e;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.SadnessPane{
+    -fx-background-color: transparent;
+    -fx-border-color: #0c2348;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.progress-bar {
+    -fx-min-height: 15px;
+    -fx-per-height: 15px;
+    -fx-max-height: 15px;
+}
+
+.progress-bar > .track {
+    -fx-background-color: transparent;
+    -fx-background-radius: 7px;
+    -fx-border-color: #646464;
+    -fx-border-radius: 7px;
+}
+
+.progress-bar > .bar {
+    -fx-background-insets: 2px;
+    -fx-background-radius: 10;
+}
+
+.progress-indicator {
+    -fx-progress-color: #646464;
+}
+
+.progress-indicator > .spinner {
+    -fx-background-color: transparent;
+}
+
+.AmazementBar{
+    -fx-accent: #da7a10;
+}
+
+.SolemnityBar{
+    -fx-accent: #395c73;
+}
+
+.TendernessBar{
+    -fx-accent: #b34362;
+}
+
+.NostalgiaBar{
+    -fx-accent: #28adb8;
+}
+
+.CalmnessBar{
+    -fx-accent: #15815e;
+}
+
+.PowerBar{
+    -fx-accent: #d14234;
+}
+
+.JoyBar{
+    -fx-accent: #d1a41e;
+}
+
+.TensionBar{
+    -fx-accent: #572c6e;
+}
+
+.SadnessBar{
+    -fx-accent: #0c2348;
+}
+
+
 
 
