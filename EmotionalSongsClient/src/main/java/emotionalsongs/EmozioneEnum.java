@@ -1,6 +1,15 @@
 package emotionalsongs;
 
-public enum EmozioneEnum {
+/**
+ * Enumeration representing different emotions.
+ *
+ * This enumeration defines various emotions along with their descriptions.
+ * It provides methods to retrieve a description and name for each emotion,
+ * and also to create corresponding instances of specific emotion classes.
+ *
+ * @author <a href="https://github.com/SpitefulCookie"> Della Chiesa Mattia</a>
+ */
+public enum EmozioneEnum{
 
     AMAZEMENT,
     SOLEMNITY,
@@ -14,6 +23,7 @@ public enum EmozioneEnum {
 
     /**
      * Returns the description of the emotion.
+     *
      * @return an object of type {@code String} that contains a short description of the emotion.
      */
     public String description(){
@@ -34,6 +44,7 @@ public enum EmozioneEnum {
 
     /**
      * Returns the name of the emotion.
+     *
      * @return an object of type {@code String} that representing the name of the emotion.
      */
     @Override
@@ -51,6 +62,30 @@ public enum EmozioneEnum {
             case TENSION -> "Tension";
         };
 
+    }
+
+    /**
+     * Creates an instance of a specific emotion class based on the enum value.
+     *
+     * @param enumValue The index of the enum value.
+     * @return An instance of the corresponding emotion class.
+     */
+    static Emozione getEmotionInstanceFromEnumValue(int enumValue){
+        return switch (EmozioneEnum.values()[enumValue]) {
+            case AMAZEMENT -> new Amazement(0, "");
+            case CALMNESS -> new Calmness(0, "");
+            case JOY -> new Joy(0, "");
+            case NOSTALGIA -> new Nostalgia(0,"");
+            case POWER -> new Power(0, "");
+            case SADNESS -> new Sadness(0, "");
+            case SOLEMNITY -> new Solemnity(0, "");
+            case TENDERNESS -> new Tenderness(0, "");
+            case TENSION -> new Tension(0, "");
+        };
+    }
+
+    static String getEmotionNameFromInstance(Emozione e){
+        return e.getClass().getSimpleName();
     }
 
 }

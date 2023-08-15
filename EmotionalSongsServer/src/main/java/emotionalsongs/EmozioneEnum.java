@@ -84,4 +84,8 @@ public enum EmozioneEnum{
         };
     }
 
+    static String getEmotionNameFromInstance(Emozione e){
+        return e.getClass().getSimpleName();
+    }
+
 }
