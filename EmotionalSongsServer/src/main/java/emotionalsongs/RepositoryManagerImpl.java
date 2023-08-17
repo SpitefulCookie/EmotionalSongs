@@ -3,7 +3,9 @@ package emotionalsongs;
 import java.io.Serial;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 
 /**
@@ -126,7 +128,7 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
      * @throws RemoteException If a remote communication error occurs.
      */
     @Override // Verificata
-    public void registerPlaylist(String playlistName, String username) throws RemoteException {
+    public void registerPlaylist(String playlistName, String username) throws RemoteException, SQLException {
         dbReference.executeUpdate(new String[]{playlistName, username}, QueryHandler.QUERY_REGISTER_PLAYLIST );
     }
 
@@ -137,9 +139,10 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
      * @param userID The ID of the user adding the song to the playlist.
      * @param songUUID The UUID of the song to be added.
      * @throws RemoteException If a remote communication error occurs.
+     * @throws SQLException If an SQL error occurs.
      */
     @Override // Verificata
-    public void addSongToPlaylist(String nomePlaylist, String userID, String songUUID) throws RemoteException {
+    public void addSongToPlaylist(String nomePlaylist, String userID, String songUUID) throws RemoteException, SQLException {
         dbReference.executeUpdate(new String[]{nomePlaylist, userID, songUUID}, QueryHandler.QUERY_REGISTER_SONG_IN_PLAYLIST );
     }
 
@@ -150,22 +153,23 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
      * @param songUUID The UUID of the song.
      * @param userId The ID of the user.
      * @throws RemoteException If a remote communication error occurs.
+     * @throws SQLException If an SQL error occurs.
      */
     @Override // Verificata
-    public void registerEmotions(ArrayList<Emozione> emozioniProvate, String songUUID, String userId) throws RemoteException {
+    public void registerEmotions(ArrayList<Emozione> emozioniProvate, String songUUID, String userId) throws RemoteException, SQLException {
 
         int i = 0;
         for (var emozione : emozioniProvate){
 
             dbReference.executeUpdate(
-                    new String[]{
-                        EmozioneEnum.values()[i++].toString(),
-                        userId,
-                        songUUID,
-                        String.valueOf(emozione.getPunteggio()),
-                        emozione.getCommento()
-                    },
-                    QueryHandler.QUERY_REGISTER_SONG_EMOTION
+                new String[]{
+                    EmozioneEnum.values()[i++].toString(),
+                    userId,
+                    songUUID,
+                    String.valueOf(emozione.getPunteggio()),
+                    emozione.getCommento()
+                },
+                QueryHandler.QUERY_REGISTER_SONG_EMOTION
             );
 
         }
@@ -184,7 +188,6 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
     public ArrayList<Emozione> getSongEmotions(String songUUID, String userid) throws RemoteException {
         // Vedi commento in QueryHandler.executeQuery sul motivo del passaggio di un array di stringhe vuoto.
         ArrayList<String[]> dataRetrieved = dbReference.executeQuery(new String[]{}, QueryHandler.QUERY_GET_SONG_EMOTIONS.replace("uId", userid).replace("sId", songUUID));
-
         if (dataRetrieved.size() != 0) { // Se sono stati ottenuti dei risultati
             ArrayList<Emozione> resultsToBeReturned = new ArrayList<>();
 
@@ -202,4 +205,22 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
 
     }
 
+    @Override // Verificata
+    public double[] getSongAverageEmotions(String songUUID) throws RemoteException {
+        // Vedi commento in QueryHandler.executeQuery sul motivo del passaggio di un array di stringhe vuoto.
+        ArrayList<String[]> dataRetrieved = dbReference.executeQuery(new String[]{songUUID}, QueryHandler.QUERY_GET_SONG_AVERAGE_SCORES);
+        double[] dataToBeReturned = new double[9];
+
+        if (dataRetrieved.size() != 0) { // Se sono stati ottenuti dei risultati
+
+            for (int i = 0; i< dataRetrieved.size(); i++){
+                dataToBeReturned[i] = Double.parseDouble(dataRetrieved.get(i)[0]);
+            }
+
+        } else{
+            Arrays.fill(dataToBeReturned, -1);
+        }
+        return dataToBeReturned;
+
+    }
 }
