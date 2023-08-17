@@ -82,8 +82,6 @@ public class EmotionalSongsClientController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        EmotionalSongsClient.registerClient();
-
         dynamicPane_ = dynamicPane;
 
         if(buttonsSideBar == null){
@@ -121,9 +119,10 @@ public class EmotionalSongsClientController implements Initializable {
      */
     @FXML
     public void handleCloseButtonAction(ActionEvent event){
-        EmotionalSongsClient.unexportClient();
+        EmotionalSongsClient.disconnectClient();
         EmotionalSongsClient.getStage().close();
-        // TODO added the following lines as an attempt to fix the client remaining open in the background after exiting the application, remove if it doesn't work
+        // TODO added the following lines as an attempt to fix the client remaining open in the background after
+        //  exiting the application, remove if it doesn't work
         Platform.exit();
         System.exit(0);
     }
