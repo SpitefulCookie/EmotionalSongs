@@ -16,6 +16,7 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.*;
 
 public class AllPlaylistController implements Initializable {
@@ -162,6 +163,7 @@ public class AllPlaylistController implements Initializable {
                 playlists.put(playlistName, new ArrayList<Canzone>());
                 openPlaylists.put(playlistName, false); // inizialmente il valore è settato su false perchè la playlit non è stata mai aperta
             }
+
         }catch(RemoteException e){
 
             e.printStackTrace();
@@ -174,6 +176,8 @@ public class AllPlaylistController implements Initializable {
             connectionFailedStage.setResizable(false);
             connectionFailedStage.show();
 
+        } catch (SQLException f){
+            // TODO implement
         }
     }
 
