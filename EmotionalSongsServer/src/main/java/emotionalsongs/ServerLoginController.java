@@ -5,16 +5,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -125,14 +123,14 @@ public class ServerLoginController implements Initializable {
                  */
 
                 EmotionalSongsServer.initializeQueryHandler(new QueryHandler(username, pwd ));
-
+                EmotionalSongsServer.loggedUser = username;
                 try {
 
-                    EmotionalSongsServer.setStage(new Scene(EmotionalSongsServer.getLoader().load(Objects.requireNonNull(EmotionalSongsServer.class.getResource("serverMainView.fxml")))), ServerMainViewController.WIDTH, ServerMainViewController.HEIGHT, true);
+                    EmotionalSongsServer.setStage(new Scene(FXMLLoader.load(Objects.requireNonNull(EmotionalSongsServer.class.getResource("serverMainView.fxml")))), ServerMainViewController.WIDTH, ServerMainViewController.HEIGHT, true);
                     EmotionalSongsServer.getStage().show();
 
                 } catch (IOException e){
-                    e.printStackTrace();
+                    System.err.println("IOException thrown while attempting to load FXML file \"serverMainView.fxml\"\nReason: " + e.getMessage());
                 }
 
             } catch (SQLException e){
@@ -205,8 +203,12 @@ public class ServerLoginController implements Initializable {
         this.eye = GUIUtilities.getInstance().getImage("eye");
         this.eyeCrossed =  GUIUtilities.getInstance().getImage("eyeCrossed");
 
-        settingsButton.setGraphic(new ImageView(GUIUtilities.getInstance().getImage("gear")));
+        settingsButton.setGraphic(new ImageView(GUIUtilities.getInstance().getImage("settings")));
         settingsButton.setFocusTraversable(false);
+        Tooltip tip = new Tooltip("DB Settings");
+        tip.setShowDelay(new Duration(0.3));
+        tip.setHideDelay(new Duration(0.3));
+        settingsButton.setTooltip(tip);
 
         settingsButton.setOnAction(
             event -> {
@@ -218,6 +220,8 @@ public class ServerLoginController implements Initializable {
                     Scene scene = new Scene(loader.load());
 
                     final Stage dialog = new Stage();
+                    dialog.getIcons().add(GUIUtilities.getInstance().getImage("blueFire"));
+                    dialog.setTitle("Database settings");
                     dialog.initModality(Modality.APPLICATION_MODAL);
                     dialog.initOwner(EmotionalSongsServer.getStage());
                     Scene dialogScene = scene;
@@ -226,10 +230,9 @@ public class ServerLoginController implements Initializable {
                     dialog.show();
 
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.err.println("IOException thrown while attempting to load FXML file \"serverLoginSettings.fxml\"\nReason: " + e.getMessage());
                 }
             });
-
 
         showPasswordInput.setGraphic(new ImageView(eye));
         showPasswordInput.setFocusTraversable(false);
