@@ -18,6 +18,7 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -163,6 +164,8 @@ public class SelectedPlaylistController implements Initializable {
             viewSongs();
         }catch (RemoteException e){
             e.printStackTrace();
+        } catch (SQLException f){
+            // TODO Implement
         }
 
     }
