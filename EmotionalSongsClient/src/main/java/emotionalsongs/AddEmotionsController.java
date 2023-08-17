@@ -14,6 +14,7 @@ import javafx.stage.StageStyle;
 
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -119,6 +120,8 @@ public class AddEmotionsController implements Initializable {
             connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
             connectionFailedStage.setResizable(false);
             connectionFailedStage.show();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         // close the stage
