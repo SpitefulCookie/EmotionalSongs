@@ -57,41 +57,86 @@ public class ServerMainViewController implements Initializable {
 
         _commandField = this.commandField;
         _sendBtn = this.sendBtn;
+
+        // Configure scroll pane to fit width and height
         scrollPane.fitToWidthProperty().set(true);
         scrollPane.fitToHeightProperty().set(true);
 
+        // Prevent focus traversal for the TextFlow and ScrollPane
         textFlow.setFocusTraversable(false);
         scrollPane.setFocusTraversable(false);
-        scrollPane.setVvalue(1);
 
+        // Initialize the vertical scrollbar position to the bottom
+        scrollPane.setVvalue(1);
+        
         commandField.setOnKeyPressed(ke -> {
             if (ke.getCode().equals(KeyCode.ENTER)) {
+                // Set event handler for pressing the Enter key in the command field
+                // (thus allowing the user to send a command just by pressing enter)
                 handleSendButton();
+            }else if (ke.getCode().equals(KeyCode.UP)) {
+                // Set event handler for pressing the Up arrow key in the command field 
+                // (thus allowing the user to recall the last command used)
+                commandField.setText(lastCommandSent);
+                commandField.end();
             }
         });
 
-        try {
 
+        try {
+            // Initialize the authentication and repository managers before binding them to the RMI registry
             EmotionalSongsServer.initializeAuthManager(new AuthManagerImpl());
             Registry reg = LocateRegistry.createRegistry(EmotionalSongsServer.getServerPort());
             reg.rebind("AuthManager", EmotionalSongsServer.getAuthManagerInstance());
             reg.rebind("RepoManager", EmotionalSongsServer.getRepositoryManagerInstance());
-            logText("Server running", true);
+            logText("Server is running, use command **showIp** to view the current LAN ip address for the server", true);
 
         } catch (RemoteException e) {
-            logError("A remote exception has occurred while initializing the server.\n" + e.getMessage());
+            logError("A RemoteException has occurred while initializing the server.\n" + e.getMessage());
         }
 
         EmotionalSongsServer.setMainViewController(this);
 
+        // Starts the connection verify service, a daemon thread meant to ping the clients at regular intervals and
+        // removing any inactive ones.
         EmotionalSongsServer.initializeConnectionVerify();
-        EmotionalSongsServer.getRepositoryManagerInstance();
 
-        // ------------------TESTING--------------------
+        /* / ------------------TESTING--------------------
         // TODO remove this block before turning in the project
-        // EmotionalSongsServer.getRepositoryManagerInstance().test();
 
-        // ---------------------------------------------
+            try {
+                ArrayList<Emozione> f = new ArrayList<>();
+
+                f.add(new Amazement(1, "a"));
+                f.add(new Calmness(2, "b"));
+                f.add(new Joy(3, "c"));
+                f.add(new Nostalgia(4, "d"));
+                f.add(new Power(5, "e"));
+                f.add(new Sadness(1, "f"));
+                f.add(new Solemnity(2, "g"));
+                f.add(new Tenderness(3, "h"));
+                f.add(new Tension(4, "i"));
+
+                 //EmotionalSongsServer.getRepositoryManagerInstance().registerEmotions(f,"TRUKSJE128F9317BE3", "test");
+                // ----------------------------------------------------------------------------------------------------------------
+                ArrayList<Emozione> g = EmotionalSongsServer.getRepositoryManagerInstance().getSongEmotions("TRUKSJE128F9317BE3", "test");
+
+                for (Emozione h : g){
+                    System.out.println("Emozione " + h.getClass().getSimpleName() +":\n├  Punteggio: " + h.getPunteggio() + "\n└  Commento: " + h.getCommento());
+                }
+                // -----------------------------------------------------------------------------------
+                double[] j = EmotionalSongsServer.getRepositoryManagerInstance().getSongAverageEmotions("TRUKSJE128F9317BE3");
+
+                for (int i = 0 ; i< j.length; i++){
+                    System.out.println("Emozione " + EmozioneEnum.values()[i] +":\n└  Punteggio medio: " + j[i]);
+                }
+
+            } catch (Exception e) {
+                //e.printStackTrace(); // TEST
+            }
+        // -----------------------------------------------------------------------------------
+
+        // --------------------------------------------- */
     }
 
     /**
@@ -105,32 +150,57 @@ public class ServerMainViewController implements Initializable {
      */
     protected void logText(final String text, boolean timestamp){
 
-        TextFlow tf = this.textFlow;
-
+        // Updates the UI elements from a non-JavaFX thread
         Platform.runLater(() -> {
-            // Il seguente blocco di codice si occupa di allineare il testo sotto al timestamp con l'inizio del messaggio loggato
-            String msg;
-            if(text.contains("\n") && timestamp){
-                msg = text.replace("\n", "\n\t    ");
-            } else{
-                msg = text;
-            }
+            String buffer;
+            Text textObj;
 
-            Text textObj = new Text();
-            textObj.setFont(Font.font("SANS_SERIF"));
+            ArrayList<Text> msg = new ArrayList<>();
 
-            if(timestamp){
+            if(timestamp){ // If a timestamp is required
+                // Update the current time
                 calendar.setTime(new Date());
-                textObj.setText("["+ String.format("%02d:%02d", calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE) )+ "] "+ msg+"\n");
-            } else{
-                textObj.setText("\t    "+msg+"\n");
+                // Create a new text object containing the timestamp and change its font
+                textObj = new Text("[" + String.format("%02d:%02d", calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE)) + "] ");
+                textObj.setFont(Font.font("SANS_SERIF"));
+                // Adds the newly generated object to the message that will be displayed
+                msg.add(textObj);
             }
 
-            tf.getChildren().add(textObj);
+            // If the message contains a timestamp and also a new line character (\n)
+            if(text.contains("\n") && timestamp){
+                // in order to align the text with the timestamp a padding will be required
+                buffer = text.replace("\n", "\n\t    ");
+            } else{ // otherwise, there's nothing to be done
+                buffer = text;
+            }
+
+            // If the message contains characters that mark a section in bold or in italic
+            if (buffer.contains("**")||buffer.contains("__") ){
+                // The message will be parsed and formatted accordingly by the function formatText()
+                // As a limitation, the function is unable to format text that contains nested formatting
+                // (e.g. a portion of bold text within an italic paragraph). This will require a more complex function
+                // or recursive method callings.
+                Collection<? extends Text> t =  GUIUtilities.formatText(buffer);
+                msg.addAll(t);
+            } else{ // Otherwise, the message will be converted to text object, and appended to the msg list.
+                textObj = new Text(buffer);
+                textObj.setFont(Font.font("SANS_SERIF"));
+                msg.add(textObj);
+            }
+
+            TextFlow tf = this.textFlow;
+            msg.add(new Text("\n"));
+
+            // Adds the processed message to the TextFlow object...
+            tf.getChildren().addAll(msg);
+
+            // ... and updates the scrollbar position. As a bug/limitation the scrollbar position doesn't appear to
+            // properly update after long messages such as the help command or after a thrown exception.
+            // Sadly, I haven't been able to track down the source of the bug and as such the issue remains unsolved.
+            updateScrollbarPosition();
 
         });
-
-        updateScrollbarPosition();
 
     }
 
@@ -146,20 +216,29 @@ public class ServerMainViewController implements Initializable {
 
         TextFlow tf = this.textFlow;
 
-        // Il seguente blocco di codice si occupa di allineare il testo sotto al timestamp con l'inizio del messaggio loggato
+        // If the text contains newline escape codes, add padding to align the logged message with the timestamp.
         if(text.contains("\n")){
             text = text.replace("\n", "\n\t    ");
         }
-
+        // Update the timestamp
         calendar.setTime(new Date());
-        Text t = new Text("["+ String.format("%02d:%02d", calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE) )+ "] "+ text+"\n");
-        t.setFont(Font.font("SANS_SERIF"));
-        t.setFill(Color.rgb(201,28,28));
 
+        // Create a new Text object containing the timestamp and error message, with custom font and color
+        Text timestampText = new Text("[" + String.format("%02d:%02d", calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE)) + "] ");
+        timestampText.setFont(Font.font("SANS_SERIF"));
+        timestampText.setFill(Color.rgb(201, 28, 28));
+
+        Text errorMessageText = new Text(text + "\n");
+        errorMessageText.setFill(Color.rgb(201, 28, 28));
+
+        // Update the UI elements from the JavaFX Application
         Platform.runLater(() -> {
+            // Adds the processed message to the TextFlow object...
+            textFlow.getChildren().addAll(timestampText, errorMessageText);
 
-            tf.getChildren().add(t);
-
+            // ... and updates the scrollbar position. As a bug/limitation the scrollbar position doesn't appear to
+            // properly update after long messages such as the help command or after a thrown exception.
+            // Sadly, I haven't been able to track down the source of the bug and as such the issue remains unsolved.
             updateScrollbarPosition();
         });
 
@@ -176,6 +255,7 @@ public class ServerMainViewController implements Initializable {
         scrollPane.setVvalue(scrollPane.getVmax());
     }
 
+    private String lastCommandSent = "";
     /**
      * Handles the action when the "Send" button is pressed.
      *
@@ -194,12 +274,15 @@ public class ServerMainViewController implements Initializable {
 
         if(commandField.getText().isBlank()) return;
 
-        Text t = new Text("> " + commandField.getText()+"\n");
-        t.setFont(Font.font(null, FontWeight.BOLD, 12));
-        t.setFill(Color.BLUE);
-        textFlow.getChildren().add(t); // ECHO del comando
-        parseCommand(commandField.getText());
+        ArrayList<Text> a = GUIUtilities.formatText("[**"+EmotionalSongsServer.loggedUser+"**] > __"+commandField.getText()+"__\n");
 
+        for(Text t : a){
+            t.setFill(Color.rgb(10,91,220));
+        }
+
+        textFlow.getChildren().addAll(a); // ECHO del comando
+        parseCommand(commandField.getText());
+        lastCommandSent = commandField.getText();
         commandField.setText("");
         scrollPane.setVvalue(scrollPane.getVmax());
 
@@ -215,49 +298,78 @@ public class ServerMainViewController implements Initializable {
     }
 
     /**
-     * Parses and processes a command entered by the user.
+     * Parses and processes various commands received by the server application.
+     * This method interprets the input command string and performs corresponding actions.
+     * Supported commands include '{@code pingclients}', ' {@code shutdown}', ' {@code showIP}', '{@code set pingdelay}', '{@code quit}', and '{@code help}'.
      *
-     * This method receives a command string and interprets its content to perform specific actions or provide information.
-     * It tokenizes the command to extract the primary command keyword and then executes corresponding actions.
-     * If the primary keyword is not recognized, an error message is logged.
-     *
-     * @param cmd The command string entered by the user.
+     * @param cmd The command string to be parsed and executed.
+     * @implNote This method utilizes the command string to determine the action to take.
+     *           It handles commands to ping clients, shutdown the server, set ping delay,
+     *           quit the application, and provide help information.
+     * @see AuthManagerImpl#getClientList()
+     * @see ServerMainViewController#shutdownServer(boolean)
+     * @see ConnectionVerify#setPingDelay(long)
+     * @see EmotionalSongsServer#getLanIpAddress()
+     * @see PingClient#pingClient()
      */
-    private static void parseCommand(String cmd){ // TODO add command to change connection verify delay and to disable new connections without shutting down the server
-        String token;
-        System.out.println("cmd: " + cmd);
-        if(!cmd.equals("")) {
-            StringTokenizer tokens = new StringTokenizer(cmd);
-            token = tokens.nextToken();
-            switch(token) {
-                case "shutdown":
-                    shutdownServer(false);
-                    break;
-                case "quit":
-                    shutdownServer(true);
-                    break;
-                case "help":
-                    if (!tokens.hasMoreTokens()) {
-                        EmotionalSongsServer.mainView.logText("List of available commands:", true);
-                        EmotionalSongsServer.mainView.logText("- shutdown", false);
-                        EmotionalSongsServer.mainView.logText("- quit", false);
-                        EmotionalSongsServer.mainView.logText("- help", false);
-                        EmotionalSongsServer.mainView.logText("Type 'help' followed by a command to display a brief description.", false);
-                    }else{
-                        token = tokens.nextToken();
+    private static void parseCommand(String cmd) {
+        cmd = cmd.trim().toLowerCase(Locale.ROOT);
 
-                        switch (token) {
-                            case "shutdown" -> EmotionalSongsServer.mainView.logText("Shuts down the server.", true);
-                            case "quit" -> EmotionalSongsServer.mainView.logText("Quits the application.", true);
-                            default -> EmotionalSongsServer.mainView.logError("Command \"" + cmd + "\" not recognized.");
-                        }
+        if (cmd.isEmpty()) {return;}
+
+        if (cmd.equals("pingclients")) {
+            if(!AuthManagerImpl.getClientList().isEmpty()) // Added this print because the connection with the clients may take a while before timing out
+                EmotionalSongsServer.mainView.logText("[**Connection Verifier**] Attempting to ping any connected client, this process might take a while.\nFeel free to continue using the application, the report will be provided as soon as possible.", true);
+            ConnectionVerify.getInstance().interrupt();
+
+        } else if (cmd.equals("shutdown")) {
+            shutdownServer(false);
+        }else if (cmd.equals("showip")){
+            EmotionalSongsServer.mainView.logText("Current LAN ip address is: **" + EmotionalSongsServer.getLanIpAddress() + "**: "+EmotionalSongsServer.getServerPort(), true);
+        }else if (cmd.startsWith("set pingdelay")) {
+            String[] parts = cmd.split("\\s+");
+            if (parts.length == 3) {
+                try {
+                    long newDelay = Long.parseLong(parts[2]);
+                    if (newDelay<2000L){
+                        newDelay = 2000L;
+                        EmotionalSongsServer.mainView.logText("[**Connection Verifier**] Minimum ping delay is 2000ms",  true);
                     }
-                    break;
-                default:
-                    EmotionalSongsServer.mainView.logError("Command \""+cmd+"\" not recognized.");
-                break;
+                    ConnectionVerify.setPingDelay(newDelay);
+                    EmotionalSongsServer.mainView.logText("[**Connection Verifier**] Ping delay set to " + newDelay, true);
+                    ConnectionVerify.getInstance().interrupt();
+                } catch (NumberFormatException e) {
+                    EmotionalSongsServer.mainView.logError("[**Connection Verifier**] Invalid arguments");
+                }
             }
+        } else if (cmd.equals("quit")) {
+            shutdownServer(true);
+        } else if (cmd.equals("help")) {
+            EmotionalSongsServer.mainView.logText("List of available commands:\n" +
+                    "- **shutdown**\n" +
+                    "- **showip**\n" +
+                    "- **quit**\n" +
+                    "- **help**\n" +
+                    "- **pingclients**\n" +
+                    "- **set pingdelay**", true);
+            EmotionalSongsServer.mainView.logText("Type '**help**' followed by a command to display a brief description.", false);
+        } else if (cmd.startsWith("help ")) {
+            String[] parts = cmd.split("\\s+", 2);
+            if (parts.length == 2) {
+                String subCommand = parts[1];
+                switch (subCommand) {
+                    case "shutdown" -> EmotionalSongsServer.mainView.logText("**shutdown**: Shuts down the server.", true);
+                    case "showip" -> EmotionalSongsServer.mainView.logText("**showip**: Shows the current LAN ip of the server.", true);
+                    case "quit" -> EmotionalSongsServer.mainView.logText("**quit**: Quits the application.", true);
+                    case "pingclients" -> EmotionalSongsServer.mainView.logText("**pingclients**: Pings the clients and removes any inactive ones.", true);
+                    case "set pingdelay" -> EmotionalSongsServer.mainView.logText("**set pingdelay**: Changes how frequently the server will ping the clients connected to it.", true);
+                    default -> EmotionalSongsServer.mainView.logError("Command \"" + cmd + "\" not recognized.");
+                }
+            }
+        } else {
+            EmotionalSongsServer.mainView.logError("Command \"" + cmd + "\" not recognized.");
         }
+
     }
 
     /**
