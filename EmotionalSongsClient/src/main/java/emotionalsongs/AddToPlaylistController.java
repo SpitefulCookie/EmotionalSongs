@@ -19,6 +19,7 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -97,6 +98,8 @@ public class AddToPlaylistController implements Initializable {
             connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
             connectionFailedStage.setResizable(false);
             connectionFailedStage.show();
+        } catch (SQLException f) {
+            // TODO implement
         }
 
         // close the stage
