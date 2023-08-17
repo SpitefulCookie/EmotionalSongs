@@ -79,8 +79,6 @@ public class EmotionalSongsClient extends Application {
 
             isConnectionInitialized = true;
 
-            EmotionalSongsClient.registerClient();
-
         } catch (RemoteException | NotBoundException e){
             if(!suppressConnectionWarning) {
                 Stage connectionFailedStage = new Stage();
@@ -92,7 +90,6 @@ public class EmotionalSongsClient extends Application {
                 connectionFailedStage.show();
             }
         }
-
     }
 
 
@@ -127,12 +124,15 @@ public class EmotionalSongsClient extends Application {
      */
     public static void main(String[] args) {new EmotionalSongsClient().launch();}
 
-    public static void unexportClient(){
+    public static void disconnectClient(){
         try {
+            auth.disconnect(ping);
             UnicastRemoteObject.unexportObject(ping, true);
         } catch (NoSuchObjectException e) {
             // quest'eccezione viene lanciata qualora non sia stato effettuato l'export dell'oggetto PingClient,
-            // questo avviene solo quando il server non è raggiungibile.
+            // questo tipicamente avviene solo quando il server non è raggiungibile.
+        } catch (RemoteException e) {
+            //
         }
     }
 
