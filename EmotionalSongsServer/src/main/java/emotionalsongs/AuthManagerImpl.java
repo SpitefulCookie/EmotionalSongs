@@ -7,6 +7,7 @@ import java.io.Serial;
 import java.nio.charset.StandardCharsets;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.rmi.server.Unreferenced;
 import java.security.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,8 +20,6 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
     @Serial
     private static final long serialVersionUID = 1L;
     private final QueryHandler dbReference;
-
-    private static boolean acceptsConnections = true; // TODO (?)
 
     private static KeyPair pair = null;
     private static HashSet<PingClient> clientList = new HashSet<>();
@@ -42,21 +41,18 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
         disconnected.forEach(clientList::remove);
     }
 
+    @Override
+    public boolean disconnect(PingClient client) throws RemoteException {
+        return clientList.remove(client);
+    }
+
     /**
      * TODO Document and Implement
      * @param username
      * @return
      * @throws RemoteException
      */
-    public boolean usernameExists(String username) throws RemoteException, UsernameNotVerifiedException {
-
-        /*
-        String queryResult = dbReference.executeQuery(new String[]{username}, QueryHandler.QUERY_USERNAME_EXISTS).get(0)[0];
-        if(username!=null && Integer.parseInt(queryResult) == 1){
-            return true;
-        }
-        return false;
-        */
+    public synchronized boolean usernameExists(String username) throws RemoteException, UsernameNotVerifiedException {
 
         return dbReference.usernameExists(username);
 
@@ -68,7 +64,7 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      * @return
      * @throws RemoteException
      */
-    public boolean cfExists(String cf) throws RemoteException {
+    public synchronized boolean cfExists(String cf) throws RemoteException {
         String queryResult = dbReference.executeQuery(new String[]{cf}, QueryHandler.QUERY_CF_EXISTS).get(0)[0];
         if (cf != null && Integer.parseInt(queryResult) == 1) {return true;}
         return false;
@@ -82,7 +78,7 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      * @throws RemoteException
      */
     @Override
-    public void registrazione(byte[] userData) throws RemoteException {
+    public synchronized void registrazione(byte[] userData) throws RemoteException {
 
         String[] data = decryptRSA(userData).split("&SEP&");
 
@@ -90,7 +86,7 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
 
     }
 
-    public PublicKey getPublicKey() throws RemoteException{
+    public synchronized PublicKey getPublicKey() throws RemoteException{
         return pair.getPublic();
     }
 
@@ -151,7 +147,7 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
                 pair = generator.generateKeyPair();
 
             } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
+                EmotionalSongsServer.mainView.logError("NoSuchAlgorithmException thrown while attempting to get KeyPairGenerator instance");
             }
         }
 
@@ -163,13 +159,15 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
             decryptCipher.init(Cipher.DECRYPT_MODE, pair.getPrivate());
             return new String(decryptCipher.doFinal(data), StandardCharsets.UTF_8);
         }catch (Exception e){
+            EmotionalSongsServer.mainView.logError("Exception thrown while attempting to decrypt RSA data");
             return "";
         }
     }
 
-    public void registerClient(PingClient client) throws RemoteException{
-        if (acceptsConnections && !clientList.contains(client)){ clientList.add(client);}
-        else{throw new RemoteException();}
+    public synchronized void registerClient(PingClient client) throws RemoteException{
+        if (!clientList.contains(client)){
+            System.out.println("Client registered");
+            clientList.add(client);}
     }
 
     protected static HashSet<PingClient> getClientList(){

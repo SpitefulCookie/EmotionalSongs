@@ -3,16 +3,15 @@ package emotionalsongs;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 
 // TODO rename this class to Log-out controller
 public class ExitController {
 
     @FXML private Button exitBtn;
     @FXML private Button annullaBtn;
-
     /**
      * TODO document
      */
@@ -28,7 +27,7 @@ public class ExitController {
         Stage stage = (Stage) exitBtn.getScene().getWindow();
         stage.close();
 
-        EmotionalSongsClient.unexportClient();
+        EmotionalSongsClient.disconnectClient();
 
     }
 

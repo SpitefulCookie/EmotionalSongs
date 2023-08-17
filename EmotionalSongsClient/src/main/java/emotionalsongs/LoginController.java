@@ -3,7 +3,6 @@ package emotionalsongs;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,7 +14,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -44,12 +42,14 @@ public class LoginController implements Initializable {
     private static TextField _usernameField;
     private static TextField _overlappingPwdField;
     private static PasswordField _pwdField;
+    private static Label _connectionStatusLabel;
+    private static ImageView _connectionStatusIcon;
 
-    private GUIUtilities guiUtilities;
+    private static GUIUtilities guiUtilities;
     private boolean isDisplayed = false;
     private Image eye;
     private Image eyeCrossed;
-    private Tooltip connectionStatusTip;
+    //private Tooltip connectionStatusTip; // TODO verify
 
     @FXML private Pane anchorPane;
     @FXML private Label loginFailedLabel;
@@ -69,7 +69,6 @@ public class LoginController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
 
         long startTime = System.currentTimeMillis();
 
@@ -127,6 +126,8 @@ public class LoginController implements Initializable {
         _usernameField = usernameField;
         _overlappingPwdField = overlappingTextField;
         _pwdField = pwdField;
+        _connectionStatusIcon = connectionStatusIcon;
+        _connectionStatusLabel = connectionStatusLabel;
 
         try {
             t.join(700); // Max timeout: 700ms
@@ -140,17 +141,17 @@ public class LoginController implements Initializable {
 
     }
 
-    protected void updateConnectionGraphics(){
+    protected static void updateConnectionGraphics(){
         if(!EmotionalSongsClient.isConnectionInitialized){
-            connectionStatusIcon.setImage(guiUtilities.getImage("badConnection"));
-            connectionStatusLabel.setText("Connection failed");
+            _connectionStatusIcon.setImage(guiUtilities.getImage("badConnection"));
+            _connectionStatusLabel.setText("Connection failed");
             Tooltip tip = new Tooltip("Unable to contact the server, please check your settings");
             tip.setShowDelay(new Duration(0.3));
             tip.setHideDelay(new Duration(0.3));
-            connectionStatusLabel.setTooltip(tip);
+            _connectionStatusLabel.setTooltip(tip);
         } else{
-            connectionStatusIcon.setImage(guiUtilities.getImage("goodConnection"));
-            connectionStatusLabel.setText("Connection established");
+            _connectionStatusIcon.setImage(guiUtilities.getImage("goodConnection"));
+            _connectionStatusLabel.setText("Connection established");
         }
     }
 
@@ -166,36 +167,31 @@ public class LoginController implements Initializable {
 
         System.out.println("Continue as guest clicked!"); // TODO togliere tutti questi print
 
-        if (EmotionalSongsClient.isConnectionInitialized){
+        if (EmotionalSongsClient.isConnectionInitialized) {
 
-            //EmotionalSongsClient.registerClient();
+            EmotionalSongsClient.registerClient();
 
             // La connessione al server è necessaria anche se l'utente non è registrato, pertanto non dev'essere
             // in grado di visualizzare la schermata principale senza che il client si sia connesso al server.
 
-            try{
+            try {
 
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("emotionalSongsClient.fxml"));
 
                 Scene scene = new Scene(fxmlLoader.load());
 
-                    EmotionalSongsClientController client = fxmlLoader.getController();
+                EmotionalSongsClientController client = fxmlLoader.getController();
 
-                    // TODO invece di utilizzare il controller per impostare l'utente,
-                    //  visto che vi sarà una ed una sola istanza della classe non si può rendere setUser
-                    //  statico così da effettuare il caricamento della schermata all'interno di GUI utilities?
-                    //  In questo modo si toglierebbero non pochi try-catch inutili.
+                client.setUser("Guest", true);
 
-                    client.setUser("Guest", true);
+                EmotionalSongsClient.setStage(scene, EmotionalSongsClientController.WIDTH, EmotionalSongsClientController.HEIGHT, true);
+                EmotionalSongsClient.getStage().show();
 
-                    EmotionalSongsClient.setStage(scene, EmotionalSongsClientController.WIDTH, EmotionalSongsClientController.HEIGHT, true);
-                    EmotionalSongsClient.getStage().show();
-
-            }catch(IOException e){
+            } catch (IOException e) {
                 //
             }
 
-        } else{
+        } else {
             EmotionalSongsClient.initializeServerConnection(false);
         }
 
@@ -206,6 +202,7 @@ public class LoginController implements Initializable {
      */
     @FXML protected void handleRegisterButton() {
         if(EmotionalSongsClient.isConnectionInitialized) {
+            EmotionalSongsClient.registerClient();
             EmotionalSongsClient.setStage(GUIUtilities.getInstance().getScene("UserRegistration.fxml"), UserRegistrationController.WIDTH, UserRegistrationController.HEIGHT, true);
             EmotionalSongsClient.getStage().show();
         } else{
@@ -223,7 +220,7 @@ public class LoginController implements Initializable {
     @FXML protected void handleCloseButtonAction(ActionEvent event){
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
         stage.close();
-        EmotionalSongsClient.unexportClient();
+        EmotionalSongsClient.disconnectClient();
         // TODO added the following lines as an attempt to fix the client remaining open in the background after exiting the application, remove if it doesn't work
         Platform.exit();
         System.exit(0);
@@ -258,8 +255,6 @@ public class LoginController implements Initializable {
     @FXML protected void handleLoginButtonAction(){
 
         if (EmotionalSongsClient.isConnectionInitialized) {
-
-            //EmotionalSongsClient.registerClient();
 
             String pwd = null;
             String username = null;
@@ -300,12 +295,15 @@ public class LoginController implements Initializable {
             if (pwd != null && username != null) {
 
                 try {
-
+                    // This is the actual login
                     if (EmotionalSongsClient.auth.userLogin(username, AuthManager.RSA_Encrypt(pwd))) {
+
+                        EmotionalSongsClient.registerClient();
 
                         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("emotionalSongsClient.fxml"));
 
                         try {
+
                             Scene scene = new Scene(fxmlLoader.load());
 
                             EmotionalSongsClientController client = fxmlLoader.getController();
@@ -313,9 +311,10 @@ public class LoginController implements Initializable {
 
                             EmotionalSongsClient.setStage(scene, EmotionalSongsClientController.WIDTH, EmotionalSongsClientController.HEIGHT, true);
 
-                    }catch (IOException e1){
-                         //
-                    }
+                        }catch (IOException e1){
+                            // Something went wrong, the client will disconnect from the server
+                             EmotionalSongsClient.disconnectClient();
+                        }
 
                     } else { // Le credenziali sono errate
 
@@ -325,9 +324,7 @@ public class LoginController implements Initializable {
 
                     }
 
-                } catch (RemoteException e) { // Quest'eccezione viene lanciata esclusivamente quando il server è attualmente
-
-                    System.out.println("DING DING DING!\n DING DING DING!\n DING DING DING!\n DING DING DING!\n DING DING DING!\n DING DING DING!\n DING DING DING!\n ");
+                } catch (RemoteException e) {
 
                     Stage connectionFailedStage = new Stage();
 
