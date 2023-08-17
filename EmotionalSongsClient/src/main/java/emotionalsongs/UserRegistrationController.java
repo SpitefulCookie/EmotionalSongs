@@ -90,7 +90,6 @@ public class UserRegistrationController implements Initializable {
      * initialization method for the GUI components and the application window's initial state.
      * The method performs the following tasks:
      * <ul>
-     * <li> Registers the client with the server using `EmotionalSongsClient.registerClient()`.
      * <li> Initializes `guiUtilities` with the instance of GUIUtilities and Loads the images for the various UI elements.
      * <li> Configures the close button (`closeBtn`) with the close icon or the "X" character, depending on the availability of the image.
      * <li> Applies several input constraints to the text input fields.
@@ -99,8 +98,6 @@ public class UserRegistrationController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        EmotionalSongsClient.registerClient();
 
         guiUtilities = GUIUtilities.getInstance();
 
@@ -282,7 +279,7 @@ public class UserRegistrationController implements Initializable {
         Stage stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
         stage.close();
 
-        EmotionalSongsClient.unexportClient();
+        EmotionalSongsClient.disconnectClient();
     }
 
     /**
@@ -301,7 +298,7 @@ public class UserRegistrationController implements Initializable {
         try {
             EmotionalSongsClient.setStage(new Scene(FXMLLoader.load(Objects.requireNonNull(EmotionalSongsClient.class.getResource("login.fxml")))), LoginController.WIDTH, LoginController.HEIGHT, true);
             EmotionalSongsClient.getStage().show();
-            EmotionalSongsClient.unexportClient();
+            EmotionalSongsClient.disconnectClient();
         } catch (IOException e){
             //
         }
@@ -546,12 +543,11 @@ public class UserRegistrationController implements Initializable {
      * If the username is not blank, and it is not taken yet, the method displays a success icon and
      * message indicating the availability.<br>
      * If the username is already taken or invalid, the method displays a failure icon and message, and
-     * changes the appearance of the username field to reflect the username's unavailability. Similarly,
-     * if an error occurs while verifying the username's availability, a {@link UsernameNotVerifiedException} will be thrown,
-     * signaling that the server was unable to determine if the username was already in use. <br><br>
+     * changes the appearance of the username field to reflect the username's unavailability.<br>
+     * Similarly, if an error occurs while verifying the username's availability, a {@link UsernameNotVerifiedException}
+     * will be thrown, signaling that the server was unable to determine if the username was already in use. <br><br>
      *
-     * If an exception occurs during the process, such as inability to connect to the server, a dialog box is shown
-     * with an error message indicating the issue.<br><br>
+     * If an exception occurs during the process a dialog box is shown with an error message indicating the issue.<br><br>
      *
      * @return {@code true} if the username is available, {@code false} if it is already taken or an exception occurs.
      */
