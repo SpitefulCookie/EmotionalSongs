@@ -9,16 +9,19 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
+import java.net.*;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.server.RMISocketFactory;
+import java.util.Enumeration;
 
 /**
  * TODO Document
  */
 public class EmotionalSongsServer extends Application {
 
+    protected static String loggedUser = "";
     private static Stage esStage;
     private static FXMLLoader loader;
     private static ConnectionVerify connectionVerify;
@@ -104,7 +107,7 @@ public class EmotionalSongsServer extends Application {
 
     protected static void setDelay(long delay){
         initializeConnectionVerify();
-        connectionVerify.setPingDelay(delay);
+        ConnectionVerify.setPingDelay(delay);
     }
 
     /**
@@ -149,5 +152,19 @@ public class EmotionalSongsServer extends Application {
 
     protected static int getServerPort(){return PORT;}
 
+    protected static String getLanIpAddress(){
+
+        try {
+            Enumeration<NetworkInterface> networkInterfaceEnumeration = NetworkInterface.getNetworkInterfaces();
+            while( networkInterfaceEnumeration.hasMoreElements()){
+                for ( InterfaceAddress interfaceAddress : networkInterfaceEnumeration.nextElement().getInterfaceAddresses())
+                    if (interfaceAddress.getAddress().isSiteLocalAddress())
+                        return interfaceAddress.getAddress().getHostAddress();
+            }
+        } catch (SocketException e) {
+            //
+        }
+        return "";
+    }
 }
 
