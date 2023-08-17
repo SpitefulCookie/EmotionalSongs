@@ -20,7 +20,6 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.HashSet;
 
 /**
  * TODO Document
@@ -37,7 +36,7 @@ public class EmotionalSongsClient extends Application {
     private GUIUtilities guiUtilities;
 
     protected static AuthManager auth;
-    protected static RepositoryManager repo; // TODO implement
+    protected static RepositoryManager repo;
 
     protected static boolean isConnectionInitialized = false;
 
@@ -93,6 +92,7 @@ public class EmotionalSongsClient extends Application {
                 connectionFailedStage.show();
             }
         }
+
     }
 
 
