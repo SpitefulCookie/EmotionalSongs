@@ -54,7 +54,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Label fx:id="connectionStatusLabel" prefHeight="17.0" prefWidth="148.0" GridPane.columnIndex="1">
+                  <Label fx:id="connectionStatusLabel" prefHeight="17.0" prefWidth="185.0" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="-20.0" />
                      </GridPane.margin>
