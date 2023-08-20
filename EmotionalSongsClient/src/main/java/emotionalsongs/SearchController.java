@@ -161,6 +161,16 @@ public class SearchController implements Initializable {
                     // interrogo il db per farmi restituire le canzoni carecate
                     songs = EmotionalSongsClient.repo.ricercaCanzone(searchField.getText());
 
+                    // FIXME: The following exception is thrown when the client attempts to interrogate the server
+                    //  after it shut down (or lost connection) while there are clients still connected to it.
+                    //  -------------------------------------------------------------------------------------
+                    //  java.rmi.ConnectException: Connection refused to host: 192.168.1.165; nested exception is:
+                    //  java.net.ConnectException: Connection refused: connect
+                    //  at java.rmi/sun.rmi.transport.tcp.TCPEndpoint.newSocket(TCPEndpoint.java:623)
+                    //  at emotionalsongs.emotionalsongsclient/emotionalsongs.SearchController.handleSearchButtonAction(SearchController.java:162)
+                    //  -------------------------------------------------------------------------------------
+                    //  Suggested fix: surround with try-catch block and display a connection failed pop-up window
+
                 } else {
 
                     if(searchField.getText().isEmpty() || yearField.getText().isEmpty()){

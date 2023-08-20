@@ -1,22 +1,38 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 /**
- * Represents a thread that verifies the connection status of the clients currently connected to the server.
+ * Thread that verifies the connection status of the clients currently connected to the server.<br><br>
  *
  * <p>The {@code ConnectionVerify} class implements a thread responsible for verifying the connection status of clients.
- * It periodically sends ping requests to connected clients and removes any disconnected or inactive clients.
+ * It periodically sends ping requests to connected clients and removes any disconnected or inactive clients.<br><br>
  *
- * <p><strong>Implementation note:</strong> This class, and subsequent connection management approach, has been implemented
- * in order to contrast an undesired RMI client thread behaviour that would sometimes occur when the client's execution
- * had been abruptly interrupted (e.g. application crash, loss of network connection,
+ * <p><strong>Implementation note:</strong> <i>This class, and subsequent connection management approach, had been initially
+ * implemented to allow the "soft termination" of the server. This meant that, if the server administrator chose to,
+ * they could shut down the server by simply refusing any further incoming request and allow all the remaining active clients
+ * continue interacting with the back-end infrastructure until the client application would disconnect.
+ * However, due to some problems regarding the server's code infrastructure requiring some refactoring, this feature ended
+ * up being pushed down the schedule until I opted to exclude it from the final product and leave this class exclusively as
+ * a tool meant to provide information about the server's status.</i>
+ *
+ *  @author <a href="https://github.com/SpitefulCookie">Della Chiesa Mattia</a>
  */
 public class ConnectionVerify extends Thread{
 
     private static Thread _instance;
     private static long pingDelay = 180*1000; // 3min / 180s
+
+    protected static boolean keepAlive = true;
 
     /**
      * Constructs a new instance of {@code ConnectionVerify}.
@@ -25,6 +41,7 @@ public class ConnectionVerify extends Thread{
      * Due to the low priority nature of the task, the thread responsible for pinging the clients has been marked as a daemon thread.
      */
     public ConnectionVerify(){
+        keepAlive = true;
         _instance = this;
         this.setDaemon(true);
         start();
@@ -42,7 +59,7 @@ public class ConnectionVerify extends Thread{
         String msg;
         boolean awoken = false;
 
-        while(true){
+        while(keepAlive){
 
             try{
 
@@ -102,33 +119,12 @@ public class ConnectionVerify extends Thread{
     }
 
     /**
-     * Retrieves the number of clients that are currently connected to the server.
-     *
-     * <p>This method interrupts the thread, allowing it to update the clients count and returns it to the calling method.
-     *
-     * @return The count of connected clients.
-     */
-    protected int getClientsConnected(){
-        this.interrupt();
-        return AuthManagerImpl.getClientList().size();
-    }
-
-    /**
      * Retrieves the instance of the {@code ConnectionVerify} thread.<br><br>
      *
      * @return The instance of the connection verification thread.
      */
     protected static Thread getInstance(){
         return _instance;
-    }
-
-    /**
-     * Retrieves the current ping delay for connection verification.<br><br>
-     *
-     * @return The current ping delay in milliseconds.
-     */
-    protected long getCurrentDelay(){
-        return pingDelay;
     }
 
 }

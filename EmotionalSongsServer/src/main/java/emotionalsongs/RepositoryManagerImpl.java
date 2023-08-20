@@ -1,5 +1,13 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import java.io.Serial;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -10,7 +18,9 @@ import java.util.HashSet;
 
 /**
  * Implementation of the RepositoryManager interface that provides methods to interact with the song repository.
- * This class extends UnicastRemoteObject to facilitate remote method invocation.
+ * This class extends {@link UnicastRemoteObject} to facilitate remote method invocation.ù
+ *
+ * @author <a href="https://github.com/SpitefulCookie">Della Chiesa Mattia</a>
  */
 public class RepositoryManagerImpl extends UnicastRemoteObject implements RepositoryManager{
 
@@ -205,6 +215,19 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
 
     }
 
+    /**
+     * Retrieves the average emotion scores for a specified song.<br><br>
+     *
+     * <p>The {@code getSongAverageEmotions} method fetches the average emotion scores associated with a
+     * specific song. The method queries the database to retrieve the average emotion scores and returns an array of
+     * double values representing the average scores for each emotion.
+     *
+     * @param songUUID The UUID of the song desired.
+     * @return An array of double values representing the average emotion scores for the specified song.
+     *         The array follows the order of emotions defined by the {@link EmozioneEnum} class.
+     *         If no scores are available, an array with negative values will be returned.
+     * @throws RemoteException If a communication error occurs during the remote method invocation.
+     */
     @Override // Verificata
     public double[] getSongAverageEmotions(String songUUID) throws RemoteException {
         // Vedi commento in QueryHandler.executeQuery sul motivo del passaggio di un array di stringhe vuoto.

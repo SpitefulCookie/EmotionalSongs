@@ -1,5 +1,13 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -85,9 +93,10 @@ public class QueryHandler {
      * Constructs a new QueryHandler object and establishes a database connection using the provided
      * username and password.
      *
-     * This constructor initializes a new instance of the QueryHandler class and establishes a database
-     * connection using the provided username and password. If a database connection has not been established
+     * This constructor initializes a new instance of the QueryHandler class and connects to the database
+     * using the provided username and password. If a database connection has not been established
      * yet, the constructor creates a new connection using the PostgreSQL driver and the provided database address, port, and name.
+     * The credentials used to authenticate the user are defined by PostgreSQL's roles.
      *
      * @param username The username to connect to the database.
      * @param password The password associated with the provided username.
@@ -155,7 +164,7 @@ public class QueryHandler {
      * does not exist or if there is an error while executing the database query, it returns null.
      *
      * @param username The username for which the password is to be retrieved.
-     * @return The password associated with the provided username, or null if the username is not found
+     * @return The password associated with the provided username, or {@code null} if the username is not found
      *         or if there is an error during database query execution.
      */
     protected String queryUserPassword(String username) {
@@ -188,7 +197,6 @@ public class QueryHandler {
      * Retrieves the name of the PostgreSQL database being used for the connection.
      *
      * This method returns the name of the PostgreSQL database being used for the current connection.
-     * The database name is an essential parameter required to establish a connection to the database.
      *
      * @return The name of the PostgreSQL database being used for the connection.
      */
@@ -198,7 +206,6 @@ public class QueryHandler {
      * Retrieves the address (host) of the machine where the PostgreSQL database is hosted.
      *
      * This method returns the address (host) of the machine where the PostgreSQL database is hosted.
-     * The database address is an essential parameter required to establish a connection to the database.
      *
      * @return The address (host) of the machine where the PostgreSQL database is hosted.
      */
@@ -208,7 +215,6 @@ public class QueryHandler {
      * Retrieves the port number on which the PostgreSQL database is listening for connections.
      *
      * This method returns the port number on which the PostgreSQL database is listening for connections.
-     * The database port number is an essential parameter required to establish a connection to the database.
      *
      * @return The port number on which the PostgreSQL database is listening for connections.
      */
@@ -231,32 +237,29 @@ public class QueryHandler {
         DB_Address = dbAddress;
         DB_Port = dbPort;
 
-        //System.out.println("db connection set to:" + "jdbc:postgresql://"+ DB_Address+":"+DB_Port+"/"+DB_Name);
-
     }
 
     /**
      * Registers a new user in the database with the provided user data.
      *
-     * This method allows registering a new user in the database by inserting the provided user data
-     * into the appropriate database table. The user data should be provided as an array of strings, where
-     * each element contains specific information about the user. The order of the elements in the array
-     * should match the expected order for registration (e.g., username, email, full name, etc.).
+     * This method allows the registration of a new user in the database.
+     * The user data should be provided as an array of strings, where each element contains specific information
+     * about the user.
      * Additionally, the method generates a BCrypt hash of the user's password before storing it in the database.
      *
      * @param data An array of strings containing the user data to be registered. The order of the elements
      *             should be as follows:
      *
-     *             data[0] - Nome
-     *             data[1] - Codice fiscale
-     *             data[2] - Via
-     *             data[3] - Numero civico
-     *             data[4] - CAP
-     *             data[5] - Comune
-     *             data[6] - Provincia
-     *             data[7] - Email
-     *             data[8] - Userid
-     *             data[9] - Plain text password to be hashed and stored securely in the database
+     *             data[0] - Nome<br>
+     *             data[1] - Codice fiscale<br>
+     *             data[2] - Via<br>
+     *             data[3] - Numero civico<br>
+     *             data[4] - CAP<br>
+     *             data[5] - Comune<br>
+     *             data[6] - Provincia<br>
+     *             data[7] - Email<br>
+     *             data[8] - Userid<br>
+     *             data[9] - Plain text password to be hashed and stored securely in the database<br>
      *
      */
     public void registerUser(String[] data) {
@@ -277,13 +280,6 @@ public class QueryHandler {
 
     }
 
-    /*  "HashSet gives you an O(1) contains() method but doesn't preserve order." -https://www.baeldung.com/java-hashset-vs-treeset
-        "ArrayList contains() is O(n) but you can control the order of the entries. -https://stackoverflow.com/questions/18706870/java-hashset-vs-array-performance
-        Array if you need to insert anything in between, worst case can be O(n), since you will have to move the data down and make room for the insertion.
-        In Set, you can directly use SortedSet which too has O(n) too but with flexible operations.
-        HashSet provides constant-time performance for most operations like add(), remove() and contains(), versus the log(n) time offered by the TreeSet. "
-     */
-
     /**
      * Executes an SQL query with the provided arguments.<br><br>
      *
@@ -291,7 +287,7 @@ public class QueryHandler {
      * parameterized SQL query string that includes placeholders for the arguments. The method replaces the placeholders
      * in the query command with the provided arguments.
      * This method differs from the method executeUpdate for the type of operations it covers.<br>
-     * This method is meant to be used to retrieve data from the database.
+     * This method is meant to be used exclusively to retrieve data from the database.
      *
      * @param args The arguments to be inserted into the parameterized query command.
      * @param queryCommand The parameterized SQL query command to execute.
@@ -344,7 +340,7 @@ public class QueryHandler {
      * parameterized SQL query string that includes placeholders for the arguments. The method replaces the placeholders
      * in the query command with the provided arguments.<br>
      * This method differs from the method executeQuery for the type of operations it covers.<br>
-     * This method is meant to be used to insert or update data in the database.
+     * This method is meant to be used to exclusively insert or update data in the database.
      *
      * @param args The arguments to be inserted into the parameterized query command.
      * @param queryCommand The parameterized SQL query command to execute.
