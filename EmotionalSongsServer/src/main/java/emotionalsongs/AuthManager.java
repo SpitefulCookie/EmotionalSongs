@@ -20,6 +20,8 @@ import java.security.PublicKey;
  * register new users, perform user login, retrieve the server's RSA public key, manage client
  * registration, and more.
  *
+ * @author <a href="https://github.com/SpitefulCookie">Della Chiesa Mattia</a>
+ *
  */
 public interface AuthManager extends Remote {
     /**
@@ -52,7 +54,6 @@ public interface AuthManager extends Remote {
      * passed all the integrity checks implemented within the {@code UserRegistrationController} class.
      * @param user An array of bytes containing all the user data encoded with the RSA algorithm.
      * @throws RemoteException If a communication error occurs while invoking or executing the remote method.
-     * @see AuthManagerImpl#decryptRSA(byte[])
      */
     void registrazione(byte[] user) throws RemoteException;
 

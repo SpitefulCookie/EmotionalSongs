@@ -1,5 +1,13 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import java.io.Serializable;
 
 /**
@@ -10,6 +18,8 @@ import java.io.Serializable;
  * user registration process.
  * This is a fail-safe mechanism which ensures that, if an error were to occur during the verification process, the
  * client will be unable to proceed with the user registration process.
+ *
+ * @author <a href="https://github.com/SpitefulCookie">Della Chiesa Mattia</a>
  */
 public class UsernameNotVerifiedException extends Exception implements Serializable {
     UsernameNotVerifiedException(){

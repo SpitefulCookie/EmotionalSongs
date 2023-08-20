@@ -1,6 +1,13 @@
 package emotionalsongs;
 
-import javafx.event.EventHandler;
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,7 +16,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -36,12 +42,6 @@ public class ServerLoginController implements Initializable {
     protected static final int WIDTH = 650;
     protected static final int HEIGHT = 420;
 
-    private static Stage stage;
-    private static double xOffset = 0;
-    private static double yOffset = 0;
-
-    private boolean isUserMandatoryHL = false;
-    private boolean isPwdMandatoryHL = false;
     private boolean isDisplayed = false;
     private Image eye;
     private Image eyeCrossed;
@@ -54,14 +54,16 @@ public class ServerLoginController implements Initializable {
     @FXML private Button settingsButton;
 
     /**
-     * Changes the appearance of the username field once selected by the user (typically after it had been highlighted as an error due to a missing or invalid input)
+     * Changes the appearance of the username field once selected by the user (typically after it had been highlighted
+     * as an error due to a missing or invalid input)
      */
     @FXML protected void handleUserFieldHighlight(){
         usernameField.setStyle(null);
     }
 
     /**
-     * Changes the appearance of the password field once selected by the user (typically after it had been highlighted as an error due to a missing or invalid input)
+     * Changes the appearance of the password field once selected by the user (typically after it had been highlighted
+     * as an error due to a missing or invalid input)
      */
     @FXML protected void handlePwdFieldHighlight(){
 
@@ -85,7 +87,6 @@ public class ServerLoginController implements Initializable {
 
                 overlappingTextField.setStyle(errorStyle);
                 overlappingTextField.setPromptText("Mandatory field");
-                isUserMandatoryHL = true;
 
             } else{
                 pwd = overlappingTextField.getText();
@@ -97,7 +98,6 @@ public class ServerLoginController implements Initializable {
 
                 pwdField.setStyle(errorStyle);
                 pwdField.setPromptText("Mandatory field");
-                isUserMandatoryHL = true;
 
             } else{
                 pwd = pwdField.getText();
@@ -109,7 +109,6 @@ public class ServerLoginController implements Initializable {
 
             usernameField.setStyle(errorStyle);
             usernameField.setPromptText("Mandatory field");
-            isUserMandatoryHL = true;
 
         } else{
             username = usernameField.getText();
@@ -180,19 +179,10 @@ public class ServerLoginController implements Initializable {
     }
 
     /**
-     * Handles the action when the show/hide password toggle button is clicked.
-     * Toggles the display of the password between plain text and hidden, and updates the UI accordingly.
-     */
-    public static void setStage(Stage s){
-        stage = s;
-    }
-
-    /**
      * Initializes the server login window.
      *
      * This method is automatically called when the JavaFX scene associated with this controller is loaded.
      * It sets up the initial state of UI components, such as buttons and text fields.
-     * Additionally, it configures event handlers for various user interactions, such as pressing the Enter key to submit login information.
      *
      * @param url The location used to resolve relative paths for the root object, or null if the location is not known. (unused within the code)
      * @param resourceBundle The resources used to localize the root object, or null if the root object was not localized. (unused within the code)
@@ -224,9 +214,8 @@ public class ServerLoginController implements Initializable {
                     dialog.setTitle("Database settings");
                     dialog.initModality(Modality.APPLICATION_MODAL);
                     dialog.initOwner(EmotionalSongsServer.getStage());
-                    Scene dialogScene = scene;
 
-                    dialog.setScene(dialogScene);
+                    dialog.setScene(scene);
                     dialog.show();
 
                 } catch (IOException e) {
@@ -238,21 +227,15 @@ public class ServerLoginController implements Initializable {
         showPasswordInput.setFocusTraversable(false);
 
         // I seguenti blocchi di codice rilevano quando l'utente preme il tasto invio all'interno del campo login (ovvero ha terminato d'inserire le proprie credenziali)
-        pwdField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent ke) {
-                if (ke.getCode().equals(KeyCode.ENTER)) {
-                    handleLoginButtonAction();
-                }
+        pwdField.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER)) {
+                handleLoginButtonAction();
             }
         });
 
-        overlappingTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent ke) {
-                if (ke.getCode().equals(KeyCode.ENTER)) {
-                    handleLoginButtonAction();
-                }
+        overlappingTextField.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER)) {
+                handleLoginButtonAction();
             }
         });
 
