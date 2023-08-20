@@ -1,5 +1,13 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,7 +19,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 
 import java.net.URL;
-import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -46,7 +53,7 @@ public class ServerMainViewController implements Initializable {
      * This method is automatically called when the JavaFX scene associated with this controller is loaded.
      * It sets up the initial state of UI components, such as the scroll pane and text field.
      * Additionally, it configures event handlers for user interactions, such as pressing the Enter key to send commands.
-     * The method also initializes the authentication manager, creates a RMI registry for remote authentication,
+     * The method also initializes the authentication manager, creates an RMI registry for remote authentication,
      * and establishes necessary server components for handling client interactions.
      *
      * @param url The location used to resolve relative paths for the root object, or null if the location is not known. (unused within the code)
@@ -214,8 +221,6 @@ public class ServerMainViewController implements Initializable {
      */
     public void logError(String text){
 
-        TextFlow tf = this.textFlow;
-
         // If the text contains newline escape codes, add padding to align the logged message with the timestamp.
         if(text.contains("\n")){
             text = text.replace("\n", "\n\t    ");
@@ -345,13 +350,14 @@ public class ServerMainViewController implements Initializable {
         } else if (cmd.equals("quit")) {
             shutdownServer(true);
         } else if (cmd.equals("help")) {
-            EmotionalSongsServer.mainView.logText("List of available commands:\n" +
-                    "- **shutdown**\n" +
-                    "- **showip**\n" +
-                    "- **quit**\n" +
-                    "- **help**\n" +
-                    "- **pingclients**\n" +
-                    "- **set pingdelay**", true);
+            EmotionalSongsServer.mainView.logText("""
+                    List of available commands:
+                    - **shutdown**
+                    - **showip**
+                    - **quit**
+                    - **help**
+                    - **pingclients**
+                    - **set pingdelay**""", true);
             EmotionalSongsServer.mainView.logText("Type '**help**' followed by a command to display a brief description.", false);
         } else if (cmd.startsWith("help ")) {
             String[] parts = cmd.split("\\s+", 2);
@@ -391,7 +397,10 @@ public class ServerMainViewController implements Initializable {
      */
     protected static void shutdownServer(boolean exit){
 
-        EmotionalSongsServer.unexportResources();
+        ConnectionVerify.keepAlive = false;
+        if(ConnectionVerify.getInstance()!=null)
+            ConnectionVerify.getInstance().interrupt();
+        EmotionalSongsServer.unexportResources(exit);
 
         if(exit){
             Platform.exit();
