@@ -11,9 +11,11 @@ import javafx.stage.WindowEvent;
 
 import java.io.*;
 import java.net.*;
+import java.rmi.NoSuchObjectException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.RMISocketFactory;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Enumeration;
 
 /**
@@ -87,16 +89,28 @@ public class EmotionalSongsServer extends Application {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent e) {
-                ServerMainViewController.shutdownServer(false);
-                System.err.println("Shutting down server...");
-                Platform.exit();
-                System.exit(0);
+                ServerMainViewController.shutdownServer(true);
             }
         });
 
         esStage = stage;
         stage.show();
 
+    }
+
+    protected static boolean unexportResources(){
+        try {
+            UnicastRemoteObject.unexportObject(repo, true);
+            UnicastRemoteObject.unexportObject(auth, true);
+            return true;
+        } catch (NoSuchObjectException f){
+            if(EmotionalSongsServer.mainView!=null){
+                // Se main view è null allora vuol dire che il server è stato chiuso prima che venga effettuato il login,
+                // pertanto è normale che le risorse auth e repo siano a loro volta non inizializzate
+                EmotionalSongsServer.mainView.logError("A NoSuchObjectException has occurred while attempting to shut down the server.\n");
+            }
+            return false;
+        }
     }
 
     protected static void initializeConnectionVerify(){
@@ -143,7 +157,7 @@ public class EmotionalSongsServer extends Application {
     }
 
     public static void main(String[] args) {
-        new EmotionalSongsServer().launch();
+        launch();
     }
 
     protected static void setMainViewController(ServerMainViewController server){

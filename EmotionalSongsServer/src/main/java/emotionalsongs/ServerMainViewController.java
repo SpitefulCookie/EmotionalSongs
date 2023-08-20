@@ -390,12 +390,8 @@ public class ServerMainViewController implements Initializable {
      * @param exit Specifies whether the application should immediately exit ({@code true}) or not ({@code false}) after server shutdown.
      */
     protected static void shutdownServer(boolean exit){
-        try {
-            UnicastRemoteObject.unexportObject(EmotionalSongsServer.getAuthManagerInstance(), true);
-        } catch (NoSuchObjectException e) {
-            if(EmotionalSongsServer.mainView!=null)
-                EmotionalSongsServer.mainView.logError("A NoSuchObjectException has occurred while attempting to shut down the server.\n" + e.getMessage());
-        }
+
+        EmotionalSongsServer.unexportResources();
 
         if(exit){
             Platform.exit();
