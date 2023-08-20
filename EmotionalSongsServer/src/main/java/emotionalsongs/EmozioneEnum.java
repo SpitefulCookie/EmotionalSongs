@@ -1,11 +1,11 @@
 package emotionalsongs;
 
 /**
- * Enumeration representing different emotions.
+ * Enumeration representing different emotions.<br><br>
  *
  * This enumeration defines various emotions along with their descriptions.
  * It provides methods to retrieve a description and name for each emotion,
- * and also to create corresponding instances of specific emotion classes.
+ * and also to create corresponding instances of specific {@link Emozione} subclasses.
  *
  * @author <a href="https://github.com/SpitefulCookie"> Della Chiesa Mattia</a>
  */
@@ -65,7 +65,7 @@ public enum EmozioneEnum{
     }
 
     /**
-     * Creates an instance of a specific emotion class based on the enum value.
+     * Creates an instance of a specific {@link Emozione} class based on the enum value.
      *
      * @param enumValue The index of the enum value.
      * @return An instance of the corresponding emotion class.
@@ -84,6 +84,16 @@ public enum EmozioneEnum{
         };
     }
 
+    /**
+     * Retrieves the name of the emotion class from an Emozione instance.<br><br>
+     *
+     * <p>This static method takes an instance of the {@link Emozione} class and returns the
+     * simple name of the class representing the emotion. The simple name is obtained using the
+     * {@link Class#getSimpleName()} method on the provided instance's class object.
+     *
+     * @param e The instance of the {@link Emozione} class representing an emotion.
+     * @return The simple name of the emotion class.
+     */
     static String getEmotionNameFromInstance(Emozione e){
         return e.getClass().getSimpleName();
     }
