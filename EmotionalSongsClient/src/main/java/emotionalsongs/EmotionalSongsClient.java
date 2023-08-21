@@ -126,7 +126,8 @@ public class EmotionalSongsClient extends Application {
 
     public static void disconnectClient(){
         try {
-            auth.disconnect(ping);
+            if(auth!=null)
+                auth.disconnect(ping);
             UnicastRemoteObject.unexportObject(ping, true);
         } catch (NoSuchObjectException e) {
             // quest'eccezione viene lanciata qualora non sia stato effettuato l'export dell'oggetto PingClient,
