@@ -535,6 +535,107 @@
     -fx-accent: #0c2348;
 }
 
+.viewEmotionsStage{
+    -fx-background-color: #2e2e2e;
+    -fx-border-color: #646464;
+}
+
+.noteButton{
+    -fx-background-color: transparent;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.Amazement{
+    -fx-border-color: #da7a10;
+}
+
+.Solemnity{
+    -fx-border-color: #395c73;
+}
+
+.Tenderness{
+    -fx-border-color: #b34362;
+}
+
+.Nostalgia{
+    -fx-border-color: #28adb8;
+}
+
+.Calmness{
+    -fx-border-color: #15815e;
+}
+
+.Power{
+    -fx-border-color: #d14234;
+}
+
+.Joy{
+    -fx-border-color: #d1a41e;
+}
+
+.Tension{
+    -fx-border-color: #572c6e;
+}
+
+.Sadness{
+    -fx-border-color: #0c2348;
+}
+
+.barChart{
+    -fx-background: #2e2e2e;
+}
+
+.AmazementBarChart{
+    -fx-bar-fill: #da7a10;
+}
+
+.SolemnityBarChart{
+    -fx-bar-fill: #395c73;
+}
+
+.TendernessBarChart{
+    -fx-bar-fill: #b34362;
+}
+
+.NostalgiaBarChart{
+    -fx-bar-fill: #28adb8;
+}
+
+.CalmnessBarChart{
+    -fx-bar-fill: #15815e;
+}
+
+.PowerBarChart{
+    -fx-bar-fill: #d14234;
+}
+
+.JoyBarChart{
+    -fx-bar-fill: #d1a41e;
+}
+
+.TensionBarChart{
+    -fx-bar-fill: #572c6e;
+}
+
+.SadnessBarChart{
+    -fx-bar-fill: #0c2348;
+}
+
+.noSearchResultPane{
+    -fx-background-color: transparent
+}
+
+.legend{
+    -fx-background-color: transparent;
+    -fx-border-color: #646464;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+
+
+
 
 
 

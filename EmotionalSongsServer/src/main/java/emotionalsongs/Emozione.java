@@ -125,7 +125,6 @@ class Tenderness extends Emozione {
     @Override protected String getCommento() { return this.commento;}
     @Override protected void setPunteggio(int punteggio){this.punteggio = punteggio;}
     @Override protected void setCommento(String commento) {this.commento = commento;}
-
 }
 
 /**
@@ -217,7 +216,6 @@ class Joy extends Emozione {
     @Override protected String getCommento() { return this.commento;}
     @Override protected void setPunteggio(int punteggio){this.punteggio = punteggio;}
     @Override protected void setCommento(String commento) {this.commento = commento;}
-
 }
 
 /**
@@ -240,7 +238,6 @@ class Tension extends Emozione {
     @Override protected String getCommento() { return this.commento;}
     @Override protected void setPunteggio(int punteggio){this.punteggio = punteggio;}
     @Override protected void setCommento(String commento) {this.commento = commento;}
-
 }
 
 /**
@@ -263,5 +260,4 @@ class Sadness extends Emozione {
     @Override protected String getCommento() { return this.commento;}
     @Override protected void setPunteggio(int punteggio){this.punteggio = punteggio;}
     @Override protected void setCommento(String commento) {this.commento = commento;}
-
 }

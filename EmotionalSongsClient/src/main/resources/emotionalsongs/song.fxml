@@ -12,7 +12,7 @@
 <HBox alignment="CENTER_LEFT" maxHeight="75.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="625.0" styleClass="songPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.SongController">
    <children>
       <Pane prefHeight="55.0" prefWidth="19.0" />
-      <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="383.0" stylesheets="@Style/customStyle.css" HBox.hgrow="ALWAYS">
+      <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="397.0" stylesheets="@Style/customStyle.css" HBox.hgrow="ALWAYS">
          <children>
             <Label fx:id="songNameLabel" prefHeight="29.0" prefWidth="395.0" text="Nome Canzone" textFill="#bbbbbb">
                <font>
@@ -26,7 +26,8 @@
             </Label>
          </children>
       </VBox>
-      <HBox alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" onMouseExited="#handleMouseExitedAction" prefHeight="55.0" prefWidth="9.0" HBox.hgrow="ALWAYS">
+      <Pane prefHeight="55.0" prefWidth="16.0" />
+      <HBox alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" onMouseExited="#handleMouseExitedAction" prefHeight="55.0" prefWidth="166.0" HBox.hgrow="ALWAYS">
          <children>
             <Button fx:id="addToPlaylistBtn" maxHeight="35.0" maxWidth="45.0" mnemonicParsing="false" onAction="#handleAddToPlaylistButtonAction" onMouseMoved="#handleAddToPlaylistButtonMouseMovedAction" prefHeight="30.0" prefWidth="44.0" styleClass="buttonSongPane" stylesheets="@Style/customStyle.css" textFill="#bbbbbb" HBox.hgrow="ALWAYS">
                <graphic>
@@ -45,7 +46,7 @@
                <graphic>
                   <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@Images/viewEmotions.png" />
+                        <Image url="@Images/summary.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -53,8 +54,8 @@
                   <Font size="12.0" />
                </font>
             </Button>
-            <Pane prefHeight="55.0" prefWidth="10.0" />
          </children>
       </HBox>
+      <Pane prefHeight="55.0" prefWidth="10.0" />
    </children>
 </HBox>

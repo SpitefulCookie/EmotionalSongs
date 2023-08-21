@@ -181,17 +181,34 @@ public class SearchController implements Initializable {
                 // verifico se se le canzoni restituite non sono vuote
                 if (!songs.isEmpty()) {
                     // visualizzo le canzoni restituite dal db
+
+                    // set the content of scroll pane
+                    scrollPane.setContent(gridPane);
+
+                    // viuslizzo le canzoni restituite dal db
                     int row = 0;
                     for (Canzone song : songs) {
                         setNewSongFound(song, row);
                         row ++;
                     }
                 } else {
+                    // DEBUG TODO remove
                     System.out.println("la ricerca non ha portato a nessun risultato");
+
+                    try{
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("noSearchResult.fxml"));
+                        Node noSearchResult_pane = fxmlLoader.load();
+
+                        // add the noSearchResult_pane to scroll pane.
+                        scrollPane.setContent(noSearchResult_pane);
+
+                    }catch(IOException e){
+                        e.printStackTrace();
+                    }
                 }
             }
 
-        }catch (Exception e){
+        }catch (RemoteException e){
 
             Stage connectionFailedStage = new Stage();
 
@@ -210,8 +227,11 @@ public class SearchController implements Initializable {
     public void handleRemoveSearchButtonAction(){
         System.out.println("bottone elimina ricerca premuto");
 
-        // nascondo il bottone
+        // nascondo il bottone di rimuovi ricerca
         hideRemoveSearchBtn();
+
+        // set the content of scroll pane
+        scrollPane.setContent(gridPane);
 
         // controllo il filtro della ricerca
         if(filteredSearch.equalsIgnoreCase("title")) {

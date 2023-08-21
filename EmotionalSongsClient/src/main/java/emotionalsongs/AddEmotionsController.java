@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
@@ -24,6 +25,7 @@ public class AddEmotionsController implements Initializable {
     @FXML private Button annullaBtn;
     @FXML private GridPane gridPane;
     @FXML private ScrollPane scrollPane;
+    @FXML private Label songNameLabel;
 
     private EmotionController Amazement;
     private EmotionController Calmness;
@@ -97,17 +99,25 @@ public class AddEmotionsController implements Initializable {
         try{
             // add each emotion to emozioniProvate list
             emozioniProvate.add(new Amazement(Amazement.getScore(), Amazement.getNotes()));
+            emozioniProvate.add(new Calmness(Calmness.getScore(), Calmness.getNotes()));
+            emozioniProvate.add(new Joy(Joy.getScore(), Joy.getNotes()));
+            emozioniProvate.add(new Nostalgia(Nostalgia.getScore(), Nostalgia.getNotes()));
+            emozioniProvate.add(new Power(Power.getScore(), Power.getNotes()));
+            emozioniProvate.add(new Sadness(Sadness.getScore(), Sadness.getNotes()));
             emozioniProvate.add(new Solemnity(Solemnity.getScore(), Solemnity.getNotes()));
             emozioniProvate.add(new Tenderness(Tenderness.getScore(), Tenderness.getNotes()));
-            emozioniProvate.add(new Nostalgia(Nostalgia.getScore(), Nostalgia.getNotes()));
-            emozioniProvate.add(new Calmness(Calmness.getScore(), Calmness.getNotes()));
-            emozioniProvate.add(new Power(Power.getScore(), Power.getNotes()));
-            emozioniProvate.add(new Joy(Joy.getScore(), Joy.getNotes()));
             emozioniProvate.add(new Tension(Tension.getScore(), Tension.getNotes()));
-            emozioniProvate.add(new Sadness(Sadness.getScore(), Sadness.getNotes()));
 
             // insert the emotions to the DB
             EmotionalSongsClient.repo.registerEmotions(emozioniProvate, song.getSongUUID(), EmotionalSongsClientController.getUsername());
+
+            /*
+            TODO aggiungere la canzone e le emozioni nella hashMap emotionsSongs contenuta nella classe
+                SelectedPlaylist
+             */
+
+            // add emotions to the hashMap emotionsSongs contained in the SelectedPlaylist class
+            SelectedPlaylistController.addEmotionsSong(song.getSongUUID(), emozioniProvate);
 
             // set that now the song has an emotions
             SelectedPlaylistController.getSongController(posInGridPane).newEmotionsAdded();
@@ -172,6 +182,9 @@ public class AddEmotionsController implements Initializable {
     public void setSong(Canzone song, int posInGridPane){
         this.song = song;
         this.posInGridPane = posInGridPane;
+
+        // set text of songNameLabel
+        songNameLabel.setText(song.getTitolo());
     }
 
     /**

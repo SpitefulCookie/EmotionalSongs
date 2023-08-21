@@ -46,7 +46,7 @@
                   <Pane prefHeight="30.0" prefWidth="10.0" />
                   <ProgressBar fx:id="scoreProgressBar" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="251.0" progress="0.0" stylesheets="@Style/customStyle.css" HBox.hgrow="ALWAYS" />
                   <Pane prefHeight="30.0" prefWidth="20.0" />
-                  <Button fx:id="decreaseScoreBtn" mnemonicParsing="false" onAction="#handleDecreaseScoreButtonAction" styleClass="buttonEmotionsPane" stylesheets="@Style/customStyle.css">
+                  <Button fx:id="decreaseScoreBtn" disable="true" mnemonicParsing="false" onAction="#handleDecreaseScoreButtonAction" styleClass="buttonEmotionsPane" stylesheets="@Style/customStyle.css">
                      <graphic>
                         <ImageView fitHeight="15.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -91,7 +91,7 @@
             <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="600.0">
                <children>
                   <Pane prefHeight="30.0" prefWidth="10.0" />
-                  <TextArea fx:id="notesArea" maxWidth="1.7976931348623157E308" prefHeight="5.0" prefWidth="200.0" promptText="Inserisci qui le tue note..." HBox.hgrow="ALWAYS">
+                  <TextArea fx:id="notesArea" maxWidth="1.7976931348623157E308" prefHeight="5.0" prefWidth="200.0" promptText="Inserisci qui le tue note..." wrapText="true" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="10.0" />
                      </font>

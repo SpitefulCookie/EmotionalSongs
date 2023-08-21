@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="emotionsPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="701.0" styleClass="viewEmotionsStage" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.ViewEmotionsController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="699.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="231.0">
+               <children>
+                  <Pane prefHeight="92.0" prefWidth="12.0" />
+                  <Button fx:id="returnToPlaylistBtn" mnemonicParsing="false" onAction="#handleReturnToPlaylistButtonAction" prefHeight="40.0" prefWidth="40.0" styleClass="returnButton" stylesheets="@Style/customStyle.css">
+                     <graphic>
+                        <ImageView fitHeight="22.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/returnIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+            <Label fx:id="playlistNameLabel" alignment="CENTER" maxHeight="103.0" maxWidth="1.7976931348623157E308" prefHeight="58.0" prefWidth="375.0" text="Report Emozioni" textFill="#bbbbbb" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font name="Arial Bold" size="30.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER_RIGHT" prefHeight="92.0" prefWidth="215.0">
+               <children>
+                  <Pane prefHeight="92.0" prefWidth="7.0" />
+               </children>
+            </HBox>
+            <Pane prefHeight="66.0" prefWidth="0.0" />
+            <Pane prefHeight="66.0" prefWidth="12.0" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="24.0" prefWidth="699.0">
+         <children>
+            <Label fx:id="songNameLabel" alignment="CENTER" maxWidth="708.0" prefHeight="17.0" prefWidth="708.0" text="Nome canzone" textFill="#bbbbbb" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font name="Arial Bold" size="15.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/musicIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
+         </children>
+         <VBox.margin>
+            <Insets bottom="40.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="333.0" prefWidth="701.0" VBox.vgrow="ALWAYS">
+         <children>
+            <Pane maxWidth="1.7976931348623157E308" prefHeight="328.0" prefWidth="35.0" HBox.hgrow="ALWAYS" />
+            <BarChart fx:id="barChart" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="333.0" prefWidth="652.0" styleClass="barChart" stylesheets="@Style/customStyle.css" HBox.hgrow="ALWAYS">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" tickLabelFill="#bbbbbb" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis autoRanging="false" side="LEFT" tickLabelFill="#bbbbbb" tickUnit="1.0" upperBound="6.0" />
+              </yAxis>
+            </BarChart>
+            <Pane maxWidth="1.7976931348623157E308" prefHeight="328.0" prefWidth="35.0" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+      <Pane prefHeight="15.0" prefWidth="699.0" />
+      <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="699.0" VBox.vgrow="ALWAYS">
+         <padding>
+            <Insets bottom="7.0" top="10.0" />
+         </padding>
+         <children>
+            <Button fx:id="amazementNoteBtn" mnemonicParsing="false" onAction="#handleAmazementNoteButtonAction" prefHeight="35.0" prefWidth="35.0" stylesheets="@Style/customStyle.css">
+               <graphic>
+                  <ImageView fitHeight="28.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/notesIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <tooltip>
+                  <Tooltip fx:id="toolTipAmazement" text="Visualizza note amazement" />
+               </tooltip>
+               <styleClass>
+                  <String fx:value="noteButton" />
+                  <String fx:value="Amazement" />
+               </styleClass>
+            </Button>
+            <Pane prefHeight="10.0" prefWidth="10.0" />
+            <Button fx:id="calmnessNoteBtn" mnemonicParsing="false" onAction="#handleCalmnessNoteButtonAction" prefHeight="35.0" prefWidth="35.0" stylesheets="@Style/customStyle.css">
+               <graphic>
+                  <ImageView fitHeight="28.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/notesIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <tooltip>
+                  <Tooltip fx:id="toolTipCalmness" text="Visualizza note calmness" />
+               </tooltip>
+               <styleClass>
+                  <String fx:value="noteButton" />
+                  <String fx:value="Calmness" />
+               </styleClass>
+            </Button>
+            <Pane prefHeight="10.0" prefWidth="10.0" />
+            <Button fx:id="joyNoteBtn" mnemonicParsing="false" onAction="#handleJoyNoteButtonAction" prefHeight="35.0" prefWidth="35.0" stylesheets="@Style/customStyle.css">
+               <graphic>
+                  <ImageView fitHeight="28.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/notesIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <tooltip>
+                  <Tooltip fx:id="toolTipJoy" text="Visualizza note joy" />
+               </tooltip>
+               <styleClass>
+                  <String fx:value="noteButton" />
+                  <String fx:value="Joy" />
+               </styleClass>
+            </Button>
+            <Pane prefHeight="10.0" prefWidth="10.0" />
+            <Button fx:id="nostalgiaNoteBtn" mnemonicParsing="false" onAction="#handleNostalgiaNoteButtonAction" prefHeight="35.0" prefWidth="35.0" stylesheets="@Style/customStyle.css">
+               <graphic>
+                  <ImageView fitHeight="28.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/notesIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <styleClass>
+                  <String fx:value="noteButton" />
+                  <String fx:value="Nostalgia" />
+               </styleClass>
+               <tooltip>
+                  <Tooltip fx:id="toolTipNostalgia" text="Visualizza note nostalgia" />
+               </tooltip>
+            </Button>
+            <Pane prefHeight="10.0" prefWidth="10.0" />
+            <Button fx:id="powerNoteBtn" mnemonicParsing="false" onAction="#handlePowerNoteButtonAction" prefHeight="35.0" prefWidth="35.0" stylesheets="@Style/customStyle.css">
+               <graphic>
+                  <ImageView fitHeight="28.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/notesIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <tooltip>
+                  <Tooltip fx:id="toolTipPower" text="Visualizza note power" />
+               </tooltip>
+               <styleClass>
+                  <String fx:value="noteButton" />
+                  <String fx:value="Power" />
+               </styleClass>
+            </Button>
+            <Pane prefHeight="10.0" prefWidth="10.0" />
+            <Button fx:id="sadnessNoteBtn" mnemonicParsing="false" onAction="#handleSadnessNoteButtonAction" prefHeight="35.0" prefWidth="35.0" stylesheets="@Style/customStyle.css">
+               <graphic>
+                  <ImageView fitHeight="28.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/notesIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <tooltip>
+                  <Tooltip fx:id="toolTipSadness" text="Visualizza note sadness" />
+               </tooltip>
+               <styleClass>
+                  <String fx:value="noteButton" />
+                  <String fx:value="Sadness" />
+               </styleClass>
+            </Button>
+            <Pane prefHeight="10.0" prefWidth="10.0" />
+            <Button fx:id="solemnityNoteBtn" mnemonicParsing="false" onAction="#handleSolemnityNoteButtonAction" prefHeight="35.0" prefWidth="35.0" stylesheets="@Style/customStyle.css">
+               <graphic>
+                  <ImageView fitHeight="28.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/notesIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <tooltip>
+                  <Tooltip fx:id="toolTipSolemnity" text="Visualizza note solemnity" />
+               </tooltip>
+               <styleClass>
+                  <String fx:value="noteButton" />
+                  <String fx:value="Solemnity" />
+               </styleClass>
+            </Button>
+            <Pane prefHeight="10.0" prefWidth="10.0" />
+            <Button fx:id="tendernessNoteBtn" mnemonicParsing="false" onAction="#handleTendernessNoteButtonAction" prefHeight="35.0" prefWidth="35.0" stylesheets="@Style/customStyle.css">
+               <graphic>
+                  <ImageView fitHeight="28.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/notesIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <tooltip>
+                  <Tooltip fx:id="toolTipTenderness" text="Visualizza note tenderness" />
+               </tooltip>
+               <styleClass>
+                  <String fx:value="noteButton" />
+                  <String fx:value="Tenderness" />
+               </styleClass>
+            </Button>
+            <Pane prefHeight="10.0" prefWidth="10.0" />
+            <Button fx:id="tensionNoteBtn" mnemonicParsing="false" onAction="#handleTensionNoteButtonAction" prefHeight="35.0" prefWidth="35.0" stylesheets="@Style/customStyle.css">
+               <graphic>
+                  <ImageView fitHeight="28.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/notesIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <tooltip>
+                  <Tooltip fx:id="toolTipTension" text="Visualizza note tension" />
+               </tooltip>
+               <styleClass>
+                  <String fx:value="noteButton" />
+                  <String fx:value="Tension" />
+               </styleClass>
+            </Button>
+         </children>
+      </HBox>
+      <Pane prefHeight="10.0" prefWidth="699.0" />
+      <HBox alignment="CENTER" prefHeight="80.0" prefWidth="699.0">
+         <children>
+            <TextArea fx:id="notesArea" disable="true" prefHeight="63.0" prefWidth="505.0" promptText="In questa area verranno visualizzate le note dell'emozione selezionata ..." wrapText="true" />
+         </children>
+      </HBox>
+      <Pane prefHeight="16.0" prefWidth="699.0" />
+   </children>
+</VBox>
