@@ -173,7 +173,7 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
 
             dbReference.executeUpdate(
                 new String[]{
-                    EmozioneEnum.values()[i++].toString(),
+                    EmozioneEnum.getEmotionNameFromInstance(emozione),
                     userId,
                     songUUID,
                     String.valueOf(emozione.getPunteggio()),
