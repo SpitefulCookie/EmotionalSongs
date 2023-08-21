@@ -23,6 +23,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.*;
@@ -161,16 +162,6 @@ public class SearchController implements Initializable {
                     // interrogo il db per farmi restituire le canzoni carecate
                     songs = EmotionalSongsClient.repo.ricercaCanzone(searchField.getText());
 
-                    // FIXME: The following exception is thrown when the client attempts to interrogate the server
-                    //  after it shut down (or lost connection) while there are clients still connected to it.
-                    //  -------------------------------------------------------------------------------------
-                    //  java.rmi.ConnectException: Connection refused to host: 192.168.1.165; nested exception is:
-                    //  java.net.ConnectException: Connection refused: connect
-                    //  at java.rmi/sun.rmi.transport.tcp.TCPEndpoint.newSocket(TCPEndpoint.java:623)
-                    //  at emotionalsongs.emotionalsongsclient/emotionalsongs.SearchController.handleSearchButtonAction(SearchController.java:162)
-                    //  -------------------------------------------------------------------------------------
-                    //  Suggested fix: surround with try-catch block and display a connection failed pop-up window
-
                 } else {
 
                     if(searchField.getText().isEmpty() || yearField.getText().isEmpty()){
@@ -189,20 +180,18 @@ public class SearchController implements Initializable {
 
                 // verifico se se le canzoni restituite non sono vuote
                 if (!songs.isEmpty()) {
-                    // viuslizzo le canzoni restituite dal db
+                    // visualizzo le canzoni restituite dal db
                     int row = 0;
                     for (Canzone song : songs) {
                         setNewSongFound(song, row);
                         row ++;
                     }
                 } else {
-                    System.out.println("la ricerca non ha protato a nessun risultato");
+                    System.out.println("la ricerca non ha portato a nessun risultato");
                 }
             }
 
-        }catch (RemoteException e){
-            // in caso di connessione persa con il server, visualizzo l'apposita finestra
-            e.printStackTrace();
+        }catch (Exception e){
 
             Stage connectionFailedStage = new Stage();
 
