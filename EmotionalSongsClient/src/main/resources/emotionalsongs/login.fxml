@@ -28,9 +28,9 @@
                </padding></Label>
             <AnchorPane layoutX="5.0" layoutY="184.0" prefHeight="73.0" prefWidth="248.0">
                <children>
-                  <Button alignment="CENTER" focusTraversable="false" layoutX="104.0" layoutY="45.0" mnemonicParsing="false" onMouseClicked="#handleContinueAsGuest" prefHeight="25.0" prefWidth="122.0" text="Continue as Guest" />
-                  <Button alignment="CENTER" focusTraversable="false" layoutX="14.0" layoutY="45.0" mnemonicParsing="false" onMouseClicked="#handleRegisterButton" prefHeight="11.0" prefWidth="83.0" text="Register" />
-                  <Label layoutX="15.0" layoutY="20.0" text="Don't have an account?" />
+                  <Button alignment="CENTER" focusTraversable="false" layoutX="104.0" layoutY="45.0" mnemonicParsing="false" onMouseClicked="#handleContinueAsGuest" prefHeight="25.0" prefWidth="129.0" text="Accedi come guest" />
+                  <Button alignment="CENTER" focusTraversable="false" layoutX="14.0" layoutY="45.0" mnemonicParsing="false" onMouseClicked="#handleRegisterButton" prefHeight="11.0" prefWidth="83.0" text="Registrati" />
+                  <Label layoutX="15.0" layoutY="20.0" text="Non hai un account?" />
                </children>
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
