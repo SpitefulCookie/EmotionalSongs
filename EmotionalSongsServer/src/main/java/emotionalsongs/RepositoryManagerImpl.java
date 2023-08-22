@@ -234,8 +234,7 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
         ArrayList<String[]> dataRetrieved = dbReference.executeQuery(new String[]{songUUID}, QueryHandler.QUERY_GET_SONG_AVERAGE_SCORES);
         double[] dataToBeReturned = new double[9];
 
-        if (dataRetrieved.size() != 0) { // Se sono stati ottenuti dei risultati
-
+        if (dataRetrieved.get(0)[0]!= null) { // Se sono stati ottenuti dei risultati
             for (int i = 0; i< dataRetrieved.size(); i++){
                 dataToBeReturned[i] = Double.parseDouble(dataRetrieved.get(i)[0]);
             }
