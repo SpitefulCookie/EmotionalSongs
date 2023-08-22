@@ -99,11 +99,11 @@ public interface AuthManager extends Remote {
      * Checks if the specified fiscal code is already present in the database.<br><br>
      * This method is called from within the {@code UserRegistrationController} class, and it's used to
      * determine whether the provided fiscal code is already in use by querying the database.<br>
-     * @param cf The provided fiscal code
+     * @param cf The provided fiscal code encoded using the RSA algorithm.
      * @return {@code true} if the provided fiscal code is already present in the database, {@code false} otherwise.
      * @throws RemoteException If a communication error occurs while invoking or executing the remote method.
      */
-    boolean cfExists(String cf) throws RemoteException; // TODO RSA?
+    boolean cfExists(byte[] cf) throws RemoteException; // TODO RSA?
 
 }
 
