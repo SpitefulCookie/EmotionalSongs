@@ -332,7 +332,7 @@ public class UserRegistrationController implements Initializable {
         // =============== C O D I C E   F I S C A L E  ===============
 
         try {
-            boolean isCfTaken = EmotionalSongsClient.auth.cfExists(codFiscField.getText());
+            boolean isCfTaken = EmotionalSongsClient.auth.cfExists(AuthManager.RSA_Encrypt(codFiscField.getText()));
             if (!isValidCF(codFiscField.getText()) || isCfTaken) {
                 GUIUtilities.setErrorStyle(codFiscField);
 

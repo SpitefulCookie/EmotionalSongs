@@ -54,10 +54,21 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
         dbReference = EmotionalSongsServer.getQueryHandlerInstance();
     }
 
+    /**
+     * Removes the provided clients from the list of currently active clients.<br><br>
+     *
+     * @param disconnected An ArrayList of PingClient instances representing the clients to be removed.
+     */
     public static void removeClients(ArrayList<PingClient> disconnected) {
         disconnected.forEach(clientList::remove);
     }
 
+    /**
+     * Disconnects the specified client from the server.
+     * @param client The client to be disconnected from the server.
+     * @return {@code true} if the client was successfully disconnected, {@code false} otherwise.
+     * @throws RemoteException If a communication error occurs while invoking or executing the remote method.
+     */
     @Override
     public boolean disconnect(PingClient client) throws RemoteException {
         return clientList.remove(client);
@@ -83,13 +94,16 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      *
      * <p>This method queries the database to verify the existence of the specified fiscal code.
      *
-     * @param cf The fiscal code to check.
+     * @param cf The fiscal code to check encoded using the RSA algorithm.
      * @return {@code true} if the fiscal code exists, otherwise {@code false}.
      * @throws RemoteException If a communication error occurs during remote method invocation.
      */
-    public synchronized boolean cfExists(String cf) throws RemoteException {
-        String queryResult = dbReference.executeQuery(new String[]{cf}, QueryHandler.QUERY_CF_EXISTS).get(0)[0];
-        if (cf != null && Integer.parseInt(queryResult) == 1) {return true;}
+    public synchronized boolean cfExists(byte[] cf) throws RemoteException {
+        if(cf!=null){
+            String decodedCF = decryptRSA(cf);
+            String queryResult = dbReference.executeQuery(new String[]{decodedCF}, QueryHandler.QUERY_CF_EXISTS).get(0)[0];
+            return Integer.parseInt(queryResult) == 1;
+        }
         return false;
     }
 
