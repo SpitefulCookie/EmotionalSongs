@@ -18,7 +18,7 @@ public class ExitController {
     @FXML
     public void handleExitButtonAction(){
 
-        // when pressed the Exit button, the user is redirected to login page
+        // When pressed the Exit button, the user is redirected to login page
         Scene scene = GUIUtilities.getInstance().getScene("login.fxml");
         LoginController.clearFields();
 

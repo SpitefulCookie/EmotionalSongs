@@ -113,10 +113,10 @@ public class ViewEmotionsController implements Initializable{
      */
     @FXML
     void handleCalmnessNoteButtonAction() {
-        if(emotions.get(1).getCommento().isEmpty()){
+        if(emotions.get(4).getCommento().isEmpty()){
             notesArea.setText("Non hai inserito nessuna nota per questa emozione");
         }else{
-            notesArea.setText(emotions.get(1).getCommento());
+            notesArea.setText(emotions.get(4).getCommento());
         }
     }
 
@@ -125,10 +125,10 @@ public class ViewEmotionsController implements Initializable{
      */
     @FXML
     void handleJoyNoteButtonAction() {
-        if(emotions.get(2).getCommento().isEmpty()){
+        if(emotions.get(6).getCommento().isEmpty()){
             notesArea.setText("Non hai inserito nessuna nota per questa emozione");
         }else{
-            notesArea.setText(emotions.get(2).getCommento());
+            notesArea.setText(emotions.get(6).getCommento());
         }
     }
 
@@ -149,18 +149,6 @@ public class ViewEmotionsController implements Initializable{
      */
     @FXML
     void handlePowerNoteButtonAction() {
-        if(emotions.get(4).getCommento().isEmpty()){
-            notesArea.setText("Non hai inserito nessuna nota per questa emozione");
-        }else{
-            notesArea.setText(emotions.get(4).getCommento());
-        }
-    }
-
-    /**
-     * TODO document
-     */
-    @FXML
-    void handleSadnessNoteButtonAction() {
         if(emotions.get(5).getCommento().isEmpty()){
             notesArea.setText("Non hai inserito nessuna nota per questa emozione");
         }else{
@@ -172,11 +160,23 @@ public class ViewEmotionsController implements Initializable{
      * TODO document
      */
     @FXML
-    void handleSolemnityNoteButtonAction() {
-        if(emotions.get(6).getCommento().isEmpty()){
+    void handleSadnessNoteButtonAction() {
+        if(emotions.get(8).getCommento().isEmpty()){
             notesArea.setText("Non hai inserito nessuna nota per questa emozione");
         }else{
-            notesArea.setText(emotions.get(6).getCommento());
+            notesArea.setText(emotions.get(8).getCommento());
+        }
+    }
+
+    /**
+     * TODO document
+     */
+    @FXML
+    void handleSolemnityNoteButtonAction() {
+        if(emotions.get(1).getCommento().isEmpty()){
+            notesArea.setText("Non hai inserito nessuna nota per questa emozione");
+        }else{
+            notesArea.setText(emotions.get(1).getCommento());
         }
     }
 
@@ -185,10 +185,10 @@ public class ViewEmotionsController implements Initializable{
      */
     @FXML
     void handleTendernessNoteButtonAction() {
-        if(emotions.get(7).getCommento().isEmpty()){
+        if(emotions.get(2).getCommento().isEmpty()){
             notesArea.setText("Non hai inserito nessuna nota per questa emozione");
         }else{
-            notesArea.setText(emotions.get(7).getCommento());
+            notesArea.setText(emotions.get(2).getCommento());
         }
     }
 
@@ -197,10 +197,10 @@ public class ViewEmotionsController implements Initializable{
      */
     @FXML
     void handleTensionNoteButtonAction() {
-        if(emotions.get(8).getCommento().isEmpty()){
+        if(emotions.get(7).getCommento().isEmpty()){
             notesArea.setText("Non hai inserito nessuna nota per questa emozione");
         }else{
-            notesArea.setText(emotions.get(8).getCommento());
+            notesArea.setText(emotions.get(7).getCommento());
         }
     }
 
@@ -229,10 +229,10 @@ public class ViewEmotionsController implements Initializable{
      * TODO document
      * @param emotions
      */
-    protected void setEmotions(String songName, List<Emozione> emotions){
+    protected void setEmotions(Canzone song, List<Emozione> emotions){
 
         // set the songNameLabel
-        songNameLabel.setText(songName);
+        songNameLabel.setText(song.getTitolo()  + " (" + song.getAutore() + " - " + song.getAnno() + ")");
 
         // find the emotion with the hightest score
         Emozione emotionWithHighestScore = findEmotionWithHighestScore(emotions);

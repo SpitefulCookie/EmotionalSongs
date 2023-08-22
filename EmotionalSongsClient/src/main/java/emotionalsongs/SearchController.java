@@ -54,10 +54,11 @@ public class SearchController implements Initializable {
     private GUIUtilities guiUtilities;
     private boolean advancedSearchActivated;
     private String filteredSearch;
-    private List<Node> songsPane;
+    private static List<Node> songsPane; // TODO forse rimetterlo non statico
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         // setto l'auto resize dei componenti/elementi che si trovano nello scroll pane
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);

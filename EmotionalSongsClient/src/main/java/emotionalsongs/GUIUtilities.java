@@ -14,15 +14,17 @@ import java.util.HashMap;
 public class GUIUtilities {
 
     private final HashMap<String, Scene> appScenes;
+    private final HashMap<String, Node> appNode;
     private final HashMap<String, Image> images;
     private static GUIUtilities guiUtilities;
 
-    private static final String[] guiControllers = {"clientLoginSettings.fxml", "connectionFailed.fxml", "exit.fxml", "login.fxml", "search.fxml", "user.fxml", "UserRegistration.fxml"};
+    private static final String[] guiControllers = {"clientLoginSettings.fxml", "connectionFailed.fxml", "exit.fxml", "login.fxml", "search.fxml", "user.fxml", "UserRegistration.fxml", "guest.fxml"};
 
     GUIUtilities(){
         // creo la hashmap
         images = new HashMap<>();
         appScenes = new HashMap<>();
+        appNode = new HashMap<>();
 
         // setto (aggiungo) le varie immagini nella hashmap
         initImages();
@@ -52,6 +54,26 @@ public class GUIUtilities {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * TODO document
+     */
+    protected void initNode(){
+
+        try {
+
+            for (String controller : guiControllers) {
+
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(controller));
+                appNode.put(controller, fxmlLoader.load());
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 
@@ -195,6 +217,22 @@ public class GUIUtilities {
      */
     protected Scene getScene(String sceneName){
        return appScenes.get(sceneName);
+    }
+
+    /**
+     * TODO document
+     * @param nodeName
+     * @return
+     */
+    protected Node getNode(String nodeName) { return appNode.get(nodeName); }
+
+    /**
+     * TODO document
+     * @param nodeName
+     * @param nodeToAdd
+     */
+    protected void addNode(String nodeName, Node nodeToAdd){
+        appNode.put(nodeName, nodeToAdd);
     }
 
 

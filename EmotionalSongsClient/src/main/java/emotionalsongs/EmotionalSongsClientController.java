@@ -57,7 +57,6 @@ public class EmotionalSongsClientController implements Initializable {
     @FXML private Button resizeSidebarBtn;
     @FXML private ImageView resizeSidebarImg;
     @FXML private ImageView maximizedImg;
-    // @FXML private Tooltip exitTooltip;
 
     private static BorderPane dynamicPane_;
 
@@ -181,11 +180,23 @@ public class EmotionalSongsClientController implements Initializable {
      */
     @FXML
     public void handleSearchButtonAction(){
-        // set button style
+        //set button style
         setClickedStyle(searchBtn);
 
-        // add search pane to dynamicPane
-        setDynamicPane("search.fxml");
+        try{
+            // load the search pane
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("search.fxml"));
+            Node search_node = fxmlLoader.load();
+
+            guiUtilities.addNode("search.fxml", search_node);
+
+            // add search pane to dynamicPane
+            setDynamicPane(search_node);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -209,7 +220,9 @@ public class EmotionalSongsClientController implements Initializable {
         setClickedStyle(userBtn);
 
         if(isGuest){ // è guest
-            // TODO creare il file fxml per l'utente guest e settarlo.
+
+            setDynamicPane(guiUtilities.getNode("guest.fxml"));
+
         }else { // non è guest --> è un utente registrato
             // TODO cambiare il nome del documento fxml in RegistredUser
 

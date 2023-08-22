@@ -77,7 +77,7 @@ public class SongPlaylistController implements Initializable {
                 Node emotions_pane = fxmlLoader.load();
 
                 ViewEmotionsController viewEmotionsController = fxmlLoader.getController();
-                viewEmotionsController.setEmotions(songNameLabel.getText(), SelectedPlaylistController.getSongEmotions(song.getSongUUID()));
+                viewEmotionsController.setEmotions(song, SelectedPlaylistController.getSongEmotions(song.getSongUUID()));
 
                 EmotionalSongsClientController.setDynamicPane(emotions_pane);
 
@@ -105,8 +105,8 @@ public class SongPlaylistController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewReportEmotions.fxml"));
             Node emotions_pane = fxmlLoader.load();
 
-            //ViewEmotionsController viewEmotionsController = fxmlLoader.getController();
-            //viewEmotionsController.setEmotions(songNameLabel.getText(), SelectedPlaylistController.getSongEmotions(song.getSongUUID()));
+            ViewReportEmotionsController viewReportEmotionsController = fxmlLoader.getController();
+            viewReportEmotionsController.setEmotions(song, false);
 
             EmotionalSongsClientController.setDynamicPane(emotions_pane);
 

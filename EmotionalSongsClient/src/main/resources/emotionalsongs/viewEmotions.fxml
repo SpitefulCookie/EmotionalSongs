@@ -34,7 +34,7 @@
                   </Button>
                </children>
             </HBox>
-            <Label fx:id="playlistNameLabel" alignment="CENTER" maxHeight="103.0" maxWidth="1.7976931348623157E308" prefHeight="58.0" prefWidth="375.0" text="Report Emozioni" textFill="#bbbbbb" HBox.hgrow="ALWAYS">
+            <Label fx:id="playlistNameLabel" alignment="CENTER" maxHeight="103.0" maxWidth="1.7976931348623157E308" prefHeight="58.0" prefWidth="375.0" text="Visualizza Emozioni" textFill="#bbbbbb" HBox.hgrow="ALWAYS">
                <font>
                   <Font name="Arial Bold" size="30.0" />
                </font>

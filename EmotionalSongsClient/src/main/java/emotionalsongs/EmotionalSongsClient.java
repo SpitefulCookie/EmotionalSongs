@@ -50,6 +50,7 @@ public class EmotionalSongsClient extends Application {
 
         guiUtilities = GUIUtilities.getInstance();
         guiUtilities.initScenes();
+        guiUtilities.initNode();
 
         Scene scene = guiUtilities.getScene("login.fxml");
 
