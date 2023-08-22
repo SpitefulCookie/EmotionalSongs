@@ -50,42 +50,42 @@ public class QueryHandler {
     protected static final String QUERY_GET_SONG_EMOTIONS =
             "SELECT punteggio, note FROM amazement \n" +
                 "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
-            "SELECT punteggio, note FROM calmness \n" +
-                "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
-            "SELECT punteggio, note FROM joy \n" +
-                "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
-            "SELECT punteggio, note FROM nostalgia \n" +
-                "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
-            "SELECT punteggio, note FROM power \n" +
-                "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
-            "SELECT punteggio, note FROM sadness \n" +
-                "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
             "SELECT punteggio, note FROM solemnity \n" +
                 "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
             "SELECT punteggio, note FROM tenderness \n" +
                 "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
+            "SELECT punteggio, note FROM nostalgia \n" +
+                "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
+            "SELECT punteggio, note FROM calmness \n" +
+                "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
+            "SELECT punteggio, note FROM power \n" +
+                "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
+            "SELECT punteggio, note FROM joy \n" +
+                "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
             "SELECT punteggio, note FROM tension \n" +
+                "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
+            "SELECT punteggio, note FROM sadness \n" +
                 "WHERE userid = 'uId' AND songuuid = 'sId'\n" +
             "))))))));\n";
 
     protected static final String QUERY_GET_SONG_AVERAGE_SCORES =
         "SELECT AVG(punteggio) FROM amazement \n" +
                 "WHERE songuuid = '%1$s' UNION ALL(\n" +
-            "SELECT AVG(punteggio) FROM calmness \n" +
-                "WHERE songuuid = '%1$s' UNION ALL(\n" +
-            "SELECT AVG(punteggio) FROM joy \n" +
-                "WHERE songuuid = '%1$s' UNION ALL(\n" +
-            "SELECT AVG(punteggio) FROM nostalgia \n" +
-                "WHERE songuuid = '%1$s' UNION ALL(\n" +
-            "SELECT AVG(punteggio) FROM power \n" +
-                "WHERE songuuid = '%1$s' UNION ALL(\n" +
-            "SELECT AVG(punteggio) FROM sadness \n" +
-                "WHERE songuuid = '%1$s' UNION ALL(\n" +
             "SELECT AVG(punteggio) FROM solemnity \n" +
                 "WHERE songuuid = '%1$s' UNION ALL(\n" +
             "SELECT AVG(punteggio) FROM tenderness \n" +
                 "WHERE songuuid = '%1$s' UNION ALL(\n" +
+            "SELECT AVG(punteggio) FROM nostalgia \n" +
+                "WHERE songuuid = '%1$s' UNION ALL(\n" +
+            "SELECT AVG(punteggio) FROM calmness \n" +
+                "WHERE songuuid = '%1$s' UNION ALL(\n" +
+            "SELECT AVG(punteggio) FROM power \n" +
+                "WHERE songuuid = '%1$s' UNION ALL(\n" +
+            "SELECT AVG(punteggio) FROM joy \n" +
+                "WHERE songuuid = '%1$s' UNION ALL(\n" +
             "SELECT AVG(punteggio) FROM tension \n" +
+                "WHERE songuuid = '%1$s' UNION ALL(\n" +
+            "SELECT AVG(punteggio) FROM sadness \n" +
                 "WHERE songuuid = '%1$s'\n" +
             "))))))));\n";
 
