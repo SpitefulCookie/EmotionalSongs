@@ -108,42 +108,45 @@ public class ServerMainViewController implements Initializable {
         // removing any inactive ones.
         EmotionalSongsServer.initializeConnectionVerify();
 
-        /* / ------------------TESTING--------------------
+        // ------------------TESTING--------------------
         // TODO remove this block before turning in the project
 
             try {
+                /*
                 ArrayList<Emozione> f = new ArrayList<>();
 
-                f.add(new Amazement(1, "a"));
-                f.add(new Calmness(2, "b"));
-                f.add(new Joy(3, "c"));
-                f.add(new Nostalgia(4, "d"));
-                f.add(new Power(5, "e"));
-                f.add(new Sadness(1, "f"));
-                f.add(new Solemnity(2, "g"));
-                f.add(new Tenderness(3, "h"));
-                f.add(new Tension(4, "i"));
+                f.add(new Amazement(1, "amazement"));
+                f.add(new Calmness(2, "calmness"));
+                f.add(new Joy(3, "joy"));
+                f.add(new Nostalgia(4, "nostalgia"));
+                f.add(new Power(5, "power"));
+                f.add(new Sadness(1, "sad"));
+                f.add(new Solemnity(2, "sole"));
+                f.add(new Tenderness(3, "tend"));
+                f.add(new Tension(4, "tens"));
 
-                 //EmotionalSongsServer.getRepositoryManagerInstance().registerEmotions(f,"TRUKSJE128F9317BE3", "test");
-                // ----------------------------------------------------------------------------------------------------------------
-                ArrayList<Emozione> g = EmotionalSongsServer.getRepositoryManagerInstance().getSongEmotions("TRUKSJE128F9317BE3", "test");
+                 EmotionalSongsServer.getRepositoryManagerInstance().registerEmotions(f,"TRLYUXL128F9326A6C", "test");
+                 // ----------------------------------------------------------------------------------------------------------------
+                ArrayList<Emozione> g = EmotionalSongsServer.getRepositoryManagerInstance().getSongEmotions("TRLYUXL128F9326A6C", "test");
 
                 for (Emozione h : g){
                     System.out.println("Emozione " + h.getClass().getSimpleName() +":\n├  Punteggio: " + h.getPunteggio() + "\n└  Commento: " + h.getCommento());
                 }
+                / */
                 // -----------------------------------------------------------------------------------
-                double[] j = EmotionalSongsServer.getRepositoryManagerInstance().getSongAverageEmotions("TRUKSJE128F9317BE3");
+                double[] j = EmotionalSongsServer.getRepositoryManagerInstance().getSongAverageEmotions("TRLYUXL129F9326A6C");
 
                 for (int i = 0 ; i< j.length; i++){
                     System.out.println("Emozione " + EmozioneEnum.values()[i] +":\n└  Punteggio medio: " + j[i]);
                 }
 
             } catch (Exception e) {
-                //e.printStackTrace(); // TEST
+                e.printStackTrace(); // TEST
             }
         // -----------------------------------------------------------------------------------
 
         // --------------------------------------------- */
+
     }
 
     /**
