@@ -3,6 +3,7 @@ package emotionalsongs;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /*
@@ -70,9 +72,20 @@ public class SongPlaylistController implements Initializable {
 
         }else{ // altrimenti se ha inserito le emozioni
 
-            // TODO visualizzare le emozioni inserite
+            try{
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewEmotions.fxml"));
+                Node emotions_pane = fxmlLoader.load();
 
-            // DEBUG
+                ViewEmotionsController viewEmotionsController = fxmlLoader.getController();
+                viewEmotionsController.setEmotions(songNameLabel.getText(), SelectedPlaylistController.getSongEmotions(song.getSongUUID()));
+
+                EmotionalSongsClientController.setDynamicPane(emotions_pane);
+
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+            // DEBUG TODO remove
             System.out.println("Pulsante visualizza emozioni per la canzone: " + song + " premuto");
 
         }
@@ -85,8 +98,21 @@ public class SongPlaylistController implements Initializable {
     public void handleViewEmotionsSummaryButtonAction(){
         // TODO implementare cosa deve accadare quando viene premuto questo pulsante
 
-        // DEBUG
+        // DEBUG TODO remove
         System.out.println("Pulsante visualizza report emozioni per la canzone: " + song + " premuto");
+
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewReportEmotions.fxml"));
+            Node emotions_pane = fxmlLoader.load();
+
+            //ViewEmotionsController viewEmotionsController = fxmlLoader.getController();
+            //viewEmotionsController.setEmotions(songNameLabel.getText(), SelectedPlaylistController.getSongEmotions(song.getSongUUID()));
+
+            EmotionalSongsClientController.setDynamicPane(emotions_pane);
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -167,9 +193,32 @@ public class SongPlaylistController implements Initializable {
          */
 
         try{
-            ArrayList<Emozione> emotions = EmotionalSongsClient.repo.getSongEmotions(song.getSongUUID(), EmotionalSongsClientController.getUsername());
 
-            if(emotions.size() == 0){
+            /*
+             controllo se non già caricato le emozioni per questa canzone (questo controllo avviene
+             andando a verificare se esiste una chiave nella hashMap emotionsSongs uguale allo uuid della
+             canzone song) , se non le ho ancora caricate le vado a caricare interrogando prima il db
+             tramite l'apposito metodo del server e poi aggiungendole alla hashMap contenuta
+             nella classe SelectedPlaylist
+             */
+            if(!SelectedPlaylistController.songEmotionsAlreadyExist(song.getSongUUID())) {
+
+                ArrayList<Emozione> emotions = EmotionalSongsClient.repo.getSongEmotions(song.getSongUUID(), EmotionalSongsClientController.getUsername());
+
+                /*
+                aggiungo la canzone e le emozioni nella hashMap emotionsSongs contenuta nella classe
+                selectedPlaylist
+                */
+                SelectedPlaylistController.addEmotionsSong(song.getSongUUID(), emotions);
+            }else{
+                // DEBUG TODO remove else
+                System.out.println("Emozioni già caricate per la canzone: " + song.getTitolo() + " con uuid: " + song.getSongUUID());
+            }
+
+            // DEBUG todo remove
+            System.out.println("numero di emozioni : " + SelectedPlaylistController.getSongEmotions(song.getSongUUID()).size());
+
+            if(SelectedPlaylistController.getSongEmotions(song.getSongUUID()).isEmpty()){ // todo fare il controllo acccedendo alle emozioni nella hashMap
                 // set the emotionsAdded on false
                 emotionsAdded = false;
             }else{
@@ -178,13 +227,11 @@ public class SongPlaylistController implements Initializable {
                 // change the img of multipleBtn
                 multipleBtnImg.setImage(guiUtilities.getImage("viewEmotions"));
 
-                /*
-                 TODO forse asseganre la lista restituita a una lista songEmotions che verrà utilizzata
-                    per il view emotions
-                 */
             }
 
         }catch (RemoteException e){
+            e.printStackTrace(); // TODO remove
+
             Stage connectionFailedStage = new Stage();
 
             connectionFailedStage.setScene(GUIUtilities.getInstance().getScene("connectionFailed.fxml"));
@@ -193,7 +240,6 @@ public class SongPlaylistController implements Initializable {
             connectionFailedStage.setResizable(false);
             connectionFailedStage.show();
         }
-
     }
 
     /**

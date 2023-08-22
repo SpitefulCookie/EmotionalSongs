@@ -92,16 +92,6 @@ public enum EmozioneEnum{
         };
     }
 
-    /**
-     * Retrieves the name of the emotion class from an Emozione instance.<br><br>
-     *
-     * <p>This static method takes an instance of the {@link Emozione} class and returns the
-     * simple name of the class representing the emotion. The simple name is obtained using the
-     * {@link Class#getSimpleName()} method on the provided instance's class object.
-     *
-     * @param e The instance of the {@link Emozione} class representing an emotion.
-     * @return The simple name of the emotion class.
-     */
     static String getEmotionNameFromInstance(Emozione e){
         return e.getClass().getSimpleName();
     }

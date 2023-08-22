@@ -345,7 +345,6 @@ public class EmotionalSongsClientController implements Initializable {
             Node pane = fxmlLoader.load();
 
             dynamicPane_.setCenter(pane);
-            dynamicPane_.getCenter().setStyle("-fx-backgroud-color: transparent;");
         }catch(IOException e){
             e.printStackTrace();
         }

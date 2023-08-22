@@ -19,10 +19,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 public class SelectedPlaylistController implements Initializable {
 
@@ -46,12 +43,18 @@ public class SelectedPlaylistController implements Initializable {
     private static Button addSongsButton_;
     private static Label playlistNameLabel_;
 
+    private static String playlistOpened;
+
     /*
     questa lista mi contiene i controller delle canzoni presenti sul gridPane, devo memorizzare i controller
     perchè poi mi serviranno nel momento in cui andrò ad aggiungere le emozioni alla canzone.
      */
     private static List<SongPlaylistController> songControllers;
-
+    /*
+     NOTA: lista che contiene le emozioni associate alla key canzone, la chiave che è di tipo String
+     viene rappresentata dal songUUID dell canzone.
+     */
+    private static HashMap<String, List<Emozione>> emotionsSongs = new HashMap<String, List<Emozione>>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -236,6 +239,9 @@ public class SelectedPlaylistController implements Initializable {
         // set the playlist name
         this.playlistNameLabel.setText(playlistName);
 
+        // set playlistOpened
+        playlistOpened = playlistName;
+
         // se la playlist non è mai stata aperta fino ad ora
         if(!AllPlaylistController.getPlaylistWasOpened(playlistName)){
 
@@ -303,8 +309,61 @@ public class SelectedPlaylistController implements Initializable {
             // now the playlist has been opened
             AllPlaylistController.setOpenPlaylist(playlistName);
         }catch (RemoteException e){
-            e.printStackTrace();
+            e.printStackTrace(); // TODO remove
+
+            Stage connectionFailedStage = new Stage();
+
+            connectionFailedStage.setScene(GUIUtilities.getInstance().getScene("connectionFailed.fxml"));
+            connectionFailedStage.initStyle(StageStyle.UNDECORATED);
+            connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
+            connectionFailedStage.setResizable(false);
+            connectionFailedStage.show();
         }
+    }
+
+    /**
+     * TODO document
+     * @param songUUID
+     * @param emotions
+     */
+    public static void addEmotionsSong(String songUUID, List<Emozione> emotions){
+        /*
+         prima di inserire la canzone e le emozioni nella hashMap verifico se non esiste già una chiave
+         con nome songUUID, se non esiste aggiungo la canzone e le relative emozioni alla hashMap
+         */
+        emotionsSongs.put(songUUID, emotions);
+    }
+
+    /**
+     * TODO document
+     * @param songUUID
+     * @return
+     */
+    public static List<Emozione> getSongEmotions(String songUUID){
+        /* metodo che ritorna le emozioni della canzone ha ha con uuid : songUUID se essa è presente
+        nella hashMap, se la canzone non è presente nella hashMap ritorna null.
+         */
+        if (emotionsSongs.containsKey(songUUID)){
+            return emotionsSongs.get(songUUID);
+        }
+        return null;
+    }
+
+    /**
+     * TODO document
+     * @param songUUID
+     * @return
+     */
+    public static boolean songEmotionsAlreadyExist(String songUUID){
+        /*
+        metodo che mi restituisce un valore booleano in base a se la hashMap contiene già una chiave uguale
+        a songUUID o no
+        true --> la hashMap contiene già una chiave uguale a songUUID -> questo significa che ho già caricato
+                 le emotiozni per questa canzone.
+        false --> la hashMap non contiene una chiave uguale a songUUID -> questo significa che non ho ancora
+                 caricato le canzoni per questa canzone.
+         */
+        return emotionsSongs.containsKey(songUUID);
     }
 
     /**
@@ -317,6 +376,14 @@ public class SelectedPlaylistController implements Initializable {
         metodo che mi ritorna il songPlaylistController che si trova in posizione pos nella lista: songControllers
          */
         return songControllers.get(pos);
+    }
+
+    /**
+     * TODO document
+     * @return
+     */
+    protected static String getPlaylistOpened(){
+        return playlistOpened;
     }
 
     /**

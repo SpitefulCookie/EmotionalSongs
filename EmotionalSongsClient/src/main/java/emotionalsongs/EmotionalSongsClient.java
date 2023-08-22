@@ -92,8 +92,6 @@ public class EmotionalSongsClient extends Application {
         }
     }
 
-
-
     /**
      * TODO Document
      * @return

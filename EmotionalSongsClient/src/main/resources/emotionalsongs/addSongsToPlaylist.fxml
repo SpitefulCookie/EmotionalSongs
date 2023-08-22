@@ -109,7 +109,7 @@
                   <Font name="Arial Bold" size="15.0" />
                </font></Button>
             <Pane prefHeight="45.0" prefWidth="20.0" />
-            <Button fx:id="addSongsToPlaylistBtn" mnemonicParsing="false" onAction="#handleAddSongsToPlaylistButtonAction" prefHeight="34.0" prefWidth="200.0" styleClass="addSongsToPlaylistButton" stylesheets="@Style/customStyle.css" text="Aggiungi alla playlist" textFill="#bbbbbb">
+            <Button fx:id="addSongsToPlaylistBtn" disable="true" mnemonicParsing="false" onAction="#handleAddSongsToPlaylistButtonAction" prefHeight="34.0" prefWidth="200.0" styleClass="addSongsToPlaylistButton" stylesheets="@Style/customStyle.css" text="Aggiungi alla playlist" textFill="#bbbbbb">
                <font>
                   <Font name="Arial Bold" size="15.0" />
                </font>

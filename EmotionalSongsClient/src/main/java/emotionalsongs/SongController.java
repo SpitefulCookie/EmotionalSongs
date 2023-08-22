@@ -3,6 +3,7 @@ package emotionalsongs;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -22,7 +23,7 @@ TODO :
  */
 public class SongController implements Initializable {
 
-    private static final int BUTTON_MAX_WIDTH = 180;
+    private static final int BUTTON_MAX_WIDTH = 200;
     private static final int BUTTON_MIN_WIDTH = 45;
 
     @FXML
@@ -93,6 +94,19 @@ public class SongController implements Initializable {
         /*
         TODO implementare cosa deve accadare quando quando viene premuto questo pulsante
          */
+
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewReportEmotions.fxml"));
+            Node emotions_pane = fxmlLoader.load();
+
+            //ViewEmotionsController viewEmotionsController = fxmlLoader.getController();
+            //viewEmotionsController.setEmotions(songNameLabel.getText(), SelectedPlaylistController.getSongEmotions(song.getSongUUID()));
+
+            EmotionalSongsClientController.setDynamicPane(emotions_pane);
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -117,7 +131,7 @@ public class SongController implements Initializable {
          quando il mouse passa sopra al viewEmotionsBtn viene settato il testo del pulsante e viene reimpostata
          la sua lunghezza, così da creare una specie di animazione
          */
-        viewEmotionsBtn.setText("Visualizza emozioni");
+        viewEmotionsBtn.setText("Visualizza report emozioni");
         viewEmotionsBtn.setMaxWidth(BUTTON_MAX_WIDTH);
     }
 
