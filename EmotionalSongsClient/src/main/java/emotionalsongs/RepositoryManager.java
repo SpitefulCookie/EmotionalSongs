@@ -119,4 +119,11 @@ public interface RepositoryManager extends Remote {
      */
     double[] getSongAverageEmotions(String songUUID) throws RemoteException;
 
+    /**
+     * Retrieves the total number of user feedbacks (registered emotions) for the song provided.
+     *
+     * @param songUUID The UUID of the song for which to retrieve the total feedback count.
+     * @return The total number of user feedbacks for the specified song.
+     */
+    int getTotalUserFeedbacksForSong (String songUUID) throws RemoteException;
 }

@@ -245,4 +245,18 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
         return dataToBeReturned;
 
     }
+
+    /**
+     * Retrieves the total number of user feedbacks (registered emotions) for the song provided.
+     *
+     * @param songUUID The UUID of the song for which to retrieve the total feedback count.
+     * @return The total number of user feedbacks for the specified song.
+     */
+    public int getTotalUserFeedbacksForSong(String songUUID){
+
+        ArrayList<String[]> dataRetrieved = dbReference.executeQuery(new String[]{songUUID}, QueryHandler.QUERY_GET_NUMBER_OF_FEEDBACK);
+        return Integer.parseInt(dataRetrieved.get(0)[0]);
+
+    }
+
 }

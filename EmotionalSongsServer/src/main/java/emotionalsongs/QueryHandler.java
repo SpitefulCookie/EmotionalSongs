@@ -47,6 +47,7 @@ public class QueryHandler {
     protected static final String QUERY_REGISTER_PLAYLIST = "INSERT INTO Playlist (Nome, UserId) VALUES ('%s', '%s')";
     protected static final String QUERY_REGISTER_SONG_IN_PLAYLIST = "INSERT INTO Contiene (Nome, UserId, SongUUID) VALUES ('%s', '%s', '%s')";
     protected static final String QUERY_REGISTER_SONG_EMOTION = "INSERT INTO %s (UserId, SongUUID, Punteggio, Note) VALUES ('%s', '%s', '%s', '%s')";
+    protected static final String QUERY_GET_NUMBER_OF_FEEDBACK = "SELECT COUNT(*) FROM AMAZEMENT WHERE songuuid = '%s'";
     protected static final String QUERY_GET_SONG_EMOTIONS =
             "SELECT punteggio, note FROM amazement \n" +
                 "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
@@ -346,7 +347,6 @@ public class QueryHandler {
      * @param queryCommand The parameterized SQL query command to execute.
      */
     public synchronized void executeUpdate(final String[] args,  final String queryCommand) throws SQLException{
-
         try {
             stmt.executeUpdate(String.format(queryCommand, (Object[]) args));
         } catch (SQLException e) {
