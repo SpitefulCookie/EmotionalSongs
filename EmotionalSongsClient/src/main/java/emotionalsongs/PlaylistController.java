@@ -25,7 +25,7 @@ public class PlaylistController{
      */
     @FXML
     protected void handleOpenPlaylistAction(MouseEvent event){
-        // TODO implementare apertura playlist selezionata
+        // DEBUG TODO remove
         System.out.println("Apro la playlist : " + playlistNameLabel.getText());
 
         try{
