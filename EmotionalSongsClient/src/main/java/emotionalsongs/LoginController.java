@@ -404,8 +404,8 @@ public class LoginController implements Initializable {
     /**
      * Enables the dragging behavior of the application window using mouse events.
      *
-     * This method sets up the dragging behavior of the application window (EmotionalSongsClient) using mouse events.
-     * When called, the method assigns creates two event handlers for the application's window:
+     * This method sets up the dragging behavior of the application window using mouse events; When called, the method
+     * creates the following event handlers for the application's UI components:
      * <ol>
      * <li> OnMousePressed: This event handler is triggered when the user presses the mouse button while the cursor is
      *    within the boundaries of the pane. It calculates the initial offset (`xOffset` and `yOffset`) between the
@@ -414,7 +414,6 @@ public class LoginController implements Initializable {
      *    button on the pane. It updates the position of the application window according to the cursor movement, thereby
      *    simulating the dragging behavior of the window.
      * </ol>
-     *
      *
      */
     @FXML protected void moveWindow() {

@@ -84,10 +84,10 @@ public class UserRegistrationController implements Initializable {
     private Boolean isPwdDisplayed = false;
 
     /**
-     * Initializes the GUI components and sets up the initial state of the application window.
+     * Initializes the GUI components and sets up the initial state of the application window.<br><br>
      *
      * This method is called automatically when the FXML file associated with this controller is loaded. It serves as the
-     * initialization method for the GUI components and the application window's initial state.
+     * initialization method for the GUI components and the application window's initial state.<br><br>
      * The method performs the following tasks:
      * <ul>
      * <li> Initializes `guiUtilities` with the instance of GUIUtilities and Loads the images for the various UI elements.
@@ -133,14 +133,14 @@ public class UserRegistrationController implements Initializable {
     }
 
     /**
-     * Adds a password change listener to the specified TextField and updates associated visual indicators.
+     * Adds a password change listener to the specified TextField and updates associated visual indicators.<br><br>
      *
      * This method adds a password change listener to the provided TextField (`field`). When the text of the TextField changes
      * (e.g., when the user types or deletes characters), the password strength is evaluated using the `checkPasswordStrength` method.
-     * Based on the password strength, the method also updates the appearance of the UI elements meant to visually indicate the password's strength.
+     * Based on the password strength, the method also updates the appearance of the UI elements meant to visually indicate the password's strength.<br><br>
      *
      * Additionally, the method checks for certain forbidden characters (e.g., double quotes, single quotes, less than, and greater than symbols)
-     * in the password and, if detected, they are removed from the password text.
+     * in the password and, if detected, they are removed from the password text.<br><br>
      *
      * @param field               The TextField to which the password change listener will be added.
      * @param pwdQualityLabel     The Label that will display the password strength quality (e.g., "Poor", "Medium", "Excellent").
@@ -186,12 +186,12 @@ public class UserRegistrationController implements Initializable {
     }
 
     /**
-     * Determines if the provided password contains at least one special character.
+     * Determines if the provided password contains at least one special character.<br><br>
      *
      * This method checks if the provided password contains at least one special character. Special characters
      * are any characters that are not letters (both uppercase and lowercase) or digits. The method uses a regular
      * expression to match any character that is not in the set of letters (both uppercase and lowercase) and digits.
-     * If at least one special character is found in the password, the method returns true; otherwise, it returns false.
+     * If at least one special character is found in the password, the method returns true; otherwise, it returns false.<br><br>
      *
      * @param pwd The password to check for the presence of special characters.
      * @return true if the password contains at least one special character, false otherwise.
@@ -199,20 +199,20 @@ public class UserRegistrationController implements Initializable {
     private static boolean containsSpecialCharacter(String pwd) {return pwd.matches(".*[^a-zA-Z0-9].*");}
 
     /**
-     * Checks the strength of the provided password.
+     * Checks the strength of the provided password.<br><br>
      *
      * This method evaluates the strength of the provided password based on several factors, including password length,
      * the presence of uppercase letters, lowercase letters, digits, and special characters. The password strength is
      * assessed by awarding complexity points for each of these components. A password with a higher complexity score
      * is considered stronger. The method returns an integer representing the password's strength level:
      * <ul>
-     * <li> Excellent password (3) - Contains a mix of uppercase letters, lowercase letters, digits, and special characters,
+     * <li> <strong>Excellent password (3)</strong>- Contains a mix of uppercase letters, lowercase letters, digits, and special characters,
      *                       with a length of at least 10 characters.
-     * <li> Medium password (2) - Contains a mix of uppercase letters, lowercase letters, digits, and special characters,
+     * <li><strong>Medium password (2)</strong> - Contains a mix of uppercase letters, lowercase letters, digits, and special characters,
      *                       but either has a length less than 10 characters or lacks one of the components.
-     * <li> Weak password (1) - Contains at least one component (uppercase letters, lowercase letters, digits, or special
+     * <li><strong>Weak password (1)</strong>- Contains at least one component (uppercase letters, lowercase letters, digits, or special
      *                      characters) but lacks others, making it relatively easy to guess.
-     * <li> Empty password (0) - The password is empty.
+     * <li><strong>Empty password (0)</strong>- The password is empty.
      * </ul>
      * @param pwd The password to evaluate for its strength.
      * @return An integer representing the password strength level (0 to 3).
@@ -264,7 +264,7 @@ public class UserRegistrationController implements Initializable {
     }
 
     /**
-     * Handles the action when the close button is clicked.
+     * Handles the action when the close button is clicked.<br><br>
      *
      * This method is triggered when the close button is clicked on the JavaFX stage (window). It performs
      * the necessary actions to close the stage. Firstly, it retrieves the current stage using the event
@@ -283,10 +283,10 @@ public class UserRegistrationController implements Initializable {
     }
 
     /**
-     * Handles the action when the cancel button is clicked.
+     * Handles the action when the cancel button is clicked.<br><br>
      *
      * This method is triggered when the cancel button is clicked in the user registration form- thus
-     * annulling the user registration process.
+     * annulling the user registration process.<br><br>
      *
      * Upon clicking on the cancel button, the stage will be changed to the login screen.
      * Additionally, the method calls the `EmotionalSongsClient.unexportClient()` method to un-export
@@ -305,7 +305,7 @@ public class UserRegistrationController implements Initializable {
     }
 
     /**
-     * Verifies the user input in the registration form and checks for validity.
+     * Verifies the user input in the registration form and checks for validity.<br><br>
      *
      * This method performs various checks on the input fields in the registration form,
      * including name, surname, CF, email, address details, username and password.
@@ -423,7 +423,7 @@ public class UserRegistrationController implements Initializable {
     }
 
     /**
-     * Handles the confirmation button action in the registration form.
+     * Handles the confirmation button action in the registration form.<br><br>
      *
      * This method is invoked when the user clicks on the confirmation button in the registration form.
      * It first calls the `verifyUserInput` method to validate the user input in the form. If the input is valid,
@@ -484,10 +484,10 @@ public class UserRegistrationController implements Initializable {
     }
 
     /**
-     * Calculates the gap between the mouse cursor position and the top-left corner of the application window.
+     * Calculates the gap between the mouse cursor position and the top-left corner of the application window.<br><br>
      *
      * This method is used to calculate the gap between the current mouse cursor position and the top-left corner of
-     * the application window (EmotionalSongsClient).
+     * the application window.<br><br>
      * The values updated within this method are used to move the application window.
      *
      * @param event The MouseEvent representing the mouse event that triggered the calculation.
@@ -500,8 +500,8 @@ public class UserRegistrationController implements Initializable {
     /**
      * Enables the dragging behavior of the application window using mouse events.
      *
-     * This method sets up the dragging behavior of the application window (EmotionalSongsClient) using mouse events.
-     * When called, the method assigns creates two event handlers for the application's window:
+     * This method sets up the dragging behavior of the application window using mouse events; When called, the method
+     * creates the following event handlers for the application's UI components:
      * <ol>
      * <li> OnMousePressed: This event handler is triggered when the user presses the mouse button while the cursor is
      *    within the boundaries of the pane. It calculates the initial offset (`xOffset` and `yOffset`) between the
@@ -510,7 +510,6 @@ public class UserRegistrationController implements Initializable {
      *    button on the pane. It updates the position of the application window according to the cursor movement, thereby
      *    simulating the dragging behavior of the window.
      * </ol>
-     *
      *
      */
     @FXML protected void moveWindow() {
@@ -535,6 +534,7 @@ public class UserRegistrationController implements Initializable {
 
     }
     // TODO document limitation of exception
+
     /**
      * Checks the availability of the entered username.<br><br>
      *
