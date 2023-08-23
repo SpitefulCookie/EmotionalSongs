@@ -148,15 +148,12 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      * @throws RemoteException If a communication error occurs while invoking or executing the remote method.
      */
     @Override
-    public boolean userLogin(String username, byte[] pwd) {
+    public boolean userLogin(String username, byte[] pwd) throws RemoteException {
 
         // La password ricevuta da remoto sarà incapsulata in una codifica RSA, evitando così la trasmissione in chiaro di quest'ultima lungo la rete
-        String decryptedPwd = null;
-        try {
-            decryptedPwd = AuthManager.decryptRSA(pwd, pair.getPrivate());
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        String decryptedPwd;
+
+        decryptedPwd = AuthManager.decryptRSA(pwd, pair.getPrivate());
 
         /* Mentre la password salvata all'interno del db sarà codificata tramite algoritmo BCrypt in questo modo,
          * anche se il db venga attaccato e la tabella contenente i dati relativi agli utenti cada in mano dell'attaccante,
@@ -167,8 +164,7 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
 
         // Nel caso di una SQLException o di un Result set vuoto queryUserPassword() restituirà null quindi
         // sarà necessario effettuare una verifica prima d'invocare il metodo di verifica della password.
-        if(retrievedPwd!=null && BCryptVerifyPassword(decryptedPwd, retrievedPwd)){return true;}
-        else{return false;}
+        return retrievedPwd != null && BCryptVerifyPassword(decryptedPwd, retrievedPwd);
 
     }
 
@@ -232,8 +228,7 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      * @throws RemoteException If a communication error occurs during the remote method invocation.
      */
     public synchronized void registerClient(PingableClient client) throws RemoteException{
-        if (!clientList.contains(client)){
-            clientList.add(client);}
+        clientList.add(client);
     }
 
     /**
@@ -248,6 +243,24 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
         return clientList;
     }
 
+    /**
+     * Retrieves the provided user's data from the database.<br><br>
+     *
+     * This method retrieves from the database the data associated with the provided userId. The retrieved data is then encrypted using an
+     * RSA algorithm and the provided {@link PublicKey}.<br><br>
+     *
+     * <strong>Implementation note:</strong> This feature wasn't initially planned in the application and, as such, due
+     * to some architectural limitations with the communication protocol between the client and the server, the public key necessary
+     * to encrypt the data to be sent to the client is passed as one of the method's arguments. This is a conceptually incorrect approach
+     * and would require a refactoring of both the {@link AuthManagerImpl} class and the implementation of the {@link PingableClient} interface
+     * to allow an encrypted two-way communication between the client and the server. However, since this feature is already out of the project's
+     * requirement's scope, we have decided to leave things as they are and acknowledge this as point for future rework.
+     *
+     * @param userId The userId of the desired user for which to retrieve the information from the database.
+     * @param pk The {@code PublicKey} used to encrypt the data to be sent to the client.
+     * @return An array of bytes containing the desired user's data.
+     * @throws RemoteException If a communication error occurs during the remote method invocation.
+     */
     @Override
     public byte[] getUserData(String userId, PublicKey pk) throws RemoteException{
         return AuthManager.RSA_Encrypt(
