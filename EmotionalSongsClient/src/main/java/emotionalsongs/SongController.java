@@ -90,10 +90,7 @@ public class SongController implements Initializable {
      * TODO document
      */
     @FXML
-    public void handleViewEmotionsButtonAction(){
-        /*
-        TODO implementare cosa deve accadare quando quando viene premuto questo pulsante
-         */
+    public void visualizzaEmozioneBrano(){
 
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewReportEmotions.fxml"));

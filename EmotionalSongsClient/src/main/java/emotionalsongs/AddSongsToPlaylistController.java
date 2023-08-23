@@ -377,7 +377,7 @@ public class AddSongsToPlaylistController implements Initializable {
         SelectedPlaylistController.addNewSongs(songsToAdd);
 
         // close the stage
-        closeStage(addSongsToPlaylistBtn);
+        GUIUtilities.closeStage(addSongsToPlaylistBtn);
     }
 
     /**
@@ -385,7 +385,7 @@ public class AddSongsToPlaylistController implements Initializable {
      */
     @FXML
     public void handleAnnullaButtonAction(){
-        closeStage(annullaBtn);
+        GUIUtilities.closeStage(annullaBtn);
     }
 
     /**
@@ -561,12 +561,4 @@ public class AddSongsToPlaylistController implements Initializable {
         infoLabel.setVisible(false);
     }
 
-    /**
-     * TODO document
-     * @param button
-     */
-    private void closeStage(Button button){
-        Stage stage = (Stage) button.getScene().getWindow();
-        stage.close();
-    }
 }

@@ -75,14 +75,14 @@ public class CreatePlaylistController implements Initializable {
     @FXML
     public void handleAnnullaButtonAction(){
         // close the stage
-        closeCreatePlaylistStage(annullaBtn);
+        GUIUtilities.closeStage(annullaBtn);
     }
 
     /**
      * TODO document
      */
     @FXML
-    public void handleCreatePlaylistButtonAction(){
+    public void registraPlaylist(){
         // add playlist
         boolean playlistCreationCheck = AllPlaylistController.addNewPlaylist(playlistNameField.getText());
 
@@ -120,21 +120,21 @@ public class CreatePlaylistController implements Initializable {
                 // aggiungo la playlist alle playlist selezionate
                 AddToPlaylistController.addPlaylist(playlistNameField.getText());
 
-                // rivisualizzo le playlist sul gridPane della pane addToPlaylist
+                // ri-visualizzo le playlist sul gridPane della pane addToPlaylist
                 AddToPlaylistController.viewPlaylist();
 
-            /*
-             imposto la playlist come aperta perchè tanto essa è appena stata creata e quindi è vuota o
-             le sue canzoni contenute sono gia nella lista della hashMap con chiave playlistNameField.getText(),
-             questo mi evita anche un inutile interrogazione al db, in quanto se so che è vuota o comuqnue
-             le sue canzoni sono già contenute nella lista della hashMap con chiave playlistNameField.getText() è
-             inutile interrogarlo.
-             */
+                /*
+                imposto la playlist come aperta perchè tanto essa è appena stata creata e quindi è vuota o
+                le sue canzoni contenute sono gia nella lista della hashMap con chiave playlistNameField.getText(),
+                questo mi evita anche un inutile interrogazione al db, in quanto se so che è vuota o comuqnue
+                le sue canzoni sono già contenute nella lista della hashMap con chiave playlistNameField.getText() è
+                inutile interrogarlo.
+                */
                 AllPlaylistController.setOpenPlaylist(playlistNameField.getText());
             }
 
             // close the stage
-            closeCreatePlaylistStage(createPlaylistBtn);
+            GUIUtilities.closeStage(createPlaylistBtn);
         }
     }
 
@@ -152,15 +152,6 @@ public class CreatePlaylistController implements Initializable {
      */
     public static void clearPlaylistNameField(){
         playlistNameField_.setText("");
-    }
-
-    /**
-     * TODO document
-     * @param button
-     */
-    private void closeCreatePlaylistStage(Button button){
-        Stage stage = (Stage) button.getScene().getWindow();
-        stage.close();
-    }
+    } // TODO remove ?
 
 }

@@ -79,6 +79,8 @@ public class AddToPlaylistController implements Initializable {
      */
     public void handleAddToPlaylistButtonAction(){
         // ad ogni playlist contenuta nella selectedPlaylists aggiungo la canzone
+
+        // DEBUG TODO remove
         System.out.println("aggiungo la canzone " + songToAdd);
         try {
             for (String playlist : selectedPlaylists) {
@@ -103,7 +105,7 @@ public class AddToPlaylistController implements Initializable {
         }
 
         // close the stage
-        closeStage(addToPlaylistBtn);
+        GUIUtilities.closeStage(addToPlaylistBtn);
     }
 
     /**
@@ -111,7 +113,7 @@ public class AddToPlaylistController implements Initializable {
      */
     public void handleAnnullaButtonAction(){
         // close the stage
-        closeStage(annullaBtn);
+        GUIUtilities.closeStage(annullaBtn);
     }
 
     /**
@@ -221,12 +223,4 @@ public class AddToPlaylistController implements Initializable {
         songToAdd = song;
     }
 
-    /**
-     * TODO document
-     * @param button
-     */
-    public void closeStage(Button button){
-        Stage stage = (Stage) button.getScene().getWindow();
-        stage.close();
-    }
 }

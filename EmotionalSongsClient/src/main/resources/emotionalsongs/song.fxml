@@ -42,7 +42,7 @@
                </font>
             </Button>
             <Pane prefHeight="55.0" prefWidth="11.0" />
-            <Button fx:id="viewEmotionsBtn" maxHeight="35.0" maxWidth="45.0" mnemonicParsing="false" onAction="#handleViewEmotionsButtonAction" onMouseMoved="#handleViewEmotionsButtonMouseMovedAction" prefHeight="50.0" prefWidth="0.0" styleClass="buttonSongPane" stylesheets="@Style/customStyle.css" textFill="#bbbbbb" HBox.hgrow="ALWAYS">
+            <Button fx:id="viewEmotionsBtn" maxHeight="35.0" maxWidth="45.0" mnemonicParsing="false" onAction="#visualizzaEmozioneBrano" onMouseMoved="#handleViewEmotionsButtonMouseMovedAction" prefHeight="50.0" prefWidth="0.0" styleClass="buttonSongPane" stylesheets="@Style/customStyle.css" textFill="#bbbbbb" HBox.hgrow="ALWAYS">
                <graphic>
                   <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>

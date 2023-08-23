@@ -18,18 +18,6 @@ public class AllPlaylistEmptyController {
 
     @FXML
     protected void handleCreatePlaylistButtonAction(){
-        // TODO aprire il pane createPlaylist.fxml
-
-        /* TODO remove, perchè devo agire anche sul controller
-        Stage createPlaylistStage = new Stage();
-
-        createPlaylistStage.setScene(GUIUtilities.getInstance().getScene("createPlaylist.fxml"));
-        CreatePlaylistController.clearPlaylistNameField(); // "pulisco" la textField
-        createPlaylistStage.initStyle(StageStyle.UNDECORATED);
-        createPlaylistStage.setResizable(false);
-        createPlaylistStage.initModality(Modality.APPLICATION_MODAL);
-        createPlaylistStage.show();
-        */
 
         try{
             Stage createPlaylistStage = new Stage();

@@ -95,7 +95,7 @@ public class SongPlaylistController implements Initializable {
      * TODO document
      */
     @FXML
-    public void handleViewEmotionsSummaryButtonAction(){
+    public void visualizzaEmozioneBrano(){
         // TODO implementare cosa deve accadare quando viene premuto questo pulsante
 
         // DEBUG TODO remove

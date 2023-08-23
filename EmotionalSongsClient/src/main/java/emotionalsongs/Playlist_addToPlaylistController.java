@@ -21,7 +21,6 @@ public class Playlist_addToPlaylistController implements Initializable {
     @FXML private ImageView checkMarkImg;
 
     private GUIUtilities guiUtilities;
-    //private static Canzone songToAdd; // TODO forse remove
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

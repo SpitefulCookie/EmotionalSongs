@@ -60,7 +60,7 @@
                </font>
             </Button>
             <Pane prefHeight="45.0" prefWidth="20.0" />
-            <Button fx:id="addEmotionsBtn" mnemonicParsing="false" onAction="#handleAddEmotionsButtonAction" prefHeight="34.0" prefWidth="200.0" styleClass="addSongsToPlaylistButton" stylesheets="@Style/customStyle.css" text="Aggiungi emozioni" textFill="#bbbbbb">
+            <Button fx:id="addEmotionsBtn" mnemonicParsing="false" onAction="#inserisciEmozioniBrano" prefHeight="34.0" prefWidth="200.0" styleClass="addSongsToPlaylistButton" stylesheets="@Style/customStyle.css" text="Aggiungi emozioni" textFill="#bbbbbb">
                <font>
                   <Font name="Arial Bold" size="15.0" />
                </font>
