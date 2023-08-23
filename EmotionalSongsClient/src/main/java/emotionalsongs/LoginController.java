@@ -103,7 +103,7 @@ public class LoginController implements Initializable {
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.initStyle(StageStyle.UNDECORATED);
             dialog.initOwner(EmotionalSongsClient.getStage());
-            Scene dialogScene = GUIUtilities.getInstance().getScene("clientLoginSettings.fxml");;
+            Scene dialogScene = GUIUtilities.getInstance().getScene("clientLoginSettings.fxml");
 
             dialog.setScene(dialogScene);
             dialog.showAndWait();
@@ -388,8 +388,13 @@ public class LoginController implements Initializable {
     public static void setStage(Stage s){stage = s;}
 
     /**
-     * TODO document
-     * @param event
+     * Calculates the gap between the mouse cursor position and the top-left corner of the application window.
+     *
+     * This method is used to calculate the gap between the current mouse cursor position and the top-left corner of
+     * the application window.
+     * The values updated within this method are used to move the application window.
+     *
+     * @param event The MouseEvent representing the mouse event that triggered the calculation.
      */
     private void calculateGap(MouseEvent event){
         xOffset = event.getScreenX() - stage.getX();
@@ -397,7 +402,20 @@ public class LoginController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Enables the dragging behavior of the application window using mouse events.
+     *
+     * This method sets up the dragging behavior of the application window (EmotionalSongsClient) using mouse events.
+     * When called, the method assigns creates two event handlers for the application's window:
+     * <ol>
+     * <li> OnMousePressed: This event handler is triggered when the user presses the mouse button while the cursor is
+     *    within the boundaries of the pane. It calculates the initial offset (`xOffset` and `yOffset`) between the
+     *    mouse cursor position and the top-left corner of the application window.
+     * <li> OnMouseDragged: This event handler is triggered when the user moves the mouse cursor after pressing the mouse
+     *    button on the pane. It updates the position of the application window according to the cursor movement, thereby
+     *    simulating the dragging behavior of the window.
+     * </ol>
+     *
+     *
      */
     @FXML protected void moveWindow() {
 

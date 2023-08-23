@@ -490,7 +490,6 @@ public class UserRegistrationController implements Initializable {
      * the application window (EmotionalSongsClient).
      * The values updated within this method are used to move the application window.
      *
-     *
      * @param event The MouseEvent representing the mouse event that triggered the calculation.
      */
     private void calculateGap(MouseEvent event){
@@ -502,7 +501,7 @@ public class UserRegistrationController implements Initializable {
      * Enables the dragging behavior of the application window using mouse events.
      *
      * This method sets up the dragging behavior of the application window (EmotionalSongsClient) using mouse events.
-     * When called, the method assigns two event handlers to the underlying pane (`pane`) of the application window:
+     * When called, the method assigns creates two event handlers for the application's window:
      * <ol>
      * <li> OnMousePressed: This event handler is triggered when the user presses the mouse button while the cursor is
      *    within the boundaries of the pane. It calculates the initial offset (`xOffset` and `yOffset`) between the

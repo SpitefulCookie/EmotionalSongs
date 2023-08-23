@@ -105,19 +105,25 @@ public class ClientSettingController implements Initializable{
     }
 
     /**
-     * TODO document
-     * @param event
+     * Closes the displayed window when the close button is clicked.<br><br>
+     *
+     * When the close button is clicked, the method closes the window containing the button.
+     *
+     * @param event The {@link ActionEvent} triggered by clicking the close button. (Parameter unused within the method)
      */
     @FXML
     public void handleCloseButtonAction(ActionEvent event){
-
         ((Stage)this.cancelButton.getScene().getWindow()).close();
-
     }
 
     /**
-     * TODO document
-     * @param event
+     * Calculates the gap between the mouse cursor position and the top-left corner of the application window.
+     *
+     * This method is used to calculate the gap between the current mouse cursor position and the top-left corner of
+     * the application window.
+     * The values updated within this method are used to move the application window.
+     *
+     * @param event The MouseEvent representing the mouse event that triggered the calculation.
      */
     private void calculateGap(MouseEvent event){
         xOffset = event.getScreenX() - stage.getX();
@@ -125,7 +131,19 @@ public class ClientSettingController implements Initializable{
     }
 
     /**
-     * TODO document
+     * Enables the dragging behavior of the application window using mouse events.
+     *
+     * This method sets up the dragging behavior of the application window (EmotionalSongsClient) using mouse events.
+     * When called, the method assigns creates two event handlers for the application's window:
+     * <ol>
+     * <li> OnMousePressed: This event handler is triggered when the user presses the mouse button while the cursor is
+     *    within the boundaries of the pane. It calculates the initial offset (`xOffset` and `yOffset`) between the
+     *    mouse cursor position and the top-left corner of the application window.
+     * <li> OnMouseDragged: This event handler is triggered when the user moves the mouse cursor after pressing the mouse
+     *    button on the pane. It updates the position of the application window according to the cursor movement, thereby
+     *    simulating the dragging behavior of the window.
+     * </ol>
+     *
      */
     @FXML protected void moveWindow() {
 
@@ -139,7 +157,8 @@ public class ClientSettingController implements Initializable{
         this.titleBar.setOnMouseDragged(event -> {
 
             if (xOffset == 0 && yOffset==0) {
-                // questa porzione di codice è necessaria per evitare che la finestra snappi alle coordinate 0,0 (cosa che avviene alla primo trascinamento della schermata)
+                // questa porzione di codice è necessaria per evitare che la finestra snappi alle coordinate 0,0
+                // (cosa che avviene alla primo trascinamento della schermata)
                 calculateGap(event);
             }
 
@@ -149,11 +168,22 @@ public class ClientSettingController implements Initializable{
 
     }
 
-
+    /**
+     * Retrieves the server host address.<br><br>
+     *
+     * This method returns the server host address used to establish a connection with the server.
+     * @return A {@code String} representing the server's host address.
+     */
     protected static String getServerAddress() {
         return serverHostAddress;
     }
 
+    /**
+     * Retrieves the server's port number.<br><br>
+     *
+     * This method returns the server port number used to establish a connection with the server.
+     * @return A {@code String} representing the server's port number.
+     */
     protected static int getServerPort(){
         return serverPortAddress;
     }
