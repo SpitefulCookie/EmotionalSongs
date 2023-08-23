@@ -8,11 +8,9 @@ package emotionalsongs;
  *
  */
 
-import javax.crypto.Cipher;
-import java.nio.charset.StandardCharsets;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.security.Key;
+
 import java.security.PublicKey;
 
 /**
@@ -24,6 +22,15 @@ import java.security.PublicKey;
  */
 public interface PingableClient extends Remote {
 
+    /**
+     * Retrieves the client's public key.<br><br>
+     *
+     * This method retrieves the client's public key used to transmit sensible data on the network. This key is used by
+     * the server to encrypt the data using an RSA algorithm.
+     *
+     * @return The {@link PublicKey} used to encrypt the data to be sent
+     * @throws RemoteException If a communication error occurs during the remote method invocation.
+     */
     PublicKey getPublicKey() throws RemoteException;
 
     /**
@@ -32,7 +39,7 @@ public interface PingableClient extends Remote {
      * This method is intended to be invoked by the server to determine if the client is responsive.
      * The responsiveness of the client is checked through {@code RemoteException}.<br><br>
      *
-     * @throws RemoteException If a communication-related exception occurs during the ping process.
+     * @throws RemoteException If a communication error occurs during the remote method invocation.
      */
     void pingClient() throws RemoteException;
 

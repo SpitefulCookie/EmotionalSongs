@@ -2,7 +2,6 @@ package emotionalsongs;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.security.Key;
 import java.security.PublicKey;
 
 /**
@@ -13,7 +12,18 @@ import java.security.PublicKey;
  * @author <a href="https://github.com/SpitefulCookie"> Della Chiesa Mattia</a>
  */
 public interface PingableClient extends Remote {
+
+    /**
+     * Retrieves the client's public key.<br><br>
+     *
+     * This method retrieves the client's public key used to transmit sensible data on the network. This key is used by
+     * the server to encrypt the data using an RSA algorithm.
+     *
+     * @return The {@link PublicKey} used to encrypt the data to be sent
+     * @throws RemoteException If a communication error occurs during the remote method invocation.
+     */
     PublicKey getPublicKey() throws RemoteException;
+
     /**
      * Pings the remote client to check its responsiveness.<br><br>
      *
