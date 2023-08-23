@@ -1,7 +1,19 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
+import javax.crypto.Cipher;
+import java.nio.charset.StandardCharsets;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.security.Key;
+import java.security.PublicKey;
 
 /**
  *
@@ -10,7 +22,10 @@ import java.rmi.RemoteException;
  *
  * @author <a href="https://github.com/SpitefulCookie"> Della Chiesa Mattia</a>
  */
-public interface PingClient extends Remote {
+public interface PingableClient extends Remote {
+
+    PublicKey getPublicKey() throws RemoteException;
+
     /**
      * Pings the remote client to check its responsiveness.<br><br>
      *
@@ -20,4 +35,5 @@ public interface PingClient extends Remote {
      * @throws RemoteException If a communication-related exception occurs during the ping process.
      */
     void pingClient() throws RemoteException;
+
 }

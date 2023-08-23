@@ -332,7 +332,7 @@ public class UserRegistrationController implements Initializable {
         // =============== C O D I C E   F I S C A L E  ===============
 
         try {
-            boolean isCfTaken = EmotionalSongsClient.auth.cfExists(AuthManager.RSA_Encrypt(codFiscField.getText()));
+            boolean isCfTaken = EmotionalSongsClient.auth.cfExists(AuthManager.RSA_Encrypt(codFiscField.getText(), EmotionalSongsClient.auth.getPublicKey()));
             if (!isValidCF(codFiscField.getText()) || isCfTaken) {
                 GUIUtilities.setErrorStyle(codFiscField);
 
@@ -449,7 +449,7 @@ public class UserRegistrationController implements Initializable {
                 pwdField.getText();
 
             try {
-                EmotionalSongsClient.auth.registrazione(AuthManager.RSA_Encrypt(userData));
+                EmotionalSongsClient.auth.registrazione(AuthManager.RSA_Encrypt(userData, EmotionalSongsClient.auth.getPublicKey()));
 
             } catch (RemoteException e){
 

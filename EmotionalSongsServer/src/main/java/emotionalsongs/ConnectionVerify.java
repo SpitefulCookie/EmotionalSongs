@@ -63,7 +63,7 @@ public class ConnectionVerify extends Thread{
 
             try{
 
-                ArrayList<PingClient> disconnected = new ArrayList<>();
+                ArrayList<PingableClient> disconnected = new ArrayList<>();
 
                 // La classe AuthManagerImpl contiene la lista dei client connessi al server
                 if(!AuthManagerImpl.getClientList().isEmpty()){

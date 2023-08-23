@@ -1,7 +1,10 @@
 package emotionalsongs;
 
+import javax.crypto.Cipher;
+import java.nio.charset.StandardCharsets;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 
 /*
@@ -30,7 +33,7 @@ public interface AuthManager extends Remote {
      * @return {@code true} if the client was successfully disconnected, {@code false} otherwise.
      * @throws RemoteException If a communication error occurs while invoking or executing the remote method.
      */
-    boolean disconnect(PingClient client) throws RemoteException;
+    boolean disconnect(PingableClient client) throws RemoteException;
 
     /**
      * Checks if the specified username is already present in the database.<br><br>
@@ -93,7 +96,7 @@ public interface AuthManager extends Remote {
      * @param client The client to be registered on the server.
      * @throws RemoteException If a communication error occurs while invoking or executing the remote method.
      */
-    void registerClient(PingClient client) throws RemoteException;
+    void registerClient(PingableClient client) throws RemoteException;
 
     /**
      * Checks if the specified fiscal code is already present in the database.<br><br>
@@ -105,5 +108,42 @@ public interface AuthManager extends Remote {
      */
     boolean cfExists(byte[] cf) throws RemoteException; // TODO RSA?
 
+
+    /**
+     * Encrypts the provided dats using the RSA algorithm.
+     * @param data A {@code String} containing the data to encrypt.
+     * @param publicKey The public key used to encrypt the data.
+     * @return A byte array containing the encrypted data.
+     */
+    static byte[] RSA_Encrypt(String data, PublicKey publicKey) throws RemoteException{
+        try {
+            Cipher encryptCipher = Cipher.getInstance("RSA");
+            encryptCipher.init(Cipher.ENCRYPT_MODE, publicKey);
+            return encryptCipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
+        } catch (Exception e){
+            return null;
+        }
+    }
+
+    /**
+     * Decrypts the provided data using the RSA algorithm.<br><br>
+     *
+     * <p>This method decrypts the provided data using the server's private key.
+     *
+     * @param data The RSA encrypted data to decrypt.
+     * @return A string containing the decrypted data.
+     */
+    static String decryptRSA(byte[] data, PrivateKey privateKey) throws RemoteException{
+        try {
+            Cipher decryptCipher = Cipher.getInstance("RSA");
+            decryptCipher.init(Cipher.DECRYPT_MODE, privateKey);
+            return new String(decryptCipher.doFinal(data), StandardCharsets.UTF_8);
+        }catch (Exception e){
+            EmotionalSongsServer.mainView.logError("Exception thrown while attempting to decrypt RSA data");
+            return "";
+        }
+    }
+
+    byte[] getUserData(String userId, PublicKey pk) throws RemoteException;
 }
 

@@ -296,7 +296,7 @@ public class LoginController implements Initializable {
 
                 try {
                     // This is the actual login
-                    if (EmotionalSongsClient.auth.userLogin(username, AuthManager.RSA_Encrypt(pwd))) {
+                    if (EmotionalSongsClient.auth.userLogin(username, AuthManager.RSA_Encrypt(pwd, EmotionalSongsClient.auth.getPublicKey()))) {
 
                         EmotionalSongsClient.registerClient();
 

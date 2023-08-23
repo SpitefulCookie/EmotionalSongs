@@ -48,6 +48,8 @@ public class QueryHandler {
     protected static final String QUERY_REGISTER_SONG_IN_PLAYLIST = "INSERT INTO Contiene (Nome, UserId, SongUUID) VALUES ('%s', '%s', '%s')";
     protected static final String QUERY_REGISTER_SONG_EMOTION = "INSERT INTO %s (UserId, SongUUID, Punteggio, Note) VALUES ('%s', '%s', '%s', '%s')";
     protected static final String QUERY_GET_NUMBER_OF_FEEDBACK = "SELECT COUNT(*) FROM AMAZEMENT WHERE songuuid = '%s'";
+    protected static final String QUERY_GET_USER_DATA = "SELECT nome, codicefiscale, email, via, numerocivico, comune, provincia, cap FROM utentiRegistrati where userid = '%s'";
+
     protected static final String QUERY_GET_SONG_EMOTIONS =
             "SELECT punteggio, note FROM amazement \n" +
                 "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
@@ -296,7 +298,6 @@ public class QueryHandler {
     public synchronized ArrayList<String[]> executeQuery(final String[] args, final String queryCommand){
 
         ArrayList<String[]> results = new ArrayList<>();
-
         try {
             ResultSet set;
             if(args.length !=0) {

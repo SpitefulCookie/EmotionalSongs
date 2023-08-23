@@ -10,14 +10,12 @@ package emotionalsongs;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
-import javax.crypto.Cipher;
 import java.io.Serial;
-import java.nio.charset.StandardCharsets;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.rmi.server.Unreferenced;
 import java.security.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 
 /**
@@ -36,7 +34,7 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
     private final QueryHandler dbReference;
 
     private static KeyPair pair = null;
-    private static HashSet<PingClient> clientList = new HashSet<>();
+    private static HashSet<PingableClient> clientList = new HashSet<>();
 
     /**
      * Constructs a new instance of {@link AuthManagerImpl}.
@@ -59,7 +57,7 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      *
      * @param disconnected An ArrayList of PingClient instances representing the clients to be removed.
      */
-    public static void removeClients(ArrayList<PingClient> disconnected) {
+    public static void removeClients(ArrayList<PingableClient> disconnected) {
         disconnected.forEach(clientList::remove);
     }
 
@@ -70,7 +68,7 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      * @throws RemoteException If a communication error occurs while invoking or executing the remote method.
      */
     @Override
-    public boolean disconnect(PingClient client) throws RemoteException {
+    public boolean disconnect(PingableClient client) throws RemoteException {
         return clientList.remove(client);
     }
 
@@ -100,7 +98,7 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      */
     public synchronized boolean cfExists(byte[] cf) throws RemoteException {
         if(cf!=null){
-            String decodedCF = decryptRSA(cf);
+            String decodedCF = AuthManager.decryptRSA(cf, pair.getPrivate());
             String queryResult = dbReference.executeQuery(new String[]{decodedCF}, QueryHandler.QUERY_CF_EXISTS).get(0)[0];
             return Integer.parseInt(queryResult) == 1;
         }
@@ -119,7 +117,7 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
     @Override
     public synchronized void registrazione(byte[] userData) throws RemoteException {
 
-        String[] data = decryptRSA(userData).split("&SEP&");
+        String[] data = AuthManager.decryptRSA(userData, pair.getPrivate()).split("&SEP&");
 
         dbReference.registerUser(data);
 
@@ -153,7 +151,12 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
     public boolean userLogin(String username, byte[] pwd) {
 
         // La password ricevuta da remoto sarà incapsulata in una codifica RSA, evitando così la trasmissione in chiaro di quest'ultima lungo la rete
-        String decryptedPwd = decryptRSA(pwd);
+        String decryptedPwd = null;
+        try {
+            decryptedPwd = AuthManager.decryptRSA(pwd, pair.getPrivate());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         /* Mentre la password salvata all'interno del db sarà codificata tramite algoritmo BCrypt in questo modo,
          * anche se il db venga attaccato e la tabella contenente i dati relativi agli utenti cada in mano dell'attaccante,
@@ -216,25 +219,6 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
     }
 
     /**
-     * Decrypts the provided data using the RSA algorithm.<br><br>
-     *
-     * <p>This method decrypts the provided data using the server's private key.
-     *
-     * @param data The RSA encrypted data to decrypt.
-     * @return A string containing the decrypted data.
-     */
-    private String decryptRSA(byte[] data){
-        try {
-            Cipher decryptCipher = Cipher.getInstance("RSA");
-            decryptCipher.init(Cipher.DECRYPT_MODE, pair.getPrivate());
-            return new String(decryptCipher.doFinal(data), StandardCharsets.UTF_8);
-        }catch (Exception e){
-            EmotionalSongsServer.mainView.logError("Exception thrown while attempting to decrypt RSA data");
-            return "";
-        }
-    }
-
-    /**
      * Registers the provided client on the server.
      *
      * <p>This method is used to register a client on the server, allowing the latter to keep track of the number of
@@ -247,7 +231,7 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      * @param client The client to be registered on the server.
      * @throws RemoteException If a communication error occurs during the remote method invocation.
      */
-    public synchronized void registerClient(PingClient client) throws RemoteException{
+    public synchronized void registerClient(PingableClient client) throws RemoteException{
         if (!clientList.contains(client)){
             clientList.add(client);}
     }
@@ -260,8 +244,17 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      *
      * @return A {@link HashSet} representing the list of registered clients.
      */
-    protected static HashSet<PingClient> getClientList(){
+    protected static HashSet<PingableClient> getClientList(){
         return clientList;
+    }
+
+    @Override
+    public byte[] getUserData(String userId, PublicKey pk) throws RemoteException{
+        return AuthManager.RSA_Encrypt(
+                    Arrays.toString(
+                        dbReference.executeQuery(new String[]{userId}, QueryHandler.QUERY_GET_USER_DATA).get(0)
+                    ),
+                pk);
     }
 
 }

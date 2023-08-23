@@ -110,9 +110,9 @@ public class ServerMainViewController implements Initializable {
 
         // ------------------TESTING--------------------
         // TODO remove this block before turning in the project
-
+            /*
             try {
-                /*
+
                 ArrayList<Emozione> f = new ArrayList<>();
 
                 f.add(new Amazement(1, "amazement"));
@@ -132,17 +132,21 @@ public class ServerMainViewController implements Initializable {
                 for (Emozione h : g){
                     System.out.println("Emozione " + h.getClass().getSimpleName() +":\n├  Punteggio: " + h.getPunteggio() + "\n└  Commento: " + h.getCommento());
                 }
-                / */
+                /
                 // -----------------------------------------------------------------------------------
+
+
                 double[] j = EmotionalSongsServer.getRepositoryManagerInstance().getSongAverageEmotions("TRLYUXL129F9326A6C");
 
                 for (int i = 0 ; i< j.length; i++){
                     System.out.println("Emozione " + EmozioneEnum.values()[i] +":\n└  Punteggio medio: " + j[i]);
                 }
+                System.out.println("Existing: " + EmotionalSongsServer.getRepositoryManagerInstance().getTotalUserFeedbacksForSong("TRLYUXL128F9326A6C"));
+                System.out.println("Non existing: " + EmotionalSongsServer.getRepositoryManagerInstance().getTotalUserFeedbacksForSong("TRLYUlllL128F9326A6C"));
 
             } catch (Exception e) {
                 e.printStackTrace(); // TEST
-            }
+            }*/
         // -----------------------------------------------------------------------------------
 
         // --------------------------------------------- */
@@ -318,7 +322,7 @@ public class ServerMainViewController implements Initializable {
      * @see ServerMainViewController#shutdownServer(boolean)
      * @see ConnectionVerify#setPingDelay(long)
      * @see EmotionalSongsServer#getLanIpAddress()
-     * @see PingClient#pingClient()
+     * @see PingableClient#pingClient()
      */
     private static void parseCommand(String cmd) {
         cmd = cmd.trim().toLowerCase(Locale.ROOT);

@@ -31,9 +31,7 @@ public class EmotionalSongsClient extends Application {
 
     private static Stage esStage;
 
-    private static PingClientClientImpl ping;
-
-    private GUIUtilities guiUtilities;
+    protected static PingableClientClientImpl ping;
 
     protected static AuthManager auth;
     protected static RepositoryManager repo;
@@ -48,7 +46,7 @@ public class EmotionalSongsClient extends Application {
     @Override
     public void start(Stage stage){
 
-        guiUtilities = GUIUtilities.getInstance();
+        GUIUtilities guiUtilities = GUIUtilities.getInstance();
         guiUtilities.initScenes();
         guiUtilities.initNode();
 
@@ -76,7 +74,7 @@ public class EmotionalSongsClient extends Application {
             Registry reg = LocateRegistry.getRegistry(ClientSettingController.getServerAddress(), ClientSettingController.getServerPort());
             auth = (AuthManager) reg.lookup("AuthManager");
             repo = (RepositoryManager) reg.lookup("RepoManager");
-            ping = new PingClientClientImpl();
+            ping = new PingableClientClientImpl();
 
             isConnectionInitialized = true;
 

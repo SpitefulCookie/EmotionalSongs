@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 public class UserController implements Initializable {
@@ -25,5 +26,14 @@ public class UserController implements Initializable {
         // DEBUG TODO remove
         System.out.println("initialize user effettuato");
 
+    }
+
+    public static String retrieveUserData() { // TODO static aggiunto solo per effettuare dei test, vedi tu la segnatura del metodo
+        try {
+            return AuthManager.decryptRSA(EmotionalSongsClient.auth.getUserData("test", EmotionalSongsClient.ping.getPublicKey()),EmotionalSongsClient.ping.getPrivateKey()); // TODO rimpiazzare 'test' con l'userId dell'utente loggato
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 }

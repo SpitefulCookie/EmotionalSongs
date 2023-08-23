@@ -1,5 +1,13 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
@@ -46,8 +54,6 @@ public class GUIUtilities {
 
         ArrayList<Text> formattedTextList = new ArrayList<>();
 
-        boolean textContainedBold = false;
-
         // Define regex patterns to match bold and italic formatting
         Pattern boldPattern = Pattern.compile("\\*\\*(.*?)\\*\\*");
         Pattern italicPattern = Pattern.compile("__([^_]+)__");
@@ -75,7 +81,6 @@ public class GUIUtilities {
             Text boldText = new Text(boldMatcher.group(1));
             boldText.setFont(boldFont);
             formattedTextList.add(boldText);
-            textContainedBold = true;
 
             // Update the current index
             currentIndex = boldMatcher.end();
