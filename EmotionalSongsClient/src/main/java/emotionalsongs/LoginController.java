@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -108,6 +109,18 @@ public class LoginController implements Initializable {
             dialog.showAndWait();
             updateConnectionGraphics();
 
+        });
+
+        pwdField.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER)) {
+                handleLoginButtonAction();
+            }
+        });
+
+        overlappingTextField.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER)) {
+                handleLoginButtonAction();
+            }
         });
 
         closeIcon = guiUtilities.getImage("close");
