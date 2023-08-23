@@ -78,7 +78,7 @@ public class AddEmotionsController implements Initializable {
     /**
      * TODO document
      */
-    public void handleAddEmotionsButtonAction(){
+    public void inserisciEmozioniBrano(){
         // TODO implementare comportamento
 
         // DEBUG
@@ -96,7 +96,7 @@ public class AddEmotionsController implements Initializable {
         // FINE DEBUG
 
         try{
-            // add each emotion to emozioniProvate list
+            // add each emotion to the list emozioniProvate
             emozioniProvate.add(new Amazement(Amazement.getScore(), Amazement.getNotes()));
             emozioniProvate.add(new Solemnity(Solemnity.getScore(), Solemnity.getNotes()));
             emozioniProvate.add(new Tenderness(Tenderness.getScore(), Tenderness.getNotes()));
@@ -140,7 +140,7 @@ public class AddEmotionsController implements Initializable {
         }
 
         // close the stage
-        closeStage(addEmotionsBtn);
+        GUIUtilities.closeStage(addEmotionsBtn);
     }
 
     /**
@@ -148,7 +148,7 @@ public class AddEmotionsController implements Initializable {
      */
     public void handleAnnullaButtonAction(){
         // close the stage
-        closeStage(annullaBtn);
+        GUIUtilities.closeStage(annullaBtn);
     }
 
     /**
@@ -190,15 +190,6 @@ public class AddEmotionsController implements Initializable {
 
         // set text of songNameLabel
         songNameLabel.setText(song.getTitolo()  + " (" + song.getAutore() + " - " + song.getAnno() + ")");
-    }
-
-    /**
-     * TODO document
-     * @param button
-     */
-    private void closeStage(Button button){
-        Stage stage = (Stage) button.getScene().getWindow();
-        stage.close();
     }
 
 }

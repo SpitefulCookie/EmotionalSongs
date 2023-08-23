@@ -24,8 +24,7 @@ public class ExitController {
 
         EmotionalSongsClient.setStage(scene, LoginController.WIDTH, LoginController.HEIGHT, false);
         // close the exit stage
-        Stage stage = (Stage) exitBtn.getScene().getWindow();
-        stage.close();
+        GUIUtilities.closeStage(exitBtn);
 
         EmotionalSongsClient.disconnectClient();
 
@@ -37,7 +36,6 @@ public class ExitController {
     @FXML
     public void handleAnnullaButtonAction(){
         // get the exit stage and close it
-        Stage stage = (Stage) annullaBtn.getScene().getWindow();
-        stage.close();
+        GUIUtilities.closeStage(exitBtn);
     }
 }

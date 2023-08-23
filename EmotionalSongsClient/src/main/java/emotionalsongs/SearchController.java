@@ -135,7 +135,7 @@ public class SearchController implements Initializable {
      * TODO document
      */
     @FXML
-    public void handleSearchButtonAction(KeyEvent key){
+    public void cercaBranoMusicale(KeyEvent key){
 
         try {
 

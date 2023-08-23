@@ -3,9 +3,11 @@ package emotionalsongs;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -253,6 +255,18 @@ public class GUIUtilities {
         // se la hash map contiene la key passata come parametro allora restituisci l'immagine associata alla chiave
         if(images.containsKey(key)) { return images.get(key);}
         else{ return null;}// altrimenti restituisci null
+    }
+
+    /**
+     * TODO document
+     * @param node
+     */
+    protected static void closeStage(Node node){
+        /*
+        metodo che va a chiudere lo stage tramite il nodo passato come argomento
+         */
+        Stage stage = (Stage) node.getScene().getWindow();
+        stage.close();
     }
 
 }

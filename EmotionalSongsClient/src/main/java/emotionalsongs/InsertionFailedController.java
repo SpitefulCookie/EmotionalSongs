@@ -26,17 +26,9 @@ public class InsertionFailedController implements Initializable {
      */
     @FXML
     public void handleOkButtonAction(){
-        closeStage(okBtn);
+        GUIUtilities.closeStage(okBtn);
     }
 
-    /**
-     * TODO document
-     * @param button
-     */
-    private void closeStage(Button button){
-        Stage stage = (Stage) button.getScene().getWindow();
-        stage.close();
-    }
 
     /**
      * TODO document

@@ -24,7 +24,7 @@
                </font></Label>
             </children>
         </VBox>
-      <Label fx:id="existingSongLabel" prefHeight="17.0" prefWidth="201.0" text="canzone già presente nella playlist" textFill="#af524b" visible="false" />
+      <Label fx:id="existingSongLabel" prefHeight="17.0" prefWidth="201.0" text="Canzone già presente nella playlist" textFill="#af524b" visible="false" />
       <ImageView fx:id="checkMarkImg" fitHeight="28.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@Images/checkMark.png" />

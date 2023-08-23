@@ -40,7 +40,7 @@
          <font>
             <Font name="Arial" size="13.0" />
          </font></Label>
-      <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="24.0" prefWidth="600.0" text="effettua il login o la registrazione." textFill="#bbbbbb" wrapText="true">
+      <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="24.0" prefWidth="600.0" text="effettua l'accesso o la registrazione." textFill="#bbbbbb" wrapText="true">
          <font>
             <Font name="Arial" size="13.0" />
          </font>
@@ -49,7 +49,7 @@
          <children>
             <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="0.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#handleLoginButtonAction" prefHeight="30.0" prefWidth="150.0" styleClass="guestPaneButton" stylesheets="@Style/customStyle.css" text="Login" textFill="#bbbbbb">
+                  <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#handleLoginButtonAction" prefHeight="30.0" prefWidth="150.0" styleClass="guestPaneButton" stylesheets="@Style/customStyle.css" text="Accedi" textFill="#bbbbbb">
                      <font>
                         <Font name="Arial Bold" size="15.0" />
                      </font>

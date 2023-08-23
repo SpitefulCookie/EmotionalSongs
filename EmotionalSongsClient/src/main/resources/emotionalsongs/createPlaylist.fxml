@@ -28,7 +28,7 @@
       <Label fx:id="existingPlaylistLabel" alignment="CENTER" prefHeight="17.0" prefWidth="388.0" text="Esiste già una playlist con questo nome" textFill="#af524b" visible="false" />
       <HBox alignment="CENTER" prefHeight="46.0" prefWidth="379.0">
          <children>
-            <Button fx:id="createPlaylistBtn" disable="true" mnemonicParsing="false" onAction="#handleCreatePlaylistButtonAction" prefHeight="34.0" prefWidth="125.0" styleClass="createPlaylistButton" stylesheets="@Style/customStyle.css" text="Crea" textFill="#bbbbbb">
+            <Button fx:id="createPlaylistBtn" disable="true" mnemonicParsing="false" onAction="#registraPlaylist" prefHeight="34.0" prefWidth="125.0" styleClass="createPlaylistButton" stylesheets="@Style/customStyle.css" text="Crea" textFill="#bbbbbb">
                <font>
                   <Font name="Arial Bold" size="15.0" />
                </font></Button>

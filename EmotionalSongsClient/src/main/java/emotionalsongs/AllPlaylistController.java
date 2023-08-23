@@ -176,7 +176,7 @@ public class AllPlaylistController implements Initializable {
 
             return false;
 
-        } catch (SQLException f){
+        }catch (SQLException f){
 
             Stage insertionFailedStage = new Stage();
 
