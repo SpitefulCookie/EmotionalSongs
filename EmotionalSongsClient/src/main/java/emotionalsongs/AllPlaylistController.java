@@ -153,7 +153,7 @@ public class AllPlaylistController implements Initializable {
      * @param playlistName
      * @return
      */
-    public static void addNewPlaylist(String playlistName) {
+    public static boolean addNewPlaylist(String playlistName) {
         try {
             // add the playlist to the DB
             EmotionalSongsClient.repo.registerPlaylist(playlistName, EmotionalSongsClientController.getUsername());
@@ -166,8 +166,6 @@ public class AllPlaylistController implements Initializable {
 
         }catch(RemoteException e){
 
-            e.printStackTrace();
-
             Stage connectionFailedStage = new Stage();
 
             connectionFailedStage.setScene(GUIUtilities.getInstance().getScene("connectionFailed.fxml"));
@@ -176,9 +174,24 @@ public class AllPlaylistController implements Initializable {
             connectionFailedStage.setResizable(false);
             connectionFailedStage.show();
 
+            return false;
+
         } catch (SQLException f){
-            // TODO implement
+
+            Stage insertionFailedStage = new Stage();
+
+            insertionFailedStage.setScene(GUIUtilities.getInstance().getScene("insertionFailed.fxml"));
+            InsertionFailedController.setErrorLabel("Impossibile creare la playlist");
+            insertionFailedStage.initStyle(StageStyle.UNDECORATED);
+            insertionFailedStage.initModality(Modality.APPLICATION_MODAL);
+            insertionFailedStage.setResizable(false);
+            insertionFailedStage.show();
+
+            return false;
+
         }
+
+        return true;
     }
 
     /**

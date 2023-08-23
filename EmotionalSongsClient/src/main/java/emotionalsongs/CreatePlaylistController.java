@@ -84,35 +84,44 @@ public class CreatePlaylistController implements Initializable {
     @FXML
     public void handleCreatePlaylistButtonAction(){
         // add playlist
-        AllPlaylistController.addNewPlaylist(playlistNameField.getText());
+        boolean playlistCreationCheck = AllPlaylistController.addNewPlaylist(playlistNameField.getText());
 
-        /*
-         verifico se la creazione della playlist è stata chiamata dalla finistra di addToPlaylist, se
-         non è stata chiamata da quella finista, visualizzo la playlista appena creata, altrimenti
-         aggiungo la playlist alla lista selectedPlaylist della classe addToPlaylist e vado a rivisualizzare
-         le playlist sul gridPane della finistra addToPlaylist.
-         */
-        if(!fromAddToPlaylist) {
-            // display the playlist that i have just created
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("selectedPlaylist.fxml"));
-                Node playlist = fxmlLoader.load();
+        // verifico se la creazione della playlist è andata a buon fine
+        if (playlistCreationCheck) {
 
-                SelectedPlaylistController selectedPlaylistController = fxmlLoader.getController();
-                selectedPlaylistController.setPlaylist(playlistNameField.getText());
+            /*
+            verifico se la creazione della playlist è stata chiamata dalla finistra di addToPlaylist, se
+            non è stata chiamata da quella finista, visualizzo la playlista appena creata, altrimenti
+            aggiungo la playlist alla lista selectedPlaylist della classe addToPlaylist e vado a rivisualizzare
+            le playlist sul gridPane della finistra addToPlaylist.
+            */
+            if (!fromAddToPlaylist) {
+                // display the playlist that i have just created
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("selectedPlaylist.fxml"));
+                    Node playlist_pane = fxmlLoader.load();
 
-                EmotionalSongsClientController.setDynamicPane(playlist);
+                    SelectedPlaylistController selectedPlaylistController = fxmlLoader.getController();
+                    selectedPlaylistController.setPlaylist(playlistNameField.getText());
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else{
+                    // set the playlist opened
+                    SelectedPlaylistController.setPlaylistOpened(playlistNameField.getText());
 
-            // aggiungo la playlist alle playlist selezionate
-            AddToPlaylistController.addPlaylist(playlistNameField.getText());
+                    // set playlist as opened
+                    AllPlaylistController.setOpenPlaylist(playlistNameField.getText());
 
-            // rivisualizzo le playlist sul gridPane della pane addToPlaylist
-            AddToPlaylistController.viewPlaylist();
+                    EmotionalSongsClientController.setDynamicPane(playlist_pane);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+
+                // aggiungo la playlist alle playlist selezionate
+                AddToPlaylistController.addPlaylist(playlistNameField.getText());
+
+                // rivisualizzo le playlist sul gridPane della pane addToPlaylist
+                AddToPlaylistController.viewPlaylist();
 
             /*
              imposto la playlist come aperta perchè tanto essa è appena stata creata e quindi è vuota o
@@ -121,11 +130,12 @@ public class CreatePlaylistController implements Initializable {
              le sue canzoni sono già contenute nella lista della hashMap con chiave playlistNameField.getText() è
              inutile interrogarlo.
              */
-            AllPlaylistController.setOpenPlaylist(playlistNameField.getText());
-        }
+                AllPlaylistController.setOpenPlaylist(playlistNameField.getText());
+            }
 
-        // close the stage
-        closeCreatePlaylistStage(createPlaylistBtn);
+            // close the stage
+            closeCreatePlaylistStage(createPlaylistBtn);
+        }
     }
 
     /**

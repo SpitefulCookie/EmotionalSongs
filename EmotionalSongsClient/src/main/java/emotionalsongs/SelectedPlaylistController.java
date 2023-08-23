@@ -166,9 +166,26 @@ public class SelectedPlaylistController implements Initializable {
             // display the playlist songs
             viewSongs();
         }catch (RemoteException e){
-            e.printStackTrace();
+
+            Stage connectionFailedStage = new Stage();
+
+            connectionFailedStage.setScene(GUIUtilities.getInstance().getScene("connectionFailed.fxml"));
+            connectionFailedStage.initStyle(StageStyle.UNDECORATED);
+            connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
+            connectionFailedStage.setResizable(false);
+            connectionFailedStage.show();
+
         } catch (SQLException f){
-            // TODO Implement
+
+            Stage insertionFailedStage = new Stage();
+
+            insertionFailedStage.setScene(GUIUtilities.getInstance().getScene("insertionFailed.fxml"));
+            InsertionFailedController.setErrorLabel("Impossibile aggiungere una o più canzoni alla playlist");
+            insertionFailedStage.initStyle(StageStyle.UNDECORATED);
+            insertionFailedStage.initModality(Modality.APPLICATION_MODAL);
+            insertionFailedStage.setResizable(false);
+            insertionFailedStage.show();
+
         }
 
     }
@@ -380,9 +397,23 @@ public class SelectedPlaylistController implements Initializable {
 
     /**
      * TODO document
+     * @param playlistName
+     */
+    public static void setPlaylistOpened(String playlistName){
+        /*
+        metodo che setta la playlist aperta
+         */
+        playlistOpened = playlistName;
+    }
+
+    /**
+     * TODO document
      * @return
      */
     protected static String getPlaylistOpened(){
+        /*
+        metodo che ritorna la playlist aperta
+         */
         return playlistOpened;
     }
 

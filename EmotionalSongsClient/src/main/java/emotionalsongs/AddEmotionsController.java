@@ -117,6 +117,7 @@ public class AddEmotionsController implements Initializable {
             SelectedPlaylistController.getSongController(posInGridPane).newEmotionsAdded();
 
         }catch (RemoteException e){
+
             Stage connectionFailedStage = new Stage();
 
             connectionFailedStage.setScene(GUIUtilities.getInstance().getScene("connectionFailed.fxml"));
@@ -124,8 +125,18 @@ public class AddEmotionsController implements Initializable {
             connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
             connectionFailedStage.setResizable(false);
             connectionFailedStage.show();
+
         } catch (SQLException e) {
-            e.printStackTrace();
+
+            Stage insertionFailedStage = new Stage();
+
+            insertionFailedStage.setScene(GUIUtilities.getInstance().getScene("insertionFailed.fxml"));
+            InsertionFailedController.setErrorLabel("Impossibile aggiungere le emozioni alla canzone");
+            insertionFailedStage.initStyle(StageStyle.UNDECORATED);
+            insertionFailedStage.initModality(Modality.APPLICATION_MODAL);
+            insertionFailedStage.setResizable(false);
+            insertionFailedStage.show();
+
         }
 
         // close the stage

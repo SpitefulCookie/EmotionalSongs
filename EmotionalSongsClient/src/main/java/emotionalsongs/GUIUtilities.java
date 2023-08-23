@@ -18,7 +18,7 @@ public class GUIUtilities {
     private final HashMap<String, Image> images;
     private static GUIUtilities guiUtilities;
 
-    private static final String[] guiControllers = {"clientLoginSettings.fxml", "connectionFailed.fxml", "exit.fxml", "login.fxml", "search.fxml", "user.fxml", "UserRegistration.fxml", "guest.fxml"};
+    private static final String[] guiControllers = {"clientLoginSettings.fxml", "connectionFailed.fxml", "exit.fxml", "login.fxml", "search.fxml", "user.fxml", "UserRegistration.fxml", "guest.fxml", "insertionFailed.fxml"};
 
     GUIUtilities(){
         // creo la hashmap

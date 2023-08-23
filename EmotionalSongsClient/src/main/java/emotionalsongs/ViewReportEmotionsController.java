@@ -118,7 +118,7 @@ public class ViewReportEmotionsController implements Initializable {
 
         /*
          verifico se la canzone ha emozioni associate, la verifica avviene verificando se il valore
-         contenuto nella posizione 1 dell'array result (tale posizione mi contiene il valore della media
+         contenuto nella posizione 1 dell'array result (tale posizione contiene il valore della media
          più alta) è != - 1.
          -- result[1] (valore della media più alta) != -1 --> la canzone ha emozioni associate
          -- result[1] (valore della media più alta) == -1 --> la canzone non ha emozioni associate
@@ -126,6 +126,11 @@ public class ViewReportEmotionsController implements Initializable {
         if(Double.parseDouble(result[1]) != -1) {
             // set the infoAverageLabel
             infoAverageLabel.setText("L'emozione con la media più alta è " + result[0] + " con una media di " + result[1]);
+            /*
+            change the border color of the reportEmotionsPane to the color of the emotion with the
+            highest average.
+            */
+            reportEmotionsPane.getStyleClass().add(result[0]); // NOTA: result[0] contiene il nome dell'emozione con la media più alta
         }else{
             // set the infoAverageLabel
             infoAverageLabel.setText(" - ");

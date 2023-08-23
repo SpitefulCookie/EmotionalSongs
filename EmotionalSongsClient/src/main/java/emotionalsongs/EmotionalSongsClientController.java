@@ -221,13 +221,14 @@ public class EmotionalSongsClientController implements Initializable {
 
         if(isGuest){ // è guest
 
+            // add guest pane to dynamicPane
             setDynamicPane(guiUtilities.getNode("guest.fxml"));
 
         }else { // non è guest --> è un utente registrato
-            // TODO cambiare il nome del documento fxml in RegistredUser
 
             // add user pane to dynamicPane
-            setDynamicPane("user.fxml");
+            setDynamicPane(guiUtilities.getNode("user.fxml"));
+            // DEBUG TODO remove
             System.out.println("username: " + username);
         }
     }

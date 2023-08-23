@@ -645,6 +645,30 @@
     -fx-border-color: transparent;
 }
 
+.infoUserBox{
+    -fx-background-color: transparent;
+    -fx-border-color: #af524bc1;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.insertionFailedStage{
+    -fx-background-color: #2e2e2e;
+    -fx-border-color: #646464;
+}
+
+.insertionFailedButton{
+    -fx-background-color: transparent;
+    -fx-border-color: #af524bc1;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.insertionFailedButton:hover{
+    -fx-background-color: #af524bc1;
+    -fx-border-color: transparent;
+}
+
 
 
 
