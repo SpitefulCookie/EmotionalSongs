@@ -30,9 +30,10 @@ public class UserController implements Initializable {
 
     public static String retrieveUserData() { // TODO static aggiunto solo per effettuare dei test, vedi tu la segnatura del metodo
         try {
-            return AuthManager.decryptRSA(EmotionalSongsClient.auth.getUserData("test", EmotionalSongsClient.ping.getPublicKey()),EmotionalSongsClient.ping.getPrivateKey()); // TODO rimpiazzare 'test' con l'userId dell'utente loggato
+            String data= AuthManager.decryptRSA(EmotionalSongsClient.auth.getUserData("test", EmotionalSongsClient.ping.getPublicKey()),EmotionalSongsClient.ping.getPrivateKey()); // TODO rimpiazzare 'test' con l'userId dell'utente loggato
+            return data.substring(1,data.length()-1);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO decidi tu come gestire l'eccezione
             return "";
         }
     }
