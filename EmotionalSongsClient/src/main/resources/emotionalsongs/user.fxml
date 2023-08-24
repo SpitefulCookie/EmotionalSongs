@@ -23,7 +23,7 @@
                   </ImageView>
                </children>
             </HBox>
-            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="937.0" text="Username" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
+            <Label fx:id="usernameLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="937.0" text="Username" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
                <font>
                   <Font name="Arial Bold" size="18.0" />
                </font>
@@ -37,17 +37,17 @@
       <HBox maxWidth="1.7976931348623157E308" prefHeight="570.0" prefWidth="865.0" VBox.vgrow="ALWAYS">
          <children>
             <Pane prefHeight="200.0" prefWidth="50.0" />
-            <VBox maxHeight="300.0" maxWidth="1.7976931348623157E308" prefHeight="412.0" prefWidth="765.0" styleClass="infoUserBox" stylesheets="@Style/customStyle.css" HBox.hgrow="ALWAYS">
+            <VBox maxHeight="337.0" maxWidth="1.7976931348623157E308" prefHeight="337.0" prefWidth="765.0" styleClass="infoUserBox" stylesheets="@Style/customStyle.css" HBox.hgrow="ALWAYS">
                <children>
                   <Pane prefHeight="10.0" prefWidth="200.0" />
                   <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="80.0" prefWidth="765.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Label maxWidth="1.7976931348623157E308" opacity="0.75" prefHeight="28.0" prefWidth="755.0" text="NOME" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
+                        <Label maxWidth="1.7976931348623157E308" opacity="0.75" prefHeight="28.0" prefWidth="755.0" text="NOME E COGNOME" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
                            <font>
                               <Font name="Arial Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="nameLabel" maxWidth="1.7976931348623157E308" text="Nome" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
+                        <Label fx:id="nameAndLastNameLabel" maxWidth="1.7976931348623157E308" text="Nome e cognome" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
                            <font>
                               <Font name="Arial Bold" size="13.0" />
                            </font></Label>
@@ -58,12 +58,12 @@
                   </VBox>
                   <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="80.0" prefWidth="765.0">
                      <children>
-                        <Label maxWidth="1.7976931348623157E308" opacity="0.75" prefHeight="28.0" prefWidth="755.0" text="COGNOME" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
+                        <Label maxWidth="1.7976931348623157E308" opacity="0.75" prefHeight="28.0" prefWidth="755.0" text="CODICE FISCALE" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
                            <font>
                               <Font name="Arial Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="surnameLabel" maxWidth="1.7976931348623157E308" text="Cognome" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
+                        <Label fx:id="codiceFiscaleLabel" maxWidth="1.7976931348623157E308" text="codice fiscale" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
                            <font>
                               <Font name="Arial Bold" size="13.0" />
                            </font>
