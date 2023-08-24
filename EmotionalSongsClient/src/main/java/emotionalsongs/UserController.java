@@ -25,20 +25,39 @@ public class UserController {
      * TODO document
      * @param user
      */
-    protected void setUser(String user){
+    protected void setUser(String user) {
 
         // retrive the user data
         String[] userData = retrieveUserData(user).split(",");
 
-        // set the label
-        usernameLabel.setText(user);
-        nameAndLastNameLabel.setText(" " + userData[0]);
-        codiceFiscaleLabel.setText(userData[1]);
-        emailLabel.setText(userData[2]);
-        addressLabel.setText(userData[3] + " n." + userData[4] + "   " + userData[5] + " -" + userData[7] + " (" + userData[6].toUpperCase() + " )");
+        if (userData.length != 1) {
 
-        // DEBUG TODO remove
-        System.out.println("Dati dell'utente: " + EmotionalSongsClientController.getUsername() + " -> " + Arrays.toString(userData));
+            // set the label
+            usernameLabel.setText(user);
+            nameAndLastNameLabel.setText(" " + userData[0]);
+            codiceFiscaleLabel.setText(userData[1]);
+            emailLabel.setText(userData[2]);
+            addressLabel.setText(userData[3] + " n." + userData[4] + "   " + userData[5] + " -" + userData[7] + " (" + userData[6].toUpperCase() + " )");
+
+            // now the user data were retrieved
+            EmotionalSongsClientController.setUserDataRetrieved(true);
+
+            // DEBUG TODO remove
+            System.out.println("Dati dell'utente: " + EmotionalSongsClientController.getUsername() + " -> " + Arrays.toString(userData));
+
+        }else{
+
+            // set the label
+            usernameLabel.setText(user);
+            nameAndLastNameLabel.setText("-");
+            codiceFiscaleLabel.setText("-");
+            emailLabel.setText("-");
+            addressLabel.setText("-");
+
+            // the user data were not retrieved
+            EmotionalSongsClientController.setUserDataRetrieved(false);
+
+        }
 
     }
 

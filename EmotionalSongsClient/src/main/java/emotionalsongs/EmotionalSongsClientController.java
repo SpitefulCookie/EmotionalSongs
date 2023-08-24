@@ -249,9 +249,6 @@ public class EmotionalSongsClientController implements Initializable {
                     // add the user pane to dynamicPane
                     setDynamicPane(user_pane);
 
-                    // now the user data was retrieved
-                    userDataRetrieved = true;
-
                 }catch (IOException e){
                     e.printStackTrace();
                 }
@@ -510,6 +507,14 @@ public class EmotionalSongsClientController implements Initializable {
      */
     public static boolean getIsGuest(){
         return isGuest;
+    }
+
+    /**
+     * TODO document
+     * @param value
+     */
+    protected static void setUserDataRetrieved(boolean value){
+        userDataRetrieved = value;
     }
 
 }
