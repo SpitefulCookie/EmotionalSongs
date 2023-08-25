@@ -43,6 +43,8 @@ public class SongPlaylistController implements Initializable {
     private int posInGridPane;
     private boolean emotionsAdded;
 
+    private static Stage connectionFailedStage;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         guiUtilities = GUIUtilities.getInstance();
@@ -232,15 +234,31 @@ public class SongPlaylistController implements Initializable {
             }
 
         }catch (RemoteException e){
-            e.printStackTrace(); // TODO remove
 
-            Stage connectionFailedStage = new Stage();
+            /*
+            lo stage connectionFailedStage deve essere statico perché altrimenti se una playlist contiene ad es. 10
+            canzoni, vengono generate 10 remote exception e di conseguenza vengono aperti 10 connectionFailedStage,
+            e quando tento di chiudere lo stage, sembra che c'è ne siano altri 9 aperti, questo mi comporta
+            un bug nello stage --> il bug sarebbe che rimane aperto uno stage completamente bianco e che non
+            si può chiudere.
+             */
+
+            /*
+             dato che il connectionFailedStage è statico, prima di crearne uno nuovo, verifico se c'è ne già
+             uno aperto e se così è lo chiudo.
+             */
+            if (connectionFailedStage != null){
+                connectionFailedStage.close();
+            }
+
+            connectionFailedStage = new Stage();
 
             connectionFailedStage.setScene(GUIUtilities.getInstance().getScene("connectionFailed.fxml"));
             connectionFailedStage.initStyle(StageStyle.UNDECORATED);
             connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
             connectionFailedStage.setResizable(false);
             connectionFailedStage.show();
+
         }
     }
 
