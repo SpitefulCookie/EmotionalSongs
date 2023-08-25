@@ -11,12 +11,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -240,7 +237,7 @@ public class ViewEmotionsController implements Initializable{
          change the border color of the emotionsPane to the color of the emotion with the
          highest score
          */
-        emotionsPane.getStyleClass().add(EmozioneEnum.getEmotionNameFromInstance(emotionWithHighestScore));
+        emotionsPane.getStyleClass().add(EmozioneEnum.getInstanceName(emotionWithHighestScore));
 
         // inizializzo la lista emotions con la lista passata come argomento
         this.emotions = emotions;
@@ -256,45 +253,45 @@ public class ViewEmotionsController implements Initializable{
     public void initBarChart(List<Emozione> emotions){
 
         XYChart.Series series = new XYChart.Series();
-        series.getData().add(new XYChart.Data<>(EmozioneEnum.getEmotionNameFromInstance(emotions.get(0)), emotions.get(0).getPunteggio()));
-        series.getData().add(new XYChart.Data<>(EmozioneEnum.getEmotionNameFromInstance(emotions.get(1)), emotions.get(1).getPunteggio()));
-        series.getData().add(new XYChart.Data<>(EmozioneEnum.getEmotionNameFromInstance(emotions.get(2)), emotions.get(2).getPunteggio()));
-        series.getData().add(new XYChart.Data<>(EmozioneEnum.getEmotionNameFromInstance(emotions.get(3)), emotions.get(3).getPunteggio()));
-        series.getData().add(new XYChart.Data<>(EmozioneEnum.getEmotionNameFromInstance(emotions.get(4)), emotions.get(4).getPunteggio()));
-        series.getData().add(new XYChart.Data<>(EmozioneEnum.getEmotionNameFromInstance(emotions.get(5)), emotions.get(5).getPunteggio()));
-        series.getData().add(new XYChart.Data<>(EmozioneEnum.getEmotionNameFromInstance(emotions.get(6)), emotions.get(6).getPunteggio()));
-        series.getData().add(new XYChart.Data<>(EmozioneEnum.getEmotionNameFromInstance(emotions.get(7)), emotions.get(7).getPunteggio()));
-        series.getData().add(new XYChart.Data<>(EmozioneEnum.getEmotionNameFromInstance(emotions.get(8)), emotions.get(8).getPunteggio()));
+        series.getData().add(new XYChart.Data<>(EmozioneEnum.getInstanceName(emotions.get(0)), emotions.get(0).getPunteggio()));
+        series.getData().add(new XYChart.Data<>(EmozioneEnum.getInstanceName(emotions.get(1)), emotions.get(1).getPunteggio()));
+        series.getData().add(new XYChart.Data<>(EmozioneEnum.getInstanceName(emotions.get(2)), emotions.get(2).getPunteggio()));
+        series.getData().add(new XYChart.Data<>(EmozioneEnum.getInstanceName(emotions.get(3)), emotions.get(3).getPunteggio()));
+        series.getData().add(new XYChart.Data<>(EmozioneEnum.getInstanceName(emotions.get(4)), emotions.get(4).getPunteggio()));
+        series.getData().add(new XYChart.Data<>(EmozioneEnum.getInstanceName(emotions.get(5)), emotions.get(5).getPunteggio()));
+        series.getData().add(new XYChart.Data<>(EmozioneEnum.getInstanceName(emotions.get(6)), emotions.get(6).getPunteggio()));
+        series.getData().add(new XYChart.Data<>(EmozioneEnum.getInstanceName(emotions.get(7)), emotions.get(7).getPunteggio()));
+        series.getData().add(new XYChart.Data<>(EmozioneEnum.getInstanceName(emotions.get(8)), emotions.get(8).getPunteggio()));
 
         // add the series on the chart
         barChart.getData().add(series);
 
         // change color of each bar
         Node n = barChart.lookup(".data0.chart-bar");
-        n.getStyleClass().add(EmozioneEnum.getEmotionNameFromInstance(emotions.get(0)) + "BarChart");
+        n.getStyleClass().add(EmozioneEnum.getInstanceName(emotions.get(0)) + "BarChart");
         n = barChart.lookup(".data1.chart-bar");
-        n.getStyleClass().add(EmozioneEnum.getEmotionNameFromInstance(emotions.get(1)) + "BarChart");
+        n.getStyleClass().add(EmozioneEnum.getInstanceName(emotions.get(1)) + "BarChart");
         n = barChart.lookup(".data2.chart-bar");
-        n.getStyleClass().add(EmozioneEnum.getEmotionNameFromInstance(emotions.get(2)) + "BarChart");
+        n.getStyleClass().add(EmozioneEnum.getInstanceName(emotions.get(2)) + "BarChart");
         n = barChart.lookup(".data3.chart-bar");
-        n.getStyleClass().add(EmozioneEnum.getEmotionNameFromInstance(emotions.get(3)) + "BarChart");
+        n.getStyleClass().add(EmozioneEnum.getInstanceName(emotions.get(3)) + "BarChart");
         n = barChart.lookup(".data4.chart-bar");
-        n.getStyleClass().add(EmozioneEnum.getEmotionNameFromInstance(emotions.get(4)) + "BarChart");
+        n.getStyleClass().add(EmozioneEnum.getInstanceName(emotions.get(4)) + "BarChart");
         n = barChart.lookup(".data5.chart-bar");
-        n.getStyleClass().add(EmozioneEnum.getEmotionNameFromInstance(emotions.get(5)) + "BarChart");
+        n.getStyleClass().add(EmozioneEnum.getInstanceName(emotions.get(5)) + "BarChart");
         n = barChart.lookup(".data6.chart-bar");
-        n.getStyleClass().add(EmozioneEnum.getEmotionNameFromInstance(emotions.get(6)) + "BarChart");
+        n.getStyleClass().add(EmozioneEnum.getInstanceName(emotions.get(6)) + "BarChart");
         n = barChart.lookup(".data7.chart-bar");
-        n.getStyleClass().add(EmozioneEnum.getEmotionNameFromInstance(emotions.get(7)) + "BarChart");
+        n.getStyleClass().add(EmozioneEnum.getInstanceName(emotions.get(7)) + "BarChart");
         n = barChart.lookup(".data8.chart-bar");
-        n.getStyleClass().add(EmozioneEnum.getEmotionNameFromInstance(emotions.get(8)) + "BarChart");
+        n.getStyleClass().add(EmozioneEnum.getInstanceName(emotions.get(8)) + "BarChart");
 
         // delate the lagend of chart
         barChart.setLegendVisible(false);
 
         // DEBUG TODO remove
         for(int i = 0; i < emotions.size(); i++){
-            System.out.println("Visualizzo l'emozione " + EmozioneEnum.getEmotionNameFromInstance(emotions.get(i)) + " con punteggio: " + emotions.get(i).getPunteggio() + " --- note: " + emotions.get(i).getCommento());
+            System.out.println("Visualizzo l'emozione " + EmozioneEnum.getInstanceName(emotions.get(i)) + " con punteggio: " + emotions.get(i).getPunteggio() + " --- note: " + emotions.get(i).getCommento());
         }
 
     }

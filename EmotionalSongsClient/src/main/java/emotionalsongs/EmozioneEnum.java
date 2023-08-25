@@ -78,7 +78,7 @@ public enum EmozioneEnum{
      * @param enumValue The index of the enum value.
      * @return An instance of the corresponding emotion class.
      */
-    static Emozione getEmotionInstanceFromEnumValue(int enumValue){
+    static Emozione getInstanceFromEnum(int enumValue){
         return switch (EmozioneEnum.values()[enumValue]) {
             case AMAZEMENT -> new Amazement(0, "");
             case CALMNESS -> new Calmness(0, "");
@@ -92,7 +92,7 @@ public enum EmozioneEnum{
         };
     }
 
-    static String getEmotionNameFromInstance(Emozione e){
+    static String getInstanceName(Emozione e){
         return e.getClass().getSimpleName();
     }
 
