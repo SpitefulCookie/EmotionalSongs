@@ -22,12 +22,29 @@ public class Playlist_addToPlaylistController implements Initializable {
 
     private GUIUtilities guiUtilities;
 
+    /**
+     * TODO document
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         guiUtilities = GUIUtilities.getInstance();
     }
 
+    /**
+     * TODO document
+     */
     public void handleAddToPlaylistAction(){
+
+        /*
+        variabile booleana che controlla l'inserimento delle canzoni nelle playlist, inizialmente
+        la variabile è inizializzata su true in quanto l'inserimento è possibile, il suo valore può essere
+        modificato quando nel caricare le canzoni dal db tramite il metodo loadSongs, viene generata una
+        remote exception, se così fosse il metodo loadSongs ritornerebbe false e questo implicherebbe che
+        l'inserimento della canzone nella playlist non è possibile.
+         */
+        boolean insertionCheck = true;
 
         /*
          verifico se la canzone è già contenuta nella playlist, però per fare ciò devo
@@ -42,42 +59,46 @@ public class Playlist_addToPlaylistController implements Initializable {
             System.out.println("la playlist: " + playlistNameLabel.getText() + " non è mai stata aperta, la apro ora");
 
             // carico le canzoni
-            SelectedPlaylistController.loadSongs(playlistNameLabel.getText());
+            insertionCheck = SelectedPlaylistController.loadSongs(playlistNameLabel.getText());
         }
 
-        // verifico se la canzone non è già contenuta nella playlist
-        if(!AllPlaylistController.songAlreadyExist(playlistNameLabel.getText(), AddToPlaylistController.songToAdd)){
-            // verifico se la playlist non è già stata aggiunta alla lista selectedPlaylists
-            if(!AddToPlaylistController.playlistAlreadySelected(playlistNameLabel.getText())){
+        // verifico se l'inserimento è possibile
+        if(insertionCheck) {
+            // verifico se la canzone non è già contenuta nella playlist
+            if (!AllPlaylistController.songAlreadyExist(playlistNameLabel.getText(), AddToPlaylistController.songToAdd)) {
+                // verifico se la playlist non è già stata aggiunta alla lista selectedPlaylists
+                if (!AddToPlaylistController.playlistAlreadySelected(playlistNameLabel.getText())) {
 
-                // add the playlist into temp list
-                AddToPlaylistController.addPlaylist(playlistNameLabel.getText());
-                // make visible the checkMarkImg
-                checkMarkImg.setVisible(true);
+                    // add the playlist into selectedPlaylist list, contained in the addToPlaylistController class
+                    AddToPlaylistController.addPlaylist(playlistNameLabel.getText());
+                    // make visible the checkMarkImg
+                    checkMarkImg.setVisible(true);
+                    // change the playlistPane style
+                    guiUtilities.setNodeStyle(playlistPane, "playlistInToAddPane", "playlistInToAddPaneClicked");
+
+                } else {
+                    /*
+                    altrimenti se è già stata aggiunta, quando premo sulla playlist la devo andare a
+                    rimuovere dalla lista selectedPlaylists, in quanto non deve essere aggiunta alla playlist
+                    specifica
+                    */
+
+                    // remove the playlist from electedPlaylist list, contained in the addToPlaylistController class
+                    AddToPlaylistController.removePlaylist(playlistNameLabel.getText());
+                    // make not visible the checkMarkImg
+                    checkMarkImg.setVisible(false);
+                    // change the playlistPane style
+                    guiUtilities.setNodeStyle(playlistPane, "playlistInToAddPaneClicked", "playlistInToAddPane");
+
+                }
+            } else { // altrimenti se la canzone esiste già nella playlist
+
+                // display the existingSong message
+                existingSongLabel.setVisible(true);
                 // change the playlistPane style
                 guiUtilities.setNodeStyle(playlistPane, "playlistInToAddPane", "playlistInToAddPaneClicked");
 
-            }else{
-                /*
-                 altrimenti se è già stata aggiunta, quando premo sulla playlist la devo andare a
-                 rimuovere dalla lista selectedPlaylists
-                 */
-
-                // remove the playlist from temp list
-                AddToPlaylistController.removePlaylist(playlistNameLabel.getText());
-                // make not visible the checkMarkImg
-                checkMarkImg.setVisible(false);
-                // change the playlistPane style
-                guiUtilities.setNodeStyle(playlistPane, "playlistInToAddPaneClicked", "playlistInToAddPane");
-
             }
-        }else{ // altrimenti se la canzone esiste già nella playlist
-
-            // display the existingSong message
-            existingSongLabel.setVisible(true);
-            // change the playlistPane style
-            guiUtilities.setNodeStyle(playlistPane, "playlistInToAddPane", "playlistInToAddPaneClicked");
-
         }
     }
 
