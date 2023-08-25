@@ -97,9 +97,11 @@ public class SongController implements Initializable {
             Node emotions_pane = fxmlLoader.load();
 
             ViewReportEmotionsController viewReportEmotionsController = fxmlLoader.getController();
-            viewReportEmotionsController.setEmotions(song, true);
+            boolean checkEmotionsAverageRetrieved = viewReportEmotionsController.setEmotions(song, true);
 
-            EmotionalSongsClientController.setDynamicPane(emotions_pane);
+            if(checkEmotionsAverageRetrieved) {
+                EmotionalSongsClientController.setDynamicPane(emotions_pane);
+            }
 
         }catch (IOException e){
             e.printStackTrace();
