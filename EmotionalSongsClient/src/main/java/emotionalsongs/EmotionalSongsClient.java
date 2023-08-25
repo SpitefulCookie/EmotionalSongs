@@ -92,6 +92,10 @@ public class EmotionalSongsClient extends Application {
 
         try {
 
+            if(ping != null){
+                disconnectClient();
+            }
+
             Registry reg = LocateRegistry.getRegistry(ClientSettingController.getServerAddress(), ClientSettingController.getServerPort());
             auth = (AuthManager) reg.lookup("AuthManager");
             repo = (RepositoryManager) reg.lookup("RepoManager");
@@ -157,7 +161,7 @@ public class EmotionalSongsClient extends Application {
             // quest'eccezione viene lanciata qualora non sia stato effettuato l'export dell'oggetto PingClient,
             // questo tipicamente avviene solo quando il server non è raggiungibile.
         } catch (RemoteException e) {
-            //
+            System.err.println("Remote exception thrown while attempting to disconnect the client. Reason:\n" + e.getMessage());
         }
     }
 
@@ -170,7 +174,7 @@ public class EmotionalSongsClient extends Application {
             if(auth!= null)
                 auth.registerClient(ping);
         } catch (RemoteException e){
-            //
+            System.err.println("Remote exception thrown while attempting to register the client. Reason:\n" + e.getMessage());
         }
     }
 }

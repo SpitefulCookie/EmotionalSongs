@@ -228,7 +228,7 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      * @throws RemoteException If a communication error occurs during the remote method invocation.
      */
     public synchronized void registerClient(PingableClient client) throws RemoteException{
-        clientList.add(client);
+        System.out.println("Adding client: " + client.getPublicKey() + "\nAdded? "+clientList.add(client));
     }
 
     /**

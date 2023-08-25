@@ -180,32 +180,27 @@ public class LoginController implements Initializable {
 
         System.out.println("Continue as guest clicked!"); // TODO togliere tutti questi print
 
-        if (EmotionalSongsClient.isConnectionInitialized) {
+        EmotionalSongsClient.initializeServerConnection(false);
+        EmotionalSongsClient.registerClient();
 
-            EmotionalSongsClient.registerClient();
+        // La connessione al server è necessaria anche se l'utente non è registrato, pertanto non dev'essere
+        // in grado di visualizzare la schermata principale senza che il client si sia connesso al server.
 
-            // La connessione al server è necessaria anche se l'utente non è registrato, pertanto non dev'essere
-            // in grado di visualizzare la schermata principale senza che il client si sia connesso al server.
+        try {
 
-            try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("emotionalSongsClient.fxml"));
 
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("emotionalSongsClient.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
 
-                Scene scene = new Scene(fxmlLoader.load());
+            EmotionalSongsClientController client = fxmlLoader.getController();
 
-                EmotionalSongsClientController client = fxmlLoader.getController();
+            client.setUser("Guest", true);
 
-                client.setUser("Guest", true);
+            EmotionalSongsClient.setStage(scene, EmotionalSongsClientController.WIDTH, EmotionalSongsClientController.HEIGHT, true);
+            EmotionalSongsClient.getStage().show();
 
-                EmotionalSongsClient.setStage(scene, EmotionalSongsClientController.WIDTH, EmotionalSongsClientController.HEIGHT, true);
-                EmotionalSongsClient.getStage().show();
-
-            } catch (IOException e) {
-                //
-            }
-
-        } else {
-            EmotionalSongsClient.initializeServerConnection(false);
+        } catch (IOException e) {
+            //
         }
 
     }
@@ -214,15 +209,11 @@ public class LoginController implements Initializable {
      * TODO document
      */
     @FXML protected void handleRegisterButton() {
-        if(EmotionalSongsClient.isConnectionInitialized) {
+
+            EmotionalSongsClient.initializeServerConnection(false);
             EmotionalSongsClient.registerClient();
             EmotionalSongsClient.setStage(GUIUtilities.getInstance().getScene("UserRegistration.fxml"), UserRegistrationController.WIDTH, UserRegistrationController.HEIGHT, true);
             EmotionalSongsClient.getStage().show();
-        } else{
-
-            EmotionalSongsClient.initializeServerConnection(false);
-
-        }
 
     }
 
@@ -267,92 +258,88 @@ public class LoginController implements Initializable {
      */
     @FXML protected void handleLoginButtonAction(){
 
-        if (EmotionalSongsClient.isConnectionInitialized) {
+        EmotionalSongsClient.initializeServerConnection(false);
 
-            String pwd = null;
-            String username = null;
+        String pwd = null;
+        String username = null;
 
-            if (isDisplayed) { // Se la password è visualizzata in chiaro (textbox visibile, password field nascosto)
+        if (isDisplayed) { // Se la password è visualizzata in chiaro (textbox visibile, password field nascosto)
 
-                if (overlappingTextField.getText().isBlank()) {
+            if (overlappingTextField.getText().isBlank()) {
 
-                    overlappingTextField.setStyle(errorStyle);
-                    overlappingTextField.setPromptText("Mandatory field");
-
-                } else {
-                    pwd = overlappingTextField.getText();
-                }
-
-            } else { // Se la password NON è visualizzata in chiaro (textbok nascosto, password field visibile)
-
-                if (pwdField.getText().isBlank()) {
-
-                    pwdField.setStyle(errorStyle);
-                    pwdField.setPromptText("Mandatory field");
-
-                } else {
-                    pwd = pwdField.getText();
-                }
-
-            }
-
-            if (usernameField.getText().isBlank()) {
-
-                usernameField.setStyle(errorStyle);
-                usernameField.setPromptText("Mandatory field");
+                overlappingTextField.setStyle(errorStyle);
+                overlappingTextField.setPromptText("Mandatory field");
 
             } else {
-                username = usernameField.getText();
+                pwd = overlappingTextField.getText();
             }
 
-            if (pwd != null && username != null) {
+        } else { // Se la password NON è visualizzata in chiaro (textbok nascosto, password field visibile)
 
-                try {
-                    // This is the actual login
-                    if (EmotionalSongsClient.auth.userLogin(username, AuthManager.RSA_Encrypt(pwd, EmotionalSongsClient.auth.getPublicKey()))) {
+            if (pwdField.getText().isBlank()) {
 
-                        EmotionalSongsClient.registerClient();
+                pwdField.setStyle(errorStyle);
+                pwdField.setPromptText("Mandatory field");
 
-                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("emotionalSongsClient.fxml"));
+            } else {
+                pwd = pwdField.getText();
+            }
 
-                        try {
+        }
 
-                            Scene scene = new Scene(fxmlLoader.load());
+        if (usernameField.getText().isBlank()) {
 
-                            EmotionalSongsClientController client = fxmlLoader.getController();
-                            client.setUser(usernameField.getText(), false);
+            usernameField.setStyle(errorStyle);
+            usernameField.setPromptText("Mandatory field");
 
-                            EmotionalSongsClient.setStage(scene, EmotionalSongsClientController.WIDTH, EmotionalSongsClientController.HEIGHT, true);
+        } else {
+            username = usernameField.getText();
+        }
 
-                        }catch (IOException e1){
-                            // Something went wrong, the client will disconnect from the server
-                             EmotionalSongsClient.disconnectClient();
-                        }
+        if (pwd != null && username != null) {
 
-                    } else { // Le credenziali sono errate
+            try {
+                // This is the actual login
+                if (EmotionalSongsClient.auth.userLogin(username, AuthManager.RSA_Encrypt(pwd, EmotionalSongsClient.auth.getPublicKey()))) {
 
-                        loginFailedLabel.setText("Invalid username or password");
-                        loginFailedLabel.setStyle(errorMessage);
-                        loginFailedLabel.setVisible(true);
+                    EmotionalSongsClient.registerClient();
 
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("emotionalSongsClient.fxml"));
+
+                    try {
+
+                        Scene scene = new Scene(fxmlLoader.load());
+
+                        EmotionalSongsClientController client = fxmlLoader.getController();
+                        client.setUser(usernameField.getText(), false);
+
+                        EmotionalSongsClient.setStage(scene, EmotionalSongsClientController.WIDTH, EmotionalSongsClientController.HEIGHT, true);
+
+                    }catch (IOException e1){
+                        // Something went wrong, the client will disconnect from the server
+                         EmotionalSongsClient.disconnectClient();
                     }
 
-                } catch (RemoteException e) {
+                } else { // Le credenziali sono errate
 
-                    Stage connectionFailedStage = new Stage();
-
-                    connectionFailedStage.setScene(GUIUtilities.getInstance().getScene("connectionFailed.fxml"));
-                    connectionFailedStage.initStyle(StageStyle.UNDECORATED);
-                    connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
-                    connectionFailedStage.setResizable(false);
-                    connectionFailedStage.show();
+                    loginFailedLabel.setText("Invalid username or password");
+                    loginFailedLabel.setStyle(errorMessage);
+                    loginFailedLabel.setVisible(true);
 
                 }
 
+            } catch (RemoteException e) {
+
+                Stage connectionFailedStage = new Stage();
+
+                connectionFailedStage.setScene(GUIUtilities.getInstance().getScene("connectionFailed.fxml"));
+                connectionFailedStage.initStyle(StageStyle.UNDECORATED);
+                connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
+                connectionFailedStage.setResizable(false);
+                connectionFailedStage.show();
+
             }
 
-        } else{
-                EmotionalSongsClient.initializeServerConnection(false);
         }
 
     }

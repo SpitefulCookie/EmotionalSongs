@@ -270,8 +270,7 @@ public class UserRegistrationController implements Initializable {
      * the necessary actions to close the stage. Firstly, it retrieves the current stage using the event
      * object and the source of the event, which is assumed to be the close button. Then, it closes the
      * stage, effectively closing the associated window. Additionally, the method calls the
-     * `EmotionalSongsClient.unexportClient()` method to un-export the RMI client, performing any cleanup
-     * or resource release associated with the RMI client before closing the stage.
+     * `EmotionalSongsClient.unexportClient()` method to un-export the RMI client.
      *
      * @param event The ActionEvent triggered when the close button is clicked.
      */
@@ -290,8 +289,7 @@ public class UserRegistrationController implements Initializable {
      *
      * Upon clicking on the cancel button, the stage will be changed to the login screen.
      * Additionally, the method calls the `EmotionalSongsClient.unexportClient()` method to un-export
-     * the RMI client, performing any cleanup or resource release associated with the RMI client before
-     * transitioning to the login screen.
+     * the RMI client.
      *
      */
     @FXML protected void handleCancelButton(){
