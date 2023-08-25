@@ -22,11 +22,23 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Utility class for managing GUI-related operations in the EmotionalSongs application.
+ * This class provides methods for formatting text, handling images,
+ * and enforcing text input constraints in the JavaFX text fields.
+ *
+ * @author <a href="https://github.com/SpitefulCookie"> Della Chiesa Mattia</a>
+ */
 public class GUIUtilities {
 
     private final HashMap<String, Image> images;
     private static GUIUtilities guiUtilities;
 
+    /**
+     * Constructs a new instance of the GUIUtilities class.
+     * Initializes a map for storing images used in the application.
+     * Loads predefined images into the map.
+     */
     GUIUtilities(){
 
         this.images = new HashMap<>();
@@ -44,12 +56,23 @@ public class GUIUtilities {
 
     }
 
-    // pattern singleton
+    /**
+     * Retrieves the singleton instance of the GUIUtilities class.
+     *
+     * @return The singleton instance of GUIUtilities.
+     */
     public static GUIUtilities getInstance(){
         if(guiUtilities == null){guiUtilities = new GUIUtilities();}
         return guiUtilities;
     }
 
+    /**
+     * Formats a given input text by identifying and applying bold and italic styles through regex patterns.<br><br>
+     * <strong>Limitation:</strong> The method is incapable of processing nested text formatting.
+     * Using nested formatting may result in unpredictable behaviour.
+     * @param input The input text to be formatted.
+     * @return A list of formatted {@link Text} nodes representing the input text with applied styles.
+     */
     public static ArrayList<Text> formatText(String input) {
 
         ArrayList<Text> formattedTextList = new ArrayList<>();
@@ -113,6 +136,12 @@ public class GUIUtilities {
         return formattedTextList;
     }
 
+    /**
+     * Retrieves the image associated with the given key from hash map containing the application's images.
+     *
+     * @param key The key associated with the desired image.
+     * @return The {@link Image} associated with the provided key, or null if not found.
+     */
     protected Image getImage(String key){
 
         // se la hash map contiene la key passata come parametro allora restituisci l'immagine associata alla chiave
@@ -122,26 +151,9 @@ public class GUIUtilities {
 
 
     /**
-     * TODO document
-     * @param tf
-     * @param maxLen
-     */
-    protected static void forceTextInput(final TextField tf, final int maxLen) {
-
-        tf.textProperty().addListener((observable, oldValue, newValue) -> {
-
-            if (newValue.matches(".*\\d.*")) {
-                tf.setText(newValue.replaceAll("\\d", ""));
-            }else if (tf.getText().length() > maxLen) {
-                String s = tf.getText().substring(0, maxLen);
-                tf.setText(s);
-            }
-        });
-    }
-
-    /**
-     * TODO document
-     * @param tf
+     * Enforces text input constraints for a {@link TextField} by allowing exclusively numeric characters.
+     *
+     * @param tf The {@link TextField} to enforce constraints on.
      */
     protected static void forceNumericInput(final TextField tf) {
 
@@ -153,49 +165,4 @@ public class GUIUtilities {
 
     }
 
-    /**
-     * TODO document
-     * @param tf
-     * @param maxLen
-     */
-    protected static void forceNumericInput(final TextField tf, final int maxLen) {
-
-        tf.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                tf.setText(newValue.replaceAll("[^\\d]", ""));
-            }else if (tf.getText().length() > maxLen) {
-                String s = tf.getText().substring(0, maxLen);
-                tf.setText(s);
-            }
-        });
-
-    }
-
-    /**
-     * TODO document
-     * @param tf
-     * @param maxLength
-     */
-    protected static void addTextLimiter(final TextField tf, final int maxLength) {
-        tf.textProperty().addListener((ov, oldValue, newValue) -> {
-            if (tf.getText().length() > maxLength) {
-                String s = tf.getText().substring(0, maxLength);
-                tf.setText(s);
-            }
-        });
-    }
-
-    /**
-     * TODO document
-     * @param tf
-     */
-    protected static void forceTextInput(final TextField tf) {
-
-        tf.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.matches("\\d*")) {
-                tf.setText(newValue.replaceAll("[\\d]", ""));
-            }
-        });
-
-    }
 }
