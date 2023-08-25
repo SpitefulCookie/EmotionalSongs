@@ -71,6 +71,8 @@ public class EmotionalSongsClientController implements Initializable {
     private static boolean isGuest;
     private static String username;
 
+    private static boolean userDataRetrieved = false;
+
     private static Button[] buttonsSideBar;
 
     /**
@@ -226,10 +228,39 @@ public class EmotionalSongsClientController implements Initializable {
 
         }else { // non è guest --> è un utente registrato
 
-            // add user pane to dynamicPane
-            setDynamicPane(guiUtilities.getNode("user.fxml"));
-            // DEBUG TODO remove
-            System.out.println("username: " + username);
+            // controllo se i dati dell'utente non sono già stati recuperati
+            if(!userDataRetrieved) {
+
+                // DEBUG TODO remove
+                System.out.println("recupero i dati dell'utente: " + EmotionalSongsClientController.getUsername());
+
+                try{
+                    // load the user pane
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("user.fxml"));
+                    Node user_pane = fxmlLoader.load();
+
+                    // set the user
+                    UserController userController = fxmlLoader.getController();
+                    userController.setUser(EmotionalSongsClientController.getUsername());
+
+                    // update the node in the hashMap appNode contained in the guiUtilities class
+                    guiUtilities.addNode("user.fxml", user_pane);
+
+                    // add the user pane to dynamicPane
+                    setDynamicPane(user_pane);
+
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+
+            }else{
+
+                // DEBUG TODO remove
+                System.out.println("dati utente già recuperati");
+
+                // add user pane to dynamicPane
+                setDynamicPane(guiUtilities.getNode("user.fxml"));
+            }
         }
     }
 
@@ -238,26 +269,20 @@ public class EmotionalSongsClientController implements Initializable {
      */
     @FXML
     public void handleExitButtonAction(){
-        //System.out.println("Exit button clicked");
-        /*
-        - implementare il frame che chiede all'utente se vuole realmente uscire dall'applicazione.
-        */
 
             exitStage = new Stage();
 
             exitStage.setScene(GUIUtilities.getInstance().getScene("exit.fxml"));
             exitStage.initStyle(StageStyle.UNDECORATED);
             exitStage.setResizable(false);
-            /*
-            tramite initModality rendo il main pane non cliccabile, di fatto lo disattivo, grazie a ciò
-            quando apro lo exit stage se premo al di fuori dello stage, esso non si chiude.
-            SE NON SI CAPISCE COSA FA, SCRIVIMI.
-             */
             exitStage.initModality(Modality.APPLICATION_MODAL);
             exitStage.show();
 
     }
 
+    /**
+     * TODO document
+     */
     @FXML public void handleResizeSidebarButtonAction(){
         System.out.println("pulsante resize sidebar premuto");
         if(!sideBarIsOpen) { // se la sidebar NON è aperta, la apro.
@@ -482,6 +507,14 @@ public class EmotionalSongsClientController implements Initializable {
      */
     public static boolean getIsGuest(){
         return isGuest;
+    }
+
+    /**
+     * TODO document
+     * @param value
+     */
+    protected static void setUserDataRetrieved(boolean value){
+        userDataRetrieved = value;
     }
 
 }
