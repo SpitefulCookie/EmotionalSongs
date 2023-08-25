@@ -218,8 +218,6 @@ public class EmotionalSongsClientController implements Initializable {
      */
     @FXML
     public void handleUserButtonAction(){
-        // set button style
-        setClickedStyle(userBtn);
 
         if(isGuest){ // è guest
 
@@ -241,13 +239,25 @@ public class EmotionalSongsClientController implements Initializable {
 
                     // set the user
                     UserController userController = fxmlLoader.getController();
-                    userController.setUser(EmotionalSongsClientController.getUsername());
+                    boolean checkUserDataRetrieved = userController.setUser(EmotionalSongsClientController.getUsername());
 
-                    // update the node in the hashMap appNode contained in the guiUtilities class
-                    guiUtilities.addNode("user.fxml", user_pane);
+                    /*
+                     aggiorno il node nella hashMap appNode, setto il dynamicPane e cambio lo stile del userBtn
+                     solo se i dati dell'utente sono stati recuperati
+                     */
+                    if(checkUserDataRetrieved) {
+                        // update the node in the hashMap appNode contained in the guiUtilities class
+                        guiUtilities.addNode("user.fxml", user_pane);
 
-                    // add the user pane to dynamicPane
-                    setDynamicPane(user_pane);
+                        // set button style
+                        setClickedStyle(userBtn);
+
+                        // add the user pane to dynamicPane
+                        setDynamicPane(user_pane);
+                    }else{
+                        // DEBUG TODO remove
+                        System.out.println("i dati dell'utente non sono stati recuperati");
+                    }
 
                 }catch (IOException e){
                     e.printStackTrace();
@@ -257,6 +267,9 @@ public class EmotionalSongsClientController implements Initializable {
 
                 // DEBUG TODO remove
                 System.out.println("dati utente già recuperati");
+
+                // set button style
+                setClickedStyle(userBtn);
 
                 // add user pane to dynamicPane
                 setDynamicPane(guiUtilities.getNode("user.fxml"));
