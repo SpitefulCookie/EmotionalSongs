@@ -23,7 +23,9 @@ public class GuestController {
         EmotionalSongsClient.setStage(scene, LoginController.WIDTH, LoginController.HEIGHT, false);
 
         EmotionalSongsClient.disconnectClient(); // TODO verificare se è corretto mettere questa istruzione ---> chiedere a mattia
-
+                                                 // Risposta: Si, il client quando si trova nella schermata di login non ha a tutti gli effetti stabilito
+                                                 // una connessione con il server (invocazione del metodo registerClient() ) questo avverrà solamente dopo
+                                                 // il login oppure dopo aver pigiato il tasto di continue as guest/registrazione.
     }
 
     /**
@@ -33,17 +35,12 @@ public class GuestController {
     public void handleRegistrationButtonAction(){
 
         // TODO anche in questo caso verificare se è coretto mantenere questo if, ----> chiedere a mattia
+        // Risposta: No, non serve. La connessione con il server è già stata instaurata in questo punto ed il client
+        // è già registrato con il server
 
         // open the registration stage
-        if(EmotionalSongsClient.isConnectionInitialized) {
-            EmotionalSongsClient.registerClient();
-            EmotionalSongsClient.setStage(GUIUtilities.getInstance().getScene("UserRegistration.fxml"), UserRegistrationController.WIDTH, UserRegistrationController.HEIGHT, true);
-            EmotionalSongsClient.getStage().show();
-        } else{
-
-            EmotionalSongsClient.initializeServerConnection(false);
-
-        }
+        EmotionalSongsClient.setStage(GUIUtilities.getInstance().getScene("UserRegistration.fxml"), UserRegistrationController.WIDTH, UserRegistrationController.HEIGHT, true);
+        EmotionalSongsClient.getStage().show();
 
     }
 
