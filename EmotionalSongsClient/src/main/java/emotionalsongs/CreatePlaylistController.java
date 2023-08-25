@@ -90,10 +90,10 @@ public class CreatePlaylistController implements Initializable {
         if (playlistCreationCheck) {
 
             /*
-            verifico se la creazione della playlist è stata chiamata dalla finistra di addToPlaylist, se
-            non è stata chiamata da quella finista, visualizzo la playlista appena creata, altrimenti
-            aggiungo la playlist alla lista selectedPlaylist della classe addToPlaylist e vado a rivisualizzare
-            le playlist sul gridPane della finistra addToPlaylist.
+            verifico se la creazione della playlist è stata chiamata dalla finestra di addToPlaylist, se
+            non è stata chiamata da quella finestra, visualizzo la playlist appena creata, altrimenti
+            aggiungo la playlist alla lista selectedPlaylist della classe addToPlaylist e vado a ri-visualizzare
+            le playlist sul gridPane della finestra addToPlaylist.
             */
             if (!fromAddToPlaylist) {
                 // display the playlist that i have just created
@@ -124,11 +124,11 @@ public class CreatePlaylistController implements Initializable {
                 AddToPlaylistController.viewPlaylist();
 
                 /*
-                imposto la playlist come aperta perchè tanto essa è appena stata creata e quindi è vuota o
+                imposto la playlist come aperta perché tanto essa è appena stata creata e quindi è vuota o
                 le sue canzoni contenute sono gia nella lista della hashMap con chiave playlistNameField.getText(),
-                questo mi evita anche un inutile interrogazione al db, in quanto se so che è vuota o comuqnue
-                le sue canzoni sono già contenute nella lista della hashMap con chiave playlistNameField.getText() è
-                inutile interrogarlo.
+                questo mi evita anche un inutile interrogazione al db, in quanto se so che è vuota o comunque
+                le sue canzoni sono già contenute nella lista della hashMap con chiave playlistNameField.getText()
+                è inutile interrogarlo.
                 */
                 AllPlaylistController.setOpenPlaylist(playlistNameField.getText());
             }

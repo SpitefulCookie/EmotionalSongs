@@ -209,7 +209,6 @@ public class ViewEmotionsController implements Initializable{
      */
     @FXML
     void handleReturnToPlaylistButtonAction() {
-        // TODO ritornare alla playlist in cui è contenuta la canzone di cui si è vista l'emozione
 
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("selectedPlaylist.fxml"));

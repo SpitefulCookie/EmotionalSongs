@@ -24,6 +24,7 @@ public class UserController {
     /**
      * TODO document
      * @param user
+     * @return
      */
     protected boolean setUser(String user) {
 
