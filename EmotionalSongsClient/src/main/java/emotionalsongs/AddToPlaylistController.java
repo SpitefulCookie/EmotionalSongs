@@ -91,8 +91,6 @@ public class AddToPlaylistController implements Initializable {
             }
         }catch (RemoteException e){
 
-            e.printStackTrace();
-
             Stage connectionFailedStage = new Stage();
 
             connectionFailedStage.setScene(GUIUtilities.getInstance().getScene("connectionFailed.fxml"));
@@ -100,8 +98,18 @@ public class AddToPlaylistController implements Initializable {
             connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
             connectionFailedStage.setResizable(false);
             connectionFailedStage.show();
+
         } catch (SQLException f) {
-            // TODO implement
+
+            Stage insertionFailedStage = new Stage();
+
+            insertionFailedStage.setScene(GUIUtilities.getInstance().getScene("insertionFailed.fxml"));
+            InsertionFailedController.setErrorLabel("Impossibile aggiungere la canzone alle playlist");
+            insertionFailedStage.initStyle(StageStyle.UNDECORATED);
+            insertionFailedStage.initModality(Modality.APPLICATION_MODAL);
+            insertionFailedStage.setResizable(false);
+            insertionFailedStage.show();
+
         }
 
         // close the stage
@@ -174,6 +182,10 @@ public class AddToPlaylistController implements Initializable {
         numSelectedPlaylists.set(numSelectedPlaylists.get() + 1);
     }
 
+    /**
+     * TODO document
+     * @param playlistName
+     */
     public static void removePlaylist(String playlistName){
         /*
         rimuovo la playlist dalla lista selectedPlaylist
