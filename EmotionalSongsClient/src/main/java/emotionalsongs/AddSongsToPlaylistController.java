@@ -1,5 +1,13 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -31,13 +39,19 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 /**
- * TODO:
- *  1- mettere il vincolo alla yearLabel che accetta solo l'inserimento di numeri, usando l'apposito metodo della
- *     classe GUIUtilites
- *  2- quando viene visualizzata una canzone, verificare se essa è già presente nella lista songsToAdd, e se
- *     così fosse impostare isAdded su true nel meotodo newSongsFound, così facendo l'utente sà già che quella
- *     canzone è già nella lista delle canzoni da aggiungere. NOTA: quando avremo l'interazione con il db
- *     questo controllo deve avvenire sullo songUUID (questo perchè si possono avere canzoni con lo stesso nome)
+ * Controller class controlling the window for adding songs to a specific playlist.
+ * <p>
+ * This class implements the JavaFX Initializable interface, which is automatically called when the associated FXML dialog
+ * is loaded. It Initialises the UI components.
+ * </p>
+ * <p>
+ * The class handles the configuration of the behaviour of the buttons: 'removeSearchBtn' to remove the search performed,
+ * 'addSongsToPlaylistBtn' to add the selected songs to the specific playlist, 'advancedSearchBtn' to set the search type,
+ * 'annullaBtn' to cancel the operation of adding songs, 'titleSearchBtn' to set the search to: search by title,
+ * 'authorAndYearSearchBtn' to set the search to: search by author and year, 'viewSongsAddedBtn' to view the currently added songs.
+ * </p>
+ *
+ *  @author <a href="https://github.com/samuk52">Corallo Samuele</a>
  */
 public class AddSongsToPlaylistController implements Initializable {
 
@@ -70,7 +84,16 @@ public class AddSongsToPlaylistController implements Initializable {
     private static List<Canzone> songsToAdd;
     private List<Node> songsPane;
 
-
+    /**
+     * Initializes the window for adding songs to a specific playlist.
+     * <p>
+     *     This method is called automatically when the JavaFX dialog associated with this controller is loaded.
+     *     It initializes various UI components and sets up their behavior.
+     * </p>
+     *
+     * @param url The URL of the FXML file.
+     * @param resourceBundle The ResourceBundle associated with the FXML file.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // setto l'auto resize dei componenti/elementi che si trovano nello scroll pane
@@ -169,11 +192,17 @@ public class AddSongsToPlaylistController implements Initializable {
         });
     }
 
+
     /**
-     * TODO document
+     * Method that manages the behaviour of the song search operation.
+     * <p>
+     *     When the enter key on the keyboard is clicked, depending on the type of search (by title or by author and year),
+     *     the songs found are displayed; if no song is found, a message is displayed informing the user of this.
+     * </p>
+     * @param key The {@link KeyEvent} activated by pressing the enter key on the keyboard.
      */
     @FXML
-    public void handleSearchButtonAction(KeyEvent key) throws RemoteException{ // TODO rimuovere eccezzione
+    public void handleSearchButtonAction(KeyEvent key) {
 
         try {
 
@@ -247,8 +276,6 @@ public class AddSongsToPlaylistController implements Initializable {
             }
 
         }catch (RemoteException e){
-            // in caso di connessione persa con il server, visualizzo l'apposita finestra
-            e.printStackTrace();
 
             Stage connectionFailedStage = new Stage();
 
@@ -261,7 +288,10 @@ public class AddSongsToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link AddSongsToPlaylistController#removeSearchBtn}.
+     * <p>
+     *     When the {@link AddSongsToPlaylistController#removeSearchBtn} is clicked, the search is reset.
+     * </p>
      */
     @FXML
     public void handleRemoveSearchButtonAction(){
@@ -288,7 +318,21 @@ public class AddSongsToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link AddSongsToPlaylistController#advancedSearchBtn}.
+     * <p>
+     *     When the {@link AddSongsToPlaylistController#advancedSearchBtn} is clicked, its behavior varies based on whether:
+     *     <ol>
+     *         <li>
+     *             the {@link AddSongsToPlaylistController#advancedSearchBox} is not visible, in this case, it is made visible
+     *             and with it the buttons are also made visible: 'titleSearchBtn' and 'authorAndYearSearchBtn'
+     *             which will allow filtering the search.
+     *         </li>
+     *         <li>
+     *             the {@link AddSongsToPlaylistController#advancedSearchBox} is visible, in this case when the 'AdvancedSearchBtn' button is clicked,
+     *             the advanced search box is made invisible.
+     *         </li>
+     *     </ol>
+     * </p>
      */
     public void handleAdvancedSearchButtonAction(){
         // verifico se la ricerca avanzata è attivata o meno
@@ -302,7 +346,10 @@ public class AddSongsToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link AddSongsToPlaylistController#titleSearchBtn}.
+     * <p>
+     *     When the {@link AddSongsToPlaylistController#titleSearchBtn} is clicked, the search is set to: search by title.
+     * </p>
      */
     @FXML
     public void handleTitleSearchButtonAction(){
@@ -325,7 +372,11 @@ public class AddSongsToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link AddSongsToPlaylistController#authorAndYearSearchBtn}.
+     * <p>
+     *     When the {@link AddSongsToPlaylistController#authorAndYearSearchBtn} is clicked,
+     *     the search is set to: search by author and year.
+     * </p>
      */
     public void handleAuthorAndYearSearchButtonAction(){
         // TODO implementare cosa deve accadere quando viene premuto questo pulsante
@@ -348,7 +399,11 @@ public class AddSongsToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link AddSongsToPlaylistController#viewSongsAddedBtn}.
+     * <p>
+     *     When the {@link AddSongsToPlaylistController#viewSongsAddedBtn} is clicked, the songs currently added
+     *     to the specific playlist are displayed.
+     * </p>
      */
     @FXML
     public void handleViewSongsAddedButtonAction(){
@@ -366,7 +421,11 @@ public class AddSongsToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link AddSongsToPlaylistController#addSongsToPlaylistBtn}.
+     * <p>
+     *     When the {@link AddSongsToPlaylistController#addSongsToPlaylistBtn} is clicked, the songs currently
+     *     added to {@link AddSongsToPlaylistController#songsToAdd} are added to the playlist.
+     * </p>
      */
     @FXML
     public void handleAddSongsToPlaylistButtonAction(){
@@ -381,7 +440,10 @@ public class AddSongsToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link AddSongsToPlaylistController#annullaBtn}.
+     * <p>
+     *     When the {@link AddSongsToPlaylistController#annullaBtn} is clicked, the operation is cancelled and the method closes the window containing the button.
+     * </p>
      */
     @FXML
     public void handleAnnullaButtonAction(){
@@ -389,7 +451,10 @@ public class AddSongsToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that manages the display of the {@link AddSongsToPlaylistController#viewSongsAddedBtn} when the mouse moved over it.
+     * <p>
+     *     When the mouse is moved over the {@link AddSongsToPlaylistController#viewSongsAddedBtn}, the button text is set and its width is changed.
+     * </p>
      */
     public void handleViewSongsAddedButtonMouseMovedAction(){
         /*
@@ -401,7 +466,10 @@ public class AddSongsToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that manages the display of the {@link AddSongsToPlaylistController#viewSongsAddedBtn} when the mouse is exited.
+     * <p>
+     *     When the mouse leaves the {@link AddSongsToPlaylistController#viewSongsAddedBtn}, it is set to its initial state.
+     * </p>
      */
     public void handleViewSongsAddedButtonMouseExitedAction(){
         /*
@@ -413,10 +481,10 @@ public class AddSongsToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param song
-     * @param isAdded
-     * @param row
+     * Method that adds the song passed as a parameter to the {@link AddSongsToPlaylistController#gridPane}.
+     * @param song represents the song to add to the {@link AddSongsToPlaylistController#gridPane}.
+     * @param isAdded indicates if the song has already been added to the {@link AddSongsToPlaylistController#songsToAdd}.
+     * @param row indicates the row of the {@link AddSongsToPlaylistController#gridPane} in which to insert the song.
      */
     private void setNewSongFound(Canzone song, boolean isAdded, int row){
         /*
@@ -446,7 +514,8 @@ public class AddSongsToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * method that restores the {@link AddSongsToPlaylistController#gridPane}, removing from it the songs
+     * found since the last search.
      */
     private void removeLastSearch(){
         /*
@@ -464,8 +533,9 @@ public class AddSongsToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param song
+     * Method that adds the song passed as a parameter to the {@link AddSongsToPlaylistController#songsToAdd},
+     * this method is invoked by the {@link SongToAddController#handleAddSongToPlaylistAction}.
+     * @param song represents the song to be added to the {@link AddSongsToPlaylistController#songsToAdd}.
      */
     public static void addSong(Canzone song){
         /*
@@ -487,8 +557,9 @@ public class AddSongsToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param song
+     * Method that removes the song passed as a parameter to the {@link AddSongsToPlaylistController#songsToAdd},
+     * this method is invoked by {@link SongToAddController#handleAddSongToPlaylistAction}.
+     * @param song represents the song to be removed from the {@link AddSongsToPlaylistController#songsToAdd}.
      */
     public static void removeSong(Canzone song){
         /*
@@ -519,16 +590,17 @@ public class AddSongsToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param playlist_name
+     * Method that sets the {@link AddSongsToPlaylistController#playlistName}.
+     * @param playlist_name represents the {@code String} that is passed to {@link AddSongsToPlaylistController#playlistName}.
      */
     public void setPlaylist(String playlist_name){
         playlistName = playlist_name;
     }
 
     /**
-     * TODO document
-     * @param song
+     * Method that checks if the song passed as a parameter has already been added to the list
+     * {@link AddSongsToPlaylistController#songsToAdd}.
+     * @param song represents the song to be checked.
      */
     public boolean songIsAlreadyAdded(Canzone song){
         /*
@@ -544,18 +616,24 @@ public class AddSongsToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that changes the display of the {@link AddSongsToPlaylistController#removeSearchBtn}.
+     * <p>
+     *    When invoked, the {@link AddSongsToPlaylistController#removeSearchBtn}. is made active, visible and its image is changed.
+     * </p>
      */
-    public void showRemoveSearchBtn(){
+    private void showRemoveSearchBtn(){
         removeSearchBtn.setDisable(false);
         removeSearchImg.setImage(guiUtilities.getImage("removeSearch"));
         infoLabel.setVisible(true);
     }
 
     /**
-     * todo document
+     * Method that changes the display of the {@link AddSongsToPlaylistController#removeSearchBtn}.
+     * <p>
+     *     When invoked, the {@link AddSongsToPlaylistController#removeSearchBtn} is disabled, made not visible and its image is changed.
+     * </p>
      */
-    public void hideRemoveSearchBtn(){
+    private void hideRemoveSearchBtn(){
         removeSearchBtn.setDisable(true);
         removeSearchImg.setImage(guiUtilities.getImage("search"));
         infoLabel.setVisible(false);
