@@ -28,13 +28,15 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
- * Controller class controlling the window for adding emotions to the song. <p>
- *
- * This class implements the JavaFX Initializable interface, which is automatically called when the associated FXML dialog
- * is loaded. It Initialises the UI components.
- * The class handles the configuration of the behaviour of the 'annullaBtn' and 'addEmotionsBtn' buttons to cancel or add emotions to the song, respectively.
- *
- *  @author <a href="https://github.com/samuk52">Corallo Samuele</a>
+ * Controller class controlling the window for adding emotions to the song.
+ * <p>
+ *     This class implements the JavaFX Initializable interface, which is automatically called when the associated FXML dialog
+ *     is loaded. It Initialises the UI components.
+ * </p>
+ * <p>
+ *     The class handles the configuration of the behaviour of the 'annullaBtn' and 'addEmotionsBtn' buttons to cancel or add emotions to the song, respectively.
+ * </p>
+ * @author <a href="https://github.com/samuk52">Corallo Samuele </a>
  */
 public class AddEmotionsController implements Initializable {
 
@@ -65,9 +67,9 @@ public class AddEmotionsController implements Initializable {
     /**
      * Initializes the window for adding emotions.
      * <p>
-     * This method is called automatically when the JavaFX dialog associated with this controller is loaded.
-     * It initializes various UI components and sets up their behavior.
-     *
+     *     This method is called automatically when the JavaFX dialog associated with this controller is loaded.
+     *     It initializes various UI components and sets up their behavior.
+     * </p>
      * @param url The URL of the FXML file.
      * @param resourceBundle The ResourceBundle associated with the FXML file.
      */
@@ -97,8 +99,10 @@ public class AddEmotionsController implements Initializable {
     }
 
     /**
-     * This method handles the behaviour of the 'addEmotionsBtn' button, which when pressed
-     * adds each {@link Emozione} to the specific song.
+     * This method handles the behaviour of the {@link AddEmotionsController#addEmotionsBtn}.
+     * <p>
+     *     When the {@link AddEmotionsController#addEmotionsBtn} is clicked, each {@link Emozione} is added to the specific song.
+     * </p>
      */
     public void inserisciEmozioniBrano(){
 
@@ -165,7 +169,10 @@ public class AddEmotionsController implements Initializable {
     }
 
     /**
-     * Method that handles the behaviour of the 'annullaBtn' button, which if pressed closes the add emotions window.
+     * Method that handles the behaviour of the {@link AddEmotionsController#annullaBtn}.
+     * <p>
+     *     When the {@link AddEmotionsController#annullaBtn} is clicked, the operation is cancelled and the method closes the window containing the button.
+     * </p>
      */
     public void handleAnnullaButtonAction(){
         // close the stage
@@ -174,7 +181,7 @@ public class AddEmotionsController implements Initializable {
 
     /**
      * Method which loads and adds the specific {@link Emozione} passed as a parameter to the Add Emotion window.
-     * <p>
+     *
      * @param emotion representing the emotion to be loaded and added to the Add Emotions window.
      * @return {@link EmotionController} of the loaded emotion, which will be used to get the score and notes of the emotion.
      */
@@ -203,7 +210,8 @@ public class AddEmotionsController implements Initializable {
     }
 
     /**
-     * method that sets the song to which emotions will be added.
+     * Method that sets the song to which emotions will be added.
+     *
      * @param song the song to which emotions will be added.
      * @param posInGridPane indicates the position of the song in the GridPane contained in the {@link SelectedPlaylistController},
      *                      this information will be used to update the song's 'multipleBtn' button, contained in the {@link SongPlaylistController},
