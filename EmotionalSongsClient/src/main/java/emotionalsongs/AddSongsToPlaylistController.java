@@ -41,14 +41,14 @@ import java.util.Set;
 /**
  * Controller class controlling the window for adding songs to a specific playlist.
  * <p>
- * This class implements the JavaFX Initializable interface, which is automatically called when the associated FXML dialog
- * is loaded. It Initialises the UI components.
+ *     This class implements the JavaFX Initializable interface, which is automatically called when the associated FXML dialog
+ *     is loaded. It Initialises the UI components.
  * </p>
  * <p>
- * The class handles the configuration of the behaviour of the buttons: 'removeSearchBtn' to remove the search performed,
- * 'addSongsToPlaylistBtn' to add the selected songs to the specific playlist, 'advancedSearchBtn' to set the search type,
- * 'annullaBtn' to cancel the operation of adding songs, 'titleSearchBtn' to set the search to: search by title,
- * 'authorAndYearSearchBtn' to set the search to: search by author and year, 'viewSongsAddedBtn' to view the currently added songs.
+ *     The class handles the configuration of the behaviour of the buttons: 'removeSearchBtn' to remove the search performed,
+ *     'addSongsToPlaylistBtn' to add the selected songs to the specific playlist, 'advancedSearchBtn' to set the search type,
+ *     'annullaBtn' to cancel the operation of adding songs, 'titleSearchBtn' to set the search to: search by title,
+ *     'authorAndYearSearchBtn' to set the search to: search by author and year, 'viewSongsAddedBtn' to view the currently added songs.
  * </p>
  *
  *  @author <a href="https://github.com/samuk52">Corallo Samuele</a>
@@ -601,6 +601,7 @@ public class AddSongsToPlaylistController implements Initializable {
      * Method that checks if the song passed as a parameter has already been added to the list
      * {@link AddSongsToPlaylistController#songsToAdd}.
      * @param song represents the song to be checked.
+     * @return A {@code boolean} indicating if the song has already been added to the {@link AddSongsToPlaylistController#songsToAdd}.
      */
     public boolean songIsAlreadyAdded(Canzone song){
         /*
