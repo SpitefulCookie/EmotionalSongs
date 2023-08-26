@@ -1,5 +1,13 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -25,6 +33,19 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+/**
+ * Controller class controlling the window for adding {@link AddToPlaylistController#songToAdd} to a specific playlist.
+ * <p>
+ *     This class implements the JavaFX Initializable interface, which is automatically called when the associated FXML dialog
+ *     is loaded. It Initialises the UI components.
+ * </p>
+ * <p>
+ *     The class handles the configuration of the behaviour of the buttons: 'annullaBtn' to cancel the operation of adding song,
+ *     'addToPlaylistBtn' to add the {@link AddToPlaylistController#songToAdd} to the playlist in the {@link AddToPlaylistController#selectedPlaylists}
+ * </p>
+ *
+ *  @author <a href="https://github.com/samuk52">Corallo Samuele</a>
+ */
 public class AddToPlaylistController implements Initializable {
 
     @FXML private ScrollPane scrollPane;
@@ -40,6 +61,16 @@ public class AddToPlaylistController implements Initializable {
     private static IntegerProperty numSelectedPlaylists;
     private static List<String> selectedPlaylists;
 
+    /**
+     * Initializes the window for adding {@link AddToPlaylistController#songToAdd} to a specific playlist.
+     * <p>
+     *     This method is called automatically when the JavaFX dialog associated with this controller is loaded.
+     *     It initializes various UI components and sets up their behavior.
+     * </p>
+     *
+     * @param url The URL of the FXML file.
+     * @param resourceBundle The ResourceBundle associated with the FXML file.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -75,7 +106,11 @@ public class AddToPlaylistController implements Initializable {
 
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link AddToPlaylistController#addToPlaylistBtn}.
+     * <p>
+     *     When the {@link AddToPlaylistController#addToPlaylistBtn} is clicked, the {@link AddToPlaylistController#songToAdd}
+     *     is added to each playlist contained in the {@link AddToPlaylistController#selectedPlaylists}.
+     * </p>
      */
     public void handleAddToPlaylistButtonAction(){
         // ad ogni playlist contenuta nella selectedPlaylists aggiungo la canzone
@@ -117,7 +152,10 @@ public class AddToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link AddToPlaylistController#annullaBtn}.
+     * <p>
+     *     When the {@link AddToPlaylistController#annullaBtn} is clicked, the operation is cancelled and the method closes the window containing the button.
+     * </p>
      */
     public void handleAnnullaButtonAction(){
         // close the stage
@@ -125,13 +163,10 @@ public class AddToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that displays the user's playlists, adding them to the {@link AddToPlaylistController#gridPane},
+     * if the user has no playlists, the pane controlled by the {@link AllPlaylistEmptyController} is displayed.
      */
     public static void viewPlaylist(){
-        /*
-         TODO visualizzare tutte le playlist, per fare ciò aggiunere un metodo getAllPlaylist
-            nella classe allPlaylistController
-         */
 
         System.out.println("---- canzone da aggiungere: " + songToAdd);
 
@@ -169,8 +204,9 @@ public class AddToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param playlistName
+     * Method that adds the playlist passed as a parameter in the {@link AddToPlaylistController#selectedPlaylists}.
+     * this method is invoked by the {@link CreatePlaylistController#registraPlaylist()} and by the {@link Playlist_addToPlaylistController#handleAddToPlaylistAction()}.
+     * @param playlistName indicates the playlist to be added to the {@link AddToPlaylistController#selectedPlaylists}.
      */
     public static void addPlaylist(String playlistName){
         /*
@@ -183,8 +219,9 @@ public class AddToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param playlistName
+     * Method that removes the playlist passed as a parameter from the {@link AddToPlaylistController#selectedPlaylists}.
+     * this method is invoked by the {@link Playlist_addToPlaylistController#handleAddToPlaylistAction()}.
+     * @param playlistName indicates the playlist to be removed from the {@link AddToPlaylistController#selectedPlaylists}.
      */
     public static void removePlaylist(String playlistName){
         /*
@@ -197,8 +234,9 @@ public class AddToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param playlistName
+     * Method that checks if the playlist passed as a parameter is already contained in the {@link AddToPlaylistController#selectedPlaylists}.
+     * @param playlistName represents the playlist to be checked.
+     * @return A {@code boolean} indicating if the playlist has already been added to the {@link AddToPlaylistController#selectedPlaylists}.
      */
     public static boolean playlistAlreadySelected(String playlistName){
         /*
@@ -208,7 +246,11 @@ public class AddToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that loads and adds to the {@link AddToPlaylistController#dynamicScrollPane}, the pane controlled
+     * by the {@link AllPlaylistEmptyController} class, informing the user that he has no playlists created.
+     * <p>
+     *     This method is called by the {@link AddToPlaylistController#viewPlaylist()}, if the user has no playlists created.
+     * </p>
      */
     public static void setAllPlaylistEmpty(){
         try{
@@ -228,8 +270,8 @@ public class AddToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param song
+     * Method that sets the {@link AddToPlaylistController#songToAdd}.
+     * @param song represents the {@link Canzone} that is passed to {@link AddToPlaylistController#songToAdd}.
      */
     public void setSongToAdd(Canzone song){
         songToAdd = song;
