@@ -1,5 +1,13 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,6 +27,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class controlling the window for adding emotions to the song. <p>
+ *
+ * This class implements the JavaFX Initializable interface, which is automatically called when the associated FXML dialog
+ * is loaded. It Initialises the UI components.
+ * The class handles the configuration of the behaviour of the 'annullaBtn' and 'addEmotionsBtn' buttons to cancel or add emotions to the song, respectively.
+ *
+ *  @author <a href="https://github.com/samuk52">Corallo Samuele</a>
+ */
 public class AddEmotionsController implements Initializable {
 
     @FXML private Button addEmotionsBtn;
@@ -46,9 +63,13 @@ public class AddEmotionsController implements Initializable {
 
 
     /**
-     * TODO document
-     * @param url
-     * @param resourceBundle
+     * Initializes the window for adding emotions.
+     * <p>
+     * This method is called automatically when the JavaFX dialog associated with this controller is loaded.
+     * It initializes various UI components and sets up their behavior.
+     *
+     * @param url The URL of the FXML file.
+     * @param resourceBundle The ResourceBundle associated with the FXML file.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -76,12 +97,15 @@ public class AddEmotionsController implements Initializable {
     }
 
     /**
-     * TODO document
+     * This method handles the behaviour of the 'addEmotionsBtn' button, which when pressed
+     * adds each {@link Emozione} to the specific song.
+     * <p>
+     * @throws RemoteException If a communication error occurs during the remote method invocation.
+     * @throws SQLException If the entry of emotions violates the constraints imposed in the database
      */
     public void inserisciEmozioniBrano(){
-        // TODO implementare comportamento
 
-        // DEBUG
+        // DEBUG TODO remove
         System.out.println("aggiungo alla canzone " + song + "\n" +
                 "LE EMOZIONI: " + "\n" +
                 "Amazement: " + Amazement.getScore() + ", " + Amazement.getNotes() + "\n" +
@@ -144,7 +168,7 @@ public class AddEmotionsController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the 'annullaBtn' button, which if pressed closes the add emotions window.
      */
     public void handleAnnullaButtonAction(){
         // close the stage
@@ -152,9 +176,10 @@ public class AddEmotionsController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param emotion
-     * @return
+     * Method which loads and adds the specific {@link Emozione} passed as a parameter to the Add Emotion window.
+     * <p>
+     * @param emotion representing the emotion to be loaded and added to the Add Emotions window.
+     * @return {@link EmotionController} of the loaded emotion, which will be used to get the score and notes of the emotion.
      */
     private EmotionController newEmotion(EmozioneEnum emotion){
 
@@ -181,8 +206,11 @@ public class AddEmotionsController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param song
+     * method that sets the song to which emotions will be added.
+     * @param song the song to which emotions will be added.
+     * @param posInGridPane indicates the position of the song in the GridPane contained in the {@link SelectedPlaylistController},
+     *                      this information will be used to update the song's 'multipleBtn' button, contained in the {@link SongPlaylistController},
+     *                      when emotions are added to the song.
      */
     public void setSong(Canzone song, int posInGridPane){
         this.song = song;
@@ -191,5 +219,4 @@ public class AddEmotionsController implements Initializable {
         // set text of songNameLabel
         songNameLabel.setText(song.getTitolo()  + " (" + song.getAutore() + " - " + song.getAnno() + ")");
     }
-
 }
