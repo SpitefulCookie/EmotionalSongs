@@ -16,7 +16,7 @@ public class ConnectionFailedController {
      */
     @FXML
     public void handleTryAgainButtonAction(){
-        closeConnectionFailedStage(tryAgainButton);
+        GUIUtilities.closeStage(tryAgainButton);
         EmotionalSongsClient.initializeServerConnection(false);
     }
 
@@ -27,17 +27,7 @@ public class ConnectionFailedController {
     @FXML
     public void handleExitButtonAction(){
         // close the connection failed stage
-        closeConnectionFailedStage(exitButton);
-        // close the main stage
-        //EmotionalSongsClient.getStage().close(); // TODO togliere
+        GUIUtilities.closeStage(exitButton);
     }
 
-    /**
-     * TODO document
-     * @param button
-     */
-    public void closeConnectionFailedStage(Button button){
-        Stage stage = (Stage) button.getScene().getWindow();
-        stage.close();
-    }
 }

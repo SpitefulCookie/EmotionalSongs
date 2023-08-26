@@ -33,9 +33,15 @@ public class PlaylistController{
             Node playlist = fxmlLoader.load();
 
             SelectedPlaylistController selectedPlaylistController = fxmlLoader.getController();
-            selectedPlaylistController.openPlaylist(playlistNameLabel.getText());
+            boolean checkOpenPlaylist = selectedPlaylistController.openPlaylist(playlistNameLabel.getText());
 
-            EmotionalSongsClientController.setDynamicPane(playlist);
+            /*
+             aggiunto la playlist al dynamic pane solo se le canzoni della playlist sono state caricate
+             correttamente, quindi solo se la playlist è stata aperta correttamente.
+             */
+            if(checkOpenPlaylist) {
+                EmotionalSongsClientController.setDynamicPane(playlist);
+            }
 
         }catch(IOException e){
             e.printStackTrace();

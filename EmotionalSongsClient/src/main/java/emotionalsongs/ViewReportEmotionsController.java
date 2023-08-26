@@ -48,11 +48,6 @@ public class ViewReportEmotionsController implements Initializable {
      */
     @FXML
     public void handleReturnButtonAction(){
-        /*
-         TODO implementare cosa deve accadere quando viene premuto il pulsante, il suo funzionamento
-            varia in base a se il viewReportEmotions è stato invocato da songController o da
-            SongPlaylistController
-         */
 
         // check if the viewReportEmotions was invoked by songController or songPlaylistController
         if(fromSongController){ // if the viewReportEmotions was invoked by songController
@@ -84,8 +79,9 @@ public class ViewReportEmotionsController implements Initializable {
      * TODO document
      * @param song
      * @param fromSongController
+     * @return
      */
-    public void setEmotions(Canzone song, boolean fromSongController){
+    public boolean setEmotions(Canzone song, boolean fromSongController){
 
         // set the songNameLabel
         songNameLabel.setText(song.getTitolo()  + " (" + song.getAutore() + " - " + song.getAnno() + ")");
@@ -93,48 +89,51 @@ public class ViewReportEmotionsController implements Initializable {
         // set the value of the Boolean variable fromSongController
         this.fromSongController = fromSongController;
 
-         /*
-        TODO modificare in quanto il metogo getEmotionsFromDB mi restituirà una lista di emozioni
-            appena mattia modifica il metodo
-         */
-
         // get the song average emotions
         double[] emotionsAverage = getEmotionsAverageFromDB(song);
 
-        // initialize the barChart
-        initBarChart(emotionsAverage);
+        if(emotionsAverage != null) {
 
-        String[] result = findEmotionWithHighestAverage(emotionsAverage);
+            // initialize the barChart
+            initBarChart(emotionsAverage);
 
-        // get the total Users
-        int totalUsers = getTotalUserFeedbacksForSongs(song);
+            String[] result = findEmotionWithHighestAverage(emotionsAverage);
 
-        // set infoUsersLabel
-        if(totalUsers != 1) {
-            infoUsersLabel.setText(totalUsers + " utenti hanno aggiunto emozioni per questa canzone");
-        }else{
-            infoUsersLabel.setText(totalUsers + " utente ha aggiunto emozioni per questa canzone");
-        }
+            // get the total Users
+            int totalUsers = getTotalUserFeedbacksForSongs(song);
 
-        /*
-         verifico se la canzone ha emozioni associate, la verifica avviene verificando se il valore
-         contenuto nella posizione 1 dell'array result (tale posizione contiene il valore della media
-         più alta) è != - 1.
-         -- result[1] (valore della media più alta) != -1 --> la canzone ha emozioni associate
-         -- result[1] (valore della media più alta) == -1 --> la canzone non ha emozioni associate
-         */
-        if(Double.parseDouble(result[1]) != -1) {
-            // set the infoAverageLabel
-            infoAverageLabel.setText("L'emozione con la media più alta è " + result[0] + " con una media di " + result[1]);
+            // set infoUsersLabel
+            if (totalUsers != 1) {
+                infoUsersLabel.setText(totalUsers + " utenti hanno aggiunto emozioni per questa canzone");
+            } else {
+                infoUsersLabel.setText(totalUsers + " utente ha aggiunto emozioni per questa canzone");
+            }
+
+            /*
+            verifico se la canzone ha emozioni associate, la verifica avviene verificando se il valore
+            contenuto nella posizione 1 dell'array result (tale posizione contiene il valore della media
+            più alta) è != - 1.
+            -- result[1] (valore della media più alta) != -1 --> la canzone ha emozioni associate
+            -- result[1] (valore della media più alta) == -1 --> la canzone non ha emozioni associate
+            */
+            if (Double.parseDouble(result[1]) != -1) {
+                // set the infoAverageLabel
+                infoAverageLabel.setText("L'emozione con la media più alta è " + result[0] + " con una media di " + result[1]);
             /*
             change the border color of the reportEmotionsPane to the color of the emotion with the
             highest average.
             */
-            reportEmotionsPane.getStyleClass().add(result[0]); // NOTA: result[0] contiene il nome dell'emozione con la media più alta
-        }else{
-            // set the infoAverageLabel
-            infoAverageLabel.setText(" - ");
+                reportEmotionsPane.getStyleClass().add(result[0]); // NOTA: result[0] contiene il nome dell'emozione con la media più alta
+            } else {
+                // set the infoAverageLabel
+                infoAverageLabel.setText(" - ");
+            }
+
+            return true;
+
         }
+
+        return false;
 
     }
 

@@ -246,12 +246,15 @@ public class SelectedPlaylistController implements Initializable {
     /**
      * TODO document
      * @param playlistName
+     * @return
      */
-    public void openPlaylist(String playlistName){
+    public boolean openPlaylist(String playlistName){
         /*
         questo metodo viene eseguito nel metodo handleOpenPlaylistAction della
         classe PlaylistController
          */
+
+        boolean songsLoaded = true;
 
         // set the playlist name
         this.playlistNameLabel.setText(playlistName);
@@ -266,7 +269,7 @@ public class SelectedPlaylistController implements Initializable {
              carico le canzoni contenute nella playlist: playlistName
              NOTA: è in questo metodo che avviene l'interazione con il db.
              */
-            loadSongs(playlistName);
+            songsLoaded = loadSongs(playlistName);
 
             // DEGUB TODO remove DEBUG
             System.out.println("apro per la prima voltra la playlist: " + playlistName); // TODO remove
@@ -279,6 +282,8 @@ public class SelectedPlaylistController implements Initializable {
 
         // view the playlist songs
         viewSongs();
+
+        return songsLoaded;
     }
 
     /**
@@ -305,8 +310,9 @@ public class SelectedPlaylistController implements Initializable {
     /**
      * TODO document
      * @param playlistName
+     * @return
      */
-    public static void loadSongs(String playlistName){
+    public static boolean loadSongs(String playlistName){
         /*
         questo metodo interroga il db per farsi restituire tutte le canzoni contenute nella
         playlist: playlistName
@@ -325,8 +331,10 @@ public class SelectedPlaylistController implements Initializable {
 
             // now the playlist has been opened
             AllPlaylistController.setOpenPlaylist(playlistName);
+
+            return true;
+
         }catch (RemoteException e){
-            e.printStackTrace(); // TODO remove
 
             Stage connectionFailedStage = new Stage();
 
@@ -335,6 +343,9 @@ public class SelectedPlaylistController implements Initializable {
             connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
             connectionFailedStage.setResizable(false);
             connectionFailedStage.show();
+
+            return false;
+
         }
     }
 

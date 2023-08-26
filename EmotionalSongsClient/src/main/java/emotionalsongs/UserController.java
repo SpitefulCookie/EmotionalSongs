@@ -24,8 +24,9 @@ public class UserController {
     /**
      * TODO document
      * @param user
+     * @return
      */
-    protected void setUser(String user) {
+    protected boolean setUser(String user) {
 
         // retrive the user data
         String[] userData = retrieveUserData(user).split(",");
@@ -45,17 +46,14 @@ public class UserController {
             // DEBUG TODO remove
             System.out.println("Dati dell'utente: " + EmotionalSongsClientController.getUsername() + " -> " + Arrays.toString(userData));
 
-        }else{
+            return true;
 
-            // set the label
-            usernameLabel.setText(user);
-            nameAndLastNameLabel.setText("-");
-            codiceFiscaleLabel.setText("-");
-            emailLabel.setText("-");
-            addressLabel.setText("-");
+        }else{
 
             // the user data were not retrieved
             EmotionalSongsClientController.setUserDataRetrieved(false);
+
+            return false;
 
         }
 
