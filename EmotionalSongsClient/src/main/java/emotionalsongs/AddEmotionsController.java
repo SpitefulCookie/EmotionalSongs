@@ -99,9 +99,6 @@ public class AddEmotionsController implements Initializable {
     /**
      * This method handles the behaviour of the 'addEmotionsBtn' button, which when pressed
      * adds each {@link Emozione} to the specific song.
-     * <p>
-     * @throws RemoteException If a communication error occurs during the remote method invocation.
-     * @throws SQLException If the entry of emotions violates the constraints imposed in the database
      */
     public void inserisciEmozioniBrano(){
 
