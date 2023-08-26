@@ -195,7 +195,6 @@ public class QueryHandler {
 
     }
 
-
     /**
      * Retrieves the name of the PostgreSQL database being used for the connection.
      *

@@ -189,7 +189,7 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      * @param dbPassword The stored BCrypt hashed password.
      * @return {@code true} if the password matches the hash, otherwise {@code false}.
      */
-    private boolean BCryptVerifyPassword(String password, String dbPassword){
+    private static boolean BCryptVerifyPassword(String password, String dbPassword){
         return BCrypt.checkpw(password, dbPassword);
     }
 

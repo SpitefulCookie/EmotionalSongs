@@ -57,7 +57,7 @@ public class ServerLoginController implements Initializable {
      * Changes the appearance of the username field once selected by the user (typically after it had been highlighted
      * as an error due to a missing or invalid input)
      */
-    @FXML protected void handleUserFieldHighlight(){
+    @FXML private void handleUserFieldHighlight(){
         usernameField.setStyle(null);
     }
 
@@ -65,7 +65,7 @@ public class ServerLoginController implements Initializable {
      * Changes the appearance of the password field once selected by the user (typically after it had been highlighted
      * as an error due to a missing or invalid input)
      */
-    @FXML protected void handlePwdFieldHighlight(){
+    @FXML private void handlePwdFieldHighlight(){
 
         if(isDisplayed){overlappingTextField.setStyle(null);}
         else{pwdField.setStyle(null);}
@@ -76,7 +76,7 @@ public class ServerLoginController implements Initializable {
      * Handles the action when the login button is clicked.
      * Validates the user input, performs login operation, and displays appropriate messages.
      */
-    @FXML protected void handleLoginButtonAction(){
+    @FXML private void handleLoginButtonAction(){
 
         String pwd = null;
         String username = null;
@@ -152,7 +152,7 @@ public class ServerLoginController implements Initializable {
      *
      * The method manages the state of the password visibility and updates the graphical representation accordingly.
      */
-    @FXML protected void onClickEvent(){
+    @FXML private void onClickEvent(){
 
         if(!isDisplayed){
 

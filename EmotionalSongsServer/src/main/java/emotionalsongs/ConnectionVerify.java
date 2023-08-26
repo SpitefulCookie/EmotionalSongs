@@ -29,7 +29,7 @@ import java.util.ArrayList;
  */
 public class ConnectionVerify extends Thread{
 
-    private static Thread _instance;
+    private static Thread threadInstance;
     private static long pingDelay = 180*1000; // 3min / 180s
 
     protected static boolean keepAlive = true;
@@ -42,7 +42,7 @@ public class ConnectionVerify extends Thread{
      */
     public ConnectionVerify(){
         keepAlive = true;
-        _instance = this;
+        threadInstance = this;
         this.setDaemon(true);
         start();
     }
@@ -124,7 +124,7 @@ public class ConnectionVerify extends Thread{
      * @return The instance of the connection verification thread.
      */
     protected static Thread getInstance(){
-        return _instance;
+        return threadInstance;
     }
 
 }

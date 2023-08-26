@@ -81,7 +81,7 @@ public class EmotionalSongsServer extends Application {
      *
      * @param queryHandler The {@link QueryHandler} instance to be used for database queries.
      */
-    public static void initializeQueryHandler(QueryHandler queryHandler) {
+    protected static void initializeQueryHandler(QueryHandler queryHandler) {
         qh = queryHandler;
     }
 
@@ -92,7 +92,7 @@ public class EmotionalSongsServer extends Application {
      *
      * @param authManager The {@link AuthManagerImpl} instance to be used for user authentication.
      */
-    public static void initializeAuthManager(AuthManagerImpl authManager) {
+    protected static void initializeAuthManager(AuthManagerImpl authManager) {
         auth = authManager;
     }
 
@@ -101,7 +101,7 @@ public class EmotionalSongsServer extends Application {
      *
      * @return The instance of the {@link AuthManagerImpl} used for user authentication.
      */
-    public static AuthManagerImpl getAuthManagerInstance() {
+    protected static AuthManagerImpl getAuthManagerInstance() {
         return auth;
     }
 

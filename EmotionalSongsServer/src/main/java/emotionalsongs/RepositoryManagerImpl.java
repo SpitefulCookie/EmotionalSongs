@@ -173,7 +173,7 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
 
             dbReference.executeUpdate(
                 new String[]{
-                    EmozioneEnum.getEmotionNameFromInstance(emozione),
+                    EmozioneEnum.getInstanceName(emozione),
                     userId,
                     songUUID,
                     String.valueOf(emozione.getPunteggio()),
@@ -202,7 +202,7 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
             ArrayList<Emozione> resultsToBeReturned = new ArrayList<>();
 
             for (int i = 0; i< dataRetrieved.size(); i++){
-                Emozione e = EmozioneEnum.getEmotionInstanceFromEnumValue(i);
+                Emozione e = EmozioneEnum.getInstanceFromEnum(i);
                 e.setPunteggio(Integer.parseInt(dataRetrieved.get(i)[0]));
                 e.setCommento(dataRetrieved.get(i)[1]);
                 resultsToBeReturned.add(e);

@@ -50,35 +50,10 @@ public class Canzone implements Serializable {
      */
     public Canzone(String titolo, String autore, int anno, String uuid) {
 
-        super();
         this.songUUID = uuid;
         this.titolo = titolo;
         this.autore = autore;
         this.anno = anno;
-
-    }
-
-    /**
-     * Constructs a new instance of {@link Canzone} with the provided data.<br><br>
-     *
-     * <p>This constructor initializes a new {@code Canzone} object from the provided array of strings.
-     * The provided data must follow this structure:
-     * <ol>
-     *     <li>SongUUID</li>
-     *     <li>Title</li>
-     *     <li>Author</li>
-     *     <li>Year of release</li>
-     * </ol>
-     *
-     * @param dati An array of {@code String} containing the data pertaining to the song.
-     *
-     */
-    public Canzone(String[] dati){
-
-        this.songUUID = dati[0];
-        this.titolo = dati[1];
-        this.autore = dati[2];
-        this.anno = Integer.parseInt(dati[3]);
 
     }
 
