@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#moveWindows" prefHeight="750.0" prefWidth="1200.0" styleClass="dynamicPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.EmotionalSongsClientController">
+   <left>
+      <VBox fx:id="sideBar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="715.0" prefWidth="100.0" styleClass="sideBar" stylesheets="@Style/customStyle.css" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="104.0" prefWidth="295.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <ImageView fitHeight="79.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/logo2.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="resizeSidebarBtn" mnemonicParsing="false" onAction="#handleResizeSidebarButtonAction" prefHeight="32.0" prefWidth="28.0" styleClass="buttonResizeSideBar" stylesheets="@Style/customStyle.css">
+                     <graphic>
+                        <ImageView fx:id="resizeSidebarImg" fitHeight="18.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/openIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+            <Pane prefHeight="15.0" prefWidth="100.0" />
+            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="54.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Button fx:id="searchBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleSearchButtonAction" prefHeight="25.0" prefWidth="100.0" styleClass="buttonSideBar" stylesheets="@Style/customStyle.css" textFill="#bbbbbb" HBox.hgrow="ALWAYS">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/searchIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="Arial Bold" size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="57.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Button fx:id="playlistBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handlePlaylistButtonAction" prefHeight="25.0" prefWidth="25.0" styleClass="buttonSideBar" textFill="#bbbbbb" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="Arial Bold" size="18.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/playlistIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+               </children>
+            </HBox>
+            <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="255.0" prefWidth="100.0" VBox.vgrow="ALWAYS" />
+            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="61.0" prefWidth="100.0" stylesheets="@Style/customStyle.css" VBox.vgrow="ALWAYS">
+               <children>
+                  <Button fx:id="userBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleUserButtonAction" prefHeight="25.0" prefWidth="0.0" styleClass="buttonSideBar" stylesheets="@Style/customStyle.css" textFill="#bbbbbb" HBox.hgrow="ALWAYS">
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/userIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="Arial" size="15.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="61.0" prefWidth="100.0" stylesheets="@Style/customStyle.css" VBox.vgrow="ALWAYS">
+               <children>
+                  <Button fx:id="exitBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleExitButtonAction" prefHeight="25.0" prefWidth="25.0" styleClass="buttonSideBar" stylesheets="@Style/customStyle.css" textFill="#bbbbbb" HBox.hgrow="ALWAYS">
+                     <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/exitIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="Arial Bold" size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+            <Pane prefHeight="21.0" prefWidth="335.0" />
+         </children></VBox>
+   </left>
+   <top>
+      <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="1200.0" styleClass="titleBarMain" stylesheets="@Style/customStyle.css" BorderPane.alignment="CENTER">
+         <children>
+            <Pane prefHeight="40.0" prefWidth="13.0" />
+            <ImageView fitHeight="26.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/fire.png" />
+               </image>
+            </ImageView>
+            <Label text=" Emotional Songs" textFill="#bbbbbb" />
+            <Pane prefHeight="35.0" prefWidth="913.0" HBox.hgrow="ALWAYS" />
+            <Button fx:id="minimizeStageBtn" mnemonicParsing="false" onAction="#handleMinimizeStageButtonAction" prefHeight="29.0" prefWidth="43.0" styleClass="buttonTitleBarMain" stylesheets="@Style/customStyle.css">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/minimizeIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="maximizedStageBtn" maxHeight="35.0" maxWidth="24.0" mnemonicParsing="false" onAction="#handleMaximizedStageButtonAction" prefHeight="35.0" prefWidth="24.0" styleClass="buttonTitleBarMain" stylesheets="@Style/customStyle.css">
+               <graphic>
+                  <ImageView fx:id="maximizedImg" fitHeight="21.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/fullScreenIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="closeBtn" mnemonicParsing="false" onAction="#handleCloseButtonAction" prefHeight="29.0" prefWidth="28.0" styleClass="buttonTitleBarMain" stylesheets="@Style/customStyle.css">
+               <graphic>
+                  <ImageView fitHeight="21.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/closeWindows.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Pane prefHeight="35.0" prefWidth="7.0" />
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <BorderPane fx:id="dynamicPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="715.0" prefWidth="1037.0" BorderPane.alignment="CENTER">
+         <top>
+            <Pane maxHeight="15.0" prefHeight="10.0" prefWidth="1123.0" styleClass="sideBar" stylesheets="@Style/customStyle.css" BorderPane.alignment="CENTER" />
+         </top>
+         <left>
+            <Pane prefHeight="691.0" prefWidth="15.0" styleClass="sideBar" stylesheets="@Style/customStyle.css" BorderPane.alignment="CENTER" />
+         </left>
+         <right>
+            <Pane prefHeight="200.0" prefWidth="15.0" styleClass="sideBar" stylesheets="@Style/customStyle.css" BorderPane.alignment="CENTER" />
+         </right>
+         <bottom>
+            <Pane prefHeight="15.0" prefWidth="1123.0" styleClass="sideBar" stylesheets="@Style/customStyle.css" BorderPane.alignment="CENTER" />
+         </bottom></BorderPane>
+   </center>
+</BorderPane>
