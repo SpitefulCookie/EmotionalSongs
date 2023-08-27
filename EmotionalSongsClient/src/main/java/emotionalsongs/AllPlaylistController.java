@@ -71,7 +71,7 @@ public class AllPlaylistController implements Initializable {
      * Initialises the GUI components and sets the initial state for displaying user playlists.<br><br>
      *
      * This method is called automatically when the FXML file associated with this controller is loaded.
-     * when called automatically, it initialises the GUI components and displays the user's playlists via
+     * When called automatically, it initialises the GUI components and displays the user's playlists via
      * {@link AllPlaylistController#viewAllPlaylist()}.
      *
      */
