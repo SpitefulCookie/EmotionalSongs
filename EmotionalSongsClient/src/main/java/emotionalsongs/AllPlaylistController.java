@@ -1,5 +1,13 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,6 +27,24 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.*;
 
+
+/**
+ * The controller class for displaying the user's playlists.
+ * <p>
+ *     this class implements the functionality necessary to display the user's playlists.
+ *     The functionalities handled by this class are:
+ *     <ul>
+ *         <li>
+ *             Display the user's playlists, using the appropriate method {@link AllPlaylistController#viewAllPlaylist()}.
+ *         </li>
+ *         <li>
+ *             Add a new playlist, via the {@link AllPlaylistController#addPlaylistBtn}.
+ *         </li>
+ *     </ul>
+ * </p>
+ *
+ * @author <a href="https://github.com/samuk52">Corallo Samuele</a>
+ */
 public class AllPlaylistController implements Initializable {
 
     private static final int BUTTON_MAX_WIDTH = 185;
@@ -38,14 +64,16 @@ public class AllPlaylistController implements Initializable {
     private static GridPane dynamicGridPane;
     private static Button addPlaylistButton_;
 
-    //protected static List<String> playlist;
     protected static HashMap<String, ArrayList<Canzone>> playlists;
     protected static HashMap<String, Boolean> openPlaylists; // mi indica se la playlist specifica è stata aperta o meno
 
     /**
-     * TODO document
-     * @param url
-     * @param resourceBundle
+     * Initialises the GUI components and sets the initial state for displaying user playlists.<br><br>
+     *
+     * This method is called automatically when the FXML file associated with this controller is loaded.
+     * when called automatically, it initialises the GUI components and displays the user's playlists via
+     * {@link AllPlaylistController#viewAllPlaylist()}.
+     *
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -53,11 +81,11 @@ public class AllPlaylistController implements Initializable {
         il motivo per il quale ho due scrollPane(uguali) e due gridPane (uguali) è il seguente:
         lo scrollPane e il gridPane devono essere statici per vari motivi dovuti alla dinamicità di essi
         (se hai qualche dubbio contattami che te li spiego a voce), ma i componenti fxml non possono essere
-        dichiarati statici, questo probelma l'ho risolvo (anche se in maniera non del tutto bella)
+        dichiarati statici, questo problema l'ho risolvo (anche se in maniera non del tutto bella)
         creato un altro scrollPane questa volta statico e un altro gridPane anch'esso statico, e assegnando
-        a loro le componenti equivalenti fxml. di fatto scrollPane e dynamicScrollPane sono la stessa cosa
+        a loro le componenti equivalenti fxml. Di fatto scrollPane e dynamicScrollPane sono la stessa cosa
         idem gridPane con dynamicGridPane.
-        il tutto vale anche per l'addPlaylistButton.
+        Il tutto vale anche per addPlaylistButton.
         (SE HAI QUALCHE DUBBIO SCRIVIMI)
          */
         dynamicScrollPane = scrollPane;
@@ -68,39 +96,19 @@ public class AllPlaylistController implements Initializable {
         dynamicScrollPane.setFitToHeight(true);
         dynamicScrollPane.setFitToWidth(true);
 
-        //scrollPane_.setContent(dynamicGridPane_); // magari questo assegnamento serve di nuovo
-
-        /* TODO remove all
-         inizializzo la playlist list, dato che essa è statica questa questa operazione
-         la faccio una sola volta (ovvero la prima) ecco il motivo dell'if
-
-        if(playlist == null) {
-            //playlist = new ArrayList<String>();
-            playlist = new HashMap<>();
-            openPlaylists = new HashMap<>();
-        }*/
-
         // display the user playlist
         viewAllPlaylist();
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link AllPlaylistController#addPlaylistBtn}.
+     * <p>
+     *     When {@link AllPlaylistController#addPlaylistBtn} is clicked, the {@link Stage} (window) controlled
+     *     by the class {@link CreatePlaylistController} opens, allowing the creation of a new playlist.
+     * </p>
      */
     @FXML
     public void handleAddPlaylistButtonAction(){
-        // TODO aprire il pane createPlaylist.fxml
-
-        /* TODO remove, perchè devo agire anche sul controller
-        Stage createPlaylistStage = new Stage();
-
-        createPlaylistStage.setScene(GUIUtilities.getInstance().getScene("createPlaylist.fxml"));
-        CreatePlaylistController.clearPlaylistNameField(); // "pulisco" la textField
-        createPlaylistStage.initStyle(StageStyle.UNDECORATED);
-        createPlaylistStage.setResizable(false);
-        createPlaylistStage.initModality(Modality.APPLICATION_MODAL);
-        createPlaylistStage.show();
-        */
 
         try{
             Stage createPlaylistStage = new Stage();
@@ -122,20 +130,27 @@ public class AllPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that manages the display of the {@link AllPlaylistController#addPlaylistBtn} when the mouse moved over it.
+     * <p>
+     *     When the mouse is moved over the {@link AllPlaylistController#addPlaylistBtn}, the button text
+     *     is set and its width is changed.
+     * </p>
      */
     @FXML
     public void handleMouseMovedAction(){
         /*
          quando il mouse passa sopra al addPlaylistButton viene settato il testo del pulsante e viene reimpostata
-         la sua lunghezza, così da creare una specie di animazione
+         la sua lunghezza, così da creare una specie di animazione.
          */
         addPlaylistButton_.setText("Nuova Playlist");
         addPlaylistButton_.setMaxWidth(BUTTON_MAX_WIDTH);
     }
 
     /**
-     * TODO document
+     * Method that manages the display of the {@link AllPlaylistController#addPlaylistBtn} when the mouse is exited.
+     * <p>
+     *     When the mouse leaves the {@link AllPlaylistController#addPlaylistBtn}, it is set to its initial state.
+     * </p>
      */
     @FXML
     public void handleMouseExitedAction(){
@@ -149,9 +164,13 @@ public class AllPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param playlistName
-     * @return
+     * Method that adds the playlist passed as a parameter to the database via the appropriate method {@link RepositoryManager#registerPlaylist(String playlistName, String username)}
+     * and to the lists {@link AllPlaylistController#playlists}, {@link AllPlaylistController#openPlaylists}.
+     * <p>
+     *     This method is invoked in the {@link CreatePlaylistController#registraPlaylist()} method, when a new playlist is created.
+     * </p>
+     * @param playlistName represents the name of the playlist to be added.
+     * @return A {@code boolean} which indicates if the playlist insertion was successful or not.
      */
     public static boolean addNewPlaylist(String playlistName) {
         try {
@@ -195,8 +214,12 @@ public class AllPlaylistController implements Initializable {
     }
 
     /**
-     * TODO documnet
-     * @param playlistName
+     * Method that adds the playlist passed as a parameter to the lists {@link AllPlaylistController#playlists}, {@link AllPlaylistController#openPlaylists}.
+     * <p>
+     *     This method is invoked in the {@link AllPlaylistController#loadPlaylist()} method, when the
+     *     user's playlists are loaded from the database.
+     * </p>
+     * @param playlistName represents the name of the playlist to be added.
      */
     public static void addReturnedPlaylist(String playlistName){
         /*
@@ -205,7 +228,6 @@ public class AllPlaylistController implements Initializable {
         dell'utente loggato, quindi nel metodo uploadPlaylists, di conseguenza la playlist passata
         non viene inserita nel DB, cosa che invece avviene nel metodo addNewPlaylist
          */
-
         if (!playlists.containsKey(playlistName)){
             playlists.put(playlistName, new ArrayList<Canzone>());
             openPlaylists.put(playlistName, false); // inizialmente il valore è settato su false perchè la playlit non è stata mai aperta
@@ -213,16 +235,18 @@ public class AllPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param playlistName
-     * @return
+     * Method that checks if the playlist is contained or not in the {@link AllPlaylistController#playlists}.
+     *
+     * @param playlistName represents the playlist to be checked.
+     * @return A {@code boolean} indicating if the playlist is contained or not in the {@link AllPlaylistController#playlists}.
      */
     public static boolean checkPlaylistName(String playlistName){
         return !playlists.containsKey(playlistName);
     }
 
     /**
-     * TODO document
+     * Method that displays the user's playlists, adding them to the {@link AllPlaylistController#dynamicGridPane},
+     * if the user has no playlists, the pane controlled by the {@link AllPlaylistEmptyController} is displayed.
      */
     public static void viewAllPlaylist(){
         /*
@@ -262,7 +286,11 @@ public class AllPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that loads and adds to the {@link AllPlaylistController#dynamicScrollPane}, the pane controlled
+     * by the {@link AllPlaylistEmptyController} class, informing the user that he has no playlists created.
+     * <p>
+     *     This method is called by the {@link AllPlaylistController#viewAllPlaylist()}, if the user has no playlists created.
+     * </p>
      */
     public static void setAllPlaylistEmpty(){
         try{
@@ -285,9 +313,10 @@ public class AllPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param playlistName
-     * @param songs
+     * Method that adds the songs contained in the list passed as a parameter to the playlist.
+     *
+     * @param playlistName represents the playlist into which the songs.
+     * @param songs represents the songs to be added to the playlist passed as a parameter.
      */
     public static void addSongs(String playlistName, List<Canzone> songs){
         /*
@@ -297,9 +326,10 @@ public class AllPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param playlistName
-     * @param songs
+     * Method that adds the song passed as a parameter to the playlist.
+     *
+     * @param playlistName represents the playlist into which the song.
+     * @param songs represents the song to be added to the playlist passed as a parameter.
      */
     public static void addSongs(String playlistName, Canzone songs) {
         /*
@@ -314,9 +344,10 @@ public class AllPlaylistController implements Initializable {
 
 
     /**
-     * TODO document
-     * @param playlistName
-     * @return
+     * Method that returns the songs in the playlist passed as a parameter.
+     *
+     * @param playlistName represents the playlist whose songs are to be returned.
+     * @return A {@link List} containing the songs contained in the playlist passed as parameter.
      */
     public static List<Canzone> getSongs(String playlistName){
         /*
@@ -326,10 +357,11 @@ public class AllPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param playlistName
-     * @param song
-     * @return
+     * Method which checks if the song passed as a parameter is present in the playlist passed as a parameter.
+     *
+     * @param playlistName represents the playlist in which to check the song.
+     * @param song represents the song to be controlled.
+     * @return A {@code boolean} which indicates if the song passed as a parameter is present in the playlist passed as a parameter.
      */
     public static boolean songAlreadyExist(String playlistName, Canzone song){
         /*
@@ -349,9 +381,10 @@ public class AllPlaylistController implements Initializable {
     }
 
     /**
-     * TODO doccument
-     * @param playlistName
-     * @return
+     * Method which returns if the playlist passed as a parameter has already been opened.
+     *
+     * @param playlistName represents the playlist to be checked.
+     * @return A {@code boolean} which indicates if the playlist passed as a parameter has already been opened or not.
      */
     public static boolean getPlaylistWasOpened(String playlistName){
         /*
@@ -364,8 +397,9 @@ public class AllPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param playlistName
+     * Method which sets the playlist passed as a parameter as open.
+     *
+     * @param playlistName represents the playlist to be set as open.
      */
     public static void setOpenPlaylist(String playlistName){
         /*
@@ -376,15 +410,15 @@ public class AllPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @return
+     * method which returns all the keys of the {@link AllPlaylistController#playlists}, each key representing a playlist created by the user.
+     * @return A {@link Set} containing the keys of the {@link AllPlaylistController#playlists}.
      */
     public static Set<String> returnAllPlaylist(){
         return playlists.keySet();
     }
 
     /**
-     * TODO document
+     * Method that loads all the user's playlists from the database using the appropriate method {@link RepositoryManager#getUserPlaylists(String user)}.
      */
     public static void loadPlaylist(){
         /*
