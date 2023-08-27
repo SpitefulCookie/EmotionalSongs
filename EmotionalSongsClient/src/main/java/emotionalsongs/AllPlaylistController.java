@@ -170,7 +170,7 @@ public class AllPlaylistController implements Initializable {
      *     This method is invoked in the {@link CreatePlaylistController#registraPlaylist()} method, when a new playlist is created.
      * </p>
      * @param playlistName represents the name of the playlist to be added.
-     * @return A {@code boolean} which indicates if the playlist insertion was successful or not.
+     * @return {@code true} if the insertion of the playlist in the database was successful, {@code false} otherwise.
      */
     public static boolean addNewPlaylist(String playlistName) {
         try {
@@ -238,7 +238,7 @@ public class AllPlaylistController implements Initializable {
      * Method that checks if the playlist is contained or not in the {@link AllPlaylistController#playlists}.
      *
      * @param playlistName represents the playlist to be checked.
-     * @return A {@code boolean} indicating if the playlist is contained or not in the {@link AllPlaylistController#playlists}.
+     * @return {@code true} if the playlist is <strong>not</strong> contained in the{@link AllPlaylistController#playlists}, {@code false} otherwise.
      */
     public static boolean checkPlaylistName(String playlistName){
         return !playlists.containsKey(playlistName);
@@ -361,7 +361,8 @@ public class AllPlaylistController implements Initializable {
      *
      * @param playlistName represents the playlist in which to check the song.
      * @param song represents the song to be controlled.
-     * @return A {@code boolean} which indicates if the song passed as a parameter is present in the playlist passed as a parameter.
+     * @return {@code true} if the song passed as a parameter is present in the playlist passed as a parameter,
+     *         {@code false} otherwise.
      */
     public static boolean songAlreadyExist(String playlistName, Canzone song){
         /*
@@ -384,7 +385,7 @@ public class AllPlaylistController implements Initializable {
      * Method which returns if the playlist passed as a parameter has already been opened.
      *
      * @param playlistName represents the playlist to be checked.
-     * @return A {@code boolean} which indicates if the playlist passed as a parameter has already been opened or not.
+     * @return {@code true} if the playlist passed as a parameter has already been opened, {@code false} otherwise.
      */
     public static boolean getPlaylistWasOpened(String playlistName){
         /*
