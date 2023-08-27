@@ -1,5 +1,13 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -15,11 +23,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/*
-TODO :
-    1- aggiungere pulsante che permette l'inserimento della canzoni durante la creazione della playlist (questo
-    perchè abbiamo imposto come vincolo che le playlist non possono essere vuote (anche se io lo rivedrei questo
-    vicolo))
+/**
+ * Controller class controlling the {@link Stage} (window) for the creation of a new playlist.
+ * <p>
+ *     This class implements the JavaFX Initializable interface, which is automatically called when the associated FXML dialog
+ *     is loaded. It Initialises the UI components.
+ * </p>
+ *
+ *  @author <a href="https://github.com/samuk52">Corallo Samuele</a>
  */
 public class CreatePlaylistController implements Initializable {
 
@@ -36,6 +47,19 @@ public class CreatePlaylistController implements Initializable {
 
     private boolean fromAddToPlaylist;
 
+    /**
+     * Initializes the window for the creation of a new playlist.
+     * <p>
+     *     This method is called automatically when the JavaFX dialog associated with this controller is loaded.
+     *     It initializes various UI components and adds a {@link ChangeListener} to the {@link CreatePlaylistController#playlistNameField}
+     *     to check in 'real time' if a playlist with the same name as the one entered in the {@link CreatePlaylistController#playlistNameField}
+     *     already exists; if it does, the {@link CreatePlaylistController#existingPlaylistLabel} is displayed
+     *     and the {@link CreatePlaylistController#createPlaylistBtn} is disabled.
+     * </p>
+     *
+     * @param url The URL of the FXML file.
+     * @param resourceBundle The ResourceBundle associated with the FXML file.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -70,7 +94,10 @@ public class CreatePlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link CreatePlaylistController#annullaBtn}.
+     * <p>
+     *     When the {@link CreatePlaylistController#annullaBtn} is clicked, the operation is cancelled and the method closes the window containing the button.
+     * </p>
      */
     @FXML
     public void handleAnnullaButtonAction(){
@@ -79,7 +106,25 @@ public class CreatePlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link CreatePlaylistController#createPlaylistBtn}.
+     * <p>
+     *     When the {@link CreatePlaylistController#createPlaylistBtn} is clicked, the playlist with the same
+     *     name as the one entered in the {@link CreatePlaylistController#playlistNameField} is created.
+     * </p>
+     * <p>
+     *     Once the playlist has been created, the behaviour of the method varies according to the value
+     *     of the {@link CreatePlaylistController#fromAddToPlaylist}:
+     *     <of>
+     *         <li>
+     *             if {@link CreatePlaylistController#fromAddToPlaylist} is {@code true}, the playlist is added
+     *             and displayed in the window controlled by the {@link AddToPlaylistController} class.
+     *         </li>
+     *         <li>
+     *             if {@link CreatePlaylistController#fromAddToPlaylist} is {@code false}, the playlist is added and displayed in the
+     *             'dynamicPane' contained in the class {@link EmotionalSongsClientController}.
+     *         </li>
+     *     </of>
+     * </p>
      */
     @FXML
     public void registraPlaylist(){
@@ -139,19 +184,12 @@ public class CreatePlaylistController implements Initializable {
     }
 
     /**
+     * Method that sets {@link CreatePlaylistController#fromAddToPlaylist}.
      *
-     * @param fromAddToPlaylist
+     * @param fromAddToPlaylist represents the {@code boolean} variable with which the {@link CreatePlaylistController#fromAddToPlaylist} will be set.
      */
     public void setFromAddToPlaylist(boolean fromAddToPlaylist){
         this.fromAddToPlaylist = fromAddToPlaylist;
     }
-
-
-    /**
-     * TODO document
-     */
-    public static void clearPlaylistNameField(){
-        playlistNameField_.setText("");
-    } // TODO remove ?
 
 }
