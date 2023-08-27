@@ -236,7 +236,8 @@ public class AddToPlaylistController implements Initializable {
     /**
      * Method that checks if the playlist passed as a parameter is already contained in the {@link AddToPlaylistController#selectedPlaylists}.
      * @param playlistName represents the playlist to be checked.
-     * @return A {@code boolean} indicating if the playlist has already been added to the {@link AddToPlaylistController#selectedPlaylists}.
+     * @return {@code true} if the playlist has already been added to the {@link AddToPlaylistController#selectedPlaylists},
+     *         {@code false} otherwise.
      */
     public static boolean playlistAlreadySelected(String playlistName){
         /*
