@@ -1,5 +1,13 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -23,13 +31,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/*
-TODO:
-   - vedere se si riesce a sistemare lo style dei pulsanti, ovvero sistemare quando il mouse passa sopra al
-     pusante, se non si riesce amen.
-   - implenatare stage per selezionare le playlist quando si preme sul pulsante aggiungi a una playlist.
-   - implementare stage per visualizzazione emozioni.
-   - sistemare ricerca impostando il filtro: ricerca per titolo o ricerca per autore e anno.
+/**
+ * Controller class for the main view of the client application.
+ * <p>
+ *     This class is responsible for managing the user interface and behavior of the main client view.
+ * </p>
+ *
+ *  @author <a href="https://github.com/samuk52">Corallo Samuele</a>
  */
 public class EmotionalSongsClientController implements Initializable {
 
@@ -76,9 +84,14 @@ public class EmotionalSongsClientController implements Initializable {
     private static Button[] buttonsSideBar;
 
     /**
-     * TODO document
-     * @param url
-     * @param resourceBundle
+     * Initializes the client main view.
+     * <p>
+     *     This method is automatically called when the JavaFX scene associated with this controller is loaded.
+     *     It sets up the initial state of UI components.
+     * </p>
+     *
+     * @param url The URL of the FXML file.
+     * @param resourceBundle The ResourceBundle associated with the FXML file.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -115,11 +128,13 @@ public class EmotionalSongsClientController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param event
+     * Method that handles the behaviour of the {@link EmotionalSongsClientController#closeBtn}.
+     * <p>
+     *     When the {@link EmotionalSongsClientController#closeBtn} is clicked, the client application is closed.
+     * </p>
      */
     @FXML
-    public void handleCloseButtonAction(ActionEvent event){
+    public void handleCloseButtonAction(){
         EmotionalSongsClient.disconnectClient();
         EmotionalSongsClient.getStage().close();
         // TODO added the following lines as an attempt to fix the client remaining open in the background after
@@ -129,7 +144,21 @@ public class EmotionalSongsClientController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link EmotionalSongsClientController#maximizedStageBtn}.
+     * <p>
+     *     When the {@link EmotionalSongsClientController#maximizedStageBtn} is clicked, depending on the value of
+     *     the {@link EmotionalSongsClientController#isMaximized}, the client application is either maximised or
+     *     reset to the default size:
+     *     <of>
+     *         <li>
+     *             If {@link EmotionalSongsClientController#isMaximized} is {@code false}, the client application is maximised.
+     *         </li>
+     *         <li>
+     *             If {@link EmotionalSongsClientController#isMaximized} is {@code true}, the client application
+     *             is returned to its default size.
+     *         </li>
+     *     </of>
+     * </p>
      */
     @FXML
     public void handleMaximizedStageButtonAction(){
@@ -170,7 +199,10 @@ public class EmotionalSongsClientController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link EmotionalSongsClientController#minimizeStageBtn}.
+     * <p>
+     *     When the {@link EmotionalSongsClientController#minimizeStageBtn} is clicked, the client application is minimize.
+     * </p>
      */
     @FXML
     public void handleMinimizeStageButtonAction(){
@@ -178,7 +210,12 @@ public class EmotionalSongsClientController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link EmotionalSongsClientController#searchBtn}.
+     * <p>
+     *     When the {@link EmotionalSongsClientController#searchBtn} is clicked, the {@link Node} controlled by the
+     *     {@link SearchController} class for searching songs is loaded and added to the
+     *     {@link EmotionalSongsClientController#dynamicPane}.
+     * </p>
      */
     @FXML
     public void handleSearchButtonAction(){
@@ -202,7 +239,12 @@ public class EmotionalSongsClientController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link EmotionalSongsClientController#playlistBtn}.
+     * <p>
+     *     When the {@link EmotionalSongsClientController#playlistBtn} is clicked, the {@link Node} controlled by the
+     *     {@link AllPlaylistController} class to display the user's playlists is loaded and added to the
+     *     {@link EmotionalSongsClientController#dynamicPane}.
+     * </p>
      */
     @FXML
     public void handlePlaylistButtonAction(){
@@ -214,7 +256,21 @@ public class EmotionalSongsClientController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link EmotionalSongsClientController#userBtn}.
+     * <p>
+     *     When the {@link EmotionalSongsClientController#userBtn} is clicked:
+     *     <of>
+     *         <li>
+     *             If {@link EmotionalSongsClientController#isGuest} is {@code true}, the {@link Node} controlled by the
+     *             {@link GuestController} class is loaded and added to the {@link EmotionalSongsClientController#dynamicPane}.
+     *         </li>
+     *         <li>
+     *             If {@link EmotionalSongsClientController#isGuest} is {@code false}, the {@link Node} controlled by the
+     *             {@link UserController} class to display user data is loaded and added to the
+     *             {@link EmotionalSongsClientController#dynamicPane}.
+     *         </li>
+     *     </of>
+     * </p>
      */
     @FXML
     public void handleUserButtonAction(){
@@ -278,7 +334,11 @@ public class EmotionalSongsClientController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link EmotionalSongsClientController#exitBtn}.
+     * <p>
+     *     When the {@link EmotionalSongsClientController#exitBtn} is clicked, the {@link Stage} (window) controlled
+     *     by the {@link ExitController} class is displayed, allowing the user to logout.
+     * </p>
      */
     @FXML
     public void handleExitButtonAction(){
@@ -294,7 +354,18 @@ public class EmotionalSongsClientController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link EmotionalSongsClientController#resizeSidebarBtn}.
+     * <p>
+     *     When the {@link EmotionalSongsClientController#resizeSidebarBtn} is clicked:
+     *     <of>
+     *         <li>
+     *             If {@link EmotionalSongsClientController#sideBarIsOpen} is {@code false}, the sidebar is opened.
+     *         </li>
+     *         <li>
+     *             If {@link EmotionalSongsClientController#sideBarIsOpen} is {@code true}, the sidebar is closed.
+     *         </li>
+     *     </of>
+     * </p>
      */
     @FXML public void handleResizeSidebarButtonAction(){
         System.out.println("pulsante resize sidebar premuto");
@@ -391,7 +462,6 @@ public class EmotionalSongsClientController implements Initializable {
      * the application window.
      * The values updated within this method are used to move the application window.
      *
-     *
      * @param event The MouseEvent representing the mouse event that triggered the calculation.
      */
     private void calculateGap(MouseEvent event){
@@ -400,8 +470,10 @@ public class EmotionalSongsClientController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param fxml
+     * Method that loads the {@link FXML} file passed as a parameter and adds it to
+     * the {@link EmotionalSongsClientController#dynamicPane}
+     *
+     * @param fxml represents the {@link FXML} file to be loaded.
      */
     public static void setDynamicPane(String fxml){
         try{
@@ -415,8 +487,9 @@ public class EmotionalSongsClientController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param pane
+     * Method which adds the {@link Node} passed as a parameter to {@link EmotionalSongsClientController#dynamicPane}.
+     *
+     * @param pane represents the {@link Node} to be added.
      */
     public static void setDynamicPane(Node pane){
         /*
@@ -428,9 +501,15 @@ public class EmotionalSongsClientController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param username
-     * @param userIsGuest
+     * Method that sets the user.
+     * <p>
+     *     This method sets the {@link EmotionalSongsClientController#username} with the {@code String} passed as parameter and
+     *     the {@link EmotionalSongsClientController#isGuest} with the {@code boolean} passed as parameter and loads the user's playlists
+     *     via the appropriate method {@link AllPlaylistController#loadPlaylist()} if the user is not a guest.
+     * </p>
+     *
+     * @param username represents the {@code String} with which to set the {@link EmotionalSongsClientController#username}.
+     * @param userIsGuest represents the {@code boolean} with which to set the {@link EmotionalSongsClientController#isGuest}.
      */
     public void setUser(String username, boolean userIsGuest){
         // set the username
@@ -458,14 +537,15 @@ public class EmotionalSongsClientController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param button
+     * Method modifying the style of the button passed as a parameter.
+     *
+     * @param button represents the {@link Button} to which the style will be changed.
      */
     private void setClickedStyle(Button button){
         /*
         metodo che definisce lo style del pulsante quando esso viene premuto. esso controlla qual'è il
         button nella lista che è stato cliccato e gli va a impostare come style il setHoverStyle, agli
-        altri button invece imposta come style il setBaseStyle
+        altri button invece imposta come style il setBaseStyle.
          */
         for (int i = 0; i < buttonsSideBar.length; i++){
             if(buttonsSideBar[i] == button){
@@ -477,9 +557,11 @@ public class EmotionalSongsClientController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param buttonsSideBar
-     * @param pos
+     * Method that sets the alignment of the buttons contained in the array passed as a parameter to the
+     * {@link Pos} passed as a parameter.
+     *
+     * @param buttonsSideBar represents the array containing the buttons of which to set the alignment.
+     * @param pos represents the position where the alignment of each button will be set.
      */
     private void setButtonsSideBarAlignment(Button[] buttonsSideBar, Pos pos){
         /*
@@ -491,40 +573,45 @@ public class EmotionalSongsClientController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param user
+     * Method that sets the {@link EmotionalSongsClientController#username}.
+     *
+     * @param user represents the {@code String} with which to set the {@link EmotionalSongsClientController#username}.
      */
     public void setUsername(String user){
         username = user;
     }
 
     /**
-     * TODO document
-     * @return
+     * Method that return the {@link EmotionalSongsClientController#username}.
+     *
+     * @return The {@code String} contained in the {@link EmotionalSongsClientController#username}.
      */
     public static String getUsername(){
         return username;
     }
 
     /**
-     * TODO document
-     * @param userIsGuest
+     * Method that sets {@link EmotionalSongsClientController#isGuest}.
+     *
+     * @param userIsGuest represents the {@code boolean} with which to set the {@link EmotionalSongsClientController#isGuest}.
      */
     public void setIsGuest(boolean userIsGuest){
         isGuest = userIsGuest;
     }
 
     /**
-     * TODO document
-     * @return isGuest
+     * Method that return {@link EmotionalSongsClientController#isGuest}.
+     *
+     * @return The value of {@link EmotionalSongsClientController#isGuest}.
      */
     public static boolean getIsGuest(){
         return isGuest;
     }
 
     /**
-     * TODO document
-     * @param value
+     * Method that sets the {@link EmotionalSongsClientController#userDataRetrieved}.
+     *
+     * @param value represents the {@code boolean} with which to set the {@link EmotionalSongsClientController#userDataRetrieved}.
      */
     protected static void setUserDataRetrieved(boolean value){
         userDataRetrieved = value;
