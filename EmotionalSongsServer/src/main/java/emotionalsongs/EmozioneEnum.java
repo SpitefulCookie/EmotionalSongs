@@ -36,17 +36,29 @@ public enum EmozioneEnum{
      */
     public String description(){
 
-        return switch (this) {
-            case AMAZEMENT -> "Feeling of wonder or happiness";
-            case CALMNESS -> "Relaxation, serenity, meditativeness";
-            case JOY -> "Feels like dancing, bouncy feeling, animated, amused";
-            case NOSTALGIA -> "Dreamy, melancholic, sentimental feelings";
-            case POWER -> "Feeling strong, heroic, triumphant, energetic";
-            case SADNESS -> "Feeling Depressed, sorrowful";
-            case SOLEMNITY -> "Feeling of transcendence, inspiration. Thrills.";
-            case TENDERNESS -> "Sensuality, affect, feeling of love";
-            case TENSION -> "Feeling Nervous, impatient, irritated";
-        };
+        if (this == AMAZEMENT) {
+            return "Feeling of wonder or happiness";
+        } else if (this == CALMNESS) {
+            return "Relaxation, serenity, meditativeness";
+        } else if (this == JOY) {
+            return "Feels like dancing, bouncy feeling, animated, amused";
+        } else if (this == NOSTALGIA) {
+            return "Dreamy, melancholic, sentimental feelings";
+        } else if (this == POWER) {
+            return "Feeling strong, heroic, triumphant, energetic";
+        } else if (this == SADNESS) {
+            return "Feeling Depressed, sorrowful";
+        } else if (this == SOLEMNITY) {
+            return "Feeling of transcendence, inspiration. Thrills.";
+        } else if (this == TENDERNESS) {
+            return "Sensuality, affect, feeling of love";
+        } else if (this == TENSION) {
+            return "Feeling Nervous, impatient, irritated";
+        } else {
+            // Sie könnten einen Fallback-Wert zurückgeben oder eine Exception auslösen
+            return "Unknown";
+        }
+
 
     }
 
@@ -58,17 +70,7 @@ public enum EmozioneEnum{
     @Override
     public String toString(){
 
-        return switch (this) {
-            case AMAZEMENT -> "Amazement";
-            case CALMNESS -> "Calmness";
-            case JOY -> "Joy";
-            case NOSTALGIA -> "Nostalgia";
-            case POWER -> "Power";
-            case SADNESS -> "Sadness";
-            case SOLEMNITY -> "Solemnity";
-            case TENDERNESS -> "Tenderness";
-            case TENSION -> "Tension";
-        };
+        return this.name();
 
     }
 
@@ -79,18 +81,32 @@ public enum EmozioneEnum{
      * @return An instance of the corresponding emotion class.
      */
      static Emozione getInstanceFromEnum(int enumValue){
-        return switch (EmozioneEnum.values()[enumValue]) {
-            case AMAZEMENT -> new Amazement(0, "");
-            case CALMNESS -> new Calmness(0, "");
-            case JOY -> new Joy(0, "");
-            case NOSTALGIA -> new Nostalgia(0,"");
-            case POWER -> new Power(0, "");
-            case SADNESS -> new Sadness(0, "");
-            case SOLEMNITY -> new Solemnity(0, "");
-            case TENDERNESS -> new Tenderness(0, "");
-            case TENSION -> new Tension(0, "");
-        };
-    }
+         EmozioneEnum emotion = EmozioneEnum.values()[enumValue];
+
+         if (emotion == EmozioneEnum.AMAZEMENT) {
+             return new Amazement(0, "");
+         } else if (emotion == EmozioneEnum.CALMNESS) {
+             return new Calmness(0, "");
+         } else if (emotion == EmozioneEnum.JOY) {
+             return new Joy(0, "");
+         } else if (emotion == EmozioneEnum.NOSTALGIA) {
+             return new Nostalgia(0, "");
+         } else if (emotion == EmozioneEnum.POWER) {
+             return new Power(0, "");
+         } else if (emotion == EmozioneEnum.SADNESS) {
+             return new Sadness(0, "");
+         } else if (emotion == EmozioneEnum.SOLEMNITY) {
+             return new Solemnity(0, "");
+         } else if (emotion == EmozioneEnum.TENDERNESS) {
+             return new Tenderness(0, "");
+         } else if (emotion == EmozioneEnum.TENSION) {
+             return new Tension(0, "");
+         } else {
+             // Sie könnten einen Fallback-Wert zurückgeben oder eine Exception auslösen
+             return null; // Oder `throw new IllegalArgumentException("Invalid enumValue");`
+         }
+
+     }
 
     /**
      * Retrieves the name of the emotion class from an Emozione instance.<br><br>

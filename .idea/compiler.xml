@@ -10,8 +10,5 @@
         <module name="EmotionalSongs" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="EmotionalSongsClient" target="15" />
-    </bytecodeTargetLevel>
   </component>
 </project>

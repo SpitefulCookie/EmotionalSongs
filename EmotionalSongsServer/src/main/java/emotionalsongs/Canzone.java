@@ -8,13 +8,12 @@ package emotionalsongs;
  *
  */
 
-import java.io.Serial;
 import java.io.Serializable;
 
 /**
- *  The class {@code Canzone} represents the information related to a song present within the database.
- *  <p>Each song id identified by the following data:
- * 
+ * The class {@code Canzone} represents the information related to a song present within the database.
+ * <p>Each song id identified by the following data:
+ *
  *  <ul>
  *  <li> Song UUID, a unique identifier
  *  <li> Song title
@@ -23,13 +22,12 @@ import java.io.Serializable;
  *  </ul>
  *
  * <p>This class implements the {@link Serializable} interface to support object serialization.
- * 
+ * <p>
  *  @author <a href="https://github.com/SpitefulCookie">Della Chiesa Mattia</a>
- *  
  */
 public class Canzone implements Serializable {
 
-    @Serial private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private final String titolo;
     private final String songUUID;
@@ -44,9 +42,8 @@ public class Canzone implements Serializable {
      *
      * @param titolo The title of the song.
      * @param autore The author of the song.
-     * @param anno The release of release.
-     * @param uuid The unique identifier associated with the song.
-     * 
+     * @param anno   The release of release.
+     * @param uuid   The unique identifier associated with the song.
      */
     public Canzone(String titolo, String autore, int anno, String uuid) {
 
@@ -65,15 +62,18 @@ public class Canzone implements Serializable {
      *
      * @return The UUID of the song.
      */
-    public String getSongUUID(){return this.songUUID;}
-    
-     /**
+    public String getSongUUID() {
+        return this.songUUID;
+    }
+
+    /**
      * Retrieves the author associated with the song.<br><br>
-      * <p>This method returns a {@code String} representing the Author of the song. To avoid any issues with the return of
-      * null values, if no author is specified, the method will return an empty {@code String}.
+     * <p>This method returns a {@code String} representing the Author of the song. To avoid any issues with the return of
+     * null values, if no author is specified, the method will return an empty {@code String}.
+     *
      * @return A {@code String} representing the author of the song; An empty string if none were specified.
      */
-    public String getAutore(){
+    public String getAutore() {
         if (this.autore != null)
             return this.autore;
         return "";
@@ -84,9 +84,10 @@ public class Canzone implements Serializable {
      * <p>This method returns a {@code String} representing the title of the song.
      * To avoid any issues with the return of null values, if no author is specified, the method will return
      * an empty {@code String}.
+     *
      * @return A {@code String} representing the title of the song; An empty string if none were specified.
      */
-    public String getTitolo(){
+    public String getTitolo() {
         if (this.titolo != null)
             return this.titolo;
         return "";
@@ -99,7 +100,9 @@ public class Canzone implements Serializable {
      *
      * @return The year of release of the song.
      */
-    public int getAnno(){return this.anno;}
+    public int getAnno() {
+        return this.anno;
+    }
 
     /**
      * Returns a string containing information about the song in the format:<br><br>
@@ -111,7 +114,7 @@ public class Canzone implements Serializable {
      * @return A {@code String} object containing information about the song.
      */
     @Override
-    public String toString(){
+    public String toString() {
         return this.titolo + " - " + this.autore + " (" + this.anno + ")";
     }
 

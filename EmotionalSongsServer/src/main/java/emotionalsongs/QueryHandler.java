@@ -8,6 +8,8 @@ package emotionalsongs;
  *
  */
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -271,10 +273,10 @@ public class QueryHandler {
             stmt.executeUpdate(
                     String.format(QUERY_REGISTER_USER,
                     data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8],
-                    AuthManagerImpl.BCryptHashPassword(data[9]))
+                    AuthManagerImpl.PBKDF2HashPassword(data[9]))
             );
 
-        } catch (SQLException e) {
+        } catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException e) {
 
             EmotionalSongsServer.mainView.logError("SQLException thrown while executing function registerUser in QueryHandler.java\nReason: " + e.getMessage());
 

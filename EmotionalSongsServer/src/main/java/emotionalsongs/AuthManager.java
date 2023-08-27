@@ -4,8 +4,10 @@ import javax.crypto.Cipher;
 import java.nio.charset.StandardCharsets;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
 
 /*
  * Progetto svolto da:
@@ -72,7 +74,7 @@ public interface AuthManager extends Remote {
      * @return {@code true} if the user's login attempt is successful, {@code false} otherwise.
      * @throws RemoteException If a communication error occurs while invoking or executing the remote method.
      */
-    boolean userLogin(String username, byte[] pwd) throws RemoteException;
+    boolean userLogin(String username, byte[] pwd) throws RemoteException, NoSuchAlgorithmException, InvalidKeySpecException;
 
     /**
      * Retrieves from the server the public key used to establish a secure communication with the clients. <br><br>

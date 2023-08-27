@@ -8,12 +8,17 @@ package emotionalsongs;
  *
  */
 
-import org.springframework.security.crypto.bcrypt.BCrypt;
 
-import java.io.Serial;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.math.BigInteger;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.security.*;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -25,11 +30,10 @@ import java.util.HashSet;
  * interface, allowin remote method invocation for user authentication and management through Java RMI.<br>
  * It includes methods for user registration, login, client registration, and more.
  *
- *  @author <a href="https://github.com/SpitefulCookie">Della Chiesa Mattia</a>
+ * @author <a href="https://github.com/SpitefulCookie">Della Chiesa Mattia</a>
  */
-public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
+public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager {
 
-    @Serial
     private static final long serialVersionUID = 1L;
     private final QueryHandler dbReference;
 
@@ -63,6 +67,7 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
 
     /**
      * Disconnects the specified client from the server.
+     *
      * @param client The client to be disconnected from the server.
      * @return {@code true} if the client was successfully disconnected, {@code false} otherwise.
      * @throws RemoteException If a communication error occurs while invoking or executing the remote method.
@@ -78,9 +83,10 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      * determine whether the desired username is already in use by querying the database.<br>
      * As a fail-safe mechanism, in case the request could not be satisfied by the server
      * a {@code UsernameNotVerifiedException} will be thrown signaling that the username might be already in use.
+     *
      * @param username The desired username
      * @return {@code true} if the provided username is already in use, {@code false} if the username is available
-     * @throws RemoteException If a communication error occurs while invoking or executing the remote method.
+     * @throws RemoteException              If a communication error occurs while invoking or executing the remote method.
      * @throws UsernameNotVerifiedException If an error has occurred while processing the request.
      */
     public synchronized boolean usernameExists(String username) throws RemoteException, UsernameNotVerifiedException {
@@ -97,7 +103,7 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      * @throws RemoteException If a communication error occurs during remote method invocation.
      */
     public synchronized boolean cfExists(byte[] cf) throws RemoteException {
-        if(cf!=null){
+        if (cf != null) {
             String decodedCF = AuthManager.decryptRSA(cf, pair.getPrivate());
             String queryResult = dbReference.executeQuery(new String[]{decodedCF}, QueryHandler.QUERY_CF_EXISTS).get(0)[0];
             return Integer.parseInt(queryResult) == 1;
@@ -131,7 +137,7 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      * @return The RSA public key of the server.
      * @throws RemoteException If a communication error occurs during remote method invocation.
      */
-    public synchronized PublicKey getPublicKey() throws RemoteException{
+    public synchronized PublicKey getPublicKey() throws RemoteException {
         return pair.getPublic();
     }
 
@@ -143,12 +149,12 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      * in and authentication succeeds.
      *
      * @param username The username of the user attempting to log in.
-     * @param pwd The byte array containing the password - encrypted with the RSA algorithm - of the user attempting to log in.
+     * @param pwd      The byte array containing the password - encrypted with the RSA algorithm - of the user attempting to log in.
      * @return {@code true} if the user's login attempt is successful, {@code false} otherwise.
      * @throws RemoteException If a communication error occurs while invoking or executing the remote method.
      */
     @Override
-    public boolean userLogin(String username, byte[] pwd) throws RemoteException {
+    public boolean userLogin(String username, byte[] pwd) throws RemoteException, NoSuchAlgorithmException, InvalidKeySpecException {
 
         // La password ricevuta da remoto sarà incapsulata in una codifica RSA, evitando così la trasmissione in chiaro di quest'ultima lungo la rete
         String decryptedPwd;
@@ -164,39 +170,74 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
 
         // Nel caso di una SQLException o di un Result set vuoto queryUserPassword() restituirà null quindi
         // sarà necessario effettuare una verifica prima d'invocare il metodo di verifica della password.
-        return retrievedPwd != null && BCryptVerifyPassword(decryptedPwd, retrievedPwd);
+        return retrievedPwd != null && PBKDF2VerifyPassword(decryptedPwd, retrievedPwd);
 
     }
 
-    /**
-     * Generates a BCrypt hash of the provided password.<br><br>
-     *
-     * <p>This method hashes the password using the BCrypt algorithm for secure storage.
-     *
-     * @param password The password to be hashed.
-     * @return The BCrypt hash of the password.
-     */
-    protected static String BCryptHashPassword(String password) {
-        return BCrypt.hashpw(password, BCrypt.gensalt()); // questa verrà salvata nel db come password utente
+    protected static byte[] getSalt() {
+        byte[] salt = new byte[16];
+        return salt;
+    }
+
+    protected static String PBKDF2HashPassword(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        int iterations = 1000;
+        char[] chars = password.toCharArray();
+        byte[] salt = getSalt();
+
+        PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 64 * 8);
+        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        byte[] hash = skf.generateSecret(spec).getEncoded();
+        return iterations + ":" + toHex(salt) + ":" + toHex(hash);
     }
 
     /**
-     * Verifies a BCrypt hashed password against a stored hash.<br><br>
+     * Verifies a PBKDF2 hashed password against a stored hash.
      *
-     * <p>This method checks if the provided password matches the stored hash.
-     *
-     * @param password The password to verify.
-     * @param dbPassword The stored BCrypt hashed password.
+     * @param password       The password to verify.
+     * @param storedPassword The stored PBKDF2 hashed password.
      * @return {@code true} if the password matches the hash, otherwise {@code false}.
      */
-    private static boolean BCryptVerifyPassword(String password, String dbPassword){
-        return BCrypt.checkpw(password, dbPassword);
+    private static boolean PBKDF2VerifyPassword(String password, String storedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeySpecException {
+        String[] parts = storedPassword.split(":");
+        int iterations = Integer.parseInt(parts[0]);
+        byte[] salt = fromHex(parts[1]);
+        byte[] hash = fromHex(parts[2]);
+
+        PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, hash.length * 8);
+        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        byte[] testHash = skf.generateSecret(spec).getEncoded();
+
+        int diff = hash.length ^ testHash.length;
+        for (int i = 0; i < hash.length && i < testHash.length; i++) {
+            diff |= hash[i] ^ testHash[i];
+        }
+        return diff == 0;
     }
+
+    private static String toHex(byte[] array) throws NoSuchAlgorithmException {
+        BigInteger bi = new BigInteger(1, array);
+        String hex = bi.toString(16);
+        int paddingLength = (array.length * 2) - hex.length();
+        if (paddingLength > 0) {
+            return String.format("%0" + paddingLength + "d", 0) + hex;
+        } else {
+            return hex;
+        }
+    }
+
+    private static byte[] fromHex(String hex) {
+        byte[] bytes = new byte[hex.length() / 2];
+        for (int i = 0; i < bytes.length; i++) {
+            bytes[i] = (byte) Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
+        }
+        return bytes;
+    }
+
 
     /**
      * Generates RSA key pairs if not already generated.
      */
-    private void generateKeys(){
+    private void generateKeys() {
 
         if (pair == null) {
 
@@ -227,8 +268,8 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      * @param client The client to be registered on the server.
      * @throws RemoteException If a communication error occurs during the remote method invocation.
      */
-    public synchronized void registerClient(PingableClient client) throws RemoteException{
-        System.out.println("Adding client: " + client.getPublicKey() + "\nAdded? "+clientList.add(client));
+    public synchronized void registerClient(PingableClient client) throws RemoteException {
+        System.out.println("Adding client: " + client.getPublicKey() + "\nAdded? " + clientList.add(client));
     }
 
     /**
@@ -239,13 +280,13 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      *
      * @return A {@link HashSet} representing the list of registered clients.
      */
-    protected static HashSet<PingableClient> getClientList(){
+    protected static HashSet<PingableClient> getClientList() {
         return clientList;
     }
 
     /**
      * Retrieves the provided user's data from the database.<br><br>
-     *
+     * <p>
      * This method retrieves from the database the data associated with the provided userId. The retrieved data is then encrypted using an
      * RSA algorithm and the provided {@link PublicKey}.<br><br>
      *
@@ -257,16 +298,16 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      * requirement's scope, we have decided to leave things as they are and acknowledge this as point for future rework.
      *
      * @param userId The userId of the desired user for which to retrieve the information from the database.
-     * @param pk The {@code PublicKey} used to encrypt the data to be sent to the client.
+     * @param pk     The {@code PublicKey} used to encrypt the data to be sent to the client.
      * @return An array of bytes containing the desired user's data.
      * @throws RemoteException If a communication error occurs during the remote method invocation.
      */
     @Override
-    public byte[] getUserData(String userId, PublicKey pk) throws RemoteException{
+    public byte[] getUserData(String userId, PublicKey pk) throws RemoteException {
         return AuthManager.RSA_Encrypt(
-                    Arrays.toString(
+                Arrays.toString(
                         dbReference.executeQuery(new String[]{userId}, QueryHandler.QUERY_GET_USER_DATA).get(0)
-                    ),
+                ),
                 pk);
     }
 

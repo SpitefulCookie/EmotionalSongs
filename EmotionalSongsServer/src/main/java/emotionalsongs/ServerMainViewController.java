@@ -357,29 +357,34 @@ public class ServerMainViewController implements Initializable {
         } else if (cmd.equals("quit")) {
             shutdownServer(true);
         } else if (cmd.equals("help")) {
-            EmotionalSongsServer.mainView.logText("""
-                    List of available commands:
-                    - **shutdown**
-                    - **showip**
-                    - **quit**
-                    - **help**
-                    - **pingclients**
-                    - **set pingdelay**""", true);
+            EmotionalSongsServer.mainView.logText("List of available commands:\n" +
+                                                  "- **shutdown**\n" +
+                                                  "- **showip**\n" +
+                                                  "- **quit**\n" +
+                                                  "- **help**\n" +
+                                                  "- **pingclients**\n" +
+                                                  "- **set pingdelay**", true);
             EmotionalSongsServer.mainView.logText("Type '**help**' followed by a command to display a brief description.", false);
         } else if (cmd.startsWith("help ")) {
             String[] parts = cmd.split("\\s+", 2);
             if (parts.length == 2) {
                 String subCommand = parts[1];
-                switch (subCommand) {
-                    case "shutdown" -> EmotionalSongsServer.mainView.logText("**shutdown**: Shuts down the server.", true);
-                    case "showip" -> EmotionalSongsServer.mainView.logText("**showip**: Shows the current LAN ip of the server.", true);
-                    case "quit" -> EmotionalSongsServer.mainView.logText("**quit**: Quits the application.", true);
-                    case "pingclients" -> EmotionalSongsServer.mainView.logText("**pingclients**: Pings the clients and removes any inactive ones.", true);
-                    case "set pingdelay" -> EmotionalSongsServer.mainView.logText("**set pingdelay**: Changes how frequently the server will ping the clients connected to it.", true);
-                    default -> EmotionalSongsServer.mainView.logError("Command \"" + cmd + "\" not recognized.");
+                if ("shutdown".equals(subCommand)) {
+                    EmotionalSongsServer.mainView.logText("**shutdown**: Shuts down the server.", true);
+                } else if ("showip".equals(subCommand)) {
+                    EmotionalSongsServer.mainView.logText("**showip**: Shows the current LAN ip of the server.", true);
+                } else if ("quit".equals(subCommand)) {
+                    EmotionalSongsServer.mainView.logText("**quit**: Quits the application.", true);
+                } else if ("pingclients".equals(subCommand)) {
+                    EmotionalSongsServer.mainView.logText("**pingclients**: Pings the clients and removes any inactive ones.", true);
+                } else if ("set pingdelay".equals(subCommand)) {
+                    EmotionalSongsServer.mainView.logText("**set pingdelay**: Changes how frequently the server will ping the clients connected to it.", true);
+                } else {
+                    EmotionalSongsServer.mainView.logError("Command \"" + cmd + "\" not recognized.");
                 }
             }
-        } else {
+        }
+        else {
             EmotionalSongsServer.mainView.logError("Command \"" + cmd + "\" not recognized.");
         }
 

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="EmotionalSongs" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0c8d7334-d71b-483b-a7d3-e9b264e881a2" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/EmotionalSongs.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/EmotionalSongs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/EmotionalSongsServer.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/kubernetes-settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/AllPlaylistEmptyController.class" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/AllPlaylistEmptyController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/AuthManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/AuthManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/ConnectionFailedController.class" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/ConnectionFailedController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/CreatePlaylistController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/CreatePlaylistController$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/CreatePlaylistController.class" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/CreatePlaylistController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/EmotionalSongsClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/EmotionalSongsClient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/ExitController.class" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/ExitController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/GUIUtilities$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/GUIUtilities$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/GUIUtilities$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/GUIUtilities$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/GUIUtilities$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/GUIUtilities.class" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/GUIUtilities.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/LoginController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/PlaylistController.class" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/PlaylistController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/SearchController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/SearchController$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/SearchController.class" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/SearchController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/SongController.class" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/SongController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/Style/customStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/Style/customStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/UserRegistrationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/UserRegistrationController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/allPlaylistEmpty.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/allPlaylistEmpty.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/createPlaylist.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/createPlaylist.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/exit.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/exit.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/login.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/search.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/search.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/song.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/song.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/user.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/emotionalsongs/user.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsClient/target/classes/module-info.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsServer/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/src/main/java/emotionalsongs/AuthManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsServer/src/main/java/emotionalsongs/AuthManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/src/main/java/emotionalsongs/AuthManagerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsServer/src/main/java/emotionalsongs/AuthManagerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/src/main/java/emotionalsongs/Canzone.java" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsServer/src/main/java/emotionalsongs/Canzone.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/src/main/java/emotionalsongs/Emozione.java" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsServer/src/main/java/emotionalsongs/Emozione.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/src/main/java/emotionalsongs/EmozioneEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsServer/src/main/java/emotionalsongs/EmozioneEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/src/main/java/emotionalsongs/QueryHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsServer/src/main/java/emotionalsongs/QueryHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/src/main/java/emotionalsongs/RepositoryManagerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsServer/src/main/java/emotionalsongs/RepositoryManagerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/src/main/java/emotionalsongs/ServerMainViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsServer/src/main/java/emotionalsongs/ServerMainViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/EmotionalSongsServer/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/Images/blueFire.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/Images/gear.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/Images/gear.psd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/Images/gear2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/Images/hide.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/Images/setting-32px.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/Images/setting-64px.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/Images/setting.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/Images/setting_BLACK-32px.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/Images/view.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/emotionalsongs/AuthManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/emotionalsongs/AuthManagerImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/emotionalsongs/EmotionalSongsServer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/emotionalsongs/GUIUtilities$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/emotionalsongs/GUIUtilities$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/emotionalsongs/GUIUtilities$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/emotionalsongs/GUIUtilities$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/emotionalsongs/GUIUtilities$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/emotionalsongs/GUIUtilities.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/emotionalsongs/QueryHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/emotionalsongs/ServerLoginController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/emotionalsongs/ServerLoginController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/emotionalsongs/ServerMainViewController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/emotionalsongs/ServerMainViewController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/emotionalsongs/ServerSettingController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/emotionalsongs/serverLogin.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/emotionalsongs/serverLoginSettings.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/emotionalsongs/serverMainView.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmotionalSongsServer/target/classes/module-info.class" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="corretto-15" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2UZvrTQIQioZv9CmFsrhtXlpr52" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "E:/GitProjects/EmotionalSongs/EmotionalSongsServer/src/main/resources/META-INF/MANIFEST.MF",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.36989796",
+    "ruby.rails.projectView.checked": "true",
+    "settings.editor.selected.configurable": "configurable.group.appearance",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="JAR Application.EmotionalSongs.jar">
+    <configuration name="EmotionalSongsServer-1.0-SNAPSHOT.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/EmotionalSongsServer/target/EmotionalSongsServer-1.0-SNAPSHOT.jar" />
+      <method v="2" />
+    </configuration>
+    <configuration name="EmotionalSongsServer.jar (1)" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/out/artifacts/EmotionalSongsServer_jar/EmotionalSongsServer.jar" />
+      <method v="2" />
+    </configuration>
+    <configuration name="EmotionalSongsServer.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/out/artifacts/EmotionalSongsServer/EmotionalSongsServer.jar" />
+      <method v="2" />
+    </configuration>
+    <configuration name="EmotionalSongs.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/out/artifacts/EmotionalSongs/EmotionalSongs.jar" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JAR Application.EmotionalSongs.jar" />
+        <item itemvalue="JAR Application.EmotionalSongsServer.jar" />
+        <item itemvalue="JAR Application.EmotionalSongsServer.jar (1)" />
+        <item itemvalue="JAR Application.EmotionalSongsServer-1.0-SNAPSHOT.jar" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0c8d7334-d71b-483b-a7d3-e9b264e881a2" name="Changes" comment="" />
+      <created>1693160116325</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1693160116325</updated>
+      <workItem from="1693160117316" duration="791000" />
+      <workItem from="1693160916301" duration="356000" />
+      <workItem from="1693161281569" duration="250000" />
+      <workItem from="1693161541228" duration="6921000" />
+      <workItem from="1693168478098" duration="516000" />
+      <workItem from="1693169004407" duration="2526000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
