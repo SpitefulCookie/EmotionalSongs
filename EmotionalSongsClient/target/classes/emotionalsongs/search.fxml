@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="pane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handleSearchButtonAction" prefHeight="700.0" prefWidth="865.0" styleClass="dynamicPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.SearchController">
+   <children>
+      <HBox alignment="BOTTOM_LEFT" prefHeight="55.0" prefWidth="865.0">
+         <children>
+            <Pane prefHeight="36.0" prefWidth="18.0" />
+            <Label text="Cerca" textFill="#bbbbbb">
+               <font>
+                  <Font name="Arial Bold" size="28.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox fx:id="searchBox" alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="865.0">
+         <children>
+            <Pane prefHeight="46.0" prefWidth="13.0" />
+            <HBox alignment="CENTER" maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="796.0" styleClass="searchPane" stylesheets="@Style/customStyle.css" HBox.hgrow="ALWAYS">
+               <children>
+                  <Pane prefHeight="42.0" prefWidth="12.0" />
+                  <TextField fx:id="searchField" maxHeight="35.0" maxWidth="1.7976931348623157E308" prefHeight="35.0" prefWidth="440.0" promptText="Inserisci  il titolo della canzone" styleClass="searchTextField" stylesheets="@Style/customStyle.css" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="15.0" />
+                     </font></TextField>
+                  <TextField fx:id="yearField" disable="true" maxHeight="35.0" maxWidth="150.0" prefHeight="35.0" prefWidth="116.0" promptText="Inserisci l'anno" styleClass="searchTextField" stylesheets="@Style/customStyle.css" visible="false" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+                  <Label fx:id="infoLabel" alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="129.0" text="  &quot;INVIO&quot; per cercare" textFill="#bbbbbb" visible="false" />
+                  <Button fx:id="removeSearchBtn" maxHeight="42.0" maxWidth="73.0" mnemonicParsing="false" onAction="#handleRemoveSearchButtonAction" prefHeight="40.0" prefWidth="40.0" styleClass="removeSearchButton" stylesheets="@Style/customStyle.css" HBox.hgrow="ALWAYS">
+                     <graphic>
+                        <ImageView fx:id="removeSearchImg" fitHeight="27.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/searchIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+            <Pane prefHeight="46.0" prefWidth="13.0" />
+            <Button fx:id="advancedSearchBtn" mnemonicParsing="false" onAction="#handleAdvancedSearchButtonAction" prefHeight="37.0" prefWidth="54.0" styleClass="advancedSearchButton" stylesheets="@Style/customStyle.css">
+               <graphic>
+                  <ImageView fitHeight="29.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/advacedSearchIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Pane prefHeight="44.0" prefWidth="14.0" />
+         </children>
+      </HBox>
+      <HBox fx:id="advancedSearchBox" alignment="CENTER" maxHeight="50.0" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="865.0" visible="false" VBox.vgrow="ALWAYS">
+         <children>
+            <Label text="Cerca per" textFill="#bbbbbb">
+               <font>
+                  <Font name="Arial Bold" size="15.0" />
+               </font>
+            </Label>
+            <Pane prefHeight="49.0" prefWidth="17.0" />
+            <Button fx:id="titleSearchBtn" mnemonicParsing="false" onAction="#handleTitleSearchButtonAction" prefHeight="30.0" prefWidth="130.0" styleClass="searchFilterButton" stylesheets="@Style/customStyle.css" text="Titolo" textFill="#bbbbbb" />
+            <Pane prefHeight="49.0" prefWidth="17.0" />
+            <Button fx:id="authorAndYearSearchBtn" mnemonicParsing="false" onAction="#handleAuthorAndYearSearchButtonAction" prefHeight="30.0" prefWidth="130.0" styleClass="searchFilterButton" stylesheets="@Style/customStyle.css" text="Autore e anno" textFill="#bbbbbb" />
+         </children>
+      </HBox>
+      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="584.0" prefWidth="865.0" stylesheets="@Style/customStyle.css" VBox.vgrow="ALWAYS">
+         <children>
+            <ScrollPane fx:id="scrollPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="596.0" prefWidth="865.0" styleClass="scrollPane" stylesheets="@Style/customStyle.css" HBox.hgrow="ALWAYS">
+               <content>
+                  <GridPane fx:id="gridPane" prefHeight="0.0" prefWidth="0.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                  </GridPane>
+               </content>
+            </ScrollPane>
+         </children>
+      </HBox>
+   </children>
+</VBox>
