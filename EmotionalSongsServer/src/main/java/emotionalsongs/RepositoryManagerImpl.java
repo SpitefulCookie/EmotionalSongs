@@ -177,27 +177,42 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
      * @throws RemoteException If a remote communication error occurs.
      * @return {@code true} if the playlist registration ended with a success, {@code false} otherwise
      */
-    @Override // Verificata
+    @Override // Verificata // TODO test me
     public boolean registerEmotions(ArrayList<Emozione> emozioniProvate, String songUUID, String userId) throws RemoteException {
-
         try {
-            int i = 0;
-            for (var emozione : emozioniProvate) {
+            try {
+                QueryHandler.getDbConnection().setAutoCommit(false);
+                int i = 0; // TODO remove
+                for (var emozione : emozioniProvate) {
+                    i++;
+                    dbReference.executeUpdate(
+                            new String[]{
+                                    EmozioneEnum.getInstanceName(emozione),
+                                    userId,
+                                    songUUID,
+                                    String.valueOf(emozione.getPunteggio()),
+                                    emozione.getCommento()
+                            },
+                            QueryHandler.QUERY_REGISTER_SONG_EMOTION
+                    );
 
-                dbReference.executeUpdate(
-                        new String[]{
-                                EmozioneEnum.getInstanceName(emozione),
-                                userId,
-                                songUUID,
-                                String.valueOf(emozione.getPunteggio()),
-                                emozione.getCommento()
-                        },
-                        QueryHandler.QUERY_REGISTER_SONG_EMOTION
-                );
+                    if(i==5) throw new SQLException();
 
+                }
+
+                System.err.println("commit!");
+
+                QueryHandler.getDbConnection().commit();
+                return true;
+            } catch (SQLException e) {
+                System.err.println("Rollback!");
+                QueryHandler.getDbConnection().rollback();
+                return false;
+            } finally {
+                QueryHandler.getDbConnection().setAutoCommit(true);
             }
-            return true;
-        }catch (SQLException e){
+        } catch(SQLException e1){
+            EmotionalSongsServer.mainView.logError("SQL exception thrown while executing a rollback or while attempting to enable auto-commit.\n" + e1.getMessage());
             return false;
         }
 
