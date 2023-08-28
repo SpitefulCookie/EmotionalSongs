@@ -1,5 +1,13 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
@@ -9,10 +17,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The controller class that manages the single emotion that will be displayed in the {@link Stage}
+ * managed by the class {@link AddEmotionsController}.
+ *
+ * @author <a href="https://github.com/samuk52">Corallo Samuele</a>
+ */
 public class EmotionController implements Initializable{
 
     @FXML private VBox emotionPane;
@@ -27,6 +42,26 @@ public class EmotionController implements Initializable{
 
     private IntegerProperty score;
 
+    /**
+     * Initialises the GUI components and sets the initial state of the emotion.<br><br>
+     *
+     * This method is called automatically when the FXML file associated with this controller is loaded.
+     * This method when called:
+     * <of>
+     *     <li>
+     *         creates a new {@link IntegerProperty} representing the emotion score, to which is subsequently
+     *         added an {@link javafx.beans.value.ChangeListener} that takes care of disabling or enabling
+     *         the buttons: {@link EmotionController#decreaseScoreBtn}, {@link EmotionController#increaseScoreBtn}.
+     *     </li>
+     *     <li>
+     *         Initialises the {@link EmotionController#scoreProgressBar}.
+     *     </li>
+     *     <li>
+     *         Adds a text limiter to the {@link EmotionController#notesArea}.
+     *     </li>
+     * </of>
+     *
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -58,7 +93,11 @@ public class EmotionController implements Initializable{
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link EmotionController#decreaseScoreBtn}.
+     * <p>
+     *     When {@link EmotionController#decreaseScoreBtn} is clicked, the {@link EmotionController#score} is decreased by 1
+     *     and the {@link EmotionController#scoreProgressBar} is updated to the score value.
+     * </p>
      */
     @FXML
     public void handleDecreaseScoreButtonAction(){
@@ -69,7 +108,11 @@ public class EmotionController implements Initializable{
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link EmotionController#increaseScoreBtn}.
+     * <p>
+     *     When {@link EmotionController#increaseScoreBtn} is clicked, the {@link EmotionController#score} is incremented by 1
+     *     and the {@link EmotionController#scoreProgressBar} is updated to the score value.
+     * </p>
      */
     @FXML
     public void handleIncreaseScoreButtonAction(){
@@ -80,8 +123,14 @@ public class EmotionController implements Initializable{
     }
 
     /**
-     * TODO document
-     * @param emotion
+     * Method that sets emotion.
+     * <p>
+     *     This method takes care of setting the name of the emotion, its description and changing the colour
+     *     of the border of the {@link EmotionController#emotionPane} and the colour of the {@link EmotionController#scoreProgressBar}
+     *     with the specific colour of the given emotion.
+     * </p>
+     *
+     * @param emotion represents the emotion to be set.
      */
     public void setEmotion(EmozioneEnum emotion){
         // set emotion name and description
@@ -94,16 +143,18 @@ public class EmotionController implements Initializable{
     }
 
     /**
-     * TODO document
-     * @return
+     * Method that returns the emotion score.
+     *
+     * @return The {@link EmotionController#score} value.
      */
     public int getScore(){
         return score.get();
     }
 
     /**
-     * TODO document
-     * @return
+     * Method that returns the notes of emotion.
+     *
+     * @return The text contained in the {@link EmotionController#notesArea}.
      */
     public String getNotes(){
         return notesArea.getText();
