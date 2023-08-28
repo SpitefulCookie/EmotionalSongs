@@ -23,13 +23,13 @@ import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 /**
- * TODO document
+ * The `LoginController` class implements the controller logic for the login user interface.
+ * This class handles user interactions and manages the UI components associated with user login and authentication.
+ * Additionally, it allows the user to toggle password visibility, drag the application window, and control various UI elements.
+ *
+ * @author <a href="https://github.com/SpitefulCookie"> Della Chiesa Mattia</a>
  */
 public class LoginController implements Initializable {
-
-    /* Old article about RMI optimization TODO remove before turning in the project
-     * http://www.javaperformancetuning.com/tips/j2ee_rmi.shtml
-     */
 
     private static final String errorStyle = "-fx-border-color: RED; -fx-border-width: 2; -fx-border-radius: 5;";
     private static final String errorMessage = "-fx-text-fill: RED;";
@@ -50,7 +50,6 @@ public class LoginController implements Initializable {
     private boolean isDisplayed = false;
     private Image eye;
     private Image eyeCrossed;
-    //private Tooltip connectionStatusTip; // TODO verify
 
     @FXML private Pane anchorPane;
     @FXML private Label loginFailedLabel;
@@ -64,9 +63,12 @@ public class LoginController implements Initializable {
     @FXML private Label connectionStatusLabel;
 
     /**
-     * TODO document
-     * @param url
-     * @param resourceBundle
+     * Initializes the controller when the corresponding FXML is loaded.
+     * This method sets up various UI elements and interactions, including starting a dedicated thread to initialize the server connection.
+     * It handles user interface actions such as clicking the settings button, toggling password visibility, and handling login attempts.
+     *
+     * @param url The URL to the FXML document (unused).
+     * @param resourceBundle The resources used for localization (unused).
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -154,6 +156,10 @@ public class LoginController implements Initializable {
 
     }
 
+    /**
+     * Updates the graphics and status labels to reflect the current state of the connection.
+     * If the connection to the server is not initialized this method displays a failed connection status, a successful connection status otherwise.
+     */
     protected static void updateConnectionGraphics(){
         if(!EmotionalSongsClient.isConnectionInitialized){
             _connectionStatusIcon.setImage(guiUtilities.getImage("badConnection"));
@@ -168,17 +174,21 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Removes any text present from the form fields
+     */
     protected static void clearFields(){
         _usernameField.setText("");
         _overlappingPwdField.setText("");
         _pwdField.setText("");
     }
+
     /**
-     * TODO document
+     * Handles the event when the "Continue as Guest" button is clicked.
+     * Initializes the server connection, registers the client, and sets up the user interface
+     * for the guest user.
      */
     @FXML protected void handleContinueAsGuest(){
-
-        System.out.println("Continue as guest clicked!"); // TODO togliere tutti questi print
 
         EmotionalSongsClient.initializeServerConnection(false);
         EmotionalSongsClient.registerClient();
@@ -206,7 +216,8 @@ public class LoginController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Handles the event when the "Register" button is clicked.
+     * Initializes the server connection, registers the client, and displays the user registration screen.
      */
     @FXML protected void handleRegisterButton() {
 
@@ -218,20 +229,19 @@ public class LoginController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param event
+     * Handles the event when the "Close" button is clicked.
+     * Closes the current stage, disconnects the client from the server, and exits the application.
      */
     @FXML protected void handleCloseButtonAction(ActionEvent event){
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
         stage.close();
         EmotionalSongsClient.disconnectClient();
-        // TODO added the following lines as an attempt to fix the client remaining open in the background after exiting the application, remove if it doesn't work
         Platform.exit();
         System.exit(0);
     }
 
     /**
-     * TODO document
+     * Applies the default style to the username field.
      */
     @FXML protected void handleUserFieldHighlight(){
         // questa funzione non viene direttamente utilizzata nel codice ma viene invocata mediante fxml;
@@ -241,7 +251,7 @@ public class LoginController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Applies the default style to the overlappingTextField or pwdField, depending on which one it is currently displayed.
      */
     @FXML protected void handlePwdFieldHighlight(){
 
@@ -254,7 +264,8 @@ public class LoginController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Handles the event when the "Login" button is clicked.
+     * Initializes the server connection, processes the user's login attempt, and sets up the main client screen upon successful login.
      */
     @FXML protected void handleLoginButtonAction(){
 
@@ -345,7 +356,9 @@ public class LoginController implements Initializable {
     }
 
     /**
-     * TODO Focument
+     * Handles the click event when the password visibility toggle button is clicked.
+     * This method toggles the visibility of the password input field, allowing the user to view the password in plain text or as masked characters.
+     * It also updates the icon on the toggle button to reflect the current state.
      */
     @FXML protected void onClickEvent(){
 
@@ -369,8 +382,9 @@ public class LoginController implements Initializable {
     }
 
     /**
-     * TODO Document
-     * @param s
+     * Sets the JavaFX stage for the application window.
+     *
+     * @param s The JavaFX `Stage` object representing the application window.
      */
     public static void setStage(Stage s){stage = s;}
 
