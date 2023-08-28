@@ -28,6 +28,8 @@ import java.util.ResourceBundle;
  * is loaded. It initializes the UI components and sets up their behavior for configuring server settings.
  * The class handles configuring the behavior of the "cancelButton" and "confirmButton" buttons to cancel or save changes
  * to the server settings, respectively.
+ *
+ * @author <a href="https://github.com/SpitefulCookie"> Della Chiesa Mattia</a>
  */
 public class ClientSettingController implements Initializable{
 
