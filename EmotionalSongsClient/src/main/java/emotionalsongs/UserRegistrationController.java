@@ -374,7 +374,7 @@ public class UserRegistrationController implements Initializable {
             isInputValid = false;
         } else{GUIUtilities.setDefaultStyle(viaField);}
 
-        if (numberField.getText().isBlank() | !numberField.getText().matches("\\d.*") ){
+        if (numberField.getText().isBlank() | !numberField.getText().matches("\\d.*") | numberField.getText().contains("-")){
             GUIUtilities.setErrorStyle(numberField);
             if(!numberField.getText().isBlank() && !numberField.getText().matches("\\d.*"))
                 numberField.setPromptText("Invalid");
