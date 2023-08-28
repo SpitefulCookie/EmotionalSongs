@@ -71,7 +71,7 @@ public interface RepositoryManager extends Remote {
      * @throws RemoteException If a remote communication error occurs.
      * @return {@code true} if the playlist registration ended with a success, {@code false} otherwise
      */
-    boolean registerPlaylist (String playlistName, String username) throws RemoteException, SQLException;
+    boolean registerPlaylist (String playlistName, String username) throws RemoteException;
 
     /**
      * Adds a song to the specified playlist for the given user.
@@ -80,9 +80,9 @@ public interface RepositoryManager extends Remote {
      * @param userID The ID of the user adding the song to the playlist.
      * @param songUUID The UUID of the song to be added.
      * @throws RemoteException If a remote communication error occurs.
-     * @throws SQLException If an SQL error occurs.
+     * return {@code true} if the playlist registration ended with a success, {@code false} otherwise
      */
-    void addSongToPlaylist(String nomePlaylist, String userID, String songUUID) throws RemoteException, SQLException;
+    boolean addSongToPlaylist(String nomePlaylist, String userID, String songUUID) throws RemoteException;
 
     /**
      * Registers user emotions for a song.
@@ -91,9 +91,9 @@ public interface RepositoryManager extends Remote {
      * @param songUUID The UUID of the song.
      * @param userId The ID of the user.
      * @throws RemoteException If a remote communication error occurs.
-     * @throws SQLException If an SQL error occurs.
+     * @return {@code true} if the emotion registration ended with a success, {@code false} otherwise
      */
-    void registerEmotions(ArrayList<Emozione> emozioniProvate, String songUUID, String userId) throws RemoteException, SQLException;
+    boolean registerEmotions(ArrayList<Emozione> emozioniProvate, String songUUID, String userId) throws RemoteException;
 
     /**
      * Retrieves emotions associated with a song for a specific user.

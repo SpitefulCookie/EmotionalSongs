@@ -156,11 +156,16 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
      * @param userID The ID of the user adding the song to the playlist.
      * @param songUUID The UUID of the song to be added.
      * @throws RemoteException If a remote communication error occurs.
-     * @throws SQLException If an SQL error occurs.
+     * @return {@code true} if the playlist registration ended with a success, {@code false} otherwise
      */
     @Override // Verificata
-    public void addSongToPlaylist(String nomePlaylist, String userID, String songUUID) throws RemoteException, SQLException {
-        dbReference.executeUpdate(new String[]{nomePlaylist, userID, songUUID}, QueryHandler.QUERY_REGISTER_SONG_IN_PLAYLIST );
+    public boolean addSongToPlaylist(String nomePlaylist, String userID, String songUUID) throws RemoteException {
+        try {
+            dbReference.executeUpdate(new String[]{nomePlaylist, userID, songUUID}, QueryHandler.QUERY_REGISTER_SONG_IN_PLAYLIST );
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
     }
 
     /**
@@ -170,25 +175,30 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
      * @param songUUID The UUID of the song.
      * @param userId The ID of the user.
      * @throws RemoteException If a remote communication error occurs.
-     * @throws SQLException If an SQL error occurs.
+     * @return {@code true} if the playlist registration ended with a success, {@code false} otherwise
      */
     @Override // Verificata
-    public void registerEmotions(ArrayList<Emozione> emozioniProvate, String songUUID, String userId) throws RemoteException, SQLException {
+    public boolean registerEmotions(ArrayList<Emozione> emozioniProvate, String songUUID, String userId) throws RemoteException {
 
-        int i = 0;
-        for (var emozione : emozioniProvate){
+        try {
+            int i = 0;
+            for (var emozione : emozioniProvate) {
 
-            dbReference.executeUpdate(
-                new String[]{
-                    EmozioneEnum.getInstanceName(emozione),
-                    userId,
-                    songUUID,
-                    String.valueOf(emozione.getPunteggio()),
-                    emozione.getCommento()
-                },
-                QueryHandler.QUERY_REGISTER_SONG_EMOTION
-            );
+                dbReference.executeUpdate(
+                        new String[]{
+                                EmozioneEnum.getInstanceName(emozione),
+                                userId,
+                                songUUID,
+                                String.valueOf(emozione.getPunteggio()),
+                                emozione.getCommento()
+                        },
+                        QueryHandler.QUERY_REGISTER_SONG_EMOTION
+                );
 
+            }
+            return true;
+        }catch (SQLException e){
+            return false;
         }
 
     }
