@@ -136,10 +136,17 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
      * @param playlistName The name of the playlist to register.
      * @param username The username of the user registering the playlist.
      * @throws RemoteException If a remote communication error occurs.
+     * @return {@code true} if the playlist registration ended with a success, {@code false} otherwise
      */
     @Override // Verificata
-    public void registerPlaylist(String playlistName, String username) throws RemoteException, SQLException {
-        dbReference.executeUpdate(new String[]{playlistName, username}, QueryHandler.QUERY_REGISTER_PLAYLIST );
+    public boolean registerPlaylist(String playlistName, String username) throws RemoteException {
+
+        try {
+            dbReference.executeUpdate(new String[]{playlistName, username}, QueryHandler.QUERY_REGISTER_PLAYLIST );
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
     }
 
     /**

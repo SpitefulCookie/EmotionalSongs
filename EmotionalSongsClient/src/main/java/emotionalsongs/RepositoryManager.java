@@ -69,8 +69,9 @@ public interface RepositoryManager extends Remote {
      * @param playlistName The name of the playlist to register.
      * @param username The username of the user registering the playlist.
      * @throws RemoteException If a remote communication error occurs.
+     * @return {@code true} if the playlist registration ended with a success, {@code false} otherwise
      */
-    void registerPlaylist (String playlistName, String username) throws RemoteException, SQLException;
+    boolean registerPlaylist (String playlistName, String username) throws RemoteException, SQLException;// TODO remove SQL exception
 
     /**
      * Adds a song to the specified playlist for the given user.
