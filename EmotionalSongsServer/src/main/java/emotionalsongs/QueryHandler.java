@@ -112,7 +112,7 @@ public class QueryHandler {
             dbConnection = DriverManager.getConnection("jdbc:postgresql://" + DB_Address + ":" + DB_Port + "/" + DB_Name, username, password);
             stmt = dbConnection.createStatement();
 
-            }
+        }
 
     }
 
@@ -354,6 +354,10 @@ public class QueryHandler {
             throw e;
         }
 
+    }
+
+    protected static Connection getDbConnection(){
+        return dbConnection;
     }
 
 }
