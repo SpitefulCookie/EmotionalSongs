@@ -1,5 +1,13 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,6 +28,8 @@ import java.util.ResourceBundle;
 /**
  * Controller class responsible for managing the display of emotion data in the user interface.
  * This class handles the interaction with emotion-related UI components and provides methods to set and display emotion data.
+ *
+ * @author <a href="https://github.com/samuk52">Corallo Samuele</a>
  */
 public class ViewEmotionsController implements Initializable{
 
