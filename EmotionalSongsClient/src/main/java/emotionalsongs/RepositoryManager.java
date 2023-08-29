@@ -10,7 +10,6 @@ package emotionalsongs;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -32,6 +31,7 @@ public interface RepositoryManager extends Remote {
      *
      * @param titolo The title of the song to search for.
      * @return A HashSet of Canzone objects representing matching songs.
+     * @throws RemoteException If a remote communication error occurs.
      */
     HashSet<Canzone> ricercaCanzone(String titolo) throws RemoteException; // todo rename method
 
@@ -125,6 +125,7 @@ public interface RepositoryManager extends Remote {
      *
      * @param songUUID The UUID of the song for which to retrieve the total feedback count.
      * @return The total number of user feedbacks for the specified song.
+     * @throws RemoteException If a remote communication error occurs.
      */
     int getTotalUserFeedbacksForSong (String songUUID) throws RemoteException;
 }

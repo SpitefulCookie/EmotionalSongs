@@ -115,6 +115,7 @@ public interface AuthManager extends Remote {
      * @param data A {@code String} containing the data to encrypt.
      * @param publicKey The public key used to encrypt the data.
      * @return A byte array containing the encrypted data.
+     * @throws RemoteException If a remote communication error occurs.
      */
     static byte[] RSA_Encrypt(String data, PublicKey publicKey) throws RemoteException{
         try {
@@ -132,7 +133,9 @@ public interface AuthManager extends Remote {
      * <p>This method decrypts the provided data using the server's private key.
      *
      * @param data The RSA encrypted data to decrypt.
+     * @param privateKey The private key used to decrypt the data.
      * @return A string containing the decrypted data.
+     * @throws RemoteException If a remote communication error occurs.
      */
     static String decryptRSA(byte[] data, PrivateKey privateKey) throws RemoteException{
         try {

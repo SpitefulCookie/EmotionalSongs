@@ -41,7 +41,7 @@ import java.util.*;
  *             Add a new song to the open playlist, via the {@link SelectedPlaylistController#addSongsBtn} button.
  *         </li>
  *     </ul>
- * </p>
+ *
  *
  * @author <a href="https://github.com/samuk52">Corallo Samuele</a>
  */

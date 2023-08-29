@@ -111,10 +111,10 @@ public class AddSongsToPlaylistController implements Initializable {
         guiUtilities = GUIUtilities.getInstance();
 
         // initialize the songsPane list, which contains the song that will be added to the playlist
-        songsToAdd = new ArrayList<Canzone>();
+        songsToAdd = new ArrayList<>();
 
         // initialize the songsPane list
-        songsPane = new ArrayList<Node>();
+        songsPane = new ArrayList<>();
 
         // initially the search is set to titleSearch
         handleTitleSearchButtonAction();
@@ -123,53 +123,50 @@ public class AddSongsToPlaylistController implements Initializable {
         GUIUtilities.forceNumericInput(yearField, 4);
 
         // add a listener to searchField, which displays removeSearchBtn.
-        searchField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                // se la searchField non è vuota, visualizzo e rendo premibile il pulsante di elimina ricerca
-                if(filteredSearch.equalsIgnoreCase("title")) {
-                    if (!searchField.getText().isEmpty()) {
-                        showRemoveSearchBtn();
-                    } else {
-                        /*
-                        altrimenti se la text field è vuota rendo non visibile e non premibile il pulsante
-                        di elimina ricerca
-                        */
-                        hideRemoveSearchBtn();
-                    }
-                }else{
-                    // add a listener to yearField
-                    yearField.textProperty().addListener(new ChangeListener<String>() {
-                        @Override
-                        public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                            /*
-                            se la searchFiled e la yearField non sono vuote, visualizzo e rendo premibile
-                            il pulsante di elimina ricerca
-                            */
-                            if (!searchField.getText().isEmpty() && !yearField.getText().isEmpty()) {
-                                showRemoveSearchBtn();
-                            } else {
-                                /*
-                                altrimenti se solo una della due textField è vuota rendo non visibile e non premibile
-                                il di elimina ricerca
-                                 */
-                                hideRemoveSearchBtn();
-                            }
-                        }
-                    });
+        searchField.textProperty().addListener((observableValue, s, t1) -> {
+            // se la searchField non è vuota, visualizzo e rendo premibile il pulsante di elimina ricerca
+            if(filteredSearch.equalsIgnoreCase("title")) {
+                if (!searchField.getText().isEmpty()) {
+                    showRemoveSearchBtn();
+                } else {
                     /*
-                     se la searchFiled e la yearField non sono vuote, visualizzo e rendo premibile
-                     il pulsante di elimina ricerca
-                     */
-                    if (!searchField.getText().isEmpty() && !yearField.getText().isEmpty()) {
-                        showRemoveSearchBtn();
-                    } else {
+                    altrimenti se la text field è vuota rendo non visibile e non premibile il pulsante
+                    di elimina ricerca
+                    */
+                    hideRemoveSearchBtn();
+                }
+            }else{
+                // add a listener to yearField
+                yearField.textProperty().addListener(new ChangeListener<String>() {
+                    @Override
+                    public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
                         /*
-                        altrimenti se solo una della due textField è vuota rendo non visibile e non premibile
-                        il di elimina ricerca
-                       */
-                        hideRemoveSearchBtn();
+                        se la searchFiled e la yearField non sono vuote, visualizzo e rendo premibile
+                        il pulsante di elimina ricerca
+                        */
+                        if (!searchField.getText().isEmpty() && !yearField.getText().isEmpty()) {
+                            showRemoveSearchBtn();
+                        } else {
+                            /*
+                            altrimenti se solo una della due textField è vuota rendo non visibile e non premibile
+                            il di elimina ricerca
+                             */
+                            hideRemoveSearchBtn();
+                        }
                     }
+                });
+                /*
+                 se la searchFiled e la yearField non sono vuote, visualizzo e rendo premibile
+                 il pulsante di elimina ricerca
+                 */
+                if (!searchField.getText().isEmpty() && !yearField.getText().isEmpty()) {
+                    showRemoveSearchBtn();
+                } else {
+                    /*
+                    altrimenti se solo una della due textField è vuota rendo non visibile e non premibile
+                    il di elimina ricerca
+                   */
+                    hideRemoveSearchBtn();
                 }
             }
         });
@@ -178,16 +175,13 @@ public class AddSongsToPlaylistController implements Initializable {
         add listener to numSongAdded, this listener serves for make viewSongsAddedBtn disable or not and this
         update must become in "real time" that's why need of this listener
          */
-        numSongAdded.addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                if(numSongAdded.get() > 0){
-                    viewSongsAddedBtn.setDisable(false);
-                    addSongsToPlaylistBtn.setDisable(false);
-                }else{
-                    viewSongsAddedBtn.setDisable(true);
-                    addSongsToPlaylistBtn.setDisable(true);
-                }
+        numSongAdded.addListener((observableValue, number, t1) -> {
+            if(numSongAdded.get() > 0){
+                viewSongsAddedBtn.setDisable(false);
+                addSongsToPlaylistBtn.setDisable(false);
+            }else{
+                viewSongsAddedBtn.setDisable(true);
+                addSongsToPlaylistBtn.setDisable(true);
             }
         });
     }
@@ -214,7 +208,7 @@ public class AddSongsToPlaylistController implements Initializable {
                 // remove the last search before the new search
                 removeLastSearch();
 
-                Set<Canzone> songs = null;
+                Set<Canzone> songs;
 
                 if (filteredSearch.equalsIgnoreCase("title")) {
 
@@ -332,7 +326,7 @@ public class AddSongsToPlaylistController implements Initializable {
      *             the advanced search box is made invisible.
      *         </li>
      *     </ol>
-     * </p>
+     *
      */
     public void handleAdvancedSearchButtonAction(){
         // verifico se la ricerca avanzata è attivata o meno

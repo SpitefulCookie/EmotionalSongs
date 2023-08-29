@@ -26,6 +26,7 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -66,9 +67,9 @@ public class SongPlaylistController implements Initializable {
 
     /**
      * Method that handles the behaviour of the {@link SongPlaylistController#multipleBtn}.
-     * <p>
+     *
      *     When {@link SongPlaylistController#multipleBtn} is clicked, its behavior varies according to:
-     *     <of>
+     *     <ol>
      *         <li>
      *             The user has not inserted emotions to this song, in this case when the {@link SongPlaylistController#multipleBtn} is clicked,
      *             it opens the {@link Stage} controlled by the class {@link AddEmotionsController}, which
@@ -79,8 +80,8 @@ public class SongPlaylistController implements Initializable {
      *             the {@link Node} controlled by the {@link ViewEmotionsController} class opens, which allows
      *             the user to view the inserted emotions.
      *         </li>
-     *     </of>
-     * </p>
+     *     </ol>
+     *
      */
     @FXML
     public void handleMultipleButtonAction(){
@@ -266,13 +267,7 @@ public class SongPlaylistController implements Initializable {
                 selectedPlaylist
                 */
                 SelectedPlaylistController.addEmotionsSong(song.getSongUUID(), emotions);
-            }else{
-                // DEBUG TODO remove else
-                System.out.println("Emozioni già caricate per la canzone: " + song.getTitolo() + " con uuid: " + song.getSongUUID());
             }
-
-            // DEBUG todo remove
-            System.out.println("numero di emozioni : " + SelectedPlaylistController.getSongEmotions(song.getSongUUID()).size());
 
             if(SelectedPlaylistController.getSongEmotions(song.getSongUUID()).isEmpty()){ // todo fare il controllo acccedendo alle emozioni nella hashMap
                 // set the emotionsAdded on false

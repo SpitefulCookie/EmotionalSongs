@@ -47,7 +47,7 @@ public class EmotionController implements Initializable{
      *
      * This method is called automatically when the FXML file associated with this controller is loaded.
      * This method when called:
-     * <of>
+     * <ol>
      *     <li>
      *         creates a new {@link IntegerProperty} representing the emotion score, to which is subsequently
      *         added an {@link javafx.beans.value.ChangeListener} that takes care of disabling or enabling
@@ -59,7 +59,7 @@ public class EmotionController implements Initializable{
      *     <li>
      *         Adds a text limiter to the {@link EmotionController#notesArea}.
      *     </li>
-     * </of>
+     * </ol>
      *
      */
     @Override

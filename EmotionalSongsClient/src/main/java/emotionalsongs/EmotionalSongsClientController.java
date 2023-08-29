@@ -145,11 +145,11 @@ public class EmotionalSongsClientController implements Initializable {
 
     /**
      * Method that handles the behaviour of the {@link EmotionalSongsClientController#maximizedStageBtn}.
-     * <p>
+     *
      *     When the {@link EmotionalSongsClientController#maximizedStageBtn} is clicked, depending on the value of
      *     the {@link EmotionalSongsClientController#isMaximized}, the client application is either maximised or
      *     reset to the default size:
-     *     <of>
+     *     <ol>
      *         <li>
      *             If {@link EmotionalSongsClientController#isMaximized} is {@code false}, the client application is maximised.
      *         </li>
@@ -157,8 +157,8 @@ public class EmotionalSongsClientController implements Initializable {
      *             If {@link EmotionalSongsClientController#isMaximized} is {@code true}, the client application
      *             is returned to its default size.
      *         </li>
-     *     </of>
-     * </p>
+     *     </ol>
+     *
      */
     @FXML
     public void handleMaximizedStageButtonAction(){
@@ -257,9 +257,9 @@ public class EmotionalSongsClientController implements Initializable {
 
     /**
      * Method that handles the behaviour of the {@link EmotionalSongsClientController#userBtn}.
-     * <p>
+     *
      *     When the {@link EmotionalSongsClientController#userBtn} is clicked:
-     *     <of>
+     *     <ol>
      *         <li>
      *             If {@link EmotionalSongsClientController#isGuest} is {@code true}, the {@link Node} controlled by the
      *             {@link GuestController} class is loaded and added to the {@link EmotionalSongsClientController#dynamicPane}.
@@ -269,8 +269,8 @@ public class EmotionalSongsClientController implements Initializable {
      *             {@link UserController} class to display user data is loaded and added to the
      *             {@link EmotionalSongsClientController#dynamicPane}.
      *         </li>
-     *     </of>
-     * </p>
+     *     </ol>
+     *
      */
     @FXML
     public void handleUserButtonAction(){
@@ -343,7 +343,7 @@ public class EmotionalSongsClientController implements Initializable {
     @FXML
     public void handleExitButtonAction(){
 
-            exitStage = new Stage();
+        Stage exitStage = new Stage();
 
             exitStage.setScene(GUIUtilities.getInstance().getScene("exit.fxml"));
             exitStage.initStyle(StageStyle.UNDECORATED);
@@ -355,17 +355,17 @@ public class EmotionalSongsClientController implements Initializable {
 
     /**
      * Method that handles the behaviour of the {@link EmotionalSongsClientController#resizeSidebarBtn}.
-     * <p>
+     *
      *     When the {@link EmotionalSongsClientController#resizeSidebarBtn} is clicked:
-     *     <of>
+     *     <ol>
      *         <li>
      *             If {@link EmotionalSongsClientController#sideBarIsOpen} is {@code false}, the sidebar is opened.
      *         </li>
      *         <li>
      *             If {@link EmotionalSongsClientController#sideBarIsOpen} is {@code true}, the sidebar is closed.
      *         </li>
-     *     </of>
-     * </p>
+     *     </ol>
+     *
      */
     @FXML public void handleResizeSidebarButtonAction(){
         System.out.println("pulsante resize sidebar premuto");
@@ -430,15 +430,11 @@ public class EmotionalSongsClientController implements Initializable {
      */
     @FXML protected void moveWindows() {
 
-        this.pane.setOnMousePressed(new EventHandler<MouseEvent>() {
+        this.pane.setOnMousePressed(event -> {
 
-            @Override
-            public void handle(MouseEvent event) {
+            xOffset = event.getScreenX() - EmotionalSongsClient.getStage().getX();
+            yOffset = event.getScreenY() - EmotionalSongsClient.getStage().getY();
 
-                xOffset = event.getScreenX() - EmotionalSongsClient.getStage().getX();
-                yOffset = event.getScreenY() - EmotionalSongsClient.getStage().getY();
-
-            }
         });
 
         this.pane.setOnMouseDragged(event -> {

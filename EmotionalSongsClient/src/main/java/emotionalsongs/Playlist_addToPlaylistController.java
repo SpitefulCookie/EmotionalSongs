@@ -46,7 +46,7 @@ public class Playlist_addToPlaylistController implements Initializable {
 
     /**
      * Method that manages the behaviour of the {@link Playlist_addToPlaylistController#playlistPane} when it is clicked.
-     * <p>
+     *
      *     When the {@link Playlist_addToPlaylistController#playlistPane} is clicked:
      *     <ol>
      *         <li>
@@ -76,7 +76,7 @@ public class Playlist_addToPlaylistController implements Initializable {
      *              </ol>
      *         </li>
      *     </ol>
-     * </p>
+     *
      */
     @FXML
     public void handleAddToPlaylistAction(){

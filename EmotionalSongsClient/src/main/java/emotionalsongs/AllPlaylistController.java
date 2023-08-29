@@ -41,7 +41,7 @@ import java.util.*;
  *             Add a new playlist, via the {@link AllPlaylistController#addPlaylistBtn}.
  *         </li>
  *     </ul>
- * </p>
+ *
  *
  * @author <a href="https://github.com/samuk52">Corallo Samuele</a>
  */

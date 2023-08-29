@@ -70,21 +70,18 @@ public class CreatePlaylistController implements Initializable {
          di errore e disabilito il pulsante di crea playlist in quanto non è possibile creare più playist con lo
          stesso nome.
          */
-        playlistNameField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                if(!playlistNameField.getText().isEmpty()){
-                    if (AllPlaylistController.checkPlaylistName(playlistNameField.getText())){
-                        existingPlaylistLabel.setVisible(false);
-                        createPlaylistBtn.setDisable(false);
-                    }else{
-                        existingPlaylistLabel.setVisible(true);
-                        createPlaylistBtn.setDisable(true);
-                    }
-                }else{
+        playlistNameField.textProperty().addListener((observableValue, s, t1) -> {
+            if(!playlistNameField.getText().isEmpty()){
+                if (AllPlaylistController.checkPlaylistName(playlistNameField.getText())){
                     existingPlaylistLabel.setVisible(false);
+                    createPlaylistBtn.setDisable(false);
+                }else{
+                    existingPlaylistLabel.setVisible(true);
                     createPlaylistBtn.setDisable(true);
                 }
+            }else{
+                existingPlaylistLabel.setVisible(false);
+                createPlaylistBtn.setDisable(true);
             }
         });
     }
@@ -93,7 +90,7 @@ public class CreatePlaylistController implements Initializable {
      * Method that handles the behaviour of the {@link CreatePlaylistController#annullaBtn}.
      * <p>
      *     When the {@link CreatePlaylistController#annullaBtn} is clicked, the operation is cancelled and the method closes the window containing the button.
-     * </p>
+     *
      */
     @FXML
     public void handleAnnullaButtonAction(){
@@ -106,11 +103,11 @@ public class CreatePlaylistController implements Initializable {
      * <p>
      *     When the {@link CreatePlaylistController#createPlaylistBtn} is clicked, the playlist with the same
      *     name as the one entered in the {@link CreatePlaylistController#playlistNameField} is created.
-     * </p>
+     *
      * <p>
      *     Once the playlist has been created, the behaviour of the method varies according to the value
      *     of the {@link CreatePlaylistController#fromAddToPlaylist}:
-     *     <of>
+     *     <ol>
      *         <li>
      *             if {@link CreatePlaylistController#fromAddToPlaylist} is {@code true}, the playlist is added
      *             and displayed in the window controlled by the {@link AddToPlaylistController} class.
@@ -119,8 +116,8 @@ public class CreatePlaylistController implements Initializable {
      *             if {@link CreatePlaylistController#fromAddToPlaylist} is {@code false}, the playlist is added and displayed in the
      *             'dynamicPane' contained in the class {@link EmotionalSongsClientController}.
      *         </li>
-     *     </of>
-     * </p>
+     *     </ol>
+     *
      */
     @FXML
     public void registraPlaylist(){
