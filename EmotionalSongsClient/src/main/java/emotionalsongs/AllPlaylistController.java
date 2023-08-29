@@ -238,7 +238,7 @@ public class AllPlaylistController implements Initializable {
      * Method that checks if the playlist is contained or not in the {@link AllPlaylistController#playlists}.
      *
      * @param playlistName represents the playlist to be checked.
-     * @return {@code true} if the playlist is <strong>not</strong> contained in the{@link AllPlaylistController#playlists}, {@code false} otherwise.
+     * @return {@code true} if the playlist is <strong>not</strong> contained in the {@link AllPlaylistController#playlists}, {@code false} otherwise.
      */
     public static boolean checkPlaylistName(String playlistName){
         return !playlists.containsKey(playlistName);
