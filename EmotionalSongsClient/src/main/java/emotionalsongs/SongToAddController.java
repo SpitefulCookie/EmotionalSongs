@@ -1,7 +1,16 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -9,12 +18,11 @@ import javafx.scene.layout.HBox;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/*
-TODO:
-    1- forse far si che quando l'utente vuole vedere le canzoni aggiunte alla lista delle canzoni da aggiungere
-    alla playlist, al posto di visualizzare queste canzoni nel girdPane, aprire un altro stage e visualizzarle
-    li, questo perchè attualmente quando l'utente visualizza queste canzoni poi perde la ricerca effettuata.
-    ----- FORSE FARLO ----
+/**
+ * The controller class that manages the single song that is displayed in the {@link Node},
+ * managed by the {@link AddSongsToPlaylistController} class.
+ *
+ * @author <a href="https://github.com/samuk52">Corallo Samuele</a>
  */
 public class SongToAddController implements Initializable{
 
@@ -30,14 +38,23 @@ public class SongToAddController implements Initializable{
     private boolean isAdded;
     private boolean alreadyExistInPlaylist; // mi indica se la canzone già esiste nella playlist
 
-
+    /**
+     * Initializes the controller when the corresponding {@link FXML} is loaded.
+     *
+     * @param url The URL to the FXML document (unused).
+     * @param resourceBundle The resources used for localization (unused).
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         guiUtilities = GUIUtilities.getInstance();
     }
 
     /**
-     * TODO document
+     * Method that manages the behaviour of the {@link SongToAddController#songToAddPane} when it is clicked.
+     * <p>
+     *     When {@link SongToAddController#songToAddPane} is clicked its style is modified depending on whether
+     *     or not the song is already present in the "songsToAdd" list of the class {@link AddSongsToPlaylistController}.
+     * </p>
      */
     @FXML
     public void handleAddSongToPlaylistAction(){
@@ -82,9 +99,12 @@ public class SongToAddController implements Initializable{
     }
 
     /**
-     * TODO document
-     * @param song
-     * @param isAdded
+     * Method that sets the song and the various GUI components.
+     *
+     * @param song Represents the song to be set.
+     * @param playlistName Represents the playlist in which to insert the song.
+     * @param isAdded indicates whether or not the song is already present in the "songsToAdd" list
+     *                of the class {@link AddSongsToPlaylistController}.
      */
     public void setSong(Canzone song, String playlistName, boolean isAdded){
         /*
@@ -118,7 +138,7 @@ public class SongToAddController implements Initializable{
             if (isAdded) {
                 this.isAdded = true;
                 checkMarkImg.setVisible(true);
-                // set the songToAddPane style on songToAddPaneClieked
+                // set the songToAddPane style on songToAddPaneClicked
                 guiUtilities.setNodeStyle(songToAddPane, "songToAddPane", "songToAddPaneClicked");
             } else {
                 this.isAdded = false;
