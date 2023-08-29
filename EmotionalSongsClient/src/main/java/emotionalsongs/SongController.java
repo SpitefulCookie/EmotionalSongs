@@ -1,5 +1,13 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,11 +23,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/*
-TODO :
-    1- Implementare il comportamente (cosa deve succedere) quando i bottoni AddToPlaylist e viewEmotions vengono
-       premuti
-    2- inserire i pulsanti i due pulsanti in un HBox e spostare il comportamento dell mouseExited sulla hBox
+/**
+ * The controller class that manages the single song that is displayed in the {@link Node},
+ * managed by the {@link SearchController} class, when the user searches for a song.
+ *
+ * @author <a href="https://github.com/samuk52">Corallo Samuele</a>
  */
 public class SongController implements Initializable {
 
@@ -38,9 +46,14 @@ public class SongController implements Initializable {
     private Canzone song;
 
     /**
-     * TODO document
-     * @param url
-     * @param resourceBundle
+     * Initializes the controller when the corresponding {@link FXML} is loaded.
+     * <p>
+     *     When invoked, it disables and makes the {@link SongController#addToPlaylistBtn} not visible if
+     *     the user is logged in as a <Strong>guest</Strong>.
+     * </p>
+     *
+     * @param url The URL to the FXML document (unused).
+     * @param resourceBundle The resources used for localization (unused).
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -56,15 +69,14 @@ public class SongController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link SongController#addToPlaylistBtn}.
+     * <p>
+     *     When {@link SongController#addToPlaylistBtn} is clicked, the {@link Stage} (window) controlled
+     *     by the class {@link AddToPlaylistController} opens, allowing the song to be added to playlists.
+     * </p>
      */
     @FXML
     public void handleAddToPlaylistButtonAction(){
-        /*
-        TODO implementare cosa deve accadare quando quando viene premuto questo pulsante
-         */
-
-        System.out.println("bottone di addToPlaylist premuto");
 
         try{
 
@@ -87,7 +99,12 @@ public class SongController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link SongController#viewEmotionsBtn}.
+     * <p>
+     *     When {@link SongController#viewEmotionsBtn} is clicked, the {@link Node} controlled
+     *     by the class {@link ViewReportEmotionsController} opens, allowing to view a summary of the emotions
+     *     associated with the specific song.
+     * </p>
      */
     @FXML
     public void visualizzaEmozioneBrano(){
@@ -109,7 +126,11 @@ public class SongController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that manages the display of the {@link SongController#addToPlaylistBtn} when the mouse moved over it.
+     * <p>
+     *     When the mouse is moved over the {@link SongController#addToPlaylistBtn}, the button text
+     *     is set and its width is changed.
+     * </p>
      */
     @FXML
     public void handleAddToPlaylistButtonMouseMovedAction(){
@@ -122,7 +143,11 @@ public class SongController implements Initializable {
     }
 
     /**
-     * TODO docunent
+     * Method that manages the display of the {@link SongController#viewEmotionsBtn} when the mouse moved over it.
+     * <p>
+     *     When the mouse is moved over the {@link SongController#viewEmotionsBtn}, the button text
+     *     is set and its width is changed.
+     * </p>
      */
     @FXML
     public void handleViewEmotionsButtonMouseMovedAction(){
@@ -135,7 +160,12 @@ public class SongController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that manages the display of the buttons: {@link SongController#addToPlaylistBtn} and {@link SongController#viewEmotionsBtn}
+     * when the mouse is exited from them.
+     * <p>
+     *     When the mouse leaves the buttons: {@link SongController#addToPlaylistBtn} and {@link SongController#viewEmotionsBtn},
+     *     they are set to their initial state.
+     * </p>
      */
     @FXML
     public void handleMouseExitedAction(){
@@ -149,8 +179,9 @@ public class SongController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param song
+     * Method that sets the song.
+     *
+     * @param song Represents the song to be set.
      */
     public void setData(Canzone song){
         setSongNameLabel(song.getTitolo());
@@ -159,19 +190,21 @@ public class SongController implements Initializable {
     }
 
     /**
+     * Method that sets the name of the song.
      *
-     * @param songName
+     * @param songName Represents the name of the song.
      */
     public void setSongNameLabel(String songName){
         this.songNameLabel.setText(songName);
     }
 
     /**
+     * Method that sets the information of the song, that is: the author of the song and the year it was produced.
      *
-     * @param authorName
+     * @param songInfo Represents song information.
      */
-    public void setInfoLabel(String authorName){
-        this.infoLabel.setText(authorName);
+    public void setInfoLabel(String songInfo){
+        this.infoLabel.setText(songInfo);
     }
 
 }
