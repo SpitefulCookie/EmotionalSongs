@@ -69,7 +69,9 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      */
     @Override
     public boolean disconnect(PingableClient client) throws RemoteException {
-        return clientList.remove(client);
+        if (clientList.contains(client))
+            return clientList.remove(client);
+        return true; // il client è già stato disconnesso
     }
 
     /**
@@ -228,7 +230,7 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      * @throws RemoteException If a communication error occurs during the remote method invocation.
      */
     public synchronized void registerClient(PingableClient client) throws RemoteException{
-        System.out.println("Adding client: " + client.getPublicKey() + "\nAdded? "+clientList.add(client));
+        clientList.add(client);
     }
 
     /**
