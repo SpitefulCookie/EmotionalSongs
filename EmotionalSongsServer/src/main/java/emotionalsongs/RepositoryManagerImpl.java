@@ -182,9 +182,9 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
         try {
             try {
                 QueryHandler.getDbConnection().setAutoCommit(false);
-                int i = 0; // TODO remove
+
                 for (var emozione : emozioniProvate) {
-                    i++;
+
                     dbReference.executeUpdate(
                             new String[]{
                                     EmozioneEnum.getInstanceName(emozione),
@@ -196,16 +196,11 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
                             QueryHandler.QUERY_REGISTER_SONG_EMOTION
                     );
 
-                    if(i==5) throw new SQLException();
-
                 }
-
-                System.err.println("commit!");
 
                 QueryHandler.getDbConnection().commit();
                 return true;
             } catch (SQLException e) {
-                System.err.println("Rollback!");
                 QueryHandler.getDbConnection().rollback();
                 return false;
             } finally {

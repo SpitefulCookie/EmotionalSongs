@@ -156,22 +156,27 @@ public class LoginController implements Initializable {
 
     }
 
+    // FIXME graphics do not update properly --> document or fix
     /**
      * Updates the graphics and status labels to reflect the current state of the connection.
      * If the connection to the server is not initialized this method displays a failed connection status, a successful connection status otherwise.
      */
     protected static void updateConnectionGraphics(){
+
         if(!EmotionalSongsClient.isConnectionInitialized){
+
             _connectionStatusIcon.setImage(guiUtilities.getImage("badConnection"));
             _connectionStatusLabel.setText("Connection failed");
             Tooltip tip = new Tooltip("Unable to contact the server, please check your settings");
             tip.setShowDelay(new Duration(0.3));
             tip.setHideDelay(new Duration(0.3));
             _connectionStatusLabel.setTooltip(tip);
+
         } else{
             _connectionStatusIcon.setImage(guiUtilities.getImage("goodConnection"));
             _connectionStatusLabel.setText("Connection established");
         }
+
     }
 
     /**
