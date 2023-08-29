@@ -315,9 +315,6 @@ public class ServerMainViewController implements Initializable {
      * Supported commands include '{@code pingclients}', ' {@code shutdown}', ' {@code showIP}', '{@code set pingdelay}', '{@code quit}', and '{@code help}'.
      *
      * @param cmd The command string to be parsed and executed.
-     * @implNote This method utilizes the command string to determine the action to take.
-     *           It handles commands to ping clients, shutdown the server, set ping delay,
-     *           quit the application, and provide help information.
      * @see AuthManagerImpl#getClientList()
      * @see ServerMainViewController#shutdownServer(boolean)
      * @see ConnectionVerify#setPingDelay(long)
