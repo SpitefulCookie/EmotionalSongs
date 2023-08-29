@@ -482,6 +482,7 @@ public class AddSongsToPlaylistController implements Initializable {
 
     /**
      * Method that adds the song passed as a parameter to the {@link AddSongsToPlaylistController#gridPane}.
+     *
      * @param song represents the song to add to the {@link AddSongsToPlaylistController#gridPane}.
      * @param isAdded indicates if the song has already been added to the {@link AddSongsToPlaylistController#songsToAdd}.
      * @param row indicates the row of the {@link AddSongsToPlaylistController#gridPane} in which to insert the song.
@@ -514,7 +515,7 @@ public class AddSongsToPlaylistController implements Initializable {
     }
 
     /**
-     * method that restores the {@link AddSongsToPlaylistController#gridPane}, removing from it the songs
+     * Method that restores the {@link AddSongsToPlaylistController#gridPane}, removing from it the songs
      * found since the last search.
      */
     private void removeLastSearch(){
