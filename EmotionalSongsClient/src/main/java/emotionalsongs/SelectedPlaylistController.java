@@ -1,5 +1,13 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,6 +29,23 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.*;
 
+/**
+ * The controller class for displaying the songs contained in the open playlist.
+ * <p>
+ *     This class implements the functionality necessary to display the songs contained in the open playlist.
+ *     The functionalities handled by this class are:
+ *     <ul>
+ *         <li>
+ *             Displays the songs contained in the open playlist, using the appropriate method {@link SelectedPlaylistController#viewSongs()}.
+ *         </li>
+ *         <li>
+ *             Add a new song to the open playlist, via the {@link SelectedPlaylistController#addSongsBtn} button.
+ *         </li>
+ *     </ul>
+ * </p>
+ *
+ * @author <a href="https://github.com/samuk52">Corallo Samuele</a>
+ */
 public class SelectedPlaylistController implements Initializable {
 
     private static final int BUTTON_MAX_WIDTH = 180;
@@ -56,6 +81,14 @@ public class SelectedPlaylistController implements Initializable {
      */
     private static HashMap<String, List<Emozione>> emotionsSongs = new HashMap<String, List<Emozione>>();
 
+    /**
+     * It initialises the GUI components and sets the initial state for displaying the songs in the open playlist.<br><br>
+     *
+     * This method is called automatically when the FXML file associated with this controller is loaded.
+     * When called automatically, it initialises the GUI components and displays the songs contained in the open playlist via
+     * {@link SelectedPlaylistController#viewSongs()}.
+     *
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // il motivo per il quale faccio ciò è lo stesso spiegato nella classe AllPlaylistController.
@@ -68,26 +101,18 @@ public class SelectedPlaylistController implements Initializable {
         dynamicScrollPane.setFitToHeight(true);
         dynamicScrollPane.setFitToWidth(true);
 
-        /*
-         TODO: per l'interrogazione del db, l'idea è quella di creare un metodo che vada a inerrogare il db
-               facendosi restituire le canzoni contenute nella playlist, sempre in questo metodo le canzoni
-               restituite verranno aggiunte nella lista con chiave playlistName nella hashMap contenuta
-               in allPlaylist, --> successivamete la visualizzazione delle canzoni avverrà chiamando un metodo
-               getSongs(ancora da implementare) della classe AllPlaylist che restituirà la lista di canzoni
-               contenute nella playlist, quindi la lista songs di questa classe non servirà più ---------
-               ---> di conseguenza il metodo viewSongs con ciclerà più sulla lista songs ma sulla lista
-               restituita dal metodo getSogs della classe allPlaylist
-         */
-
-        // la visualizzazione iniziale delle canzoni avviene nel metodo setPlaylist
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link SelectedPlaylistController#addSongsBtn}.
+     * <p>
+     *     When {@link SelectedPlaylistController#addSongsBtn} is clicked, the {@link Stage} (window) controlled
+     *     by the class {@link AddSongsToPlaylistController} opens, allowing the user to add songs to the open playlist.
+     * </p>
      */
     @FXML
     public void handleAddSongsButtonAction() {
-        // TODO aprire stage che permette l'inserimento delle canzoni nella playlist
+
         try{
             Stage addSongsStage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("addSongsToPlaylist.fxml"));
@@ -108,7 +133,11 @@ public class SelectedPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link SelectedPlaylistController#returnToAllPlaylistBtn}.
+     * <p>
+     *     When {@link SelectedPlaylistController#returnToAllPlaylistBtn} is clicked, the {@link Node} controlled
+     *     by the {@link AllPlaylistController} class opens, for the display of all playlists created by the user.
+     * </p>
      */
     @FXML
     public void handleReturnToAllPlaylistButtonAction(){
@@ -117,7 +146,11 @@ public class SelectedPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that manages the display of the {@link SelectedPlaylistController#addSongsBtn} when the mouse moved over it.
+     * <p>
+     *     When the mouse is moved over the {@link SelectedPlaylistController#addSongsBtn}, the button text
+     *     is set and its width is changed.
+     * </p>
      */
     @FXML
     public void handleMouseMovedAction(){
@@ -130,7 +163,10 @@ public class SelectedPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that manages the display of the {@link SelectedPlaylistController#addSongsBtn} when the mouse is exited.
+     * <p>
+     *     When the mouse leaves the {@link SelectedPlaylistController#addSongsBtn}, it is set to its initial state.
+     * </p>
      */
     @FXML
     public void handleMouseExitedAction(){
@@ -144,8 +180,10 @@ public class SelectedPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param songsToAdd
+     * Method that adds each song in the list passed as a parameter to the playlist and the database
+     * via the appropriate method {@link RepositoryManager#addSongToPlaylist(String playlistName, String userId, String songUUID)}.
+     *
+     * @param songsToAdd Represents the songs to be added to the playlist.
      */
     public static void addNewSongs(List<Canzone> songsToAdd){
         /*
@@ -191,19 +229,15 @@ public class SelectedPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that displays the songs contained in the open playlist, adding them to the {@link SelectedPlaylistController#dynamicGridPane},
+     * if the playlist has no songs added, the {@link Node} controlled by {@link SelectedPlaylistEmptyController} is displayed.
      */
     public static void viewSongs(){
 
         // recupero le canzoni della playlist, invocando l'apposito metodo della classe allPlaylist
         List<Canzone> songs = AllPlaylistController.getSongs(playlistNameLabel_.getText());
 
-        /*
-         ogni volta che visualizzo le canzoni vado a creare una nuova lista songController
-         TODO vedere se creare la lista una sola volta (ovvero la prima volta) e quindi in questo metodo
-            invocare il clear della lista (in quanto per il corretto funzionamento la lista prima di ogni
-            visualizzazione deve essere vuota), oppure lasciare così.
-         */
+        // ogni volta che visualizzo le canzoni vado a creare una nuova lista songController
         songControllers = new ArrayList<SongPlaylistController>();
 
         /*
@@ -244,9 +278,13 @@ public class SelectedPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param playlistName
-     * @return
+     * Method responsible for opening the playlist passed as a parameter.
+     * <p>
+     *     This method sets the name of the playlist and displays the songs in the playlist by loading them
+     *     from the database if they have never been loaded.
+     * </p>
+     * @param playlistName Represents the playlist to be opened.
+     * @return {@code true} if the loading of songs was successful, {@code false} otherwise.
      */
     public boolean openPlaylist(String playlistName){
         /*
@@ -287,8 +325,9 @@ public class SelectedPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param playlistName
+     * Method that sets the playlist to open.
+     *
+     * @param playlistName Represents the name of the playlist.
      */
     public void setPlaylist(String playlistName){
         /*
@@ -308,9 +347,11 @@ public class SelectedPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param playlistName
-     * @return
+     * Method responsible for loading the songs in the playlist passed as a parameter from the database,
+     * via the appropriate method {@link RepositoryManager#getSongsInPlaylist(String playlistName, String username)}.
+     *
+     * @param playlistName Playlist for loading songs.
+     * @return {@code true} if the loading of songs was successful, {@code false} otherwise.
      */
     public static boolean loadSongs(String playlistName){
         /*
@@ -350,22 +391,20 @@ public class SelectedPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param songUUID
-     * @param emotions
+     * Method responsible for adding the emotions passed as a parameter to the specific song.
+     *
+     * @param songUUID Represents the UUID of the song in which to insert emotions.
+     * @param emotions Representing emotions to be added.
      */
     public static void addEmotionsSong(String songUUID, List<Emozione> emotions){
-        /*
-         prima di inserire la canzone e le emozioni nella hashMap verifico se non esiste già una chiave
-         con nome songUUID, se non esiste aggiungo la canzone e le relative emozioni alla hashMap
-         */
         emotionsSongs.put(songUUID, emotions);
     }
 
     /**
-     * TODO document
-     * @param songUUID
-     * @return
+     * Method which returns the emotions of songs with UUID equal to the one passed as parameter.
+     *
+     * @param songUUID It represents the UUID of the song.
+     * @return A {@link List} of {@link Emozione} if the song has inserted emotions, {@code null} otherwise.
      */
     public static List<Emozione> getSongEmotions(String songUUID){
         /* metodo che ritorna le emozioni della canzone ha ha con uuid : songUUID se essa è presente
@@ -378,9 +417,10 @@ public class SelectedPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param songUUID
-     * @return
+     * Method which checks if the song with UUID equal to the one passed as parameter, has already loaded emotions.
+     *
+     * @param songUUID Represents the UUID of the song to be controlled.
+     * @return {@code true} if the song has already loaded the emotions, {@code false} otherwise.
      */
     public static boolean songEmotionsAlreadyExist(String songUUID){
         /*
@@ -395,9 +435,10 @@ public class SelectedPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param pos
-     * @return
+     * Method which returns the {@link SongPlaylistController} present in the {@link SelectedPlaylistController#songControllers} list at the position passed as parameter.
+     *
+     * @param pos The position in the {@link SelectedPlaylistController#songControllers} of the {@link SongPlaylistController} to be returned.
+     * @return The required {@link SongPlaylistController}.
      */
     protected static SongPlaylistController getSongController(int pos){
         /*
@@ -407,8 +448,9 @@ public class SelectedPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param playlistName
+     * Method that sets the name of the playlist that is currently open.
+     *
+     * @param playlistName The name of the playlist to be set.
      */
     public static void setPlaylistOpened(String playlistName){
         /*
@@ -418,8 +460,9 @@ public class SelectedPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @return
+     * Method that returns the name of the currently open playlist.
+     *
+     * @return {@link SelectedPlaylistController#playlistOpened}.
      */
     protected static String getPlaylistOpened(){
         /*
@@ -429,7 +472,11 @@ public class SelectedPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that loads and adds to the {@link SelectedPlaylistController#dynamicScrollPane}, the pane controlled
+     * by the {@link SelectedPlaylistEmptyController} class, which informs the user that the open playlist does not contain any songs.
+     * <p>
+     *     This method is called by the {@link SelectedPlaylistController#viewSongs()}, if the open playlist contains no songs.
+     * </p>
      */
     public static void setPlaylistEmpty(){
         /*
