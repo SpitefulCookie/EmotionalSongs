@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for managing user-related information in the user interface.
+ * This class handles the display and retrieval of user data in the user profile section of the application.
+ */
 public class UserController {
 
     @FXML private Label usernameLabel;
@@ -22,9 +26,12 @@ public class UserController {
     @FXML private Label addressLabel;
 
     /**
-     * TODO document
-     * @param user
-     * @return
+     * Sets and displays the user information in the user profile section.<br><br>
+     *
+     * This method retrieves user data associated with the provided username and populates the user profile section of the UI with the relevant information.
+     *
+     * @param user The username of the user for whom to retrieve and display information.
+     * @return True if user data retrieval and display were successful, otherwise false.
      */
     protected boolean setUser(String user) {
 
@@ -60,8 +67,13 @@ public class UserController {
     }
 
     /**
-     * TODO document
-     * @return
+     * Retrieves user data from the server.<br><br>
+     *
+     * This method communicates with the server to retrieve encrypted user data associated with the provided username.
+     * The retrieved data is then decrypted using the RSA algorithm and returned as a string.
+     *
+     * @param user The username of the user for whom to retrieve data.
+     * @return The decrypted user data as a string.
      */
     protected String retrieveUserData(String user) {
         try {
