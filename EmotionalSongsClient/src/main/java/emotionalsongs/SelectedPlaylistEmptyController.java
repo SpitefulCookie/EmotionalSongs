@@ -1,5 +1,13 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,6 +18,12 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
+/**
+ * The controller class to display the {@link javafx.scene.Node} informing the user that the open playlist
+ * has no songs inserted.
+ *
+ * @author <a href="https://github.com/samuk52">Corallo Samuele</a>
+ */
 public class SelectedPlaylistEmptyController {
 
     @FXML
@@ -18,11 +32,15 @@ public class SelectedPlaylistEmptyController {
     private String playlistName;
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link SelectedPlaylistEmptyController#addSongsBtn}.
+     * <p>
+     *     When {@link SelectedPlaylistEmptyController#addSongsBtn} is clicked, the {@link Stage} (window) controlled
+     *     by the class {@link AddSongsToPlaylistController} opens, allowing the user to add songs to the open playlist.
+     * </p>
      */
     @FXML
     public void handleAddSongsButtonAction() {
-        // TODO aprire stage per l'inserimento delle canzoni nella playlist
+
         try{
             Stage addSongsStage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("addSongsToPlaylist.fxml"));
@@ -43,8 +61,9 @@ public class SelectedPlaylistEmptyController {
     }
 
     /**
-     * TODO document
-     * @param playlistName
+     * Method that sets the name of the open song.
+     *
+     * @param playlistName Represents the name of the open song.
      */
     public void setPlaylistName(String playlistName){
         this.playlistName = playlistName;
