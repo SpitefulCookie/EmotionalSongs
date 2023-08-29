@@ -496,7 +496,7 @@ public class AddSongsToPlaylistController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("songToAdd.fxml"));
             Node song_pane = fxmlLoader.load();
 
-            // get song controller, this it serves for set song name and author name of the song
+            // get song controller, this it serves for set song name and info of the song
             SongToAddController songToAddController = fxmlLoader.getController();
             songToAddController.setSong(song, playlistName, isAdded);
 
