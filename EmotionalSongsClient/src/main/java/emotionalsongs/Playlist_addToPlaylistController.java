@@ -1,17 +1,28 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/*
-TODO: vedere come mai il controllo che verifica se la canzone è già contenuta nella playlist funziona
-    male, ovvero sembra che i songUUID delle canzoni sono sballati.
+/**
+ * The controller class that manages the individual playlist that is displayed in the {@link Stage} (window)
+ * managed by the {@link AddToPlaylistController} class.
+ *
+ * @author <a href="https://github.com/samuk52">Corallo Samuele</a>
  */
 public class Playlist_addToPlaylistController implements Initializable {
 
@@ -23,9 +34,10 @@ public class Playlist_addToPlaylistController implements Initializable {
     private GUIUtilities guiUtilities;
 
     /**
-     * TODO document
-     * @param url
-     * @param resourceBundle
+     * Initializes the controller when the corresponding {@link FXML} is loaded.
+     *
+     * @param url The URL to the FXML document (unused).
+     * @param resourceBundle The resources used for localization (unused).
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -33,8 +45,40 @@ public class Playlist_addToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that manages the behaviour of the {@link Playlist_addToPlaylistController#playlistPane} when it is clicked.
+     * <p>
+     *     When the {@link Playlist_addToPlaylistController#playlistPane} is clicked:
+     *     <ol>
+     *         <li>
+     *              It is checked if the songs of the playlist that the {@link Playlist_addToPlaylistController#playlistPane}
+     *              "represents" have already been loaded from the database, if they have not already been loaded, they are loaded.
+     *         </li>
+     *         <li>
+     *              The style of the {@link Playlist_addToPlaylistController#playlistPane} is modified and the
+     *              playlist which the {@link Playlist_addToPlaylistController#playlistPane} "represents" is added to or removed
+     *              from the list "selectedPlaylists" contained in the {@link AddToPlaylistController}, depending on if:
+     *              <ol>
+     *                  <li>
+     *                      The song to be added to the playlist is already inserted in the playlist, in which
+     *                      case an error message is displayed in the {@link Playlist_addToPlaylistController#playlistPane},
+     *                      informing the user of this.
+     *                  </li>
+     *                  <li>
+     *                      the {@link Playlist_addToPlaylistController#playlistPane} has already been clicked on, so the playlist that it "represents"
+     *                      is already inserted in the list "selectedPlaylists" present in the {@link AddToPlaylistController},
+     *                      consequently it is removed from the list.
+     *                  </li>
+     *                  <li>
+     *                      The {@link Playlist_addToPlaylistController#playlistPane} has not yet been clicked on, so the playlist it "represents"
+     *                      is not included in the "selectedPlaylists" list present in the {@link AddToPlaylistController} class,
+     *                      consequently it is added to the list.
+     *                  </li>
+     *              </ol>
+     *         </li>
+     *     </ol>
+     * </p>
      */
+    @FXML
     public void handleAddToPlaylistAction(){
 
         /*
@@ -83,7 +127,7 @@ public class Playlist_addToPlaylistController implements Initializable {
                     specifica
                     */
 
-                    // remove the playlist from electedPlaylist list, contained in the addToPlaylistController class
+                    // remove the playlist from selectedPlaylist list, contained in the addToPlaylistController class
                     AddToPlaylistController.removePlaylist(playlistNameLabel.getText());
                     // make not visible the checkMarkImg
                     checkMarkImg.setVisible(false);
@@ -103,8 +147,11 @@ public class Playlist_addToPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param playlistName
+     * Method that sets the {@link Playlist_addToPlaylistController#playlistNameLabel} and checks if the playlist
+     * passed as a parameter already exists in the list "selectedPlaylists" contained in the {@link AddToPlaylistController} class,
+     * if so, the style of the {@link Playlist_addToPlaylistController#playlistPane} is changed.
+     *
+     * @param playlistName The playlist to be set.
      */
     protected void setData(String playlistName){
         playlistNameLabel.setText(playlistName);

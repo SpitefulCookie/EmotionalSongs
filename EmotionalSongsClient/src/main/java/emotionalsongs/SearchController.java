@@ -1,5 +1,13 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -28,12 +36,14 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.*;
 
-/*
-TODO:
-    1- ricerca nel db della canzone cercata
-    2- rendere questa ricerca dinamica con un listener?
-    3- aggiungere una combo box per filtrare la ricerca, quindi per scegliere se cercare per titolo autore o anno
-    4- il key event handleSearchButtonAction forse metterlo a livello di pane e non ha livello di searchBox(come lo è adesso)
+/**
+ * The Controller class that manages the search of songs in the database.
+ * <p>
+ *     The classe manages the {@link Node} that is displayed when the user clicks the "searchBtn" button
+ *     in the main view (managed by {@link EmotionalSongsClientController}).
+ * </p>
+ *
+ * @author <a href="https://github.com/samuk52">Corallo Samuele</a>
  */
 public class SearchController implements Initializable {
 
@@ -56,6 +66,16 @@ public class SearchController implements Initializable {
     private String filteredSearch;
     private static List<Node> songsPane; // TODO forse rimetterlo non statico
 
+    /**
+     * Initializes the {@link Node} for song search.
+     * <p>
+     *     This method is called automatically when the JavaFX dialog associated with this controller is loaded.
+     *     It initializes various UI components and sets up their behavior.
+     * </p>
+     *
+     * @param url The URL of the FXML file.
+     * @param resourceBundle The ResourceBundle associated with the FXML file.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -132,7 +152,12 @@ public class SearchController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that manages the behaviour of the song search operation.
+     * <p>
+     *     When the enter key on the keyboard is clicked, depending on the type of search (by title or by author and year),
+     *     the songs found are displayed; if no song is found, a message is displayed informing the user of this.
+     * </p>
+     * @param key The {@link KeyEvent} activated by pressing the enter key on the keyboard.
      */
     @FXML
     public void cercaBranoMusicale(KeyEvent key){
@@ -222,7 +247,10 @@ public class SearchController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link SearchController#removeSearchBtn}.
+     * <p>
+     *     When the {@link SearchController#removeSearchBtn} is clicked, the search is reset.
+     * </p>
      */
     @FXML
     public void handleRemoveSearchButtonAction(){
@@ -249,7 +277,21 @@ public class SearchController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link SearchController#advancedSearchBtn}.
+     * <p>
+     *     When the {@link SearchController#advancedSearchBtn} is clicked, its behavior varies based on whether:
+     *     <ol>
+     *         <li>
+     *             the {@link SearchController#advancedSearchBox} is not visible, in this case, it is made visible
+     *             and with it the buttons are also made visible: 'titleSearchBtn' and 'authorAndYearSearchBtn'
+     *             which will allow filtering the search.
+     *         </li>
+     *         <li>
+     *             the {@link SearchController#advancedSearchBox} is visible, in this case when the 'AdvancedSearchBtn' button is clicked,
+     *             the advanced search box is made invisible.
+     *         </li>
+     *     </ol>
+     * </p>
      */
     public void handleAdvancedSearchButtonAction(){
         // verifico se la ricerca avanzata è attivata o meno
@@ -263,7 +305,10 @@ public class SearchController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link SearchController#titleSearchBtn}.
+     * <p>
+     *     When the {@link SearchController#titleSearchBtn} is clicked, the search is set to: search by title.
+     * </p>
      */
     @FXML
     public void handleTitleSearchButtonAction(){
@@ -286,7 +331,11 @@ public class SearchController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link SearchController#authorAndYearSearchBtn}.
+     * <p>
+     *     When the {@link SearchController#authorAndYearSearchBtn} is clicked,
+     *     the search is set to: search by author and year.
+     * </p>
      */
     public void handleAuthorAndYearSearchButtonAction(){
         // TODO implementare cosa deve accadere quando viene premuto questo pulsante
@@ -309,9 +358,10 @@ public class SearchController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param song
-     * @param row
+     * Method that adds the song passed as a parameter to the {@link SearchController#gridPane}.
+     *
+     * @param song represents the song to add to the {@link SearchController#gridPane}.
+     * @param row indicates the row of the {@link SearchController#gridPane} in which to insert the song.
      */
     private void setNewSongFound(Canzone song, int row){
 
@@ -337,7 +387,8 @@ public class SearchController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that restores the {@link SearchController#gridPane}, removing from it the songs
+     * found since the last search.
      */
     private void removeLastSearch(){
         /*
@@ -355,7 +406,10 @@ public class SearchController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that changes the display of the {@link SearchController#removeSearchBtn}.
+     * <p>
+     *    When invoked, the {@link SearchController#removeSearchBtn}. is made active, visible and its image is changed.
+     * </p>
      */
     public void showRemoveSearchBtn(){
         removeSearchBtn.setDisable(false);
@@ -364,7 +418,10 @@ public class SearchController implements Initializable {
     }
 
     /**
-     * todo document
+     * Method that changes the display of the {@link SearchController#removeSearchBtn}.
+     * <p>
+     *     When invoked, the {@link SearchController#removeSearchBtn} is disabled, made not visible and its image is changed.
+     * </p>
      */
     public void hideRemoveSearchBtn(){
         removeSearchBtn.setDisable(true);
