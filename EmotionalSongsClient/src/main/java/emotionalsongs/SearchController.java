@@ -408,7 +408,7 @@ public class SearchController implements Initializable {
     /**
      * Method that changes the display of the {@link SearchController#removeSearchBtn}.
      * <p>
-     *    When invoked, the {@link SearchController#removeSearchBtn}. is made active, visible and its image is changed.
+     *    When invoked, the {@link SearchController#removeSearchBtn} is made active, visible and its image is changed.
      * </p>
      */
     public void showRemoveSearchBtn(){
