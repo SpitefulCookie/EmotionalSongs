@@ -14,8 +14,8 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 /**
- * The controller class that manages the {@link Stage} that is displayed when the user, logged in as a <Strong>guest</Strong>, clicks the "userBtn" button
- * in the main view (managed by the {@link EmotionalSongsClientController}).
+ * The controller class that manages the {@link javafx.scene.Node} that is displayed when the user, logged in as a <Strong>guest</Strong>,
+ * clicks the "userBtn" button in the main view (managed by the {@link EmotionalSongsClientController}).
  *
  * @author <a href="https://github.com/samuk52">Corallo Samuele</a>
  */
