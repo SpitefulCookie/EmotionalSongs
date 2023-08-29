@@ -117,12 +117,14 @@ public class ServerLoginController implements Initializable {
         if(pwd != null && username != null) {
 
             try{
+
                 /*  Di seguito viene effettuato il login dell'admin, il costruttore di QueryHandler lancierà
                  *  una SQLException nel caso la coppia username e password non risulti essere corretta.
                  */
 
                 EmotionalSongsServer.initializeQueryHandler(new QueryHandler(username, pwd ));
                 EmotionalSongsServer.loggedUser = username;
+
                 try {
 
                     EmotionalSongsServer.setStage(new Scene(FXMLLoader.load(Objects.requireNonNull(EmotionalSongsServer.class.getResource("serverMainView.fxml")))), ServerMainViewController.WIDTH, ServerMainViewController.HEIGHT, true);
@@ -165,6 +167,7 @@ public class ServerLoginController implements Initializable {
             showPasswordInput.setGraphic(new ImageView(this.eyeCrossed));
 
             isDisplayed = true;
+
         } else{
 
             overlappingTextField.setVisible(false);
@@ -175,6 +178,7 @@ public class ServerLoginController implements Initializable {
             showPasswordInput.setGraphic(new ImageView(this.eye));
 
             isDisplayed = false;
+            
         }
     }
 
