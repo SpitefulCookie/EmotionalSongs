@@ -6,7 +6,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
@@ -18,66 +17,34 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-/*
- TODO
-    1- PROBLEMA: non riesco a visualizzare il colore della barra del sadness, sembra quasi che il numero
-       totale di colori impostabili sia 8.
+/**
+ * Controller class responsible for managing the display of emotion data in the user interface.
+ * This class handles the interaction with emotion-related UI components and provides methods to set and display emotion data.
  */
 public class ViewEmotionsController implements Initializable{
 
-    @FXML
-    private VBox emotionsPane;
-    @FXML
-    private Button amazementNoteBtn;
-    @FXML
-    private Button calmnessNoteBtn;
-    @FXML
-    private Button joyNoteBtn;
-    @FXML
-    private Button nostalgiaNoteBtn;
-    @FXML
-    private Button powerNoteBtn;
-    @FXML
-    private Button sadnessNoteBtn;
-    @FXML
-    private Button solemnityNoteBtn;
-    @FXML
-    private Button tendernessNoteBtn;
-    @FXML
-    private Button tensionNoteBtn;
-    @FXML
-    private Button returnToPlaylistBtn;
-    @FXML
-    private Tooltip toolTipAmazement;
-    @FXML
-    private Tooltip toolTipCalmness;
-    @FXML
-    private Tooltip toolTipJoy;
-    @FXML
-    private Tooltip toolTipNostalgia;
-    @FXML
-    private Tooltip toolTipPower;
-    @FXML
-    private Tooltip toolTipSadness;
-    @FXML
-    private Tooltip toolTipSolemnity;
-    @FXML
-    private Tooltip toolTipTenderness;
-    @FXML
-    private Tooltip toolTipTension;
-    @FXML
-    private Label songNameLabel;
-    @FXML
-    private TextArea notesArea;
-    @FXML
-    private BarChart<String, Integer> barChart;
+    @FXML private VBox emotionsPane;
+    @FXML private Tooltip toolTipAmazement;
+    @FXML private Tooltip toolTipCalmness;
+    @FXML private Tooltip toolTipJoy;
+    @FXML private Tooltip toolTipNostalgia;
+    @FXML private Tooltip toolTipPower;
+    @FXML private Tooltip toolTipSadness;
+    @FXML private Tooltip toolTipSolemnity;
+    @FXML private Tooltip toolTipTenderness;
+    @FXML private Tooltip toolTipTension;
+    @FXML private Label songNameLabel;
+    @FXML private TextArea notesArea;
+    @FXML private BarChart<String, Integer> barChart;
 
     private List<Emozione> emotions;
 
     /**
-     * TODO document
-     * @param url
-     * @param resourceBundle
+     * Initializes the controller when the corresponding FXML is loaded.
+     * This method sets up tooltips for the emotion-related UI components.
+     *
+     * @param url The URL to the FXML document (unused).
+     * @param resourceBundle The resources used for localization (unused).
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -94,7 +61,7 @@ public class ViewEmotionsController implements Initializable{
     }
 
     /**
-     * TODO document
+     * Displays the notes for the "Amazement" emotion.
      */
     @FXML
     void handleAmazementNoteButtonAction() {
@@ -106,7 +73,7 @@ public class ViewEmotionsController implements Initializable{
     }
 
     /**
-     * TODO document
+     * Displays the notes for the "Calmness" emotion.
      */
     @FXML
     void handleCalmnessNoteButtonAction() {
@@ -118,7 +85,7 @@ public class ViewEmotionsController implements Initializable{
     }
 
     /**
-     * TODO document
+     * Displays the notes for the "Joy" emotion.
      */
     @FXML
     void handleJoyNoteButtonAction() {
@@ -130,7 +97,7 @@ public class ViewEmotionsController implements Initializable{
     }
 
     /**
-     * TODO document
+     * Displays the notes for the "Nostalgia" emotion.
      */
     @FXML
     void handleNostalgiaNoteButtonAction() {
@@ -142,7 +109,7 @@ public class ViewEmotionsController implements Initializable{
     }
 
     /**
-     * TODO document
+     * Displays the notes for the "Power" emotion.
      */
     @FXML
     void handlePowerNoteButtonAction() {
@@ -154,7 +121,7 @@ public class ViewEmotionsController implements Initializable{
     }
 
     /**
-     * TODO document
+     * Displays the notes for the "Sadness" emotion.
      */
     @FXML
     void handleSadnessNoteButtonAction() {
@@ -166,7 +133,7 @@ public class ViewEmotionsController implements Initializable{
     }
 
     /**
-     * TODO document
+     * Displays the notes for the "Solemnity" emotion.
      */
     @FXML
     void handleSolemnityNoteButtonAction() {
@@ -178,7 +145,7 @@ public class ViewEmotionsController implements Initializable{
     }
 
     /**
-     * TODO document
+     * Displays the notes for the "Tenderness" emotion.
      */
     @FXML
     void handleTendernessNoteButtonAction() {
@@ -190,7 +157,7 @@ public class ViewEmotionsController implements Initializable{
     }
 
     /**
-     * TODO document
+     * Displays the notes for the "Tension" emotion.
      */
     @FXML
     void handleTensionNoteButtonAction() {
@@ -202,7 +169,7 @@ public class ViewEmotionsController implements Initializable{
     }
 
     /**
-     * TODO document
+     * Returns to the playlist view.
      */
     @FXML
     void handleReturnToPlaylistButtonAction() {
@@ -222,8 +189,13 @@ public class ViewEmotionsController implements Initializable{
     }
 
     /**
-     * TODO document
-     * @param emotions
+     * Sets the emotions data and displays it in the user interface.<br><br>
+     *
+     * This method populates the user interface with emotion-related data including song name, emotions with the highest score,
+     * and a bar chart depicting emotion scores. It also applies appropriate styles to the UI components based on the dominant emotion.
+     *
+     * @param song The song for which emotion data is being displayed.
+     * @param emotions The list of emotions associated with the song.
      */
     protected void setEmotions(Canzone song, List<Emozione> emotions){
 
@@ -246,8 +218,12 @@ public class ViewEmotionsController implements Initializable{
     }
 
     /**
-     * TODO document
-     * @param emotions
+     * Initializes the bar chart with emotion data and applies styles to individual bars.<br><br>
+     *
+     * This method creates a bar chart and populates it with emotion data, including scores for each emotion.
+     * It also applies styles to the bars based on the associated emotion.
+     *
+     * @param emotions The list of emotions with scores for the chart.
      */
     public void initBarChart(List<Emozione> emotions){
 
@@ -288,17 +264,15 @@ public class ViewEmotionsController implements Initializable{
         // delate the lagend of chart
         barChart.setLegendVisible(false);
 
-        // DEBUG TODO remove
-        for(int i = 0; i < emotions.size(); i++){
-            System.out.println("Visualizzo l'emozione " + EmozioneEnum.getInstanceName(emotions.get(i)) + " con punteggio: " + emotions.get(i).getPunteggio() + " --- note: " + emotions.get(i).getCommento());
-        }
-
     }
 
     /**
-     * TODO document
-     * @param emotions
-     * @return
+     * Finds the emotion with the highest score.<br><br>
+     *
+     * This method iterates through a list of emotions and identifies the emotion with the highest score.
+     *
+     * @param emotions The list of emotions to analyze.
+     * @return The emotion with the highest score.
      */
     private Emozione findEmotionWithHighestScore(List<Emozione> emotions){
         // metodo che trova l'emozione con il punteggio più alto
