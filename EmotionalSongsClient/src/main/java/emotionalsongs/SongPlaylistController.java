@@ -1,5 +1,13 @@
 package emotionalsongs;
 
+/*
+ * Progetto svolto da:
+ *
+ * Corallo Samuele 749719, Ateneo di Varese
+ * Della Chiesa Mattia 749904, Ateneo di Varese
+ *
+ */
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,11 +28,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-/*
-TODO:
-   1- implemnetare cosa deve accadare quando viene premuto il pulsante di viewEmotions
-   2- implemnetare cosa deve accadare quando viene premuto il pulsante di addEmotions
-   3- forse aggiungere il pulsante di remove canzone --> esso andrà a rimuovere la canzone dalla playlist
+/**
+ * The controller class that manages the single song that is displayed in the {@link Node},
+ * managed by the {@link SelectedPlaylistController} class.
+ *
+ * @author <a href="https://github.com/samuk52">Corallo Samuele</a>
  */
 public class SongPlaylistController implements Initializable {
 
@@ -45,14 +53,38 @@ public class SongPlaylistController implements Initializable {
 
     private static Stage connectionFailedStage;
 
+    /**
+     * Initializes the controller when the corresponding {@link FXML} is loaded.
+     *
+     * @param url The URL to the FXML document (unused).
+     * @param resourceBundle The resources used for localization (unused).
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         guiUtilities = GUIUtilities.getInstance();
     }
 
+    /**
+     * Method that handles the behaviour of the {@link SongPlaylistController#multipleBtn}.
+     * <p>
+     *     When {@link SongPlaylistController#multipleBtn} is clicked, its behavior varies according to:
+     *     <of>
+     *         <li>
+     *             The user has not inserted emotions to this song, in this case when the {@link SongPlaylistController#multipleBtn} is clicked,
+     *             it opens the {@link Stage} controlled by the class {@link AddEmotionsController}, which
+     *             allows the user to insert emotions to the song.
+     *         </li>
+     *         <li>
+     *             The user has inserted emotions to this song, in this case when the {@link SongPlaylistController#multipleBtn} is clicked,
+     *             the {@link Node} controlled by the {@link ViewEmotionsController} class opens, which allows
+     *             the user to view the inserted emotions.
+     *         </li>
+     *     </of>
+     * </p>
+     */
     @FXML
     public void handleMultipleButtonAction(){
-        // TODO imolementare comportamento in base a se l'utente ha inseire le emozioni o no
+
         if(!emotionsAdded) { // se l'utente non ha inserito le emozioni
 
             try {
@@ -94,14 +126,15 @@ public class SongPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that handles the behaviour of the {@link SongPlaylistController#viewEmotionsSummaryBtn}.
+     * <p>
+     *     When {@link SongPlaylistController#viewEmotionsSummaryBtn} is clicked, the {@link Node} controlled
+     *     by the class {@link ViewReportEmotionsController} opens, allowing to view a summary of the emotions
+     *     associated with the specific song.
+     * </p>
      */
     @FXML
     public void visualizzaEmozioneBrano(){
-        // TODO implementare cosa deve accadare quando viene premuto questo pulsante
-
-        // DEBUG TODO remove
-        System.out.println("Pulsante visualizza report emozioni per la canzone: " + song + " premuto");
 
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewReportEmotions.fxml"));
@@ -121,7 +154,11 @@ public class SongPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that manages the display of the {@link SongPlaylistController#multipleBtn} when the mouse moved over it.
+     * <p>
+     *     When the mouse is moved over the {@link SongPlaylistController#multipleBtn}, the button text
+     *     is set and its width is changed.
+     * </p>
      */
     @FXML
     public void handleMultipleButtonMouseMovedAction(){
@@ -141,7 +178,11 @@ public class SongPlaylistController implements Initializable {
     }
 
     /**
-     * TODO docunent
+     * Method that manages the display of the {@link SongPlaylistController#viewEmotionsSummaryBtn} when the mouse moved over it.
+     * <p>
+     *     When the mouse is moved over the {@link SongPlaylistController#viewEmotionsSummaryBtn}, the button text
+     *     is set and its width is changed.
+     * </p>
      */
     @FXML
     public void handleViewEmotionsSummaryButtonMouseMovedAction(){
@@ -154,7 +195,12 @@ public class SongPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that manages the display of the buttons: {@link SongPlaylistController#multipleBtn} and {@link SongPlaylistController#viewEmotionsSummaryBtn}
+     * when the mouse is exited from them.
+     * <p>
+     *     When the mouse leaves the buttons: {@link SongPlaylistController#multipleBtn} and {@link SongPlaylistController#viewEmotionsSummaryBtn},
+     *     they are set to their initial state.
+     * </p>
      */
     @FXML
     public void handleMouseExitedAction(){
@@ -168,8 +214,12 @@ public class SongPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
-     * @param song
+     * Method that sets the song.
+     *
+     * @param song Represents the song to be set.
+     * @param posInGridPane indicates the position of the song in the GridPane contained in the {@link SelectedPlaylistController},
+     *                      this information will be used to update the {@link SongPlaylistController#multipleBtn},
+     *                      when emotions are added to the song.
      */
     public void setSong(Canzone song, int posInGridPane){ // pos in gridPane mi indica la posizione della canzone nel gridPane
         // set songNameLabel and authorNameLabel
@@ -184,8 +234,10 @@ public class SongPlaylistController implements Initializable {
 
 
     /**
-     * TODO document
-     * @param song
+     * Method responsible for loading the emotion of the song passed as a parameter from the database
+     * using the appropriate method {@link RepositoryManager#getSongEmotions(String songUUID, String userId)}.
+     *
+     * @param song Song to which emotions will be loaded.
      */
     protected void initEmotions(Canzone song){
         /*
@@ -263,12 +315,9 @@ public class SongPlaylistController implements Initializable {
     }
 
     /**
-     * TODO document
+     * Method that performs a series of operations when emotions are added to the song.
      */
     protected void newEmotionsAdded(){
-        /*
-        metodo che viene incocato quando vengono aggiunte le emozioni alla canzone.
-         */
 
         // now the song has the emotions
         emotionsAdded = true;
@@ -278,7 +327,5 @@ public class SongPlaylistController implements Initializable {
         // change the Img of multipleBtn
         multipleBtnImg.setImage(guiUtilities.getImage("viewEmotions"));
 
-        //DEBUG TODO remove
-        System.out.println("cambio il bottone della canzone in pos: " + posInGridPane);
     }
 }
