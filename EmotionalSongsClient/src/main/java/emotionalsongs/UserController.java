@@ -16,6 +16,8 @@ import java.util.ResourceBundle;
 /**
  * Controller class for managing user-related information in the user interface.
  * This class handles the display and retrieval of user data in the user profile section of the application.
+ *
+ * @author <a href="https://github.com/samuk52">Corallo Samuele</a>
  */
 public class UserController {
 
