@@ -179,7 +179,7 @@ public class AllPlaylistController implements Initializable {
 
             // add the playlist to the hashMap
             if (!playlists.containsKey(playlistName)) {
-                playlists.put(playlistName, new ArrayList<Canzone>());
+                playlists.put(playlistName, new ArrayList<>());
                 openPlaylists.put(playlistName, false); // inizialmente il valore è settato su false perchè la playlit non è stata mai aperta
             }
 
@@ -195,7 +195,7 @@ public class AllPlaylistController implements Initializable {
 
             return false;
 
-        }catch (SQLException f){
+        }/*catch (SQLException f){ // FIXME
 
             Stage insertionFailedStage = new Stage();
 
@@ -208,7 +208,7 @@ public class AllPlaylistController implements Initializable {
 
             return false;
 
-        }
+        }*/
 
         return true;
     }
@@ -229,7 +229,7 @@ public class AllPlaylistController implements Initializable {
         non viene inserita nel DB, cosa che invece avviene nel metodo addNewPlaylist
          */
         if (!playlists.containsKey(playlistName)){
-            playlists.put(playlistName, new ArrayList<Canzone>());
+            playlists.put(playlistName, new ArrayList<>());
             openPlaylists.put(playlistName, false); // inizialmente il valore è settato su false perchè la playlit non è stata mai aperta
         }
     }

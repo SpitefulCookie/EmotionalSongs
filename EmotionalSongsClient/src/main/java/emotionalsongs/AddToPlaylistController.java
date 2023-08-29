@@ -10,8 +10,6 @@ package emotionalsongs;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,7 +25,6 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -88,15 +85,8 @@ public class AddToPlaylistController implements Initializable {
         System.out.println("****** canzone da aggiungere: " + songToAdd);
 
         // add listener to numSelectedPlaylists
-        numSelectedPlaylists.addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                if(numSelectedPlaylists.get() > 0){
-                    addToPlaylistBtn.setDisable(false);
-                }else{
-                    addToPlaylistBtn.setDisable(true);
-                }
-            }
+        numSelectedPlaylists.addListener((observableValue, number, t1) -> {
+            addToPlaylistBtn.setDisable(numSelectedPlaylists.get() <= 0);
         });
 
         // view the playlist
@@ -134,7 +124,7 @@ public class AddToPlaylistController implements Initializable {
             connectionFailedStage.setResizable(false);
             connectionFailedStage.show();
 
-        } catch (SQLException f) {
+        } /*catch (SQLException f) { FIXME
 
             Stage insertionFailedStage = new Stage();
 
@@ -145,7 +135,7 @@ public class AddToPlaylistController implements Initializable {
             insertionFailedStage.setResizable(false);
             insertionFailedStage.show();
 
-        }
+        }*/
 
         // close the stage
         GUIUtilities.closeStage(addToPlaylistBtn);

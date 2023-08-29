@@ -26,7 +26,6 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
-import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -79,7 +78,7 @@ public class SelectedPlaylistController implements Initializable {
      NOTA: lista che contiene le emozioni associate alla key canzone, la chiave che è di tipo String
      viene rappresentata dal songUUID dell canzone.
      */
-    private static HashMap<String, List<Emozione>> emotionsSongs = new HashMap<String, List<Emozione>>();
+    private static final HashMap<String, List<Emozione>> emotionsSongs = new HashMap<>();
 
     /**
      * It initialises the GUI components and sets the initial state for displaying the songs in the open playlist.<br><br>
@@ -213,7 +212,7 @@ public class SelectedPlaylistController implements Initializable {
             connectionFailedStage.setResizable(false);
             connectionFailedStage.show();
 
-        } catch (SQLException f){
+        } /*catch (SQLException f){ // FIXME
 
             Stage insertionFailedStage = new Stage();
 
@@ -224,7 +223,7 @@ public class SelectedPlaylistController implements Initializable {
             insertionFailedStage.setResizable(false);
             insertionFailedStage.show();
 
-        }
+        }*/
 
     }
 
@@ -238,7 +237,7 @@ public class SelectedPlaylistController implements Initializable {
         List<Canzone> songs = AllPlaylistController.getSongs(playlistNameLabel_.getText());
 
         // ogni volta che visualizzo le canzoni vado a creare una nuova lista songController
-        songControllers = new ArrayList<SongPlaylistController>();
+        songControllers = new ArrayList<>();
 
         /*
         metodo che visualizza le canzoni contenute nella playlist aperta, se non c'e ne sono, viene visualizzato

@@ -23,7 +23,6 @@ import javafx.stage.StageStyle;
 
 import java.net.URL;
 import java.rmi.RemoteException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -83,7 +82,7 @@ public class AddEmotionsController implements Initializable {
         row = 0;
 
         // create the emozioniProvateList
-        emozioniProvate = new ArrayList<Emozione>();
+        emozioniProvate = new ArrayList<>();
 
         // add each emotion to gridPane
         Amazement = newEmotion(EmozioneEnum.AMAZEMENT);
@@ -151,7 +150,7 @@ public class AddEmotionsController implements Initializable {
             connectionFailedStage.setResizable(false);
             connectionFailedStage.show();
 
-        } catch (SQLException e) {
+        } /*catch (SQLException e) { // FIXME
 
             Stage insertionFailedStage = new Stage();
 
@@ -162,7 +161,8 @@ public class AddEmotionsController implements Initializable {
             insertionFailedStage.setResizable(false);
             insertionFailedStage.show();
 
-        }
+
+        }*/
 
         // close the stage
         GUIUtilities.closeStage(addEmotionsBtn);
