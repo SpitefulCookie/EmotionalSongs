@@ -54,59 +54,6 @@ public class Canzone implements Serializable {
     }
 
     /***
-     * Costruisce un oggetto {@code Canzone} a partire da un'unica stringa contenente i dati che la descrivono.
-     * @param dati un oggetto di tipo {@code String}, formattato secondo lo standard CSV, contenente le informazioni relative ad una canzone.
-     * 
-     */
-    public Canzone(String dati) {
-
-        super();
-
-        String[] val;
-
-        if(dati.contains("\"")){
-
-            String result = dati;
-            String value;
-
-            int begin;
-            int last=-1;
-
-            do{
-
-                begin = dati.indexOf("\"", last+1);
-
-                if(begin!=-1){
-
-                    last = dati.indexOf('\"', begin+1);
-
-                    if(last!=-1){
-
-                        value = dati.substring(begin+1, last).replace(',', '§');
-                        
-                        result = result.replace(dati.substring(begin, last+1), value);
-
-                    }
-
-                }
-
-            } while (last != -1 && begin != -1);
-                        
-            val = result.split(",");
-
-            for(int i=0; i<val.length; i++){val[i] = val[i].replace("§", ",");}
-
-
-        } else{val = dati.split(",");}
-
-        this.songUUID = val[0];
-        this.titolo = val[1];
-        this.autore = val[2];
-        this.anno = Integer.parseInt(val[3]);
-
-    }
-
-    /***
      * Restituisce l'UUID type 3 associato alla canzone.
      * @return un oggetto di tipo {@code String} contenente l'UUID della canzone.
      */
