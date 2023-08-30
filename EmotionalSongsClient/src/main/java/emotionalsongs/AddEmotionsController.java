@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -21,6 +22,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -132,13 +134,36 @@ public class AddEmotionsController implements Initializable {
             emozioniProvate.add(new Sadness(Sadness.getScore(), Sadness.getNotes()));
 
             // insert the emotions to the DB
-            EmotionalSongsClient.repo.registerEmotions(emozioniProvate, song.getSongUUID(), EmotionalSongsClientController.getUsername());
+            boolean emotionRegistrationCheck = EmotionalSongsClient.repo.registerEmotions(emozioniProvate, song.getSongUUID(), EmotionalSongsClientController.getUsername());
 
-            // add emotions to the hashMap emotionsSongs contained in the SelectedPlaylist class
-            SelectedPlaylistController.addEmotionsSong(song.getSongUUID(), emozioniProvate);
+            if(emotionRegistrationCheck) {
+                // add emotions to the hashMap emotionsSongs contained in the SelectedPlaylist class
+                SelectedPlaylistController.addEmotionsSong(song.getSongUUID(), emozioniProvate);
 
-            // set that now the song has an emotions
-            SelectedPlaylistController.getSongController(posInGridPane).newEmotionsAdded();
+                // set that now the song has an emotions
+                SelectedPlaylistController.getSongController(posInGridPane).newEmotionsAdded();
+
+            }else{
+
+                try {
+                    // opened the insertionFailedStage informing the user that the insertion of emotions into the song had failed.
+                    Stage insertionFailedStage = new Stage();
+
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("insertionFailed.fxml"));
+
+                    insertionFailedStage.setScene(new Scene(fxmlLoader.load()));
+
+                    InsertionFailedController insertionFailedController = fxmlLoader.getController();
+                    insertionFailedController.setErrorLabel("Impossibile aggiungere le emozioni alla canzone");
+
+                    insertionFailedStage.initStyle(StageStyle.UNDECORATED);
+                    insertionFailedStage.initModality(Modality.APPLICATION_MODAL);
+                    insertionFailedStage.setResizable(false);
+                    insertionFailedStage.show();
+                }catch (IOException e){
+                    //
+                }
+            }
 
         }catch (RemoteException e){
 
@@ -150,19 +175,7 @@ public class AddEmotionsController implements Initializable {
             connectionFailedStage.setResizable(false);
             connectionFailedStage.show();
 
-        } /*catch (SQLException e) { // FIXME
-
-            Stage insertionFailedStage = new Stage();
-
-            insertionFailedStage.setScene(GUIUtilities.getInstance().getScene("insertionFailed.fxml"));
-            InsertionFailedController.setErrorLabel("Impossibile aggiungere le emozioni alla canzone");
-            insertionFailedStage.initStyle(StageStyle.UNDECORATED);
-            insertionFailedStage.initModality(Modality.APPLICATION_MODAL);
-            insertionFailedStage.setResizable(false);
-            insertionFailedStage.show();
-
-
-        }*/
+        }
 
         // close the stage
         GUIUtilities.closeStage(addEmotionsBtn);
