@@ -173,14 +173,41 @@ public class AllPlaylistController implements Initializable {
      * @return {@code true} if the insertion of the playlist in the database was successful, {@code false} otherwise.
      */
     public static boolean addNewPlaylist(String playlistName) {
+
+        boolean playlistInsertionCheck = false;
+
         try {
             // add the playlist to the DB
-            EmotionalSongsClient.repo.registerPlaylist(playlistName, EmotionalSongsClientController.getUsername());
+            playlistInsertionCheck = EmotionalSongsClient.repo.registerPlaylist(playlistName, EmotionalSongsClientController.getUsername());
 
-            // add the playlist to the hashMap
-            if (!playlists.containsKey(playlistName)) {
-                playlists.put(playlistName, new ArrayList<>());
-                openPlaylists.put(playlistName, false); // inizialmente il valore è settato su false perchè la playlit non è stata mai aperta
+            // add the playlist in the hashMap if the insertion of it in the db was successful
+            if(playlistInsertionCheck) {
+                // add the playlist to the hashMap
+                if (!playlists.containsKey(playlistName)) {
+                    playlists.put(playlistName, new ArrayList<>());
+                    openPlaylists.put(playlistName, false); // inizialmente il valore è settato su false perchè la playlit non è stata mai aperta
+                }
+
+            }else{
+
+                try {
+                    Stage insertionFailedStage = new Stage();
+
+                    FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongsClient.class.getResource("insertionFailed.fxml"));
+
+                    insertionFailedStage.setScene(new Scene(fxmlLoader.load()));
+
+                    InsertionFailedController insertionFailedController = fxmlLoader.getController();
+                    insertionFailedController.setErrorLabel("Impossibile creare la playlist");
+
+                    insertionFailedStage.initStyle(StageStyle.UNDECORATED);
+                    insertionFailedStage.initModality(Modality.APPLICATION_MODAL);
+                    insertionFailedStage.setResizable(false);
+                    insertionFailedStage.show();
+                }catch (IOException e){
+                    //
+                }
+
             }
 
         }catch(RemoteException e){
@@ -193,24 +220,11 @@ public class AllPlaylistController implements Initializable {
             connectionFailedStage.setResizable(false);
             connectionFailedStage.show();
 
-            return false;
+            return playlistInsertionCheck;
 
-        }/*catch (SQLException f){ // FIXME
+        }
 
-            Stage insertionFailedStage = new Stage();
-
-            insertionFailedStage.setScene(GUIUtilities.getInstance().getScene("insertionFailed.fxml"));
-            InsertionFailedController.setErrorLabel("Impossibile creare la playlist");
-            insertionFailedStage.initStyle(StageStyle.UNDECORATED);
-            insertionFailedStage.initModality(Modality.APPLICATION_MODAL);
-            insertionFailedStage.setResizable(false);
-            insertionFailedStage.show();
-
-            return false;
-
-        }*/
-
-        return true;
+        return playlistInsertionCheck;
     }
 
     /**
