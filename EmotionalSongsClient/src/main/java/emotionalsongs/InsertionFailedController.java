@@ -23,23 +23,10 @@ import java.util.ResourceBundle;
  *
  * @author <a href="https://github.com/samuk52">Corallo Samuele</a>
  */
-public class InsertionFailedController implements Initializable {
+public class InsertionFailedController {
 
     @FXML private Button okBtn;
     @FXML private Label errorLabel;
-
-    private static Label errorLabel_;
-
-    /**
-     * Initializes the controller when the corresponding {@link FXML} is loaded.
-     *
-     * @param url The URL to the FXML document (unused).
-     * @param resourceBundle The resources used for localization (unused).
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        errorLabel_ = errorLabel;
-    }
 
     /**
      * Method that handles the behaviour of the {@link InsertionFailedController#okBtn}.
@@ -58,10 +45,10 @@ public class InsertionFailedController implements Initializable {
      *
      * @param errorMessage Is the error message to be set.
      */
-    protected static void setErrorLabel(String errorMessage){
+    protected void setErrorLabel(String errorMessage){
         /*
         metodo che setta il messaggio di errore
          */
-        errorLabel_.setText(errorMessage);
+        errorLabel.setText(errorMessage);
     }
 }
