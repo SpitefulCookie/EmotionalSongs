@@ -155,30 +155,6 @@ public class GUIUtilities {
         });
     }
 
-    /*
-     * Ti ho rimosso questo metodo perché faceva la stessa cosa dell'altro metodo forceTextInput e, poiché TextArea e
-     * TextInputArea possiedono la stessa super classe è più corretto utilizzare un metodo unico e generalizzato per entrambe.
-     *
-     */
-
-    /* *
-     *
-     * @param ta
-     * @param maxLen
-     * /
-    public static void forceTextInput(final TextArea ta, final int maxLen) {
-
-        ta.textProperty().addListener((observable, oldValue, newValue) -> {
-
-            if (newValue.matches(".*\\d.*")) {
-                ta.setText(newValue.replaceAll("\\d", ""));
-            }else if (ta.getText().length() > maxLen) {
-                String s = ta.getText().substring(0, maxLen);
-                ta.setText(s);
-            }
-        });
-    }
-    */
 
     /**
      * Enforces text input constraints for a {@link TextField} by allowing exclusively numeric characters and
