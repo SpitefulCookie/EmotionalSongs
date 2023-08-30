@@ -187,21 +187,50 @@ public class SelectedPlaylistController implements Initializable {
     public static void addNewSongs(List<Canzone> songsToAdd){
         /*
         metodo che aggiunge le canzoni contenute nella lista songsToAdd nella playlist specifica, successivamente
-        va a rivisualizzare la playlist invocando l'opportuno metodo viewSongs
+        va a ri-visualizzare la playlist invocando l'opportuno metodo viewSongs
          */
 
         try {
 
+            boolean songInsertionCheck = true;
+
             // add the song to the DB
             for(Canzone song : songsToAdd) {
-                EmotionalSongsClient.repo.addSongToPlaylist(playlistNameLabel_.getText(), EmotionalSongsClientController.getUsername(), song.getSongUUID());
+                // add the song to the playlist in DB and add the song to the hashMap if the insertion
+                // of it into the db was successful.
+                if(EmotionalSongsClient.repo.addSongToPlaylist(playlistNameLabel_.getText(), EmotionalSongsClientController.getUsername(), song.getSongUUID())) {
+                    // add the song to the playlist
+                    AllPlaylistController.addSongs(playlistNameLabel_.getText(), song);
+                }else{
+                    songInsertionCheck = false;
+                }
             }
 
-            // add the song to the playlist
-            AllPlaylistController.addSongs(playlistNameLabel_.getText(), songsToAdd); // aggiungo le canzoni nella playlist
+            if(!songInsertionCheck) {
+
+                try {
+                    Stage insertionFailedStage = new Stage();
+
+                    FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongsClient.class.getResource("insertionFailed.fxml"));
+
+                    insertionFailedStage.setScene(new Scene(fxmlLoader.load()));
+
+                    InsertionFailedController insertionFailedController = fxmlLoader.getController();
+                    insertionFailedController.setErrorLabel("Impossibile aggiungere una o più canzoni alla playlist");
+
+                    insertionFailedStage.initStyle(StageStyle.UNDECORATED);
+                    insertionFailedStage.initModality(Modality.APPLICATION_MODAL);
+                    insertionFailedStage.setResizable(false);
+                    insertionFailedStage.show();
+                }catch (IOException e){
+                    //
+                }
+
+            }
 
             // display the playlist songs
             viewSongs();
+
         }catch (RemoteException e){
 
             Stage connectionFailedStage = new Stage();
@@ -212,18 +241,7 @@ public class SelectedPlaylistController implements Initializable {
             connectionFailedStage.setResizable(false);
             connectionFailedStage.show();
 
-        } /*catch (SQLException f){ // FIXME
-
-            Stage insertionFailedStage = new Stage();
-
-            insertionFailedStage.setScene(GUIUtilities.getInstance().getScene("insertionFailed.fxml"));
-            InsertionFailedController.setErrorLabel("Impossibile aggiungere una o più canzoni alla playlist");
-            insertionFailedStage.initStyle(StageStyle.UNDECORATED);
-            insertionFailedStage.initModality(Modality.APPLICATION_MODAL);
-            insertionFailedStage.setResizable(false);
-            insertionFailedStage.show();
-
-        }*/
+        }
 
     }
 
