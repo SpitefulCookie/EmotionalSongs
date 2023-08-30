@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
@@ -103,17 +104,46 @@ public class AddToPlaylistController implements Initializable {
      * </p>
      */
     public void handleAddToPlaylistButtonAction(){
-        // ad ogni playlist contenuta nella selectedPlaylists aggiungo la canzone
 
         // DEBUG TODO remove
         System.out.println("aggiungo la canzone " + songToAdd);
         try {
+            boolean songInsertionCheck = true;
+
             for (String playlist : selectedPlaylists) {
-                // add the songToAdd to the playlist in DB
-                EmotionalSongsClient.repo.addSongToPlaylist(playlist, EmotionalSongsClientController.getUsername(), songToAdd.getSongUUID());
-                // add the songToAdd to the playlist in hashMap
-                AllPlaylistController.addSongs(playlist, songToAdd);
+                // add the songToAdd to the playlist in DB and add the song to the hashMap if the insertion
+                // of it into the db was successful.
+                if(EmotionalSongsClient.repo.addSongToPlaylist(playlist, EmotionalSongsClientController.getUsername(), songToAdd.getSongUUID())) {
+                    // add the songToAdd to the playlist in hashMap
+                    AllPlaylistController.addSongs(playlist, songToAdd);
+                }else{
+                    // otherwise, if the entry of the song in the db was unsuccessful.
+                    songInsertionCheck = false;
+                }
             }
+
+            if(!songInsertionCheck){
+
+                try {
+                    Stage insertionFailedStage = new Stage();
+
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("insertionFailed.fxml"));
+
+                    insertionFailedStage.setScene(new Scene(fxmlLoader.load()));
+
+                    InsertionFailedController insertionFailedController = fxmlLoader.getController();
+                    insertionFailedController.setErrorLabel("Impossibile aggiungere la canzone a una o più playlist");
+
+                    insertionFailedStage.initStyle(StageStyle.UNDECORATED);
+                    insertionFailedStage.initModality(Modality.APPLICATION_MODAL);
+                    insertionFailedStage.setResizable(false);
+                    insertionFailedStage.show();
+                }catch (IOException e){
+                    //
+                }
+
+            }
+
         }catch (RemoteException e){
 
             Stage connectionFailedStage = new Stage();
@@ -124,18 +154,7 @@ public class AddToPlaylistController implements Initializable {
             connectionFailedStage.setResizable(false);
             connectionFailedStage.show();
 
-        } /*catch (SQLException f) { FIXME
-
-            Stage insertionFailedStage = new Stage();
-
-            insertionFailedStage.setScene(GUIUtilities.getInstance().getScene("insertionFailed.fxml"));
-            InsertionFailedController.setErrorLabel("Impossibile aggiungere la canzone alle playlist");
-            insertionFailedStage.initStyle(StageStyle.UNDECORATED);
-            insertionFailedStage.initModality(Modality.APPLICATION_MODAL);
-            insertionFailedStage.setResizable(false);
-            insertionFailedStage.show();
-
-        }*/
+        }
 
         // close the stage
         GUIUtilities.closeStage(addToPlaylistBtn);
