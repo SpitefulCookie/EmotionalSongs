@@ -280,7 +280,7 @@ public class LoginController implements Initializable {
      * Initializes the server connection, processes the user's login attempt, and sets up the main client screen upon successful login.
      */
     @FXML protected void handleLoginButtonAction(){
-
+                
         EmotionalSongsClient.initializeServerConnection(false);
 
         String pwd = null;
@@ -319,7 +319,7 @@ public class LoginController implements Initializable {
             username = usernameField.getText();
         }
 
-        if (pwd != null && username != null) {
+        if ( pwd != null && username != null) {
 
             try {
                 // This is the actual login
@@ -351,7 +351,7 @@ public class LoginController implements Initializable {
 
                 }
 
-            } catch (RemoteException e) {
+            } catch (Exception e) { // Covers also the case where EmotionalSongsClient.auth is null
 
                 Stage connectionFailedStage = new Stage();
 
