@@ -162,7 +162,7 @@ public class EmotionalSongsClient extends Application {
             // quest'eccezione viene lanciata qualora non sia stato effettuato l'export dell'oggetto PingClient,
             // questo tipicamente avviene solo quando il server non è raggiungibile.
         } catch (RemoteException e) {
-            System.err.println("Remote exception thrown while attempting to disconnect the client. Reason:\n" + e.getMessage());
+            //System.err.println("Remote exception thrown while attempting to disconnect the client. Reason:\n" + e.getMessage());
         }
     }
 

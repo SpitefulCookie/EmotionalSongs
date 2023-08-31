@@ -173,15 +173,15 @@ public class LoginController implements Initializable {
         if(!EmotionalSongsClient.isConnectionInitialized){
 
             _connectionStatusIcon.setImage(guiUtilities.getImage("badConnection"));
-            _connectionStatusLabel.setText("Connection failed");
-            Tooltip tip = new Tooltip("Unable to contact the server, please check your settings");
+            _connectionStatusLabel.setText("Connessione fallita");
+            Tooltip tip = new Tooltip("Impossibile contattare il server, verifica le tue impostazioni");
             tip.setShowDelay(new Duration(0.3));
             tip.setHideDelay(new Duration(0.3));
             _connectionStatusLabel.setTooltip(tip);
 
         } else{
             _connectionStatusIcon.setImage(guiUtilities.getImage("goodConnection"));
-            _connectionStatusLabel.setText("Connection established");
+            _connectionStatusLabel.setText("Connection stabilita");
         }
 
     }
@@ -203,26 +203,31 @@ public class LoginController implements Initializable {
     @FXML protected void handleContinueAsGuest(){
 
         EmotionalSongsClient.initializeServerConnection(false);
-        EmotionalSongsClient.registerClient();
 
-        // La connessione al server è necessaria anche se l'utente non è registrato, pertanto non dev'essere
-        // in grado di visualizzare la schermata principale senza che il client si sia connesso al server.
+        if (EmotionalSongsClient.isConnectionInitialized) {
 
-        try {
+            EmotionalSongsClient.registerClient();
 
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("emotionalSongsClient.fxml"));
+            // La connessione al server è necessaria anche se l'utente non è registrato, pertanto non dev'essere
+            // in grado di visualizzare la schermata principale senza che il client si sia connesso al server.
 
-            Scene scene = new Scene(fxmlLoader.load());
+            try {
 
-            EmotionalSongsClientController client = fxmlLoader.getController();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("emotionalSongsClient.fxml"));
 
-            client.setUser("Guest", true);
+                Scene scene = new Scene(fxmlLoader.load());
 
-            EmotionalSongsClient.setStage(scene, EmotionalSongsClientController.WIDTH, EmotionalSongsClientController.HEIGHT, true);
-            EmotionalSongsClient.getStage().show();
+                EmotionalSongsClientController client = fxmlLoader.getController();
 
-        } catch (IOException e) {
-            //
+                client.setUser("Guest", true);
+
+                EmotionalSongsClient.setStage(scene, EmotionalSongsClientController.WIDTH, EmotionalSongsClientController.HEIGHT, true);
+                EmotionalSongsClient.getStage().show();
+
+            } catch (IOException e) {
+                //
+            }
+
         }
 
     }
@@ -234,10 +239,12 @@ public class LoginController implements Initializable {
     @FXML protected void handleRegisterButton() {
 
             EmotionalSongsClient.initializeServerConnection(false);
-            EmotionalSongsClient.registerClient();
-            EmotionalSongsClient.setStage(GUIUtilities.getInstance().getScene("UserRegistration.fxml"), UserRegistrationController.WIDTH, UserRegistrationController.HEIGHT, true);
-            EmotionalSongsClient.getStage().show();
 
+            if (EmotionalSongsClient.isConnectionInitialized) {
+                EmotionalSongsClient.registerClient();
+                EmotionalSongsClient.setStage(GUIUtilities.getInstance().getScene("UserRegistration.fxml"), UserRegistrationController.WIDTH, UserRegistrationController.HEIGHT, true);
+                EmotionalSongsClient.getStage().show();
+            }
     }
 
     /**
