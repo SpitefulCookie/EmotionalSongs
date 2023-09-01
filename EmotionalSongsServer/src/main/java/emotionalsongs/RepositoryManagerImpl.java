@@ -138,7 +138,7 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
      * @throws RemoteException If a remote communication error occurs.
      * @return {@code true} if the playlist registration ended with a success, {@code false} otherwise
      */
-    @Override // Verificata
+    @Override
     public boolean registerPlaylist(String playlistName, String username) throws RemoteException {
 
         try {
@@ -158,7 +158,7 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
      * @throws RemoteException If a remote communication error occurs.
      * @return {@code true} if the playlist registration ended with a success, {@code false} otherwise
      */
-    @Override // Verificata
+    @Override
     public boolean addSongToPlaylist(String nomePlaylist, String userID, String songUUID) throws RemoteException {
         try {
             dbReference.executeUpdate(new String[]{nomePlaylist, userID, songUUID}, QueryHandler.QUERY_REGISTER_SONG_IN_PLAYLIST );
@@ -177,7 +177,7 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
      * @throws RemoteException If a remote communication error occurs.
      * @return {@code true} if the playlist registration ended with a success, {@code false} otherwise
      */
-    @Override // Verificata // TODO test me
+    @Override
     public boolean registerEmotions(ArrayList<Emozione> emozioniProvate, String songUUID, String userId) throws RemoteException {
         try {
             try {
@@ -221,7 +221,7 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
      * @return An ArrayList of Emozione objects representing emotions associated with the song.
      * @throws RemoteException If a remote communication error occurs.
      */
-    @Override // Verificata
+    @Override
     public ArrayList<Emozione> getSongEmotions(String songUUID, String userid) throws RemoteException {
         // Vedi commento in QueryHandler.executeQuery sul motivo del passaggio di un array di stringhe vuoto.
         ArrayList<String[]> dataRetrieved = dbReference.executeQuery(new String[]{}, QueryHandler.QUERY_GET_SONG_EMOTIONS.replace("uId", userid).replace("sId", songUUID));
@@ -255,7 +255,7 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
      *         If no scores are available, an array with negative values will be returned.
      * @throws RemoteException If a communication error occurs during the remote method invocation.
      */
-    @Override // Verificata
+    @Override
     public double[] getSongAverageEmotions(String songUUID) throws RemoteException {
         // Vedi commento in QueryHandler.executeQuery sul motivo del passaggio di un array di stringhe vuoto.
         ArrayList<String[]> dataRetrieved = dbReference.executeQuery(new String[]{songUUID}, QueryHandler.QUERY_GET_SONG_AVERAGE_SCORES);

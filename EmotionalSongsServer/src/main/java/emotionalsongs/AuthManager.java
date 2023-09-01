@@ -106,7 +106,7 @@ public interface AuthManager extends Remote {
      * @return {@code true} if the provided fiscal code is already present in the database, {@code false} otherwise.
      * @throws RemoteException If a communication error occurs while invoking or executing the remote method.
      */
-    boolean cfExists(byte[] cf) throws RemoteException; // TODO RSA?
+    boolean cfExists(byte[] cf) throws RemoteException;
 
 
     /**
