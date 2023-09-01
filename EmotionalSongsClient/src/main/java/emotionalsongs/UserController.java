@@ -9,17 +9,13 @@ package emotionalsongs;
  */
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.net.URL;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.ResourceBundle;
 
 /**
  * Controller class for managing user-related information in the user interface.
@@ -87,7 +83,7 @@ public class UserController {
      */
     protected String retrieveUserData(String user) {
         try {
-            String data= AuthManager.decryptRSA(EmotionalSongsClient.auth.getUserData(user, EmotionalSongsClient.ping.getPublicKey()),EmotionalSongsClient.ping.getPrivateKey()); // TODO rimpiazzare 'test' con l'userId dell'utente loggato
+            String data= AuthManager.decryptRSA(EmotionalSongs.auth.getUserData(user, EmotionalSongs.ping.getPublicKey()), EmotionalSongs.ping.getPrivateKey()); 
             return data.substring(1,data.length()-1);
         } catch (RemoteException e) {
 

@@ -9,8 +9,6 @@ package emotionalsongs;
  */
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -135,8 +133,8 @@ public class EmotionalSongsClientController implements Initializable {
      */
     @FXML
     public void handleCloseButtonAction(){
-        EmotionalSongsClient.disconnectClient();
-        EmotionalSongsClient.getStage().close();
+        EmotionalSongs.disconnectClient();
+        EmotionalSongs.getStage().close();
         // TODO added the following lines as an attempt to fix the client remaining open in the background after
         //  exiting the application, remove if it doesn't work
         Platform.exit();
@@ -162,7 +160,7 @@ public class EmotionalSongsClientController implements Initializable {
      */
     @FXML
     public void handleMaximizedStageButtonAction(){
-        Stage stage = EmotionalSongsClient.getStage();
+        Stage stage = EmotionalSongs.getStage();
 
         /*
         verifico se lo stage è già massimizzato, se si quando premerò il pulsante di "massimizzazione"
@@ -206,7 +204,7 @@ public class EmotionalSongsClientController implements Initializable {
      */
     @FXML
     public void handleMinimizeStageButtonAction(){
-        EmotionalSongsClient.getStage().setIconified(true);
+        EmotionalSongs.getStage().setIconified(true);
     }
 
     /**
@@ -432,8 +430,8 @@ public class EmotionalSongsClientController implements Initializable {
 
         this.pane.setOnMousePressed(event -> {
 
-            xOffset = event.getScreenX() - EmotionalSongsClient.getStage().getX();
-            yOffset = event.getScreenY() - EmotionalSongsClient.getStage().getY();
+            xOffset = event.getScreenX() - EmotionalSongs.getStage().getX();
+            yOffset = event.getScreenY() - EmotionalSongs.getStage().getY();
 
         });
 
@@ -444,8 +442,8 @@ public class EmotionalSongsClientController implements Initializable {
                 calculateGap(event);
             }
 
-            EmotionalSongsClient.getStage().setX(event.getScreenX() - xOffset);
-            EmotionalSongsClient.getStage().setY(event.getScreenY() - yOffset);
+            EmotionalSongs.getStage().setX(event.getScreenX() - xOffset);
+            EmotionalSongs.getStage().setY(event.getScreenY() - yOffset);
         });
 
     }
@@ -461,8 +459,8 @@ public class EmotionalSongsClientController implements Initializable {
      * @param event The MouseEvent representing the mouse event that triggered the calculation.
      */
     private void calculateGap(MouseEvent event){
-        xOffset = event.getScreenX() - EmotionalSongsClient.getStage().getX();
-        yOffset = event.getScreenY() - EmotionalSongsClient.getStage().getY();
+        xOffset = event.getScreenX() - EmotionalSongs.getStage().getX();
+        yOffset = event.getScreenY() - EmotionalSongs.getStage().getY();
     }
 
     /**
@@ -473,7 +471,7 @@ public class EmotionalSongsClientController implements Initializable {
      */
     public static void setDynamicPane(String fxml){
         try{
-            FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongsClient.class.getResource(fxml));
+            FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongs.class.getResource(fxml));
             Node pane = fxmlLoader.load();
 
             dynamicPane_.setCenter(pane);

@@ -26,7 +26,6 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
-import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 /**
@@ -94,7 +93,7 @@ public class LoginController implements Initializable {
          * del server non eccederanno mai i 700ms, permettendo così all'applicazione di continuare a eseguire senza interruzioni significative.
          */
 
-        Thread t = new Thread(() -> EmotionalSongsClient.initializeServerConnection(true));
+        Thread t = new Thread(() -> EmotionalSongs.initializeServerConnection(true));
 
         t.start();
 
@@ -111,7 +110,7 @@ public class LoginController implements Initializable {
 
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.initStyle(StageStyle.UNDECORATED);
-            dialog.initOwner(EmotionalSongsClient.getStage());
+            dialog.initOwner(EmotionalSongs.getStage());
             Scene dialogScene = GUIUtilities.getInstance().getScene("clientLoginSettings.fxml");
 
             dialog.setScene(dialogScene);
@@ -170,7 +169,7 @@ public class LoginController implements Initializable {
      */
     protected static void updateConnectionGraphics(){
 
-        if(!EmotionalSongsClient.isConnectionInitialized){
+        if(!EmotionalSongs.isConnectionInitialized){
 
             _connectionStatusIcon.setImage(guiUtilities.getImage("badConnection"));
             _connectionStatusLabel.setText("Connessione fallita");
@@ -202,11 +201,11 @@ public class LoginController implements Initializable {
      */
     @FXML protected void handleContinueAsGuest(){
 
-        EmotionalSongsClient.initializeServerConnection(false);
+        EmotionalSongs.initializeServerConnection(false);
 
-        if (EmotionalSongsClient.isConnectionInitialized) {
+        if (EmotionalSongs.isConnectionInitialized) {
 
-            EmotionalSongsClient.registerClient();
+            EmotionalSongs.registerClient();
 
             // La connessione al server è necessaria anche se l'utente non è registrato, pertanto non dev'essere
             // in grado di visualizzare la schermata principale senza che il client si sia connesso al server.
@@ -221,8 +220,8 @@ public class LoginController implements Initializable {
 
                 client.setUser("Guest", true);
 
-                EmotionalSongsClient.setStage(scene, EmotionalSongsClientController.WIDTH, EmotionalSongsClientController.HEIGHT, true);
-                EmotionalSongsClient.getStage().show();
+                EmotionalSongs.setStage(scene, EmotionalSongsClientController.WIDTH, EmotionalSongsClientController.HEIGHT, true);
+                EmotionalSongs.getStage().show();
 
             } catch (IOException e) {
                 //
@@ -238,12 +237,12 @@ public class LoginController implements Initializable {
      */
     @FXML protected void handleRegisterButton() {
 
-            EmotionalSongsClient.initializeServerConnection(false);
+            EmotionalSongs.initializeServerConnection(false);
 
-            if (EmotionalSongsClient.isConnectionInitialized) {
-                EmotionalSongsClient.registerClient();
-                EmotionalSongsClient.setStage(GUIUtilities.getInstance().getScene("UserRegistration.fxml"), UserRegistrationController.WIDTH, UserRegistrationController.HEIGHT, true);
-                EmotionalSongsClient.getStage().show();
+            if (EmotionalSongs.isConnectionInitialized) {
+                EmotionalSongs.registerClient();
+                EmotionalSongs.setStage(GUIUtilities.getInstance().getScene("UserRegistration.fxml"), UserRegistrationController.WIDTH, UserRegistrationController.HEIGHT, true);
+                EmotionalSongs.getStage().show();
             }
     }
 
@@ -254,7 +253,7 @@ public class LoginController implements Initializable {
     @FXML protected void handleCloseButtonAction(ActionEvent event){
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
         stage.close();
-        EmotionalSongsClient.disconnectClient();
+        EmotionalSongs.disconnectClient();
         Platform.exit();
         System.exit(0);
     }
@@ -288,7 +287,7 @@ public class LoginController implements Initializable {
      */
     @FXML protected void handleLoginButtonAction(){
                 
-        EmotionalSongsClient.initializeServerConnection(false);
+        EmotionalSongs.initializeServerConnection(false);
 
         String pwd = null;
         String username = null;
@@ -330,9 +329,9 @@ public class LoginController implements Initializable {
 
             try {
                 // This is the actual login
-                if (EmotionalSongsClient.auth.userLogin(username, AuthManager.RSA_Encrypt(pwd, EmotionalSongsClient.auth.getPublicKey()))) {
+                if (EmotionalSongs.auth.userLogin(username, AuthManager.RSA_Encrypt(pwd, EmotionalSongs.auth.getPublicKey()))) {
 
-                    EmotionalSongsClient.registerClient();
+                    EmotionalSongs.registerClient();
 
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("emotionalSongsClient.fxml"));
 
@@ -343,11 +342,11 @@ public class LoginController implements Initializable {
                         EmotionalSongsClientController client = fxmlLoader.getController();
                         client.setUser(usernameField.getText(), false);
 
-                        EmotionalSongsClient.setStage(scene, EmotionalSongsClientController.WIDTH, EmotionalSongsClientController.HEIGHT, true);
+                        EmotionalSongs.setStage(scene, EmotionalSongsClientController.WIDTH, EmotionalSongsClientController.HEIGHT, true);
 
                     }catch (IOException e1){
                         // Something went wrong, the client will disconnect from the server
-                         EmotionalSongsClient.disconnectClient();
+                         EmotionalSongs.disconnectClient();
                     }
 
                 } else { // Le credenziali sono errate

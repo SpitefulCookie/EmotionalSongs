@@ -96,7 +96,7 @@ public class ClientSettingController implements Initializable{
             if(serverPortTF.getText().isBlank()){serverPortAddress = Integer.parseInt(serverPortTF.getPromptText());}
             else{serverPortAddress = Integer.parseInt(serverPortTF.getText());}
 
-            EmotionalSongsClient.initializeServerConnection(false);
+            EmotionalSongs.initializeServerConnection(false);
 
             // Chiusura della finestra
 

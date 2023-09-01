@@ -113,7 +113,7 @@ public class AddToPlaylistController implements Initializable {
             for (String playlist : selectedPlaylists) {
                 // add the songToAdd to the playlist in DB and add the song to the hashMap if the insertion
                 // of it into the db was successful.
-                if(EmotionalSongsClient.repo.addSongToPlaylist(playlist, EmotionalSongsClientController.getUsername(), songToAdd.getSongUUID())) {
+                if(EmotionalSongs.repo.addSongToPlaylist(playlist, EmotionalSongsClientController.getUsername(), songToAdd.getSongUUID())) {
                     // add the songToAdd to the playlist in hashMap
                     AllPlaylistController.addSongs(playlist, songToAdd);
                 }else{
@@ -192,7 +192,7 @@ public class AddToPlaylistController implements Initializable {
                 int row = 0;
                 for (String playlist : allPlaylist) {
 
-                    FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongsClient.class.getResource("playlist_addToPlaylist.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongs.class.getResource("playlist_addToPlaylist.fxml"));
                     Node playlist_pane = fxmlLoader.load();
 
                     Playlist_addToPlaylistController playlistController = fxmlLoader.getController();
@@ -266,7 +266,7 @@ public class AddToPlaylistController implements Initializable {
         try{
 
             // load mainViewPlaylistEmpty pane and add it to scrollPane
-            FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongsClient.class.getResource("allPlaylistEmpty.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongs.class.getResource("allPlaylistEmpty.fxml"));
             Node vBox = fxmlLoader.load();
 
             AllPlaylistEmptyController allPlaylistEmptyController = fxmlLoader.getController();

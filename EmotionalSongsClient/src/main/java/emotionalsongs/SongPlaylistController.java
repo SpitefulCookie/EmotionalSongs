@@ -15,7 +15,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -25,8 +24,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -260,7 +257,7 @@ public class SongPlaylistController implements Initializable {
              */
             if(!SelectedPlaylistController.songEmotionsAlreadyExist(song.getSongUUID())) {
 
-                ArrayList<Emozione> emotions = EmotionalSongsClient.repo.getSongEmotions(song.getSongUUID(), EmotionalSongsClientController.getUsername());
+                ArrayList<Emozione> emotions = EmotionalSongs.repo.getSongEmotions(song.getSongUUID(), EmotionalSongsClientController.getUsername());
 
                 /*
                 aggiungo la canzone e le emozioni nella hashMap emotionsSongs contenuta nella classe

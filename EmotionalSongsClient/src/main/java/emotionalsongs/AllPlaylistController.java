@@ -24,7 +24,6 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
-import java.sql.SQLException;
 import java.util.*;
 
 
@@ -178,7 +177,7 @@ public class AllPlaylistController implements Initializable {
 
         try {
             // add the playlist to the DB
-            playlistInsertionCheck = EmotionalSongsClient.repo.registerPlaylist(playlistName, EmotionalSongsClientController.getUsername());
+            playlistInsertionCheck = EmotionalSongs.repo.registerPlaylist(playlistName, EmotionalSongsClientController.getUsername());
 
             // add the playlist in the hashMap if the insertion of it in the db was successful
             if(playlistInsertionCheck) {
@@ -193,7 +192,7 @@ public class AllPlaylistController implements Initializable {
                 try {
                     Stage insertionFailedStage = new Stage();
 
-                    FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongsClient.class.getResource("insertionFailed.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongs.class.getResource("insertionFailed.fxml"));
 
                     insertionFailedStage.setScene(new Scene(fxmlLoader.load()));
 
@@ -280,7 +279,7 @@ public class AllPlaylistController implements Initializable {
                 int row = 0;
                 for (String playlist : playlists.keySet()) { // tramite il metodo keySet ottengo tutte le chiavi della hashMap che appunto solo le mie playlist
 
-                    FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongsClient.class.getResource("playlist.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongs.class.getResource("playlist.fxml"));
                     Node hBox = fxmlLoader.load();
 
                     PlaylistController playlistController = fxmlLoader.getController();
@@ -313,7 +312,7 @@ public class AllPlaylistController implements Initializable {
             addPlaylistButton_.setDisable(true);
 
             // load mainViewPlaylistEmpty pane and add it to scrollPane
-            FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongsClient.class.getResource("allPlaylistEmpty.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongs.class.getResource("allPlaylistEmpty.fxml"));
             Node vBox = fxmlLoader.load();
 
             AllPlaylistEmptyController allPlaylistEmptyController = fxmlLoader.getController();
@@ -448,7 +447,7 @@ public class AllPlaylistController implements Initializable {
 
             try {
                 // interrogo il db per farmi restituire tutte le playlist dell'utente
-                Set<String> returned_playlists = EmotionalSongsClient.repo.getUserPlaylists(EmotionalSongsClientController.getUsername());
+                Set<String> returned_playlists = EmotionalSongs.repo.getUserPlaylists(EmotionalSongsClientController.getUsername());
 
                 playlists = new HashMap<>();
                 openPlaylists = new HashMap<>();

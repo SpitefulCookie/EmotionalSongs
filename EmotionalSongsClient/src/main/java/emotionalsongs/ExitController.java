@@ -11,7 +11,6 @@ package emotionalsongs;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 
 
@@ -39,11 +38,11 @@ public class ExitController {
         Scene scene = GUIUtilities.getInstance().getScene("login.fxml");
         LoginController.clearFields();
 
-        EmotionalSongsClient.setStage(scene, LoginController.WIDTH, LoginController.HEIGHT, false);
+        EmotionalSongs.setStage(scene, LoginController.WIDTH, LoginController.HEIGHT, false);
         // close the exit stage
         GUIUtilities.closeStage(exitBtn);
 
-        EmotionalSongsClient.disconnectClient();
+        EmotionalSongs.disconnectClient();
 
     }
 

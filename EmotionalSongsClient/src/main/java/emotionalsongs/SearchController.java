@@ -31,8 +31,6 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
-import java.rmi.NoSuchObjectException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.*;
 
@@ -183,7 +181,7 @@ public class SearchController implements Initializable {
                     System.out.println("ricerca per titolo");
 
                     // interrogo il db per farmi restituire le canzoni carecate
-                    songs = EmotionalSongsClient.repo.ricercaCanzone(searchField.getText());
+                    songs = EmotionalSongs.repo.ricercaCanzone(searchField.getText());
 
                 } else {
 
@@ -197,7 +195,7 @@ public class SearchController implements Initializable {
                     System.out.println("ricerca per autore e anno");
 
                     // interrogo il db per farmi restituire le canzoni carecate
-                    songs = EmotionalSongsClient.repo.ricercaCanzone(searchField.getText(), yearField.getText());
+                    songs = EmotionalSongs.repo.ricercaCanzone(searchField.getText(), yearField.getText());
 
                 }
 

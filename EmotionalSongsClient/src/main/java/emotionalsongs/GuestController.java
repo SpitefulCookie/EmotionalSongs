@@ -11,7 +11,6 @@ package emotionalsongs;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
 
 /**
  * The controller class that manages the {@link javafx.scene.Node} that is displayed when the user, logged in as a <Strong>guest</Strong>,
@@ -37,9 +36,9 @@ public class GuestController {
         Scene scene = GUIUtilities.getInstance().getScene("login.fxml");
         LoginController.clearFields();
 
-        EmotionalSongsClient.setStage(scene, LoginController.WIDTH, LoginController.HEIGHT, false);
+        EmotionalSongs.setStage(scene, LoginController.WIDTH, LoginController.HEIGHT, false);
 
-        EmotionalSongsClient.disconnectClient();
+        EmotionalSongs.disconnectClient();
     }
 
     /**
@@ -52,8 +51,8 @@ public class GuestController {
     public void handleRegistrationButtonAction(){
 
         // open the registration stage
-        EmotionalSongsClient.setStage(GUIUtilities.getInstance().getScene("UserRegistration.fxml"), UserRegistrationController.WIDTH, UserRegistrationController.HEIGHT, true);
-        EmotionalSongsClient.getStage().show();
+        EmotionalSongs.setStage(GUIUtilities.getInstance().getScene("UserRegistration.fxml"), UserRegistrationController.WIDTH, UserRegistrationController.HEIGHT, true);
+        EmotionalSongs.getStage().show();
 
     }
 

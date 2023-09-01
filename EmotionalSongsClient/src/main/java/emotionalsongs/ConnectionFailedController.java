@@ -36,7 +36,7 @@ public class ConnectionFailedController {
     @FXML
     public void handleTryAgainButtonAction(){
         GUIUtilities.closeStage(tryAgainButton);
-        EmotionalSongsClient.initializeServerConnection(false);
+        EmotionalSongs.initializeServerConnection(false);
     }
 
 

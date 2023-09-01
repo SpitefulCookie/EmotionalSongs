@@ -222,7 +222,7 @@ public class AddSongsToPlaylistController implements Initializable {
                     System.out.println("ricerca per titolo");
 
                     // interrogo il db per farmi restituire le canzoni carecate
-                    songs = EmotionalSongsClient.repo.ricercaCanzone(searchField.getText());
+                    songs = EmotionalSongs.repo.ricercaCanzone(searchField.getText());
 
                 } else {
 
@@ -236,7 +236,7 @@ public class AddSongsToPlaylistController implements Initializable {
                     System.out.println("ricerca per autore e anno");
 
                     // interrogo il db per farmi restituire le canzoni carecate
-                    songs = EmotionalSongsClient.repo.ricercaCanzone(searchField.getText(), yearField.getText());
+                    songs = EmotionalSongs.repo.ricercaCanzone(searchField.getText(), yearField.getText());
 
                 }
 

@@ -37,7 +37,7 @@ TODO: aggiungere a tutte le classi i metodi richiesti dal progetto
  * for authentication and data retrieval.
  *
  */
-public class EmotionalSongsClient extends Application {
+public class EmotionalSongs extends Application {
 
     private static Stage esStage;
 
