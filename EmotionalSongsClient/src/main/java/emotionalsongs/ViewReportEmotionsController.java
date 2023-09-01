@@ -25,11 +25,6 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
-/*
-TODO:
- 1- finire implementazione
- 2- creare metodo set emotions che mi va a settare il nome della canzone e tutto il resto
- */
 /**
  * Controller class responsible for managing the display of emotion report data in the user interface.
  * This class handles interaction with UI components related to displaying emotion reports for songs.
@@ -86,7 +81,7 @@ public class ViewReportEmotionsController implements Initializable {
                 EmotionalSongsClientController.setDynamicPane(playlist);
 
             }catch(IOException e){
-                e.printStackTrace(); // TODO remove
+                e.printStackTrace();
             }
 
         }

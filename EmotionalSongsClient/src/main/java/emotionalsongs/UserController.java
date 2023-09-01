@@ -56,9 +56,6 @@ public class UserController {
             // now the user data were retrieved
             EmotionalSongsClientController.setUserDataRetrieved(true);
 
-            // DEBUG TODO remove
-            System.out.println("Dati dell'utente: " + EmotionalSongsClientController.getUsername() + " -> " + Arrays.toString(userData));
-
             return true;
 
         }else{
@@ -83,7 +80,7 @@ public class UserController {
      */
     protected String retrieveUserData(String user) {
         try {
-            String data= AuthManager.decryptRSA(EmotionalSongs.auth.getUserData(user, EmotionalSongs.ping.getPublicKey()), EmotionalSongs.ping.getPrivateKey()); 
+            String data= AuthManager.decryptRSA(EmotionalSongs.auth.getUserData(user, EmotionalSongs.ping.getPublicKey()), EmotionalSongs.ping.getPrivateKey());
             return data.substring(1,data.length()-1);
         } catch (RemoteException e) {
 

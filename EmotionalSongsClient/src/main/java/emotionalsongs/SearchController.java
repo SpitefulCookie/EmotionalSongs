@@ -62,7 +62,7 @@ public class SearchController implements Initializable {
     private GUIUtilities guiUtilities;
     private boolean advancedSearchActivated;
     private String filteredSearch;
-    private static List<Node> songsPane; // TODO forse rimetterlo non statico
+    private static List<Node> songsPane;
 
     /**
      * Initializes the {@link Node} for song search.
@@ -111,22 +111,19 @@ public class SearchController implements Initializable {
                 }
             }else{
                 // add a listener to yearField
-                yearField.textProperty().addListener(new ChangeListener<String>() {
-                    @Override
-                    public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                yearField.textProperty().addListener((observableValue1, s1, t11) -> {
+                    /*
+                    se la searchFiled e la yearField non sono vuote, visualizzo e rendo premibile
+                    il pulsante di elimina ricerca
+                    */
+                    if (!searchField.getText().isEmpty() && !yearField.getText().isEmpty()) {
+                        showRemoveSearchBtn();
+                    } else {
                         /*
-                        se la searchFiled e la yearField non sono vuote, visualizzo e rendo premibile
-                        il pulsante di elimina ricerca
-                        */
-                        if (!searchField.getText().isEmpty() && !yearField.getText().isEmpty()) {
-                            showRemoveSearchBtn();
-                        } else {
-                            /*
-                            altrimenti se solo una della due textField è vuota rendo non visibile e non premibile
-                            il di elimina ricerca
-                             */
-                            hideRemoveSearchBtn();
-                        }
+                        altrimenti se solo una della due textField è vuota rendo non visibile e non premibile
+                        il di elimina ricerca
+                         */
+                        hideRemoveSearchBtn();
                     }
                 });
                 /*
@@ -162,8 +159,6 @@ public class SearchController implements Initializable {
             // la ricerca viene effettuata quando viene premuto il pulsante di INVIO
             if (key.getCode() == KeyCode.ENTER) {
 
-                System.out.println("hai premuto il pulsante enter");
-
                 // remove the last search before the new search
                 removeLastSearch();
 
@@ -172,49 +167,37 @@ public class SearchController implements Initializable {
                 if (filteredSearch.equalsIgnoreCase("title")) {
 
                     if(searchField.getText().isEmpty()){
-                        System.out.println("ricerca per titolo vuota");
+
                         return;
                     }
 
-                    // DEBUG TODO remove
-                    System.out.println("ricerco la canzone: " + searchField.getText());
-                    System.out.println("ricerca per titolo");
-
-                    // interrogo il db per farmi restituire le canzoni carecate
                     songs = EmotionalSongs.repo.ricercaCanzone(searchField.getText());
 
                 } else {
 
                     if(searchField.getText().isEmpty() || yearField.getText().isEmpty()){
-                        System.out.println("ricerca per autore e anno vuota");
+
                         return;
                     }
 
-                    // DEBUG TODO remove
-                    System.out.println("ricerco la canzone: " + searchField.getText() + " con anno " + yearField.getText());
-                    System.out.println("ricerca per autore e anno");
-
-                    // interrogo il db per farmi restituire le canzoni carecate
                     songs = EmotionalSongs.repo.ricercaCanzone(searchField.getText(), yearField.getText());
 
                 }
 
-                // verifico se se le canzoni restituite non sono vuote
+                // verifico se le canzoni restituite non sono vuote
                 if (!songs.isEmpty()) {
                     // visualizzo le canzoni restituite dal db
 
                     // set the content of scroll pane
                     scrollPane.setContent(gridPane);
 
-                    // viuslizzo le canzoni restituite dal db
+                    // visualizzo le canzoni restituite dal db
                     int row = 0;
                     for (Canzone song : songs) {
                         setNewSongFound(song, row);
                         row ++;
                     }
                 } else {
-                    // DEBUG TODO remove
-                    System.out.println("la ricerca non ha portato a nessun risultato");
 
                     try{
                         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("noSearchResult.fxml"));
@@ -249,7 +232,6 @@ public class SearchController implements Initializable {
      */
     @FXML
     public void handleRemoveSearchButtonAction(){
-        System.out.println("bottone elimina ricerca premuto");
 
         // nascondo il bottone di rimuovi ricerca
         hideRemoveSearchBtn();
@@ -333,7 +315,6 @@ public class SearchController implements Initializable {
      * </p>
      */
     public void handleAuthorAndYearSearchButtonAction(){
-        // TODO implementare cosa deve accadere quando viene premuto questo pulsante
         // set the searchField prompt text
         searchField.setPromptText("Inserisci l'autore della canzone");
 

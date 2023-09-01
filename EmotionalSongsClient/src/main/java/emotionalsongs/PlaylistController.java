@@ -43,8 +43,6 @@ public class PlaylistController{
      */
     @FXML
     protected void handleOpenPlaylistAction(MouseEvent event){
-        // DEBUG TODO remove
-        System.out.println("Apro la playlist : " + playlistNameLabel.getText());
 
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("selectedPlaylist.fxml"));

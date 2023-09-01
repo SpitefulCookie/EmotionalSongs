@@ -83,12 +83,8 @@ public class AddToPlaylistController implements Initializable {
 
         selectedPlaylists = new ArrayList<>();
 
-        System.out.println("****** canzone da aggiungere: " + songToAdd);
-
         // add listener to numSelectedPlaylists
-        numSelectedPlaylists.addListener((observableValue, number, t1) -> {
-            addToPlaylistBtn.setDisable(numSelectedPlaylists.get() <= 0);
-        });
+        numSelectedPlaylists.addListener((observableValue, number, t1) -> addToPlaylistBtn.setDisable(numSelectedPlaylists.get() <= 0));
 
         // view the playlist
         viewPlaylist();
@@ -105,8 +101,6 @@ public class AddToPlaylistController implements Initializable {
      */
     public void handleAddToPlaylistButtonAction(){
 
-        // DEBUG TODO remove
-        System.out.println("aggiungo la canzone " + songToAdd);
         try {
             boolean songInsertionCheck = true;
 
@@ -177,8 +171,6 @@ public class AddToPlaylistController implements Initializable {
      */
     public static void viewPlaylist(){
 
-        System.out.println("---- canzone da aggiungere: " + songToAdd);
-
         Set<String> allPlaylist = AllPlaylistController.returnAllPlaylist();
 
         try {
@@ -202,8 +194,6 @@ public class AddToPlaylistController implements Initializable {
                     GridPane.setMargin(playlist_pane, new Insets(10));
 
                     row ++;
-
-                    System.out.println("visualizzo la playlist: " + playlist);
 
                 }
             }

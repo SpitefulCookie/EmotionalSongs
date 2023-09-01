@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -116,9 +117,6 @@ public class SongPlaylistController implements Initializable {
             }catch (IOException e){
                 e.printStackTrace();
             }
-
-            // DEBUG TODO remove
-            System.out.println("Pulsante visualizza emozioni per la canzone: " + song + " premuto");
 
         }
     }
@@ -266,7 +264,7 @@ public class SongPlaylistController implements Initializable {
                 SelectedPlaylistController.addEmotionsSong(song.getSongUUID(), emotions);
             }
 
-            if(SelectedPlaylistController.getSongEmotions(song.getSongUUID()).isEmpty()){ // todo fare il controllo acccedendo alle emozioni nella hashMap
+            if(Objects.requireNonNull(SelectedPlaylistController.getSongEmotions(song.getSongUUID())).isEmpty()){
                 // set the emotionsAdded on false
                 emotionsAdded = false;
             }else{

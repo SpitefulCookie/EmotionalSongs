@@ -158,11 +158,10 @@ public class LoginController implements Initializable {
 
         updateConnectionGraphics(); // This method is responsible for updating the look of the "monitor icon", meant to indicate the state of the connection with the server
 
-        System.out.println("Tempo esecuzione: " + (System.currentTimeMillis()-startTime) + "ms");
+        // System.out.println("Tempo esecuzione: " + (System.currentTimeMillis()-startTime) + "ms");
 
     }
 
-    // FIXME graphics do not update properly --> document or fix
     /**
      * Updates the graphics and status labels to reflect the current state of the connection.
      * If the connection to the server is not initialized this method displays a failed connection status, a successful connection status otherwise.
@@ -180,7 +179,7 @@ public class LoginController implements Initializable {
 
         } else{
             _connectionStatusIcon.setImage(guiUtilities.getImage("goodConnection"));
-            _connectionStatusLabel.setText("Connection stabilita");
+            _connectionStatusLabel.setText("Connessione stabilita");
         }
 
     }

@@ -137,22 +137,19 @@ public class AddSongsToPlaylistController implements Initializable {
                 }
             }else{
                 // add a listener to yearField
-                yearField.textProperty().addListener(new ChangeListener<String>() {
-                    @Override
-                    public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                yearField.textProperty().addListener((observableValue1, s1, t11) -> {
+                    /*
+                    se la searchFiled e la yearField non sono vuote, visualizzo e rendo premibile
+                    il pulsante di elimina ricerca
+                    */
+                    if (!searchField.getText().isEmpty() && !yearField.getText().isEmpty()) {
+                        showRemoveSearchBtn();
+                    } else {
                         /*
-                        se la searchFiled e la yearField non sono vuote, visualizzo e rendo premibile
-                        il pulsante di elimina ricerca
-                        */
-                        if (!searchField.getText().isEmpty() && !yearField.getText().isEmpty()) {
-                            showRemoveSearchBtn();
-                        } else {
-                            /*
-                            altrimenti se solo una della due textField è vuota rendo non visibile e non premibile
-                            il di elimina ricerca
-                             */
-                            hideRemoveSearchBtn();
-                        }
+                        altrimenti se solo una della due textField è vuota rendo non visibile e non premibile
+                        il di elimina ricerca
+                         */
+                        hideRemoveSearchBtn();
                     }
                 });
                 /*
@@ -203,8 +200,6 @@ public class AddSongsToPlaylistController implements Initializable {
             // la ricerca viene effettuata quando viene premuto il pulsante di INVIO
             if (key.getCode() == KeyCode.ENTER) {
 
-                System.out.println("hai premuto il pulsante enter");
-
                 // remove the last search before the new search
                 removeLastSearch();
 
@@ -213,13 +208,9 @@ public class AddSongsToPlaylistController implements Initializable {
                 if (filteredSearch.equalsIgnoreCase("title")) {
 
                     if(searchField.getText().isEmpty()){
-                        System.out.println("ricerca per titolo vuota");
                         return;
                     }
 
-                    // DEBUG TODO remove
-                    System.out.println("ricerco la canzone: " + searchField.getText());
-                    System.out.println("ricerca per titolo");
 
                     // interrogo il db per farmi restituire le canzoni carecate
                     songs = EmotionalSongs.repo.ricercaCanzone(searchField.getText());
@@ -227,13 +218,8 @@ public class AddSongsToPlaylistController implements Initializable {
                 } else {
 
                     if(searchField.getText().isEmpty() || yearField.getText().isEmpty()){
-                        System.out.println("ricerca per autore e anno vuota");
                         return;
                     }
-
-                    // DEBUG TODO remove
-                    System.out.println("ricerco la canzone: " + searchField.getText() + " con anno " + yearField.getText());
-                    System.out.println("ricerca per autore e anno");
 
                     // interrogo il db per farmi restituire le canzoni carecate
                     songs = EmotionalSongs.repo.ricercaCanzone(searchField.getText(), yearField.getText());
@@ -253,8 +239,6 @@ public class AddSongsToPlaylistController implements Initializable {
                         row ++;
                     }
                 } else {
-                    // DEBUG TODO remove
-                    System.out.println("la ricerca non ha protato a nessun risultato");
 
                     try{
                         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("noSearchResult.fxml"));
@@ -289,8 +273,6 @@ public class AddSongsToPlaylistController implements Initializable {
      */
     @FXML
     public void handleRemoveSearchButtonAction(){
-        System.out.println("bottone elimina ricerca premuto");
-
         // nascondo il bottone di rimuovi ricerca
         hideRemoveSearchBtn();
 
@@ -373,7 +355,7 @@ public class AddSongsToPlaylistController implements Initializable {
      * </p>
      */
     public void handleAuthorAndYearSearchButtonAction(){
-        // TODO implementare cosa deve accadere quando viene premuto questo pulsante
+
         // set the searchField prompt text
         searchField.setPromptText("Inserisci l'autore della canzone");
 
@@ -401,8 +383,6 @@ public class AddSongsToPlaylistController implements Initializable {
      */
     @FXML
     public void handleViewSongsAddedButtonAction(){
-        // TODO implementare cosa deve accadere quando viene premuto questo pulsante
-        System.out.println("bottone visualizza canzoni aggiunte schiaccato");
 
         // remove the search
         handleRemoveSearchButtonAction();
@@ -423,9 +403,6 @@ public class AddSongsToPlaylistController implements Initializable {
      */
     @FXML
     public void handleAddSongsToPlaylistButtonAction(){
-        // debug
-        System.out.println("add song to playlist button cliked for playlist: " + playlistName);
-
         // add the songs to the playlist
         SelectedPlaylistController.addNewSongs(songsToAdd);
 
@@ -503,7 +480,6 @@ public class AddSongsToPlaylistController implements Initializable {
             GridPane.setMargin(song_pane, new Insets(10));
 
         }catch (IOException e){
-            System.out.println("Songs view PROBLEM !");
             e.printStackTrace();
         }
     }
@@ -537,7 +513,6 @@ public class AddSongsToPlaylistController implements Initializable {
          metodo che aggiunge la canzone passata come argomento alla lista songsToAdd, tale metodo viene
          invocato dal metodo handleAddSongToPlaylistAction della classe SongsToAddController
          */
-        System.out.println("Aggiungo la canzone: " + song.getTitolo() + "alla playlist " + playlistName);
 
         // add song to list
         songsToAdd.add(song);
@@ -561,7 +536,6 @@ public class AddSongsToPlaylistController implements Initializable {
          metodo che rimuove la canzone passata come argomento dalla lista songsToAdd, tale metodo viene
          invocato dal metodo handleAddSongToPlaylistAction della classe SongsToAddController
          */
-        System.out.println("Rimuovo la canzone: " + song.getTitolo() + "dalla playlist " + playlistName);
 
         /*
          remove song to list, la rimuozione della canzone non avviene semplicemente facendo
@@ -572,8 +546,6 @@ public class AddSongsToPlaylistController implements Initializable {
                 songsToAdd.remove(songsToAdd.get(i));
             }
         }
-
-        System.out.println("size lista songToAdd: " + songsToAdd.size()); // TODO remove
 
         // update the numSongsAddedLabel
         numSongAdded.set(numSongAdded.get() - 1);
@@ -603,8 +575,8 @@ public class AddSongsToPlaylistController implements Initializable {
         metodo che verifica se la canzone passata come argomento song è già stata aggiunta alla lista
         songsToAdd
          */
-        for(int i = 0; i < songsToAdd.size(); i++){
-            if(songsToAdd.get(i).getSongUUID().equals(song.getSongUUID())){
+        for (Canzone canzone : songsToAdd) {
+            if (canzone.getSongUUID().equals(song.getSongUUID())) {
                 return true;
             }
         }

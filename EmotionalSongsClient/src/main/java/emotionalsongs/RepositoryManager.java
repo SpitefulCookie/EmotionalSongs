@@ -33,7 +33,7 @@ public interface RepositoryManager extends Remote {
      * @return A HashSet of Canzone objects representing matching songs.
      * @throws RemoteException If a remote communication error occurs.
      */
-    HashSet<Canzone> ricercaCanzone(String titolo) throws RemoteException; // todo rename method
+    HashSet<Canzone> ricercaCanzone(String titolo) throws RemoteException;
 
     /**
      * Searches for songs by author and year and returns a set of matching songs.

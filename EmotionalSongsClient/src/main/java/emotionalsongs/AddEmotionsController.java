@@ -107,20 +107,6 @@ public class AddEmotionsController implements Initializable {
      */
     public void inserisciEmozioniBrano(){
 
-        // DEBUG TODO remove
-        System.out.println("aggiungo alla canzone " + song + "\n" +
-                "LE EMOZIONI: " + "\n" +
-                "Amazement: " + Amazement.getScore() + ", " + Amazement.getNotes() + "\n" +
-                "Calmness: " + Calmness.getScore() + ", " + Calmness.getNotes() + "\n" +
-                "Joy: " + Joy.getScore() + ", " + Joy.getNotes() + "\n" +
-                "Nostalgia: " + Nostalgia.getScore() + ", " + Nostalgia.getNotes() + "\n" +
-                "Power: " + Power.getScore() + ", " + Power.getNotes() + "\n" +
-                "Sadness: " + Sadness.getScore() + ", " + Sadness.getNotes() + "\n" +
-                "Solemnity: " + Solemnity.getScore() + ", " + Solemnity.getNotes() + "\n" +
-                "Tenderness: " + Tenderness.getScore() + ", " + Tenderness.getNotes() + "\n" +
-                "Tension: " + Tension.getScore() + ", " + Tension.getNotes());
-        // FINE DEBUG
-
         try{
             // add each emotion to the list emozioniProvate
             emozioniProvate.add(new Amazement(Amazement.getScore(), Amazement.getNotes()));

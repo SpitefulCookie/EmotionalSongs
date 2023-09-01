@@ -270,7 +270,7 @@ public class AllPlaylistController implements Initializable {
         if(playlists.isEmpty()){
             setAllPlaylistEmpty();
         }else {
-            dynamicScrollPane.setContent(dynamicGridPane); // TODO mettere if che fa eseguire questo comando solo se primi la allPlaylist era vuota(Empty)
+            dynamicScrollPane.setContent(dynamicGridPane);
             // set addPlaylistButton visibile and make it active
             addPlaylistButton_.setVisible(true);
             addPlaylistButton_.setDisable(false);
@@ -290,7 +290,6 @@ public class AllPlaylistController implements Initializable {
 
                     row ++;
 
-                    System.out.println("visualizzo playlist : " + playlist); // TODO togliere il print
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -383,11 +382,9 @@ public class AllPlaylistController implements Initializable {
         la verifica avviene per SongUUID
          */
 
-        System.out.println("controllo nella playlist " + playlistName + " la canzone con uuid " + song.getSongUUID());
-
         List<Canzone> songPlaylist = playlists.get(playlistName);
-        for(int i = 0; i < songPlaylist.size(); i++){
-            if(songPlaylist.get(i).getSongUUID().equals(song.getSongUUID())){
+        for (Canzone canzone : songPlaylist) {
+            if (canzone.getSongUUID().equals(song.getSongUUID())) {
                 return true; // la canzone è già contenuta nella playlist
             }
         }
@@ -440,8 +437,6 @@ public class AllPlaylistController implements Initializable {
         invocato nel metodo setUser() della classe EmotionalSongsClientController solo se l'utente
         non è guest.
          */
-
-        System.out.println("metodo uploadPlaylist invocato"); // TODO remove
 
         if(playlists == null) {
 

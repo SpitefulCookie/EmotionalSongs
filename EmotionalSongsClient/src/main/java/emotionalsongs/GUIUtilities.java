@@ -234,7 +234,7 @@ public class GUIUtilities {
      * Initializes images used in the application and stores them in the images map.
      */
     protected void initImages(){
-        // TODO Se questo viene invocato solamente alla creazione di una nuova istanza di GUIUtilities, ha senso metterlo in un metodo a parte invece che nel costruttore?
+
         try{
             addImages("close", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/closeWindows.png")));
             addImages("eye", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/view.png")));

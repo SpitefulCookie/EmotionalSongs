@@ -99,8 +99,6 @@ public class Playlist_addToPlaylistController implements Initializable {
          contenute nella playlist, altrimenti non faccio niente
          */
         if(!AllPlaylistController.getPlaylistWasOpened(playlistNameLabel.getText())){
-            // DEBUG TODO remove
-            System.out.println("la playlist: " + playlistNameLabel.getText() + " non è mai stata aperta, la apro ora");
 
             // carico le canzoni
             insertionCheck = SelectedPlaylistController.loadSongs(playlistNameLabel.getText());

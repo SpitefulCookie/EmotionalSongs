@@ -135,8 +135,6 @@ public class EmotionalSongsClientController implements Initializable {
     public void handleCloseButtonAction(){
         EmotionalSongs.disconnectClient();
         EmotionalSongs.getStage().close();
-        // TODO added the following lines as an attempt to fix the client remaining open in the background after
-        //  exiting the application, remove if it doesn't work
         Platform.exit();
         System.exit(0);
     }
@@ -283,9 +281,6 @@ public class EmotionalSongsClientController implements Initializable {
             // controllo se i dati dell'utente non sono già stati recuperati
             if(!userDataRetrieved) {
 
-                // DEBUG TODO remove
-                System.out.println("recupero i dati dell'utente: " + EmotionalSongsClientController.getUsername());
-
                 try{
                     // load the user pane
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("user.fxml"));
@@ -308,9 +303,6 @@ public class EmotionalSongsClientController implements Initializable {
 
                         // add the user pane to dynamicPane
                         setDynamicPane(user_pane);
-                    }else{
-                        // DEBUG TODO remove
-                        System.out.println("i dati dell'utente non sono stati recuperati");
                     }
 
                 }catch (IOException e){
@@ -318,9 +310,6 @@ public class EmotionalSongsClientController implements Initializable {
                 }
 
             }else{
-
-                // DEBUG TODO remove
-                System.out.println("dati utente già recuperati");
 
                 // set button style
                 setClickedStyle(userBtn);
@@ -366,7 +355,6 @@ public class EmotionalSongsClientController implements Initializable {
      *
      */
     @FXML public void handleResizeSidebarButtonAction(){
-        System.out.println("pulsante resize sidebar premuto");
         if(!sideBarIsOpen) { // se la sidebar NON è aperta, la apro.
 
             // Resize the width of the sidebar
@@ -512,8 +500,6 @@ public class EmotionalSongsClientController implements Initializable {
         // change the value of boolean variable isGuest
         setIsGuest(userIsGuest);
 
-        System.out.println("Utente is guest ? " + isGuest);
-
         /*
         verifico se l'utente che è entrato nel client è un utente guest ovvero non regitrato, se così
         fosse vado a disabilitare e a rendere invisibile il playlistBtn inquando l'utente guest non può
@@ -541,11 +527,11 @@ public class EmotionalSongsClientController implements Initializable {
         button nella lista che è stato cliccato e gli va a impostare come style il setHoverStyle, agli
         altri button invece imposta come style il setBaseStyle.
          */
-        for (int i = 0; i < buttonsSideBar.length; i++){
-            if(buttonsSideBar[i] == button){
-                guiUtilities.setNodeStyle(buttonsSideBar[i], "buttonSideBar", "buttonSideBarClicked");
-            }else{
-                guiUtilities.setNodeStyle(buttonsSideBar[i], "buttonSideBarClicked", "buttonSideBar");
+        for (Button value : buttonsSideBar) {
+            if (value == button) {
+                guiUtilities.setNodeStyle(value, "buttonSideBar", "buttonSideBarClicked");
+            } else {
+                guiUtilities.setNodeStyle(value, "buttonSideBarClicked", "buttonSideBar");
             }
         }
     }

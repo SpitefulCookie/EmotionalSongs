@@ -76,7 +76,7 @@ public class UserRegistrationController implements Initializable {
     @FXML private Button closeBtn;
     @FXML private Pane pane;
 
-    // Images used for UI elements // todo load them separately?
+    // Images used for UI elements
     private Image failureIcon;
     private Image successIcon;
     private Image eye;
@@ -531,7 +531,7 @@ public class UserRegistrationController implements Initializable {
         });
 
     }
-    // TODO document limitation of exception
+
 
     /**
      * Checks the availability of the entered username.<br><br>

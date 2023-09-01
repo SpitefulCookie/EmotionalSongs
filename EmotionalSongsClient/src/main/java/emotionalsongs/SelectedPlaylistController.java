@@ -326,13 +326,6 @@ public class SelectedPlaylistController implements Initializable {
              */
             songsLoaded = loadSongs(playlistName);
 
-            // DEGUB TODO remove DEBUG
-            System.out.println("apro per la prima voltra la playlist: " + playlistName); // TODO remove
-
-
-        }else{
-            // TODO remove
-            System.out.println("---------------------- apro la playlist " + playlistName + " non per la prima volta");
         }
 
         // view the playlist songs

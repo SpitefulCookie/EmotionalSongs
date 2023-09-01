@@ -29,7 +29,7 @@ public class SongToAddController implements Initializable{
     @FXML private HBox songToAddPane;
     @FXML private Label songNameLabel;
     @FXML private Label infoLabel;
-    @FXML private Label existingSongLabel; // TODO vedere dove settarla
+    @FXML private Label existingSongLabel;
     @FXML private ImageView checkMarkImg;
 
     private GUIUtilities guiUtilities;

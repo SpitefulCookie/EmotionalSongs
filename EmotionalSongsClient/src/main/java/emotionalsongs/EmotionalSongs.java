@@ -21,10 +21,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-/*
-TODO: aggiungere a tutte le classi i metodi richiesti dal progetto
-*/
-
 /**
  * The main class for the EmotionalSongs client application. Manages the user interface, server connection,
  * and various utility methods related to client functionality.
