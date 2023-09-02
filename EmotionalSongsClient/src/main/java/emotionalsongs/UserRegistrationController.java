@@ -296,7 +296,6 @@ public class UserRegistrationController implements Initializable {
         try {
             EmotionalSongs.setStage(new Scene(FXMLLoader.load(Objects.requireNonNull(EmotionalSongs.class.getResource("login.fxml")))), LoginController.WIDTH, LoginController.HEIGHT, true);
             EmotionalSongs.getStage().show();
-            //EmotionalSongs.disconnectClient();
         } catch (IOException e){
             //
         }
