@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -30,6 +31,8 @@ public class UserController {
     @FXML private Label codiceFiscaleLabel;
     @FXML private Label emailLabel;
     @FXML private Label addressLabel;
+    @FXML private Label cityLabel;
+    @FXML private Label provinceLabel;
 
     /**
      * Sets and displays the user information in the user profile section.<br><br>
@@ -48,10 +51,12 @@ public class UserController {
 
             // set the label
             usernameLabel.setText(user);
-            nameAndLastNameLabel.setText(" " + userData[0]);
-            codiceFiscaleLabel.setText(userData[1]);
-            emailLabel.setText(userData[2]);
-            addressLabel.setText(userData[3] + " n." + userData[4] + "   " + userData[5] + " -" + userData[7] + " (" + userData[6].toUpperCase() + " )");
+            nameAndLastNameLabel.setText(" " + userData[0] + " " + userData[1]);
+            codiceFiscaleLabel.setText(userData[2]);
+            emailLabel.setText(userData[3]);
+            addressLabel.setText(userData[4] + " n." + userData[5]);
+            cityLabel.setText(userData[6] + " -" + userData[8]);
+            provinceLabel.setText(userData[7].toUpperCase());
 
             // now the user data were retrieved
             EmotionalSongsClientController.setUserDataRetrieved(true);
