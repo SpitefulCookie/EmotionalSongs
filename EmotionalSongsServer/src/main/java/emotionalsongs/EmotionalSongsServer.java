@@ -34,7 +34,6 @@ public class EmotionalSongsServer extends Application {
 
     protected static String loggedUser = "";
     private static Stage esStage;
-    private static ConnectionVerify connectionVerify;
     protected static ServerMainViewController mainView;
 
     private static final int PORT = 6789;
@@ -154,18 +153,6 @@ public class EmotionalSongsServer extends Application {
                 // pertanto è normale che le risorse auth e repo siano a loro volta non inizializzate
                 EmotionalSongsServer.mainView.logError("A NoSuchObjectException has occurred while attempting to shut down the server.\n");
             }
-        }
-    }
-
-    /**
-     * Initializes the connection verification service for tracking client connections.
-     *
-     * <p>This method creates a {@link ConnectionVerify} instance if one does not already exist. The service pings clients
-     * at regular intervals to verify their connection status.
-     */
-    protected static void initializeConnectionVerify(){
-        if(connectionVerify == null){
-            connectionVerify = new ConnectionVerify(); // 30s delay between pings
         }
     }
 

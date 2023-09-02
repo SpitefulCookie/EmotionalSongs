@@ -11,7 +11,7 @@ package emotionalsongs;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-/**
+/* *
  * Thread that verifies the connection status of the clients currently connected to the server.<br><br>
  *
  * <p>The {@code ConnectionVerify} class implements a thread responsible for verifying the connection status of clients.
@@ -28,7 +28,7 @@ import java.util.ArrayList;
  *  @author <a href="https://github.com/SpitefulCookie">Della Chiesa Mattia</a>
  */
 public class ConnectionVerify extends Thread{
-
+/*
     private static Thread threadInstance;
     private static long pingDelay = 180*1000; // 3min / 180s
 
@@ -39,7 +39,7 @@ public class ConnectionVerify extends Thread{
      *
      * <p>This constructor initializes the thread and starts the connection verification process.
      * Due to the low priority nature of the task, the thread responsible for pinging the clients has been marked as a daemon thread.
-     */
+     * /
     public ConnectionVerify(){
         keepAlive = true;
         threadInstance = this;
@@ -51,7 +51,7 @@ public class ConnectionVerify extends Thread{
      * Runs the connection verification process.
      *
      * <p>This method periodically pings connected clients and removes any disconnected or inactive clients.
-     */
+     * /
     @Override
     public void run(){
 
@@ -113,7 +113,7 @@ public class ConnectionVerify extends Thread{
      * <p>This method allows adjusting the delay between ping checks.
      *
      * @param d The new ping delay in milliseconds.
-     */
+     * /
     protected static void setPingDelay(long d){
         pingDelay = d;
     }
@@ -122,9 +122,9 @@ public class ConnectionVerify extends Thread{
      * Retrieves the instance of the {@code ConnectionVerify} thread.<br><br>
      *
      * @return The instance of the connection verification thread.
-     */
+     * /
     protected static Thread getInstance(){
         return threadInstance;
     }
-
+*/
 }

@@ -106,7 +106,6 @@ public class ServerMainViewController implements Initializable {
 
         // Starts the connection verify service, a daemon thread meant to ping the clients at regular intervals and
         // removing any inactive ones.
-        EmotionalSongsServer.initializeConnectionVerify();
 
     }
 
@@ -269,46 +268,22 @@ public class ServerMainViewController implements Initializable {
     /**
      * Parses and processes various commands received by the server application.
      * This method interprets the input command string and performs corresponding actions.
-     * Supported commands include '{@code pingclients}', ' {@code shutdown}', ' {@code showIP}', '{@code set pingdelay}', '{@code quit}', and '{@code help}'.
+     * Supported commands include '{@code shutdown}', '{@code showIP}', '{@code quit}', and '{@code help}'.
      *
      * @param cmd The command string to be parsed and executed.
-     * @see AuthManagerImpl#getClientList()
      * @see ServerMainViewController#shutdownServer(boolean)
-     * @see ConnectionVerify#setPingDelay(long)
      * @see EmotionalSongsServer#getLanIpAddress()
-     * @see PingableClient#pingClient()
      */
     private static void parseCommand(String cmd) {
         cmd = cmd.trim().toLowerCase(Locale.ROOT);
 
         if (cmd.isEmpty()) {return;}
 
-        if (cmd.equals("pingclients")) {
-            if(!AuthManagerImpl.getClientList().isEmpty()) // Added this print because the connection with the clients may take a while before timing out
-                EmotionalSongsServer.mainView.logText("[**Connection Verifier**] Attempting to ping any connected client, this process might take a while.\nFeel free to continue using the application, the report will be provided as soon as possible.", true);
-            ConnectionVerify.getInstance().interrupt();
-
-        } else if (cmd.equals("shutdown")) {
+        if (cmd.equals("shutdown")) {
             shutdownServer(false);
         }else if (cmd.equals("showip")){
             EmotionalSongsServer.mainView.logText("Current LAN ip address is: **" + EmotionalSongsServer.getLanIpAddress() + "**: "+EmotionalSongsServer.getServerPort(), true);
-        }else if (cmd.startsWith("set pingdelay")) {
-            String[] parts = cmd.split("\\s+");
-            if (parts.length == 3) {
-                try {
-                    long newDelay = Long.parseLong(parts[2]);
-                    if (newDelay<2000L){
-                        newDelay = 2000L;
-                        EmotionalSongsServer.mainView.logText("[**Connection Verifier**] Minimum ping delay is 2000ms",  true);
-                    }
-                    ConnectionVerify.setPingDelay(newDelay);
-                    EmotionalSongsServer.mainView.logText("[**Connection Verifier**] Ping delay set to " + newDelay, true);
-                    ConnectionVerify.getInstance().interrupt();
-                } catch (NumberFormatException e) {
-                    EmotionalSongsServer.mainView.logError("[**Connection Verifier**] Invalid arguments");
-                }
-            }
-        } else if (cmd.equals("quit")) {
+        }else if (cmd.equals("quit")) {
             shutdownServer(true);
         } else if (cmd.equals("help")) {
             EmotionalSongsServer.mainView.logText("""
@@ -316,9 +291,7 @@ public class ServerMainViewController implements Initializable {
                     - **shutdown**
                     - **showip**
                     - **quit**
-                    - **help**
-                    - **pingclients**
-                    - **set pingdelay**""", true);
+                    - **help**""", true);
             EmotionalSongsServer.mainView.logText("Type '**help**' followed by a command to display a brief description.", false);
         } else if (cmd.startsWith("help ")) {
             String[] parts = cmd.split("\\s+", 2);
@@ -328,8 +301,6 @@ public class ServerMainViewController implements Initializable {
                     case "shutdown" -> EmotionalSongsServer.mainView.logText("**shutdown**: Shuts down the server.", true);
                     case "showip" -> EmotionalSongsServer.mainView.logText("**showip**: Shows the current LAN ip of the server.", true);
                     case "quit" -> EmotionalSongsServer.mainView.logText("**quit**: Quits the application.", true);
-                    case "pingclients" -> EmotionalSongsServer.mainView.logText("**pingclients**: Pings the clients and removes any inactive ones.", true);
-                    case "set pingdelay" -> EmotionalSongsServer.mainView.logText("**set pingdelay**: Changes how frequently the server will ping the clients connected to it.", true);
                     default -> EmotionalSongsServer.mainView.logError("Command \"" + cmd + "\" not recognized.");
                 }
             }
@@ -358,9 +329,6 @@ public class ServerMainViewController implements Initializable {
      */
     protected static void shutdownServer(boolean exit){
 
-        ConnectionVerify.keepAlive = false;
-        if(ConnectionVerify.getInstance()!=null)
-            ConnectionVerify.getInstance().interrupt();
         EmotionalSongsServer.unexportResources(exit);
 
         if(exit){

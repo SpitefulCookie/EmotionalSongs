@@ -27,13 +27,6 @@ import java.security.PublicKey;
  *
  */
 public interface AuthManager extends Remote {
-    /**
-     * Disconnects the specified client from the server.
-     * @param client The client to be disconnected from the server.
-     * @return {@code true} if the client was successfully disconnected, {@code false} otherwise.
-     * @throws RemoteException If a communication error occurs while invoking or executing the remote method.
-     */
-    boolean disconnect(PingableClient client) throws RemoteException;
 
     /**
      * Checks if the specified username is already present in the database.<br><br>
@@ -83,20 +76,6 @@ public interface AuthManager extends Remote {
      */
     PublicKey getPublicKey() throws RemoteException;
 
-    /**
-     * Registers the provided client on the server.<br><br>
-     *
-     * <p>This method is used to register a client on the server, allowing the latter to keep track of the number of
-     * active clients. The provided `PingClient` object implements methods that allow the server to ping the client
-     * associated to the instance of the remote object.
-     *
-     * <p>Registration is synchronized to ensure thread-safe access when multiple clients are
-     * being registered concurrently.
-     *
-     * @param client The client to be registered on the server.
-     * @throws RemoteException If a communication error occurs while invoking or executing the remote method.
-     */
-    void registerClient(PingableClient client) throws RemoteException;
 
     /**
      * Checks if the specified fiscal code is already present in the database.<br><br>
@@ -145,23 +124,12 @@ public interface AuthManager extends Remote {
     }
 
     /**
-     * Retrieves the provided user's data from the database.<br><br>
+     * Retrieves user data from the remote database for a given user ID.
      *
-     * This method retrieves from the database the data associated with the provided userId. The retrieved data is then encrypted using an
-     * RSA algorithm and the provided {@link PublicKey}.<br><br>
-     *
-     * <strong>Implementation note:</strong> This feature wasn't initially planned in the application and, as such, due
-     * to some architectural limitations with the communication protocol between the client and the server, the public key necessary
-     * to encrypt the data to be sent to the client is passed as one of the method's arguments. This is a conceptually incorrect approach
-     * and would require a refactoring of both the {@link AuthManagerImpl} class and the implementation of the {@link PingableClient} interface
-     * to allow an encrypted two-way communication between the client and the server. However, since this feature is already out of the project's
-     * requirement's scope, we have decided to leave things as they are and acknowledge this as point for future rework.
-     *
-     * @param userId The userId of the desired user for which to retrieve the information from the database.
-     * @param pk The {@code PublicKey} used to encrypt the data to be sent to the client.
-     * @return An array of bytes containing the desired user's data.
-     * @throws RemoteException If a communication error occurs during the remote method invocation.
+     * @param userId The unique identifier of the user for whom data is requested.
+     * @return A string representation of the user data retrieved from the database.
+     * @throws RemoteException If a remote communication error occurs during data retrieval.
      */
-    byte[] getUserData(String userId, PublicKey pk) throws RemoteException;
+    String getUserData(String userId)/*, PublicKey pk)*/ throws RemoteException;
 }
 
