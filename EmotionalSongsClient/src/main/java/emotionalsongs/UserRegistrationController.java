@@ -434,7 +434,8 @@ public class UserRegistrationController implements Initializable {
         if(verifyUserInput()){
 
             String userData =
-                cognomeField.getText() +" "+ nomeField.getText() +"&SEP&"+
+                cognomeField.getText() +"&SEP&"+
+                nomeField.getText() +"&SEP&"+
                 codFiscField.getText() +"&SEP&"+
                 viaField.getText() +"&SEP&"+
                 numberField.getText() +"&SEP&"+
