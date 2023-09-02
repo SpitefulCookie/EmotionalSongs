@@ -48,7 +48,7 @@ public class QueryHandler {
     protected static final String QUERY_REGISTER_PLAYLIST = "INSERT INTO Playlist (Nome, UserId) VALUES ('%s', '%s')";
     protected static final String QUERY_REGISTER_SONG_IN_PLAYLIST = "INSERT INTO Contiene (Nome, UserId, SongUUID) VALUES ('%s', '%s', '%s')";
     protected static final String QUERY_GET_NUMBER_OF_FEEDBACK = "SELECT COUNT(*) FROM Emozioni WHERE songuuid = '%s'";
-    protected static final String QUERY_GET_USER_DATA = "SELECT nome, codicefiscale, email, via, numerocivico, comune, provincia, cap FROM utentiRegistrati where userid = '%s'";
+    protected static final String QUERY_GET_USER_DATA = "SELECT nome, cognome, codicefiscale, email, via, numerocivico, comune, provincia, cap FROM utentiRegistrati where userid = '%s'";
 
     protected static final String QUERY_GET_SONG_EMOTIONS =
         """
