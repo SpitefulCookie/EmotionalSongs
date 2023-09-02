@@ -37,7 +37,7 @@
       <HBox maxWidth="1.7976931348623157E308" prefHeight="570.0" prefWidth="865.0" VBox.vgrow="ALWAYS">
          <children>
             <Pane prefHeight="200.0" prefWidth="50.0" />
-            <VBox maxHeight="337.0" maxWidth="1.7976931348623157E308" prefHeight="337.0" prefWidth="765.0" styleClass="infoUserBox" stylesheets="@Style/customStyle.css" HBox.hgrow="ALWAYS">
+            <VBox maxHeight="418.0" maxWidth="1.7976931348623157E308" prefHeight="418.0" prefWidth="765.0" styleClass="infoUserBox" stylesheets="@Style/customStyle.css" HBox.hgrow="ALWAYS">
                <children>
                   <Pane prefHeight="10.0" prefWidth="200.0" />
                   <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="80.0" prefWidth="765.0" VBox.vgrow="ALWAYS">
@@ -108,6 +108,40 @@
                      </padding>
                   </VBox>
                   <Pane prefHeight="10.0" prefWidth="200.0" />
+                  <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="80.0" prefWidth="765.0">
+                     <children>
+                        <Label maxWidth="1.7976931348623157E308" opacity="0.75" prefHeight="28.0" prefWidth="755.0" text="CITTÀ" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="Arial Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="cityLabel" maxWidth="1.7976931348623157E308" text="città" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="Arial Bold" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="80.0" prefWidth="765.0">
+                     <children>
+                        <Label maxWidth="1.7976931348623157E308" opacity="0.75" prefHeight="28.0" prefWidth="755.0" text="PROVINCIA" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="Arial Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="provinceLabel" maxWidth="1.7976931348623157E308" text="provincia" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="Arial Bold" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </VBox>
                </children>
             </VBox>
             <Pane prefHeight="200.0" prefWidth="50.0" />
