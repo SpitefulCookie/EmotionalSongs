@@ -104,9 +104,6 @@ public class ServerMainViewController implements Initializable {
 
         EmotionalSongsServer.setMainViewController(this);
 
-        // Starts the connection verify service, a daemon thread meant to ping the clients at regular intervals and
-        // removing any inactive ones.
-
     }
 
     /**

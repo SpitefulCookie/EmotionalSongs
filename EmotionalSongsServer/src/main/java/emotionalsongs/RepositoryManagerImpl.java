@@ -179,33 +179,31 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
      */
     @Override
     public boolean registerEmotions(ArrayList<Emozione> emozioniProvate, String songUUID, String userId) throws RemoteException {
+
+        System.out.println("emozioniProvate length:" + emozioniProvate.size());
+
+        ArrayList<String> data = new ArrayList<>();
+        data.add(userId);
+        data.add(songUUID);
+
         try {
-            try {
-                QueryHandler.getDbConnection().setAutoCommit(false);
 
-                for (var emozione : emozioniProvate) {
+            for (var emozione : emozioniProvate) {
 
-                    dbReference.executeUpdate(
-                            new String[]{
-                                    EmozioneEnum.getInstanceName(emozione),
-                                    userId,
-                                    songUUID,
-                                    String.valueOf(emozione.getPunteggio()),
-                                    emozione.getCommento()
-                            },
-                            QueryHandler.QUERY_REGISTER_SONG_EMOTION
-                    );
+                System.out.println("Emozione:" + emozione.getClass().getSimpleName()+ "\n\tPunteggio: "+emozione.getPunteggio()+"\n\tCommento: "+ emozione.getCommento());
 
-                }
+                data.add(emozione.getPunteggio()+"");
+                data.add(emozione.getCommento());
 
-                QueryHandler.getDbConnection().commit();
-                return true;
-            } catch (SQLException e) {
-                QueryHandler.getDbConnection().rollback();
-                return false;
-            } finally {
-                QueryHandler.getDbConnection().setAutoCommit(true);
             }
+
+            dbReference.executeUpdate(
+                    data.toArray(new String[0]),
+                    QueryHandler.QUERY_REGISTER_SONG_EMOTION
+            );
+
+            return true;
+
         } catch(SQLException e1){
             EmotionalSongsServer.mainView.logError("SQL exception thrown while executing a rollback or while attempting to enable auto-commit.\n" + e1.getMessage());
             return false;
@@ -223,15 +221,15 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
      */
     @Override
     public ArrayList<Emozione> getSongEmotions(String songUUID, String userid) throws RemoteException {
-        // Vedi commento in QueryHandler.executeQuery sul motivo del passaggio di un array di stringhe vuoto.
-        ArrayList<String[]> dataRetrieved = dbReference.executeQuery(new String[]{}, QueryHandler.QUERY_GET_SONG_EMOTIONS.replace("uId", userid).replace("sId", songUUID));
+        ArrayList<String[]> dataRetrieved = dbReference.executeQuery(new String[]{userid, songUUID}, QueryHandler.QUERY_GET_SONG_EMOTIONS);
         if (dataRetrieved.size() != 0) { // Se sono stati ottenuti dei risultati
+            String[] splitData = dataRetrieved.get(0);
             ArrayList<Emozione> resultsToBeReturned = new ArrayList<>();
 
-            for (int i = 0; i< dataRetrieved.size(); i++){
-                Emozione e = EmozioneEnum.getInstanceFromEnum(i);
-                e.setPunteggio(Integer.parseInt(dataRetrieved.get(i)[0]));
-                e.setCommento(dataRetrieved.get(i)[1]);
+            for (int i = 0; i<splitData.length; i++){
+                Emozione e = EmozioneEnum.getInstanceFromEnum(i/2);
+                e.setPunteggio(Integer.parseInt(splitData[i]));
+                e.setCommento(splitData[++i]);
                 resultsToBeReturned.add(e);
             }
 
@@ -262,8 +260,11 @@ public class RepositoryManagerImpl extends UnicastRemoteObject implements Reposi
         double[] dataToBeReturned = new double[9];
 
         if (dataRetrieved.get(0)[0]!= null) { // Se sono stati ottenuti dei risultati
-            for (int i = 0; i< dataRetrieved.size(); i++){
-                dataToBeReturned[i] = Double.parseDouble(dataRetrieved.get(i)[0]);
+
+            String[] splitData = dataRetrieved.get(0);
+
+            for (int i = 0; i< splitData.length; i++){
+                dataToBeReturned[i] = Double.parseDouble(splitData[i]);
             }
 
         } else{

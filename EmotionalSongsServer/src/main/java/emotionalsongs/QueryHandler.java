@@ -10,6 +10,7 @@ package emotionalsongs;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Manages database queries and connections for the EmotionalSong application.
@@ -39,58 +40,34 @@ public class QueryHandler {
     protected static final String QUERY_USER_PWD = "SELECT Password FROM UtentiRegistrati WHERE Userid = '%s'";
     protected static final String QUERY_USERNAME_EXISTS = "SELECT COUNT(*) FROM utentiregistrati WHERE userid = '%s'";
     protected static final String QUERY_CF_EXISTS = "SELECT COUNT(*) FROM utentiregistrati WHERE codicefiscale = '%s'";
-    protected static final String QUERY_REGISTER_USER = "INSERT INTO UtentiRegistrati (nome, codicefiscale, via, numerocivico, cap, comune, provincia, email, userid, password) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
+    protected static final String QUERY_REGISTER_USER = "INSERT INTO UtentiRegistrati (nome, cognome, codicefiscale, via, numerocivico, cap, comune, provincia, email, userid, password) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
     protected static final String QUERY_SEARCH_SONG_BY_TITLE = "SELECT * FROM Canzoni WHERE Titolo LIKE '#%s#' LIMIT 25";
     protected static final String QUERY_SEARCH_SONG_BY_AUTHOR_AND_YEAR = "SELECT * FROM Canzoni WHERE autore = '%s' AND anno = %s LIMIT 25";
     protected static final String QUERY_USER_PLAYLISTS = "SELECT Nome FROM Playlist WHERE UserId = '%s'";
     protected static final String QUERY_SONGS_IN_PLAYLIST = "SELECT Titolo, Autore, anno, songUUID FROM Canzoni NATURAL JOIN Contiene WHERE Nome = '%s' AND UserId = '%s'";
     protected static final String QUERY_REGISTER_PLAYLIST = "INSERT INTO Playlist (Nome, UserId) VALUES ('%s', '%s')";
     protected static final String QUERY_REGISTER_SONG_IN_PLAYLIST = "INSERT INTO Contiene (Nome, UserId, SongUUID) VALUES ('%s', '%s', '%s')";
-    protected static final String QUERY_REGISTER_SONG_EMOTION = "INSERT INTO %s (UserId, SongUUID, Punteggio, Note) VALUES ('%s', '%s', '%s', '%s')";
-    protected static final String QUERY_GET_NUMBER_OF_FEEDBACK = "SELECT COUNT(*) FROM AMAZEMENT WHERE songuuid = '%s'";
+    protected static final String QUERY_GET_NUMBER_OF_FEEDBACK = "SELECT COUNT(*) FROM Emozioni WHERE songuuid = '%s'";
     protected static final String QUERY_GET_USER_DATA = "SELECT nome, codicefiscale, email, via, numerocivico, comune, provincia, cap FROM utentiRegistrati where userid = '%s'";
 
     protected static final String QUERY_GET_SONG_EMOTIONS =
-            "SELECT punteggio, note FROM amazement \n" +
-                "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
-            "SELECT punteggio, note FROM solemnity \n" +
-                "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
-            "SELECT punteggio, note FROM tenderness \n" +
-                "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
-            "SELECT punteggio, note FROM nostalgia \n" +
-                "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
-            "SELECT punteggio, note FROM calmness \n" +
-                "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
-            "SELECT punteggio, note FROM power \n" +
-                "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
-            "SELECT punteggio, note FROM joy \n" +
-                "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
-            "SELECT punteggio, note FROM tension \n" +
-                "WHERE userid = 'uId' AND songuuid = 'sId' UNION ALL(\n" +
-            "SELECT punteggio, note FROM sadness \n" +
-                "WHERE userid = 'uId' AND songuuid = 'sId'\n" +
-            "))))))));\n";
+        """
+            SELECT ALL Punteggio_Amazement, Note_Amazement, Punteggio_Solemnity, Note_Solemnity, Punteggio_Tenderness, Note_Tenderness, Punteggio_Nostalgia, Note_Nostalgia, Punteggio_Calmness, Note_Calmness, Punteggio_Power, Note_Power, Punteggio_Joy, Note_Joy, Punteggio_Tension, Note_Tension, Punteggio_Sadness, Note_Sadness\s
+            FROM Emozioni
+            WHERE UserId = '%s' AND SongUUID = '%s'
+        """;
+
 
     protected static final String QUERY_GET_SONG_AVERAGE_SCORES =
-        "SELECT AVG(punteggio) FROM amazement \n" +
-                "WHERE songuuid = '%1$s' UNION ALL(\n" +
-            "SELECT AVG(punteggio) FROM solemnity \n" +
-                "WHERE songuuid = '%1$s' UNION ALL(\n" +
-            "SELECT AVG(punteggio) FROM tenderness \n" +
-                "WHERE songuuid = '%1$s' UNION ALL(\n" +
-            "SELECT AVG(punteggio) FROM nostalgia \n" +
-                "WHERE songuuid = '%1$s' UNION ALL(\n" +
-            "SELECT AVG(punteggio) FROM calmness \n" +
-                "WHERE songuuid = '%1$s' UNION ALL(\n" +
-            "SELECT AVG(punteggio) FROM power \n" +
-                "WHERE songuuid = '%1$s' UNION ALL(\n" +
-            "SELECT AVG(punteggio) FROM joy \n" +
-                "WHERE songuuid = '%1$s' UNION ALL(\n" +
-            "SELECT AVG(punteggio) FROM tension \n" +
-                "WHERE songuuid = '%1$s' UNION ALL(\n" +
-            "SELECT AVG(punteggio) FROM sadness \n" +
-                "WHERE songuuid = '%1$s'\n" +
-            "))))))));\n";
+        """
+            SELECT ALL AVG(Punteggio_Amazement), AVG(Punteggio_Solemnity), AVG(Punteggio_Tenderness), AVG(Punteggio_Nostalgia), AVG(Punteggio_Calmness),  AVG(Punteggio_Power),  AVG(Punteggio_Joy),  AVG(Punteggio_Tension), AVG(Punteggio_Sadness)\s
+            FROM Emozioni
+            WHERE SongUUID = '%s'
+        """;
+
+    protected static final String QUERY_REGISTER_SONG_EMOTION = """
+            INSERT INTO Emozioni (userId, SongUUID, Punteggio_Amazement, Note_Amazement, Punteggio_Solemnity, Note_Solemnity, Punteggio_Tenderness, Note_Tenderness, Punteggio_Nostalgia, Note_Nostalgia, Punteggio_Calmness, Note_Calmness, Punteggio_Power, Note_Power, Punteggio_Joy, Note_Joy, Punteggio_Tension, Note_Tension, Punteggio_Sadness, Note_Sadness) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')
+            """;
 
     /**
      * Constructs a new QueryHandler object and establishes a database connection using the provided
@@ -270,7 +247,7 @@ public class QueryHandler {
 
             stmt.executeUpdate(
                     String.format(QUERY_REGISTER_USER,
-                    data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8],
+                    data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8], data[9],
                     AuthManagerImpl.BCryptHashPassword(data[9]))
             );
 
@@ -316,7 +293,6 @@ public class QueryHandler {
                 for (var i = 0; i<numCols; i++){ // per ciascuna colonna presente nella tabella,
                     row[i] = set.getString(i+1); // aggiungo la stringa ottenuta al mio array
                 } // una volta ottenuto tutti i valori delle colonne
-
                 results.add(row); // aggiungo la mia riga ai risultati ottenuti e...
             }
 
