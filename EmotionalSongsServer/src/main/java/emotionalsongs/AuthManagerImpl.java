@@ -40,7 +40,7 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
      * Constructs a new instance of {@link AuthManagerImpl}.
      *
      * <p>This constructor initializes a new {@code AuthManagerImpl} object. It generates RSA key pairs,
-     * initializes the database reference, and prepares the client list.
+     * initializes the database reference.
      * The purpose of the latter is to allow the server to keep track of the currently active clients.
      *
      * @throws RemoteException If a communication error occurs during remote object creation.
@@ -48,7 +48,6 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
     protected AuthManagerImpl() throws RemoteException {
         super();
         generateKeys();
-        //clientList = new HashSet<>();
         dbReference = EmotionalSongsServer.getQueryHandlerInstance();
     }
 

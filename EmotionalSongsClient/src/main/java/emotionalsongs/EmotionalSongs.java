@@ -37,8 +37,6 @@ public class EmotionalSongs extends Application {
 
     private static Stage esStage;
 
-    //protected static PingableClientClientImpl ping;
-
     protected static AuthManager auth;
     protected static RepositoryManager repo;
 
@@ -88,15 +86,10 @@ public class EmotionalSongs extends Application {
         isConnectionInitialized = false;
 
         try {
-            /*
-            if(ping != null){
-                disconnectClient();
-            }*/
 
             Registry reg = LocateRegistry.getRegistry(ClientSettingController.getServerAddress(), ClientSettingController.getServerPort());
             auth = (AuthManager) reg.lookup("AuthManager");
             repo = (RepositoryManager) reg.lookup("RepoManager");
-            //ping = new PingableClientClientImpl();
 
             isConnectionInitialized = true;
 
@@ -145,38 +138,6 @@ public class EmotionalSongs extends Application {
      * @param args The command-line arguments. (Unused)
      */
     public static void main(String[] args) {launch();}
-
-    /*
-    /**
-     * Disconnects the client from the server, unregistering it and unexporting the remote object.
-     * /
-    public static void disconnectClient(){
-        try {
-            if(auth!=null)
-                auth.disconnect(ping);
-            UnicastRemoteObject.unexportObject(ping, true);
-        } catch (NoSuchObjectException e) {
-            // quest'eccezione viene lanciata qualora non sia stato effettuato l'export dell'oggetto PingClient,
-            // questo tipicamente avviene solo quando il server non è raggiungibile.
-        } catch (RemoteException e) {
-            //System.err.println("Remote exception thrown while attempting to disconnect the client. Reason:\n" + e.getMessage());
-        }
-    }
-    */
-
-    /* *
-     * Registers the client with the server.<br>
-     * The {@link PingableClientClientImpl} reference provided will be used as a mean to remotely ping the client from the server.
-     * /
-    public static void registerClient(){
-        try {
-            if(auth!= null)
-                auth.registerClient(ping);
-        } catch (RemoteException e){
-            System.err.println("Remote exception thrown while attempting to register the client. Reason:\n" + e.getMessage());
-        }
-    }
-    */
 
 }
 

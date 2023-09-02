@@ -130,6 +130,6 @@ public interface AuthManager extends Remote {
      * @return A string representation of the user data retrieved from the database.
      * @throws RemoteException If a remote communication error occurs during data retrieval.
      */
-    String getUserData(String userId)/*, PublicKey pk)*/ throws RemoteException;
+    String getUserData(String userId) throws RemoteException;
 }
 

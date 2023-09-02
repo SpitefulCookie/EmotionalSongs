@@ -129,18 +129,9 @@ public interface AuthManager extends Remote {
     /**
      * Retrieves the provided user's data from the database.<br><br>
      *
-     * This method retrieves from the database the data associated with the provided userId. The retrieved data is then encrypted using an
-     * RSA algorithm and the provided {@link PublicKey}.<br><br>
-     *
-     * <strong>Implementation note:</strong> This feature wasn't initially planned in the application and, as such, due
-     * to some architectural limitations with the communication protocol between the client and the server, the public key necessary
-     * to encrypt the data to be sent to the client is passed as one of the method's arguments. This is a conceptually incorrect approach
-     * and would require a refactoring of both the {@code AuthManagerImpl} class and the implementation of the {@link PingableClient} interface
-     * to allow an encrypted two-way communication between the client and the server. However, since this feature is already out of the project's
-     * requirement's scope, we have decided to leave things as they are and acknowledge this as point for future rework.
+     * This method retrieves from the database the data associated with the provided userId.
      *
      * @param userId The userId of the desired user for which to retrieve the information from the database.
-     //* @param pk The {@code PublicKey} used to encrypt the data to be sent to the client.
      * @return An array of bytes containing the desired user's data.
      * @throws RemoteException If a communication error occurs during the remote method invocation.
      */
