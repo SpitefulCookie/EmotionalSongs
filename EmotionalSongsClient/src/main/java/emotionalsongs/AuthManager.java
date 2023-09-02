@@ -29,14 +29,6 @@ import java.security.PublicKey;
 public interface AuthManager extends Remote {
 
     /**
-     * Disconnects the specified client from the server.
-     * @param client The client to be disconnected from the server.
-     * @return {@code true} if the client was successfully disconnected, {@code false} otherwise.
-     * @throws RemoteException If a communication error occurs while invoking or executing the remote method.
-     */
-    boolean disconnect(PingableClient client) throws RemoteException;
-
-    /**
      * Checks if the specified username is already present in the database.<br><br>
      * This method is called from within the {@code UserRegistrationController} class, and it's used to
      * determine whether the desired username is already in use by querying the database.<br>
@@ -84,20 +76,6 @@ public interface AuthManager extends Remote {
      */
     PublicKey getPublicKey() throws RemoteException;
 
-    /**
-     * Registers the provided client on the server.<br><br>
-     *
-     * <p>This method is used to register a client on the server, allowing the latter to keep track of the number of
-     * active clients. The provided `PingClient` object implements methods that allow the server to ping the client
-     * associated to the instance of the remote object.
-     *
-     * <p>Registration is synchronized to ensure thread-safe access when multiple clients are
-     * being registered concurrently.
-     *
-     * @param client The client to be registered on the server.
-     * @throws RemoteException If a communication error occurs while invoking or executing the remote method.
-     */
-    void registerClient(PingableClient client) throws RemoteException;
 
     /**
      * Checks if the specified fiscal code is already present in the database.<br><br>
@@ -162,10 +140,10 @@ public interface AuthManager extends Remote {
      * requirement's scope, we have decided to leave things as they are and acknowledge this as point for future rework.
      *
      * @param userId The userId of the desired user for which to retrieve the information from the database.
-     * @param pk The {@code PublicKey} used to encrypt the data to be sent to the client.
+     //* @param pk The {@code PublicKey} used to encrypt the data to be sent to the client.
      * @return An array of bytes containing the desired user's data.
      * @throws RemoteException If a communication error occurs during the remote method invocation.
      */
-     byte[] getUserData(String userId, PublicKey pk) throws RemoteException;
+     String getUserData(String userId) throws RemoteException;
 
 }

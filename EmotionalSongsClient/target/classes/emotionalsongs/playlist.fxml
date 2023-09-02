@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox alignment="CENTER_LEFT" maxHeight="75.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleOpenPlaylistAction" prefHeight="55.0" prefWidth="625.0" styleClass="songPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.PlaylistController">
+<HBox fx:id="playlistPane" alignment="CENTER_LEFT" maxHeight="75.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleOpenPlaylistAction" prefHeight="55.0" prefWidth="625.0" styleClass="songPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.PlaylistController">
    <children>
       <Pane prefHeight="55.0" prefWidth="19.0" />
       <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="70.0" prefWidth="329.0" stylesheets="@Style/customStyle.css" HBox.hgrow="ALWAYS">

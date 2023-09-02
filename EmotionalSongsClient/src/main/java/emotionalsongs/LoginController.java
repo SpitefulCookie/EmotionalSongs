@@ -204,7 +204,7 @@ public class LoginController implements Initializable {
 
         if (EmotionalSongs.isConnectionInitialized) {
 
-            EmotionalSongs.registerClient();
+            //EmotionalSongs.registerClient();
 
             // La connessione al server è necessaria anche se l'utente non è registrato, pertanto non dev'essere
             // in grado di visualizzare la schermata principale senza che il client si sia connesso al server.
@@ -239,7 +239,7 @@ public class LoginController implements Initializable {
             EmotionalSongs.initializeServerConnection(false);
 
             if (EmotionalSongs.isConnectionInitialized) {
-                EmotionalSongs.registerClient();
+                //EmotionalSongs.registerClient();
                 EmotionalSongs.setStage(GUIUtilities.getInstance().getScene("UserRegistration.fxml"), UserRegistrationController.WIDTH, UserRegistrationController.HEIGHT, true);
                 EmotionalSongs.getStage().show();
             }
@@ -252,7 +252,7 @@ public class LoginController implements Initializable {
     @FXML protected void handleCloseButtonAction(ActionEvent event){
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
         stage.close();
-        EmotionalSongs.disconnectClient();
+        //EmotionalSongs.disconnectClient();
         Platform.exit();
         System.exit(0);
     }
@@ -330,7 +330,7 @@ public class LoginController implements Initializable {
                 // This is the actual login
                 if (EmotionalSongs.auth.userLogin(username, AuthManager.RSA_Encrypt(pwd, EmotionalSongs.auth.getPublicKey()))) {
 
-                    EmotionalSongs.registerClient();
+                    //EmotionalSongs.registerClient();
 
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("emotionalSongsClient.fxml"));
 
@@ -345,7 +345,7 @@ public class LoginController implements Initializable {
 
                     }catch (IOException e1){
                         // Something went wrong, the client will disconnect from the server
-                         EmotionalSongs.disconnectClient();
+                         //EmotionalSongs.disconnectClient();
                     }
 
                 } else { // Le credenziali sono errate

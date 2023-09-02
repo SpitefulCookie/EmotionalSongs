@@ -278,7 +278,7 @@ public class UserRegistrationController implements Initializable {
         Stage stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
         stage.close();
 
-        EmotionalSongs.disconnectClient();
+        //EmotionalSongs.disconnectClient();
     }
 
     /**
@@ -296,7 +296,7 @@ public class UserRegistrationController implements Initializable {
         try {
             EmotionalSongs.setStage(new Scene(FXMLLoader.load(Objects.requireNonNull(EmotionalSongs.class.getResource("login.fxml")))), LoginController.WIDTH, LoginController.HEIGHT, true);
             EmotionalSongs.getStage().show();
-            EmotionalSongs.disconnectClient();
+            //EmotionalSongs.disconnectClient();
         } catch (IOException e){
             //
         }

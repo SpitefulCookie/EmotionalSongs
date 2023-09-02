@@ -626,7 +626,7 @@
     -fx-background-color: transparent
 }
 
-.legend{ /*TODO forse modificare nome con infoReportEmotions*/
+.legend{
     -fx-background-color: transparent;
     -fx-border-color: #646464;
     -fx-background-radius: 10;

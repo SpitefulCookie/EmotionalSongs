@@ -1,10 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="865.0" styleClass="dynamicPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.UserController">
-    <children>
-        <Label alignment="CENTER" prefHeight="17.0" prefWidth="869.0" text="User pane" textFill="#bbbbbb" HBox.hgrow="ALWAYS" />
-    </children>
-</HBox>
+<VBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="865.0" styleClass="dynamicPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.UserController">
+   <children>
+      <Pane prefHeight="120.0" prefWidth="865.0" />
+      <VBox maxWidth="1.7976931348623157E308" prefHeight="188.0" prefWidth="865.0" VBox.vgrow="ALWAYS">
+         <children>
+            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/userIcon_256.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <Label fx:id="usernameLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="937.0" text="Username" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </Label>
+         </children>
+      </VBox>
+      <Pane prefHeight="75.0" prefWidth="200.0" />
+      <HBox maxWidth="1.7976931348623157E308" prefHeight="570.0" prefWidth="865.0" VBox.vgrow="ALWAYS">
+         <children>
+            <Pane prefHeight="200.0" prefWidth="50.0" />
+            <VBox maxHeight="337.0" maxWidth="1.7976931348623157E308" prefHeight="337.0" prefWidth="765.0" styleClass="infoUserBox" stylesheets="@Style/customStyle.css" HBox.hgrow="ALWAYS">
+               <children>
+                  <Pane prefHeight="10.0" prefWidth="200.0" />
+                  <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="80.0" prefWidth="765.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label maxWidth="1.7976931348623157E308" opacity="0.75" prefHeight="28.0" prefWidth="755.0" text="NOME E COGNOME" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="Arial Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="nameAndLastNameLabel" maxWidth="1.7976931348623157E308" text="Nome e cognome" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="Arial Bold" size="13.0" />
+                           </font></Label>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="80.0" prefWidth="765.0">
+                     <children>
+                        <Label maxWidth="1.7976931348623157E308" opacity="0.75" prefHeight="28.0" prefWidth="755.0" text="CODICE FISCALE" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="Arial Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="codiceFiscaleLabel" maxWidth="1.7976931348623157E308" text="codice fiscale" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="Arial Bold" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="80.0" prefWidth="765.0">
+                     <children>
+                        <Label maxWidth="1.7976931348623157E308" opacity="0.75" prefHeight="28.0" prefWidth="755.0" text="E-MAIL" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="Arial Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="emailLabel" maxWidth="1.7976931348623157E308" text="e-mail" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="Arial Bold" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="80.0" prefWidth="765.0">
+                     <children>
+                        <Label maxWidth="1.7976931348623157E308" opacity="0.75" prefHeight="28.0" prefWidth="755.0" text="INDIRIZZO" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="Arial Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="addressLabel" maxWidth="1.7976931348623157E308" text="indirizzo" textFill="#bbbbbb" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="Arial Bold" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </VBox>
+                  <Pane prefHeight="10.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <Pane prefHeight="200.0" prefWidth="50.0" />
+         </children>
+      </HBox>
+      <Pane prefHeight="100.0" prefWidth="200.0" />
+   </children>
+</VBox>

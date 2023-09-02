@@ -38,7 +38,7 @@ public class GuestController {
 
         EmotionalSongs.setStage(scene, LoginController.WIDTH, LoginController.HEIGHT, false);
 
-        EmotionalSongs.disconnectClient();
+        //EmotionalSongs.disconnectClient();
     }
 
     /**

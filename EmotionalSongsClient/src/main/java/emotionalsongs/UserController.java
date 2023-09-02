@@ -80,7 +80,7 @@ public class UserController {
      */
     protected String retrieveUserData(String user) {
         try {
-            String data= AuthManager.decryptRSA(EmotionalSongs.auth.getUserData(user, EmotionalSongs.ping.getPublicKey()), EmotionalSongs.ping.getPrivateKey());
+            String data= EmotionalSongs.auth.getUserData(user); //AuthManager.decryptRSA(EmotionalSongs.auth.getUserData(user, EmotionalSongs.ping.getPublicKey()), EmotionalSongs.ping.getPrivateKey());
             return data.substring(1,data.length()-1);
         } catch (RemoteException e) {
 

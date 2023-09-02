@@ -133,7 +133,7 @@ public class EmotionalSongsClientController implements Initializable {
      */
     @FXML
     public void handleCloseButtonAction(){
-        EmotionalSongs.disconnectClient();
+        //EmotionalSongs.disconnectClient();
         EmotionalSongs.getStage().close();
         Platform.exit();
         System.exit(0);

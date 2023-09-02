@@ -42,7 +42,7 @@ public class ExitController {
         // close the exit stage
         GUIUtilities.closeStage(exitBtn);
 
-        EmotionalSongs.disconnectClient();
+        //EmotionalSongs.disconnectClient();
 
     }
 
