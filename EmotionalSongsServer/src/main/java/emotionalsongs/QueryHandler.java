@@ -113,6 +113,10 @@ public class QueryHandler {
 
         try {
 
+            if(username.contains("'")){
+                username = username.replace("'", "’");
+            }
+
             ResultSet set = stmt.executeQuery(String.format(QUERY_USERNAME_EXISTS, username));
 
             while (set.next()) {
@@ -152,6 +156,10 @@ public class QueryHandler {
         String pwdToBeReturned = null;
 
         try {
+
+            if(username.contains("'")){
+                username = username.replace("'", "’");
+            }
 
             ResultSet set = stmt.executeQuery(String.format(QUERY_USER_PWD, username));
 
