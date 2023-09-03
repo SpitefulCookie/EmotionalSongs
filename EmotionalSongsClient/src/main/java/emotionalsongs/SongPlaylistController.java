@@ -224,85 +224,21 @@ public class SongPlaylistController implements Initializable {
 
         this.song = song;
         this.posInGridPane = posInGridPane;
-        // initialize the emotions of the song
-        initEmotions(song);
-    }
 
-
-    /**
-     * Method responsible for loading the emotion of the song passed as a parameter from the database
-     * using the appropriate method {@link RepositoryManager#getSongEmotions(String songUUID, String userId)}.
-     *
-     * @param song Song to which emotions will be loaded.
-     */
-    protected void initEmotions(Canzone song){
-        /*
-        metodo che invoca l'apposito metodo del server che va a interrogare il DB per farsi restituire le
-        emozioni presenti nella canzone specifica.
-        se la lista restituita dal metodo ha dimensione = 0 allora l'utente non ha inserito emozioni alla
-        canzone specifica, se invece la dimesione della lista è != 0 allora l'utente ha inserito le
-        emozioni alla canzone specifica
-         */
-
-        try{
-
-            /*
-             controllo se non già caricato le emozioni per questa canzone (questo controllo avviene
-             andando a verificare se esiste una chiave nella hashMap emotionsSongs uguale allo uuid della
-             canzone song) , se non le ho ancora caricate le vado a caricare interrogando prima il db
-             tramite l'apposito metodo del server e poi aggiungendole alla hashMap contenuta
-             nella classe SelectedPlaylist
-             */
-            if(!SelectedPlaylistController.songEmotionsAlreadyExist(song.getSongUUID())) {
-
-                ArrayList<Emozione> emotions = EmotionalSongs.repo.getSongEmotions(song.getSongUUID(), EmotionalSongsClientController.getUsername());
-
-                /*
-                aggiungo la canzone e le emozioni nella hashMap emotionsSongs contenuta nella classe
-                selectedPlaylist
-                */
-                SelectedPlaylistController.addEmotionsSong(song.getSongUUID(), emotions);
-            }
-
-            if(Objects.requireNonNull(SelectedPlaylistController.getSongEmotions(song.getSongUUID())).isEmpty()){
+        if(SelectedPlaylistController.getSongEmotions(song.getSongUUID()) != null) {
+            // check if the song has any added emotion
+            if (Objects.requireNonNull(SelectedPlaylistController.getSongEmotions(song.getSongUUID())).isEmpty()) {
                 // set the emotionsAdded on false
                 emotionsAdded = false;
-            }else{
+            } else {
                 // set the emotionsAdded on true
                 emotionsAdded = true;
                 // change the img of multipleBtn
                 multipleBtnImg.setImage(guiUtilities.getImage("viewEmotions"));
-
             }
-
-        }catch (RemoteException e){
-
-            /*
-            lo stage connectionFailedStage deve essere statico perché altrimenti se una playlist contiene ad es. 10
-            canzoni, vengono generate 10 remote exception e di conseguenza vengono aperti 10 connectionFailedStage,
-            e quando tento di chiudere lo stage, sembra che c'è ne siano altri 9 aperti, questo mi comporta
-            un bug nello stage --> il bug sarebbe che rimane aperto uno stage completamente bianco e che non
-            si può chiudere.
-             */
-
-            /*
-             dato che il connectionFailedStage è statico, prima di crearne uno nuovo, verifico se c'è ne già
-             uno aperto e se così è lo chiudo.
-             */
-            if (connectionFailedStage != null){
-                connectionFailedStage.close();
-            }
-
-            connectionFailedStage = new Stage();
-
-            connectionFailedStage.setScene(GUIUtilities.getInstance().getScene("connectionFailed.fxml"));
-            connectionFailedStage.initStyle(StageStyle.UNDECORATED);
-            connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
-            connectionFailedStage.setResizable(false);
-            connectionFailedStage.show();
-
         }
     }
+
 
     /**
      * Method that performs a series of operations when emotions are added to the song.
@@ -311,9 +247,7 @@ public class SongPlaylistController implements Initializable {
 
         // now the song has the emotions
         emotionsAdded = true;
-
-        // change the text of multipleBtn
-        multipleBtn.setText("Visualizza emozioni");
+        
         // change the Img of multipleBtn
         multipleBtnImg.setImage(guiUtilities.getImage("viewEmotions"));
 

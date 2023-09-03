@@ -297,17 +297,14 @@ public class SelectedPlaylistController implements Initializable {
     /**
      * Method responsible for opening the playlist passed as a parameter.
      * <p>
-     *     This method sets the name of the playlist and displays the songs in the playlist by loading them
-     *     from the database if they have never been loaded.
+     *     This method sets the name of the playlist, displays the songs in the playlist by loading them
+     *     from the database if they have never been loaded and loads the emotions associated
+     *     with the songs in the playlist from the database.
      * </p>
      * @param playlistName Represents the playlist to be opened.
-     * @return {@code true} if the loading of songs was successful, {@code false} otherwise.
+     * @return {@code true} if the loading of songs and emotions was successful, {@code false} otherwise.
      */
     public boolean openPlaylist(String playlistName){
-        /*
-        questo metodo viene eseguito nel metodo handleOpenPlaylistAction della
-        classe PlaylistController
-         */
 
         boolean songsLoaded = true;
 
@@ -317,7 +314,7 @@ public class SelectedPlaylistController implements Initializable {
         // set playlistOpened
         playlistOpened = playlistName;
 
-        // se la playlist non è mai stata aperta fino ad ora
+        // se la playlist non è mai stata aperta
         if(!AllPlaylistController.getPlaylistWasOpened(playlistName)){
 
             /*
@@ -328,10 +325,15 @@ public class SelectedPlaylistController implements Initializable {
 
         }
 
-        // view the playlist songs
-        viewSongs();
+        // loading emotions
+        boolean emotionsLoaded = initEmotions(AllPlaylistController.getSongs(playlistName));
 
-        return songsLoaded;
+        if(emotionsLoaded && songsLoaded) {
+            // view the playlist songs
+            viewSongs();
+        }
+
+        return songsLoaded && emotionsLoaded;
     }
 
     /**
@@ -401,6 +403,53 @@ public class SelectedPlaylistController implements Initializable {
     }
 
     /**
+     * Method responsible for loading from the database the emotions of the songs contained in the list passed as a parameter
+     * using the appropriate method {@link RepositoryManager#getSongEmotions(String songUUID, String userId)}.
+     *
+     * @param songs List of {@link Canzone} Representing the songs to which emotions will be loaded.
+     * @return {@code true} if the loading of emotions was successful, {@code false} otherwise.
+     */
+    protected boolean initEmotions(List<Canzone> songs) {
+
+        try{
+
+            for(Canzone song : songs) {
+                /*
+                controllo se non già caricato le emozioni per questa canzone (questo controllo avviene
+                andando a verificare se esiste una chiave nella hashMap emotionsSongs uguale allo uuid della
+                canzone song), se non le ho ancora caricate, le vado a caricare interrogando prima il db
+                tramite l'apposito metodo del server e poi aggiungendole alla hashMap.
+                */
+                if (!songEmotionsAlreadyExist(song.getSongUUID())) {
+
+                    ArrayList<Emozione> emotions = EmotionalSongs.repo.getSongEmotions(song.getSongUUID(), EmotionalSongsClientController.getUsername());
+
+                    /*
+                    aggiungo la canzone e le emozioni nella hashMap emotionsSongs contenuta nella classe
+                    selectedPlaylist
+                    */
+                    addEmotionsSong(song.getSongUUID(), emotions);
+                }
+            }
+
+            return true;
+
+        }catch (RemoteException e){
+
+            Stage connectionFailedStage = new Stage();
+
+            connectionFailedStage.setScene(GUIUtilities.getInstance().getScene("connectionFailed.fxml"));
+            connectionFailedStage.initStyle(StageStyle.UNDECORATED);
+            connectionFailedStage.initModality(Modality.APPLICATION_MODAL);
+            connectionFailedStage.setResizable(false);
+            connectionFailedStage.show();
+
+            return false;
+        }
+
+    }
+
+    /**
      * Method responsible for adding the emotions passed as a parameter to the specific song.
      *
      * @param songUUID Represents the UUID of the song in which to insert emotions.
@@ -432,7 +481,7 @@ public class SelectedPlaylistController implements Initializable {
      * @param songUUID Represents the UUID of the song to be controlled.
      * @return {@code true} if the song has already loaded the emotions, {@code false} otherwise.
      */
-    public static boolean songEmotionsAlreadyExist(String songUUID){
+    public boolean songEmotionsAlreadyExist(String songUUID){
         /*
         metodo che mi restituisce un valore booleano in base a se la hashMap contiene già una chiave uguale
         a songUUID o no
