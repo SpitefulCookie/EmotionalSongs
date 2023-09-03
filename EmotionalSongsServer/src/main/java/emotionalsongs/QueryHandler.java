@@ -41,7 +41,7 @@ public class QueryHandler {
     protected static final String QUERY_USERNAME_EXISTS = "SELECT COUNT(*) FROM utentiregistrati WHERE userid = '%s'";
     protected static final String QUERY_CF_EXISTS = "SELECT COUNT(*) FROM utentiregistrati WHERE codicefiscale = '%s'";
     protected static final String QUERY_REGISTER_USER = "INSERT INTO UtentiRegistrati (nome, cognome, codicefiscale, via, numerocivico, cap, comune, provincia, email, userid, password) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
-    protected static final String QUERY_SEARCH_SONG_BY_TITLE = "SELECT * FROM Canzoni WHERE Titolo LIKE '#%s#' LIMIT 25";
+    protected static final String QUERY_SEARCH_SONG_BY_TITLE = "SELECT * FROM Canzoni WHERE LOWER(Titolo) LIKE LOWER('#%s#') LIMIT 25";
     protected static final String QUERY_SEARCH_SONG_BY_AUTHOR_AND_YEAR = "SELECT * FROM Canzoni WHERE autore = '%s' AND anno = %s LIMIT 25";
     protected static final String QUERY_USER_PLAYLISTS = "SELECT Nome FROM Playlist WHERE UserId = '%s'";
     protected static final String QUERY_SONGS_IN_PLAYLIST = "SELECT Titolo, Autore, anno, songUUID FROM Canzoni NATURAL JOIN Contiene WHERE Nome = '%s' AND UserId = '%s'";
@@ -277,6 +277,12 @@ public class QueryHandler {
         try {
             ResultSet set;
             if(args.length !=0) {
+
+                for(int i = 0; i<args.length; i++){ // rimuove i caratteri sensibili dagli argomenti della query
+                    if (args[i].contains("'")){
+                        args[i] = args[i].replace("'", "’");
+                    }
+                }
                 set = stmt.executeQuery(String.format(queryCommand, (Object[]) args));
             } else{
                 // Ramo else aggiunto per semplificare le operazioni nella query QUERY_GET_SONG_EMOTIONS dove vi sono 2 parametri e 18 placeholders.
@@ -324,6 +330,13 @@ public class QueryHandler {
      */
     public synchronized void executeUpdate(final String[] args,  final String queryCommand) throws SQLException{
         try {
+
+            for(int i = 0; i<args.length; i++){ // rimuove i caratteri sensibili dagli argomenti della query
+                if (args[i].contains("'")){
+                    args[i] = args[i].replace("'", "’");
+                }
+            }
+
             stmt.executeUpdate(String.format(queryCommand, (Object[]) args));
         } catch (SQLException e) {
             EmotionalSongsServer.mainView.logError("SQLException thrown while executing update:\n" +String.format(queryCommand, (Object[]) args) + "\nReason: " + e.getMessage());
