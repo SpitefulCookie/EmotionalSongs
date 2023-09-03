@@ -198,6 +198,10 @@ public class AuthManagerImpl extends UnicastRemoteObject implements AuthManager{
     /**
      * Retrieves user data from the remote database for a given user ID.
      *
+     * <strong>Implementation note:</strong> Initially we had planned for this method to use RSA encryption as a mean
+     * to transfer data over the network; however, due to some architectural and time limitations, the team ended up scrapping
+     * this feature and opt for a less than optimal solution that would allow us to dedicate our time on more pressing matters.
+     *
      * @param userId The unique identifier of the user for whom data is requested.
      * @return A string representation of the user data retrieved from the database.
      * @throws RemoteException If a remote communication error occurs during data retrieval.
