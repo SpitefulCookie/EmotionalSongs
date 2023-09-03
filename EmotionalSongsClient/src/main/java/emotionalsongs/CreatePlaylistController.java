@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
  * Controller class controlling the {@link Stage} (window) for the creation of a new playlist.
  * <p>
  *     This class implements the JavaFX Initializable interface, which is automatically called when the associated FXML dialog
- *     is loaded. It Initialises the UI components.
+ *     is loaded. It is also responsible for initializing the UI components.
  * </p>
  *
  *  @author <a href="https://github.com/samuk52">Corallo Samuele</a>
