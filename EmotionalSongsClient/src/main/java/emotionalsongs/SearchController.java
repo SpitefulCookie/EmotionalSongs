@@ -8,8 +8,6 @@ package emotionalsongs;
  *
  */
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -171,7 +169,7 @@ public class SearchController implements Initializable {
                         return;
                     }
 
-                    songs = EmotionalSongs.repo.ricercaCanzone(searchField.getText());
+                    songs = EmotionalSongsClient.repo.ricercaCanzone(searchField.getText());
 
                 } else {
 
@@ -180,7 +178,7 @@ public class SearchController implements Initializable {
                         return;
                     }
 
-                    songs = EmotionalSongs.repo.ricercaCanzone(searchField.getText(), yearField.getText());
+                    songs = EmotionalSongsClient.repo.ricercaCanzone(searchField.getText(), yearField.getText());
 
                 }
 

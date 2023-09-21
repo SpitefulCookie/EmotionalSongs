@@ -198,7 +198,7 @@ public class SelectedPlaylistController implements Initializable {
             for(Canzone song : songsToAdd) {
                 // add the song to the playlist in DB and add the song to the hashMap if the insertion
                 // of it into the db was successful.
-                if(EmotionalSongs.repo.addSongToPlaylist(playlistNameLabel_.getText(), EmotionalSongsClientController.getUsername(), song.getSongUUID())) {
+                if(EmotionalSongsClient.repo.addSongToPlaylist(playlistNameLabel_.getText(), EmotionalSongsClientController.getUsername(), song.getSongUUID())) {
                     // add the song to the playlist
                     AllPlaylistController.addSongs(playlistNameLabel_.getText(), song);
                 }else{
@@ -211,7 +211,7 @@ public class SelectedPlaylistController implements Initializable {
                 try {
                     Stage insertionFailedStage = new Stage();
 
-                    FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongs.class.getResource("insertionFailed.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongsClient.class.getResource("insertionFailed.fxml"));
 
                     insertionFailedStage.setScene(new Scene(fxmlLoader.load()));
 
@@ -273,7 +273,7 @@ public class SelectedPlaylistController implements Initializable {
                 // add song contained in the list to the gridPane
                 for (int i = 0; i < songs.size(); i++) {
                     // load the songPlaylist pane
-                    FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongs.class.getResource("songPlaylist.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongsClient.class.getResource("songPlaylist.fxml"));
                     Node song_pane = fxmlLoader.load();
 
                     // get the song-specific songPlaylistController from fxml
@@ -373,7 +373,7 @@ public class SelectedPlaylistController implements Initializable {
 
         try {
             // interrogo il DB per farmi restituire tutte le canzoni contenute nella playlist: playlistName
-            Set<Canzone> songs = EmotionalSongs.repo.getSongsInPlaylist(playlistName, EmotionalSongsClientController.getUsername());
+            Set<Canzone> songs = EmotionalSongsClient.repo.getSongsInPlaylist(playlistName, EmotionalSongsClientController.getUsername());
 
             /*
              add the songs to the playlist, NOTA : passo new Arraylist<>(songs) perchè il DB mi ritorna un
@@ -422,7 +422,7 @@ public class SelectedPlaylistController implements Initializable {
                 */
                 if (!songEmotionsAlreadyExist(song.getSongUUID())) {
 
-                    ArrayList<Emozione> emotions = EmotionalSongs.repo.getSongEmotions(song.getSongUUID(), EmotionalSongsClientController.getUsername());
+                    ArrayList<Emozione> emotions = EmotionalSongsClient.repo.getSongEmotions(song.getSongUUID(), EmotionalSongsClientController.getUsername());
 
                     /*
                     aggiungo la canzone e le emozioni nella hashMap emotionsSongs contenuta nella classe
@@ -548,7 +548,7 @@ public class SelectedPlaylistController implements Initializable {
             addSongsButton_.setDisable(true);
 
             // load playlistEmpty pane
-            FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongs.class.getResource("selectedPlaylistEmpty.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongsClient.class.getResource("selectedPlaylistEmpty.fxml"));
             Node playlistEmpty = fxmlLoader.load();
 
             // set the playlist name

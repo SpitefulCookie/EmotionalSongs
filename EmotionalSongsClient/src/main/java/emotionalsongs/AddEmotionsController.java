@@ -120,7 +120,7 @@ public class AddEmotionsController implements Initializable {
             emozioniProvate.add(new Sadness(Sadness.getScore(), Sadness.getNotes()));
 
             // insert the emotions to the DB
-            boolean emotionRegistrationCheck = EmotionalSongs.repo.registerEmotions(emozioniProvate, song.getSongUUID(), EmotionalSongsClientController.getUsername());
+            boolean emotionRegistrationCheck = EmotionalSongsClient.repo.registerEmotions(emozioniProvate, song.getSongUUID(), EmotionalSongsClientController.getUsername());
 
             if(emotionRegistrationCheck) {
                 // add emotions to the hashMap emotionsSongs contained in the SelectedPlaylist class

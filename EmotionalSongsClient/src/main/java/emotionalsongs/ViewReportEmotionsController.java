@@ -172,7 +172,7 @@ public class ViewReportEmotionsController implements Initializable {
 
         try{
             // get the song average emotions
-            emotionsAverage = EmotionalSongs.repo.getSongAverageEmotions(song.getSongUUID());
+            emotionsAverage = EmotionalSongsClient.repo.getSongAverageEmotions(song.getSongUUID());
 
         }catch (RemoteException e){
 
@@ -209,7 +209,7 @@ public class ViewReportEmotionsController implements Initializable {
 
         try{
             // get the song average emotions
-            totalUsers = EmotionalSongs.repo.getTotalUserFeedbacksForSong(song.getSongUUID());
+            totalUsers = EmotionalSongsClient.repo.getTotalUserFeedbacksForSong(song.getSongUUID());
 
         }catch (RemoteException e){
 

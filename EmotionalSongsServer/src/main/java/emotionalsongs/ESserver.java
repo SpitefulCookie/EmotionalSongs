@@ -1,7 +1,7 @@
 package emotionalsongs;
 
-public class EmotionalSongs {
+public class ESserver {
     public static void main(String[] args) {
-        EmotionalSongsClient.main(args);
+        EmotionalSongsServer.main(args);
     }
 }

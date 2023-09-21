@@ -38,7 +38,7 @@ public class ExitController {
         Scene scene = GUIUtilities.getInstance().getScene("login.fxml");
         LoginController.clearFields();
 
-        EmotionalSongs.setStage(scene, LoginController.WIDTH, LoginController.HEIGHT, false);
+        EmotionalSongsClient.setStage(scene, LoginController.WIDTH, LoginController.HEIGHT, false);
         // close the exit stage
         GUIUtilities.closeStage(exitBtn);
 

@@ -294,8 +294,8 @@ public class UserRegistrationController implements Initializable {
      */
     @FXML protected void handleCancelButton(){
         try {
-            EmotionalSongs.setStage(new Scene(FXMLLoader.load(Objects.requireNonNull(EmotionalSongs.class.getResource("login.fxml")))), LoginController.WIDTH, LoginController.HEIGHT, true);
-            EmotionalSongs.getStage().show();
+            EmotionalSongsClient.setStage(new Scene(FXMLLoader.load(Objects.requireNonNull(EmotionalSongsClient.class.getResource("login.fxml")))), LoginController.WIDTH, LoginController.HEIGHT, true);
+            EmotionalSongsClient.getStage().show();
         } catch (IOException e){
             //
         }
@@ -329,7 +329,7 @@ public class UserRegistrationController implements Initializable {
         // =============== C O D I C E   F I S C A L E  ===============
 
         try {
-            boolean isCfTaken = EmotionalSongs.auth.cfExists(AuthManager.RSA_Encrypt(codFiscField.getText(), EmotionalSongs.auth.getPublicKey()));
+            boolean isCfTaken = EmotionalSongsClient.auth.cfExists(AuthManager.RSA_Encrypt(codFiscField.getText(), EmotionalSongsClient.auth.getPublicKey()));
             if (!isValidCF(codFiscField.getText()) || isCfTaken) {
                 GUIUtilities.setErrorStyle(codFiscField);
 
@@ -447,7 +447,7 @@ public class UserRegistrationController implements Initializable {
                 pwdField.getText();
 
             try {
-                EmotionalSongs.auth.registrazione(AuthManager.RSA_Encrypt(userData, EmotionalSongs.auth.getPublicKey()));
+                EmotionalSongsClient.auth.registrazione(AuthManager.RSA_Encrypt(userData, EmotionalSongsClient.auth.getPublicKey()));
 
             } catch (RemoteException e){
 
@@ -471,7 +471,7 @@ public class UserRegistrationController implements Initializable {
                 // opening the login page
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
                 Scene scene = new Scene(fxmlLoader.load());
-                EmotionalSongs.setStage(scene, LoginController.WIDTH, LoginController.HEIGHT, true);
+                EmotionalSongsClient.setStage(scene, LoginController.WIDTH, LoginController.HEIGHT, true);
 
             }catch(IOException e1){
                 e1.printStackTrace();
@@ -491,8 +491,8 @@ public class UserRegistrationController implements Initializable {
      * @param event The MouseEvent representing the mouse event that triggered the calculation.
      */
     private void calculateGap(MouseEvent event){
-        xOffset = event.getScreenX() - EmotionalSongs.getStage().getX();
-        yOffset = event.getScreenY() - EmotionalSongs.getStage().getY();
+        xOffset = event.getScreenX() - EmotionalSongsClient.getStage().getX();
+        yOffset = event.getScreenY() - EmotionalSongsClient.getStage().getY();
     }
 
     /**
@@ -514,8 +514,8 @@ public class UserRegistrationController implements Initializable {
 
         this.pane.setOnMousePressed(event -> {
 
-            xOffset = event.getScreenX() - EmotionalSongs.getStage().getX();
-            yOffset = event.getScreenY() - EmotionalSongs.getStage().getY();
+            xOffset = event.getScreenX() - EmotionalSongsClient.getStage().getX();
+            yOffset = event.getScreenY() - EmotionalSongsClient.getStage().getY();
 
         });
 
@@ -526,8 +526,8 @@ public class UserRegistrationController implements Initializable {
                 calculateGap(event);
             }
 
-            EmotionalSongs.getStage().setX(event.getScreenX() - xOffset);
-            EmotionalSongs.getStage().setY(event.getScreenY() - yOffset);
+            EmotionalSongsClient.getStage().setX(event.getScreenX() - xOffset);
+            EmotionalSongsClient.getStage().setY(event.getScreenY() - yOffset);
         });
 
     }
@@ -559,7 +559,7 @@ public class UserRegistrationController implements Initializable {
                     checkUsernameResultLbl.setVisible(true);
                     checkUsernameResultImg.setVisible(true);
 
-                    boolean exists = EmotionalSongs.auth.usernameExists(usernameField.getText());
+                    boolean exists = EmotionalSongsClient.auth.usernameExists(usernameField.getText());
 
                     if (!exists) {
 

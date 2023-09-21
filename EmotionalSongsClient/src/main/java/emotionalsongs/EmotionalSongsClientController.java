@@ -134,7 +134,7 @@ public class EmotionalSongsClientController implements Initializable {
     @FXML
     public void handleCloseButtonAction(){
         //EmotionalSongs.disconnectClient();
-        EmotionalSongs.getStage().close();
+        EmotionalSongsClient.getStage().close();
         Platform.exit();
         System.exit(0);
     }
@@ -158,7 +158,7 @@ public class EmotionalSongsClientController implements Initializable {
      */
     @FXML
     public void handleMaximizedStageButtonAction(){
-        Stage stage = EmotionalSongs.getStage();
+        Stage stage = EmotionalSongsClient.getStage();
 
         /*
         verifico se lo stage è già massimizzato, se si quando premerò il pulsante di "massimizzazione"
@@ -202,7 +202,7 @@ public class EmotionalSongsClientController implements Initializable {
      */
     @FXML
     public void handleMinimizeStageButtonAction(){
-        EmotionalSongs.getStage().setIconified(true);
+        EmotionalSongsClient.getStage().setIconified(true);
     }
 
     /**
@@ -418,8 +418,8 @@ public class EmotionalSongsClientController implements Initializable {
 
         this.pane.setOnMousePressed(event -> {
 
-            xOffset = event.getScreenX() - EmotionalSongs.getStage().getX();
-            yOffset = event.getScreenY() - EmotionalSongs.getStage().getY();
+            xOffset = event.getScreenX() - EmotionalSongsClient.getStage().getX();
+            yOffset = event.getScreenY() - EmotionalSongsClient.getStage().getY();
 
         });
 
@@ -430,8 +430,8 @@ public class EmotionalSongsClientController implements Initializable {
                 calculateGap(event);
             }
 
-            EmotionalSongs.getStage().setX(event.getScreenX() - xOffset);
-            EmotionalSongs.getStage().setY(event.getScreenY() - yOffset);
+            EmotionalSongsClient.getStage().setX(event.getScreenX() - xOffset);
+            EmotionalSongsClient.getStage().setY(event.getScreenY() - yOffset);
         });
 
     }
@@ -447,8 +447,8 @@ public class EmotionalSongsClientController implements Initializable {
      * @param event The MouseEvent representing the mouse event that triggered the calculation.
      */
     private void calculateGap(MouseEvent event){
-        xOffset = event.getScreenX() - EmotionalSongs.getStage().getX();
-        yOffset = event.getScreenY() - EmotionalSongs.getStage().getY();
+        xOffset = event.getScreenX() - EmotionalSongsClient.getStage().getX();
+        yOffset = event.getScreenY() - EmotionalSongsClient.getStage().getY();
     }
 
     /**
@@ -459,7 +459,7 @@ public class EmotionalSongsClientController implements Initializable {
      */
     public static void setDynamicPane(String fxml){
         try{
-            FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongs.class.getResource(fxml));
+            FXMLLoader fxmlLoader = new FXMLLoader(EmotionalSongsClient.class.getResource(fxml));
             Node pane = fxmlLoader.load();
 
             dynamicPane_.setCenter(pane);

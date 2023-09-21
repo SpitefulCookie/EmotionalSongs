@@ -235,26 +235,21 @@ public class GUIUtilities {
      */
     protected void initImages(){
 
-        try{
-            addImages("close", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/closeWindows.png")));
-            addImages("eye", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/view.png")));
-            addImages("eyeCrossed", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/hide.png")));
-            addImages("success", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/correct15px.png")));
-            addImages("failure", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/failure15px.png")));
-            addImages("fire", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/fire.png")));
-            addImages("openSideBar", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/openIcon.png")));
-            addImages("closeSideBar", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/returnIcon.png")));
-            addImages("search", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/searchIcon.png")));
-            addImages("removeSearch", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/remove.png")));
-            addImages("goodConnection", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/connectionSuccess.png")));
-            addImages("badConnection", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/connectionFail.png")));
-            addImages("wrench", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/wrench.png")));
-            addImages("viewEmotions", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/viewEmotions.png")));
-            addImages("add", new Image(new FileInputStream("EmotionalSongsClient/src/main/resources/emotionalsongs/Images/addIcon.png")));
-
-        }catch (IOException e){
-            e.printStackTrace();
-        }
+        addImages("close", new Image(EmotionalSongsClientController.class.getResourceAsStream("/emotionalsongs/Images/closeWindows.png")));
+        addImages("eye", new Image(EmotionalSongsClientController.class.getResourceAsStream("/emotionalsongs/Images/view.png")));
+        addImages("eyeCrossed", new Image(EmotionalSongsClientController.class.getResourceAsStream("/emotionalsongs/Images/hide.png")));
+        addImages("success", new Image(EmotionalSongsClientController.class.getResourceAsStream("/emotionalsongs/Images/correct15px.png")));
+        addImages("failure", new Image(EmotionalSongsClientController.class.getResourceAsStream("/emotionalsongs/Images/failure15px.png")));
+        addImages("fire", new Image(EmotionalSongsClientController.class.getResourceAsStream("/emotionalsongs/Images/fire.png")));
+        addImages("openSideBar", new Image(EmotionalSongsClientController.class.getResourceAsStream("/emotionalsongs/Images/openIcon.png")));
+        addImages("closeSideBar", new Image(EmotionalSongsClientController.class.getResourceAsStream("/emotionalsongs/Images/returnIcon.png")));
+        addImages("search", new Image(EmotionalSongsClientController.class.getResourceAsStream("/emotionalsongs/Images/searchIcon.png")));
+        addImages("removeSearch", new Image(EmotionalSongsClientController.class.getResourceAsStream("/emotionalsongs/Images/remove.png")));
+        addImages("goodConnection", new Image(EmotionalSongsClientController.class.getResourceAsStream("/emotionalsongs/Images/connectionSuccess.png")));
+        addImages("badConnection", new Image(EmotionalSongsClientController.class.getResourceAsStream("/emotionalsongs/Images/connectionFail.png")));
+        addImages("wrench", new Image(EmotionalSongsClientController.class.getResourceAsStream("/emotionalsongs/Images/wrench.png")));
+        addImages("viewEmotions", new Image(EmotionalSongsClientController.class.getResourceAsStream("/emotionalsongs/Images/viewEmotions.png")));
+        addImages("add", new Image(EmotionalSongsClientController.class.getResourceAsStream("/emotionalsongs/Images/addIcon.png")));
     }
 
 

@@ -36,7 +36,7 @@ public class GuestController {
         Scene scene = GUIUtilities.getInstance().getScene("login.fxml");
         LoginController.clearFields();
 
-        EmotionalSongs.setStage(scene, LoginController.WIDTH, LoginController.HEIGHT, false);
+        EmotionalSongsClient.setStage(scene, LoginController.WIDTH, LoginController.HEIGHT, false);
 
         //EmotionalSongs.disconnectClient();
     }
@@ -51,8 +51,8 @@ public class GuestController {
     public void handleRegistrationButtonAction(){
 
         // open the registration stage
-        EmotionalSongs.setStage(GUIUtilities.getInstance().getScene("UserRegistration.fxml"), UserRegistrationController.WIDTH, UserRegistrationController.HEIGHT, true);
-        EmotionalSongs.getStage().show();
+        EmotionalSongsClient.setStage(GUIUtilities.getInstance().getScene("UserRegistration.fxml"), UserRegistrationController.WIDTH, UserRegistrationController.HEIGHT, true);
+        EmotionalSongsClient.getStage().show();
 
     }
 

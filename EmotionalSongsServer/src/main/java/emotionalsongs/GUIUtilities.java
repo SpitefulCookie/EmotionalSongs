@@ -43,16 +43,10 @@ public class GUIUtilities {
 
         this.images = new HashMap<>();
 
-        try{
-
-            images.put("eye", new Image(new FileInputStream("EmotionalSongsServer/src/main/resources/Images/view.png")));
-            images.put("eyeCrossed", new Image(new FileInputStream("EmotionalSongsServer/src/main/resources/Images/hide.png")));
-            images.put("blueFire", new Image(new FileInputStream("EmotionalSongsServer/src/main/resources/Images/blueFire.png")));
-            images.put("settings", new Image( new FileInputStream("EmotionalSongsServer/src/main/resources/Images/gear.png")));
-
-        }catch (IOException e){
-            System.err.println("IOException thrown while attempting to load FXML scene files. \nReason: " + e.getMessage());
-        }
+        images.put("eye", new Image(EmotionalSongsServer.class.getResourceAsStream("/Images/view.png")));
+        images.put("eyeCrossed", new Image(EmotionalSongsServer.class.getResourceAsStream("/Images/hide.png")));
+        images.put("blueFire", new Image(EmotionalSongsServer.class.getResourceAsStream("/Images/blueFire.png")));
+        images.put("settings", new Image(EmotionalSongsServer.class.getResourceAsStream("/Images/gear.png")));
 
     }
 

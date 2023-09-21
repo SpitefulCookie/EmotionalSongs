@@ -15,8 +15,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Controller class for managing user-related information in the user interface.
@@ -85,7 +83,7 @@ public class UserController {
      */
     protected String retrieveUserData(String user) {
         try {
-            String data= EmotionalSongs.auth.getUserData(user); //AuthManager.decryptRSA(EmotionalSongs.auth.getUserData(user, EmotionalSongs.ping.getPublicKey()), EmotionalSongs.ping.getPrivateKey());
+            String data= EmotionalSongsClient.auth.getUserData(user); //AuthManager.decryptRSA(EmotionalSongs.auth.getUserData(user, EmotionalSongs.ping.getPublicKey()), EmotionalSongs.ping.getPrivateKey());
             return data.substring(1,data.length()-1);
         } catch (RemoteException e) {
 
