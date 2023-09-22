@@ -9,9 +9,12 @@ package emotionalsongs;
  */
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 
 /**
@@ -28,21 +31,17 @@ public class ExitController {
     /**
      * Method that handles the behaviour of the {@link ExitController#exitBtn}.
      * <p>
-     *     When {@link ExitController#exitBtn} is clicked, the user is redirected to the login window.
+     *     When {@link ExitController#exitBtn} is clicked, application terminates.
      * </p>
      */
     @FXML
     public void handleExitButtonAction(){
 
-        // When pressed the Exit button, the user is redirected to login page
-        Scene scene = GUIUtilities.getInstance().getScene("login.fxml");
-        LoginController.clearFields();
-
-        EmotionalSongsClient.setStage(scene, LoginController.WIDTH, LoginController.HEIGHT, false);
-        // close the exit stage
+        // close the exitStage
         GUIUtilities.closeStage(exitBtn);
 
-        //EmotionalSongs.disconnectClient();
+        // close the main stage
+        EmotionalSongsClient.getStage().close();
 
     }
 

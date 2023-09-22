@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="251.0" prefWidth="324.0" styleClass="exitPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.ExitController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="251.0" prefWidth="324.0" styleClass="exitPane" stylesheets="@Style/customStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.ExitController">
    <children>
       <HBox alignment="CENTER" prefHeight="89.0" prefWidth="324.0">
          <children>
@@ -27,7 +27,6 @@
          </font>
       </Label>
       <Label alignment="CENTER" prefHeight="23.0" prefWidth="324.0" text="Stai per uscire dal tuo account Emotional Songs." textFill="#bbbbbb" />
-      <Label alignment="CENTER" prefHeight="17.0" prefWidth="324.0" text="Verrai reindirizzato alla pagina di login." textFill="#bbbbbb" />
       <Pane prefHeight="12.0" prefWidth="324.0" />
       <VBox alignment="CENTER">
          <children>
